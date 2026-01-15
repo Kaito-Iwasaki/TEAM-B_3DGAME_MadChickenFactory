@@ -1,6 +1,6 @@
 //=====================================================================
 //
-// Game [Game.cpp]
+// DebugProc [DebugProc.cpp]
 // Author : 
 // 
 //=====================================================================
@@ -10,12 +10,8 @@
 // ***** インクルードファイル *****
 // 
 //*********************************************************************
-#include "Game.h"
-#include "input.h"
-#include "mode.h"
-#include "fade.h"
-#include "camera.h"
-#include "DebugProc.h"
+#include "debugProc.h"
+#include "util.h"
 
 //*********************************************************************
 // 
@@ -50,50 +46,116 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-
+LPD3DXFONT g_pFontDebug = NULL;
+char g_aStrDebug[2048];
 
 //=====================================================================
 // 初期化処理
 //=====================================================================
-void InitGame(void)
+void InitDebugProc(void)
 {
-	// ライトをオフにする
-	GetDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
+#ifdef _DEBUG
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	// 各オブジェクトの初期化処理
-	InitCamera();		// カメラ
+	D3DXFONT_DESC fontDesc = {
+		30,								// Height
+		0,								// Width (0 = 自動)
+		FW_NORMAL,						// Weight
+		1,								// MipLevels
+		FALSE,							// Italic
+		DEFAULT_CHARSET,				// CharSet
+		OUT_DEFAULT_PRECIS,				// OutputPrecision
+		CLIP_DEFAULT_PRECIS,			// Quality
+		DEFAULT_PITCH | FF_DONTCARE,	// PitchAndFamily
+		""
+	};
+
+	D3DXCreateFontIndirect(pDevice, &fontDesc, &g_pFontDebug);
+
+	ZeroMemory(&g_aStrDebug[0], sizeof(g_aStrDebug));
+#endif
 }
 
 //=====================================================================
 // 終了処理
 //=====================================================================
-void UninitGame(void)
+void UninitDebugProc(void)
 {
-	// 各オブジェクトの終了処理
-	UninitCamera();		// カメラ
+#ifdef _DEBUG
+	if (g_pFontDebug != NULL)
+	{
+		g_pFontDebug->Release();
+		g_pFontDebug = NULL;
+	}
+#endif
 }
 
 //=====================================================================
 // 更新処理
 //=====================================================================
-void UpdateGame(void)
+void UpdateDebugProc(void)
 {
-	// デバッグ表示
-	PrintDebugProc("ゲーム画面\n");
+#ifdef _DEBUG
 
-	// 各オブジェクトの更新処理
-	UpdateCamera();		// カメラ
-
+#endif
 }
 
 //=====================================================================
 // 描画処理
 //=====================================================================
-void DrawGame(void)
+void DrawDebugProc(void)
 {
-	// ゲームカメラの設定
-	SetCamera(CAMERATYPE_GAME);
+#ifdef _DEBUG
+	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	// 各オブジェクトの描画処理
+	g_pFontDebug->DrawText(NULL, &g_aStrDebug[0], -1, &rect, DT_TOP | DT_LEFT, D3DXCOLOR_WHITE);
 
+	ZeroMemory(&g_aStrDebug[0], sizeof(g_aStrDebug));
+#endif
+}
+
+void PrintDebugProc(const char* fmt, ...)
+{
+#ifdef _DEBUG
+	va_list ap;
+	char aBuffer[2048] = {};
+	char aValue[64] = {};
+
+	va_start(ap, fmt);
+
+	for (int i = 0; i < strlen(fmt); i++)
+	{
+		if (fmt[i] == '%')
+		{
+			switch (fmt[i + 1])
+			{
+			case 'd':
+				sprintf(aValue, "%d", va_arg(ap, int));
+				break;
+
+			case 'f':
+				sprintf(aValue, "%f", (float)va_arg(ap, double));
+				break;
+
+			case 'c':
+				sprintf(aValue, "%c", va_arg(ap, char));
+				break;
+
+			case 's':
+				sprintf(aValue, "%s", va_arg(ap, char*));
+				break;
+			}
+			strcat(aBuffer, aValue);
+			i++;
+		}
+		else
+		{
+			aBuffer[strlen(aBuffer)] = fmt[i];
+		}
+	}
+
+	va_end(ap);
+
+	strcat(&g_aStrDebug[0], &aBuffer[0]);
+#endif
 }

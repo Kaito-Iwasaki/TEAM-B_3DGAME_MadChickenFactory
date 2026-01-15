@@ -426,8 +426,16 @@ void Draw(void)
 	// 描画開始
 	if (SUCCEEDED(g_pD3DDevice->BeginScene()))
 	{// オブジェクトの描画
+		D3DVIEWPORT9 viewportDef;
+
+		// 現在のビューポートを取得
+		g_pD3DDevice->GetViewport(&viewportDef);
+
 		// モードを描画
 		DrawMode();
+
+		// ビューポートを元に戻す
+		g_pD3DDevice->SetViewport(&viewportDef);
 
 		// 描画終了
 		g_pD3DDevice->EndScene();

@@ -44,7 +44,10 @@
 #define SCREEN_VCENTER	(SCREEN_HEIGHT / 2)
 #define WINDOWED		(true)			// ウィンドウ表示
 
+// 頂点フォーマット[2D]
 #define FVF_VERTEX_2D		(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)	// 頂点フォーマット[2D]
+// 頂点フォーマット[3D]
+#define FVF_VERTEX_3D	(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)	
 
 //*********************************************************************
 // 
@@ -61,6 +64,18 @@ typedef struct
 	D3DCOLOR col;
 	D3DXVECTOR2 tex;
 }VERTEX_2D;
+
+//*********************************************************************
+// 頂点情報[3D]構造体
+//*********************************************************************
+typedef struct
+{
+	D3DXVECTOR3 pos;	// 頂点座標
+	D3DXVECTOR3 nor;	// 法線ベクトル
+	D3DCOLOR col;		// 頂点カラー
+	D3DXVECTOR2 tex;	// テクスチャ座標
+}VERTEX_3D;
+
 
 //*********************************************************************
 // 

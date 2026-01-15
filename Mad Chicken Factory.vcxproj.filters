@@ -31,6 +31,12 @@
     <Filter Include="ソース ファイル\Util">
       <UniqueIdentifier>{29c979ff-7609-437d-ae4f-f21e539fec38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{16cb3a29-2354-4b14-bb2f-61efc3ecc908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game">
+      <UniqueIdentifier>{28dfa47a-89e3-4c71-a28f-40d1d2afc004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sound.cpp">
@@ -54,10 +60,10 @@
     <ClCompile Include="util.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="..\2025_3D_GAME02\camera.cpp">
+    <ClCompile Include="camera.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\2025_3D_GAME02\debugProc.cpp">
+    <ClCompile Include="DebugProc.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,10 +89,10 @@
     <ClInclude Include="util.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\2025_3D_GAME02\debugProc.h">
+    <ClInclude Include="camera.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\2025_3D_GAME02\camera.h">
+    <ClInclude Include="DebugProc.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>

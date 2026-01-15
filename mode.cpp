@@ -14,6 +14,7 @@
 #include "sound.h"
 #include "input.h"
 #include "fade.h"
+#include "DebugProc.h"
 
 // シーンファイルのヘッダ
 #include "Game.h"
@@ -40,6 +41,9 @@ void InitMode(void)
 {
 	// フェード＆シーンの初期化処理
 	InitFade(g_currentMode);
+
+	// デバッグ表示の初期化処理
+	InitDebugProc();
 }
 
 //=====================================================================
@@ -55,6 +59,9 @@ void UninitMode(void)
 
 	// フェードのの終了処理
 	UninitFade();
+
+	// デバッグ表示の初期化処理
+	UninitDebugProc();
 }
 
 //=====================================================================
@@ -67,6 +74,9 @@ void UpdateMode(void)
 
 	// フェードの更新処理
 	UpdateFade();
+
+	// デバッグ表示の更新処理
+	UpdateDebugProc();
 }
 
 //=====================================================================
@@ -79,6 +89,9 @@ void DrawMode(void)
 
 	// フェードの描画処理
 	DrawFade();
+
+	// デバッグ表示の描画処理
+	DrawDebugProc();
 }
 
 //=====================================================================

@@ -32,6 +32,8 @@
 #define BIT_SET(a,b)     a |= (1 << b)
 #define BIT_UNSET(a,b)   a &= ~(1 << b)
 
+#define RELEASE(p)	if (p != NULL) {p->Release(); p = nullptr;}
+
 //*********************************************************************
 // 
 // ***** —ñ‹“Œ^ *****
