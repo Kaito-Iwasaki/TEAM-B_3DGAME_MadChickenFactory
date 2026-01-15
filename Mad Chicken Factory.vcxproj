@@ -138,6 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\2025_3D_GAME02\camera.h" />
+    <ClInclude Include="..\2025_3D_GAME02\debugProc.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="input.h" />
@@ -147,6 +149,8 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\2025_3D_GAME02\camera.cpp" />
+    <ClCompile Include="..\2025_3D_GAME02\debugProc.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input.cpp" />
