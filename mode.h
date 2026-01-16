@@ -31,7 +31,8 @@
 //*********************************************************************
 typedef enum
 {
-	MODE_GAME = 0,
+	MODE_TITLE = 0,
+	MODE_GAME,
 	MODE_MAX
 }MODE;	
 

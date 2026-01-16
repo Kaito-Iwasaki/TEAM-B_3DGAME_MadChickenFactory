@@ -17,6 +17,7 @@
 #include "DebugProc.h"
 
 // シーンファイルのヘッダ
+#include"title.h"
 #include "Game.h"
 
 //*********************************************************************
@@ -31,6 +32,7 @@ MODE g_previousMode = g_currentMode;		// 直前のシーン
 // 各シーンの処理関数
 //*********************************************************************
 MODEDATA g_modes[MODE_MAX] = {
+	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
 };
 
