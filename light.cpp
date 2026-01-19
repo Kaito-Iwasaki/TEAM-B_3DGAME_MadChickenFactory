@@ -35,7 +35,7 @@ void InitLight(void)
 {
 	//ƒ‰ƒCƒg‚Ì•ûŒü‚ğİ’è
 	SetLight(0, D3DXVECTOR3(0.2f, -0.8f, 0.4f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	SetSpotLight(1, D3DXVECTOR3(0.0f, 50.0f, 0.0f), D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f));
+	SetSpotLight(1, D3DXVECTOR3(0.0f, 45.0f, 0.0f), D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f));
 	
 }
 //==================================================
@@ -121,8 +121,8 @@ void SetSpotLight(int nIdx, D3DXVECTOR3 pos, D3DXCOLOR col)
 
 	//’èíŒ¸Š’è”İ’è
 	g_aLight[nIdx].Attenuation0 = 1.0f;
-	/*g_aLight[nIdx].Attenuation1 = 1.0f;
-	g_aLight[nIdx].Attenuation2 = 1.0f;*/
+	g_aLight[nIdx].Attenuation1 = 1.0f;
+	g_aLight[nIdx].Attenuation2 = 1.0f;
 
 	//—LŒø”ÍˆÍİ’è
 	g_aLight[nIdx].Range = 50.0f;
