@@ -19,13 +19,14 @@
 // シーンファイルのヘッダ
 #include"title.h"
 #include "Game.h"
+#include"result.h"
 
 //*********************************************************************
 // 
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-MODE g_currentMode = MODE_GAME;			// 現在のシーン
+MODE g_currentMode = MODE_RESULT;			// 現在のシーン
 MODE g_previousMode = g_currentMode;		// 直前のシーン
 
 //*********************************************************************
@@ -34,6 +35,7 @@ MODE g_previousMode = g_currentMode;		// 直前のシーン
 MODEDATA g_modes[MODE_MAX] = {
 	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
+	{ InitResult, UninitResult, UpdateResult, DrawResult },
 };
 
 //=====================================================================
