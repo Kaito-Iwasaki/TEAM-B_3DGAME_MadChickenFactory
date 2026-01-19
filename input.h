@@ -130,13 +130,14 @@ HRESULT InitJoypad(void);
 void UninitJoypad(void);
 void UpdateJoypad(void);
 XINPUT_STATE* GetJoypad(void);
-bool GetJoypadPress(JOYKEY key);
-bool GetJoypadTrigger(JOYKEY key);
-bool GetJoypadRelease(JOYKEY key);
-bool GetJoypadRepeat(JOYKEY key, int nInterval = INPUT_REPEAT_INTERVAL);
-bool GetJoystickPress(JOYSTICK stick);
-bool GetJoystickTrigger(JOYSTICK stick);
-bool GetJoystickRepeat(JOYSTICK stick, int nInterval = INPUT_REPEAT_INTERVAL);
-void SetVibration(WORD wLeftMotorSpeed, WORD wRightMotorSpeed, int nCountVibration = -1);
+bool GetJoypadPress(JOYKEY key, int nIdx = 0);
+bool GetJoypadTrigger(JOYKEY key, int nIdx = 0);
+bool GetJoypadRelease(JOYKEY key, int nIdx = 0);
+bool GetJoypadRepeat(JOYKEY key,int nIdx, int nInterval = INPUT_REPEAT_INTERVAL);
+bool GetJoystickPress(JOYSTICK stick, int nIdx = 0);
+bool GetJoystickTrigger(JOYSTICK stick, int nIdx = 0);
+bool GetJoystickRepeat(JOYSTICK stick, int nIdx = 0, int nInterval = INPUT_REPEAT_INTERVAL);
+void SetVibration(WORD wLeftMotorSpeed, WORD wRightMotorSpeed, int nIdx = 0, int nCountVibration = -1);
+void RegistrationJoypad(int nNumofPlayer = 0);
 
 #endif
