@@ -35,6 +35,7 @@ void InitLight(void)
 {
 	//ライトの方向を設定
 	SetLight(0, D3DXVECTOR3(0.2f, -0.8f, 0.4f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	SetSpotLight(1, D3DXVECTOR3(0.0f, 50.0f, 0.0f), D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f));
 	
 }
 //==================================================
@@ -65,7 +66,6 @@ void SetLight(int Number, D3DXVECTOR3 vec, D3DXCOLOR col)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();//ライトの情報
 	D3DXVECTOR3 vecDir;
 
-
 	//ライトの情報をクリアにする
 	ZeroMemory(&g_aLight[Number], sizeof(D3DLIGHT9));
 
@@ -88,4 +88,54 @@ void SetLight(int Number, D3DXVECTOR3 vec, D3DXCOLOR col)
 	//ライトを有効にする
 	pDevice->LightEnable(Number, TRUE);
 
+}
+//==================================================
+//
+//	スポットライトの設定
+//
+//==================================================
+void SetSpotLight(int nIdx, D3DXVECTOR3 pos, D3DXCOLOR col)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();//ライトの情報
+	D3DXVECTOR3 vecDir;
+
+	//ライトの情報をクリアにする
+	ZeroMemory(&g_aLight[nIdx], sizeof(D3DLIGHT9));
+
+	//ライトの種類
+	g_aLight[nIdx].Type = D3DLIGHT_SPOT;
+
+	//ライトの位置を設定
+	g_aLight[nIdx].Position = pos;
+
+	//ライトの色設定
+	g_aLight[nIdx].Diffuse = col;
+	g_aLight[nIdx].Specular = col;
+	g_aLight[nIdx].Ambient = col;
+
+	//ライトのベクトル設定
+	g_aLight[nIdx].Direction = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+
+	//フォールオフ設定
+	g_aLight[nIdx].Falloff = 1.0f;
+
+	//定常減衰定数設定
+	g_aLight[nIdx].Attenuation0 = 1.0f;
+	/*g_aLight[nIdx].Attenuation1 = 1.0f;
+	g_aLight[nIdx].Attenuation2 = 1.0f;*/
+
+	//有効範囲設定
+	g_aLight[nIdx].Range = 50.0f;
+
+	//内側のコーンの角度設定
+	g_aLight[nIdx].Theta = D3DX_PI;
+
+	//外側のコーンの設定
+	g_aLight[nIdx].Phi = D3DX_PI;
+
+	//ライトを設定する
+	pDevice->SetLight(nIdx, &g_aLight[nIdx]);
+
+	//ライトを有効にする
+	pDevice->LightEnable(nIdx, TRUE);
 }

@@ -29,6 +29,7 @@ void InitLight(void);
 void UninitLight(void);
 void UpdateLight(void);
 void SetLight(int Number, D3DXVECTOR3 vec, D3DXCOLOR col);
+void SetSpotLight(int nIdx, D3DXVECTOR3 pos, D3DXCOLOR col);
 
 #endif // !_LIGHT_H_
 
