@@ -52,23 +52,6 @@
 MODEL g_aModel[MAX_MODEL];
 MESHDATA g_aMeshData[MAX_LOADABLE_MODEL];
 
-float g_aMeshHeight[MAX_LOADABLE_MODEL] =
-{
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	200,
-	0,
-	0,
-	0,
-	0,
-	0,
-};
-
 //=====================================================================
 // 初期化処理
 //=====================================================================
@@ -220,10 +203,10 @@ void LoadModel(const char* pFilename, int nIdx)
 	);
 
 	if FAILED(hr)
-	{
+	{// モデル読み込みエラー
 		char aStrErr[512] = {};
-		sprintf(&aStrErr[0], "やばい（モデルが）\n%s", pFilename);
-		MessageBox(GetMainWindow(), &aStrErr[0], "え？", MB_ICONERROR);
+		sprintf(&aStrErr[0], "モデル読み込みエラー\n%s", pFilename);
+		MessageBox(GetMainWindow(), &aStrErr[0], "エラー", MB_ICONERROR);
 		DestroyWindow(GetMainWindow());
 		return;
 	}
@@ -564,7 +547,7 @@ float GetModelGroundHeight(D3DXVECTOR3 pos)
 	{
 		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
 		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
-		float fModelTop = pModel->transform.pos.y + g_aMeshHeight[pModel->nType];
+		float fModelTop = pModel->transform.pos.y + vtxMax.y;
 
 		if (
 			pos.x >= pModel->transform.pos.x + vtxMin.x

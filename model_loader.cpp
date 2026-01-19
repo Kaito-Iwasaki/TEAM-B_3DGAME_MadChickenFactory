@@ -47,6 +47,8 @@ void _Read_SCRIPT(FILE* pFile, SCRIPTDATA** ppBuffer);
 //=====================================================================
 void LoadScript(const char* pFileName, SCRIPTDATA* pBuffer)
 {
+	ZeroMemory(pBuffer, sizeof(SCRIPTDATA));
+
 	FILE* pFile = fopen(pFileName, "r");
 
 	if (pFile != NULL)
