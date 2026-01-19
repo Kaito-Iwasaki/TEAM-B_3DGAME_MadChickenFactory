@@ -333,9 +333,9 @@ HRESULT InitJoypad(void)
 	for (int nCntPad = 0; nCntPad < MAX_JOYPAD; nCntPad++)
 	{
 		// メモリのクリア
-		memset(&g_joyKeyState[g_nPlayerNumber[nCntPad]], 0, sizeof(XINPUT_STATE));
-		memset(&g_vibration[g_nPlayerNumber[nCntPad]], 0, sizeof(XINPUT_VIBRATION));
-		g_nCountVibration[g_nPlayerNumber[nCntPad]] = 0;
+		memset(&g_joyKeyState[nCntPad], 0, sizeof(XINPUT_STATE));
+		memset(&g_vibration[nCntPad], 0, sizeof(XINPUT_VIBRATION));
+		g_nCountVibration[nCntPad] = 0;
 
 		// XINPUTのステートを有効にする
 		XInputEnable(true);
@@ -369,21 +369,21 @@ void UpdateJoypad(void)
 			// ジョイキー
 			gamepad = joyKeyState.Gamepad;
 
-			g_joyKeyTriggerState[g_nPlayerNumber[nCntpad]].Gamepad.wButtons = (g_joyKeyState[g_nPlayerNumber[nCntpad]].Gamepad.wButtons ^ joyKeyState.Gamepad.wButtons)
+			g_joyKeyTriggerState[nCntpad].Gamepad.wButtons = (g_joyKeyState[nCntpad].Gamepad.wButtons ^ joyKeyState.Gamepad.wButtons)
 				& joyKeyState.Gamepad.wButtons;
-			g_joyKeyReleaseState[g_nPlayerNumber[nCntpad]].Gamepad.wButtons = g_joyKeyState[g_nPlayerNumber[nCntpad]].Gamepad.wButtons & (g_joyKeyState[g_nPlayerNumber[nCntpad]].Gamepad.wButtons
+			g_joyKeyReleaseState[nCntpad].Gamepad.wButtons = g_joyKeyState[nCntpad].Gamepad.wButtons & (g_joyKeyState[nCntpad].Gamepad.wButtons
 				^ joyKeyState.Gamepad.wButtons);
-			g_joyKeyState[g_nPlayerNumber[nCntpad]] = joyKeyState;
+			g_joyKeyState[nCntpad] = joyKeyState;
 
 			for (int nCntKey = 0; nCntKey < JOYKEY_MAX; nCntKey++)
 			{
 				if (GetJoypadPress((JOYKEY)nCntKey, nCntpad))
 				{
-					g_aJoyKeyRepeatState[g_nPlayerNumber[nCntpad]][nCntKey] += 1;
+					g_aJoyKeyRepeatState[nCntpad][nCntKey] += 1;
 				}
 				else
 				{
-					g_aJoyKeyRepeatState[g_nPlayerNumber[nCntpad]][nCntKey] = 0;
+					g_aJoyKeyRepeatState[nCntpad][nCntKey] = 0;
 				}
 			}
 
@@ -463,7 +463,7 @@ void UpdateJoypad(void)
 
 		// 振動情報の更新
 		if (g_nCountVibration[nCntpad] > -1) g_nCountVibration[nCntpad]--;
-		if (g_nCountVibration[g_nPlayerNumber[nCntpad]] == 0)
+		if (g_nCountVibration[nCntpad] == 0)
 		{
 			g_vibration[nCntpad].wLeftMotorSpeed = 0;
 			g_vibration[nCntpad].wRightMotorSpeed = 0;
@@ -485,7 +485,7 @@ XINPUT_STATE* GetJoypad(void)
 //=====================================================================
 bool GetJoypadPress(JOYKEY key, int nIdx)
 {
-	return (g_joyKeyState[g_nPlayerNumber[nIdx]].Gamepad.wButtons & (0x01 << key)) ? true : false;
+	return (g_joyKeyState[nIdx].Gamepad.wButtons & (0x01 << key)) ? true : false;
 }
 
 //=====================================================================
@@ -493,7 +493,7 @@ bool GetJoypadPress(JOYKEY key, int nIdx)
 //=====================================================================
 bool GetJoypadTrigger(JOYKEY key, int nIdx)
 {
-	return (g_joyKeyTriggerState[g_nPlayerNumber[nIdx]].Gamepad.wButtons & (0x01 << key)) ? true : false;
+	return (g_joyKeyTriggerState[nIdx].Gamepad.wButtons & (0x01 << key)) ? true : false;
 }
 
 //=====================================================================
@@ -501,7 +501,7 @@ bool GetJoypadTrigger(JOYKEY key, int nIdx)
 //=====================================================================
 bool GetJoypadRelease(JOYKEY key, int nIdx)
 {
-	return (g_joyKeyReleaseState[g_nPlayerNumber[nIdx]].Gamepad.wButtons & (0x01 << key)) ? true : false;
+	return (g_joyKeyReleaseState[nIdx].Gamepad.wButtons & (0x01 << key)) ? true : false;
 }
 
 //=====================================================================
@@ -510,9 +510,9 @@ bool GetJoypadRelease(JOYKEY key, int nIdx)
 bool GetJoypadRepeat(JOYKEY key, int nIdx, int nInterval)
 {
 	return (
-		g_aJoyKeyRepeatState[g_nPlayerNumber[nIdx]][key] == 1 ||
-		g_aJoyKeyRepeatState[g_nPlayerNumber[nIdx]][key] >= INPUT_REPEAT_START &&
-		g_aJoyKeyRepeatState[g_nPlayerNumber[nIdx]][key] % nInterval == 0
+		g_aJoyKeyRepeatState[nIdx][key] == 1 ||
+		g_aJoyKeyRepeatState[nIdx][key] >= INPUT_REPEAT_START &&
+		g_aJoyKeyRepeatState[nIdx][key] % nInterval == 0
 		) ? true : false;
 }
 
@@ -529,7 +529,7 @@ bool GetJoystickPress(JOYSTICK stick, int nIdx)
 //=====================================================================
 bool GetJoystickTrigger(JOYSTICK stick, int nIdx)
 {
-	return g_aJoystickState[g_nPlayerNumber[nIdx]][stick] == 1;
+	return g_aJoystickState[nIdx][stick] == 1;
 }
 
 //=====================================================================
@@ -538,9 +538,9 @@ bool GetJoystickTrigger(JOYSTICK stick, int nIdx)
 bool GetJoystickRepeat(JOYSTICK stick, int nIdx, int nInterval)
 {
 	return (
-		g_aJoystickState[g_nPlayerNumber[nIdx]][stick] == 1 ||
-		g_aJoystickState[g_nPlayerNumber[nIdx]][stick] >= INPUT_REPEAT_START &&
-		g_aJoystickState[g_nPlayerNumber[nIdx]][stick] % nInterval == 0
+		g_aJoystickState[nIdx][stick] == 1 ||
+		g_aJoystickState[nIdx][stick] >= INPUT_REPEAT_START &&
+		g_aJoystickState[nIdx][stick] % nInterval == 0
 		) ? true : false;
 }
 
@@ -549,10 +549,10 @@ bool GetJoystickRepeat(JOYSTICK stick, int nIdx, int nInterval)
 //=====================================================================
 void SetVibration(WORD wLeftMotorSpeed, WORD wRightMotorSpeed, int nIdx, int nCountVibration)
 {
-	g_nCountVibration[g_nPlayerNumber[nIdx]] = nCountVibration;
-	g_vibration[g_nPlayerNumber[nIdx]].wLeftMotorSpeed = wLeftMotorSpeed; // use any value between 0-65535 here
-	g_vibration[g_nPlayerNumber[nIdx]].wRightMotorSpeed = wRightMotorSpeed; // use any value between 0-65535 here
-	XInputSetState(0, &g_vibration[g_nPlayerNumber[nIdx]]);
+	g_nCountVibration[nIdx] = nCountVibration;
+	g_vibration[nIdx].wLeftMotorSpeed = wLeftMotorSpeed; // use any value between 0-65535 here
+	g_vibration[nIdx].wRightMotorSpeed = wRightMotorSpeed; // use any value between 0-65535 here
+	XInputSetState(0, &g_vibration[nIdx]);
 }
 
 //=====================================================================
