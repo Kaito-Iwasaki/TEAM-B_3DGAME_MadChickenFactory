@@ -16,6 +16,8 @@
 #include "fade.h"
 #include "camera.h"
 #include "DebugProc.h"
+#include "player.h"
+#include "field.h"
 
 //*********************************************************************
 // 
@@ -62,6 +64,8 @@ void InitGame(void)
 
 	// 各オブジェクトの初期化処理
 	InitCamera();		// カメラ
+	InitPlayer();		// プレイヤー
+	InitField();		// フィールド
 }
 
 //=====================================================================
@@ -71,6 +75,8 @@ void UninitGame(void)
 {
 	// 各オブジェクトの終了処理
 	UninitCamera();		// カメラ
+	UninitPlayer();		// プレイヤー
+	UninitField();		// フィールド
 }
 
 //=====================================================================
@@ -83,7 +89,8 @@ void UpdateGame(void)
 
 	// 各オブジェクトの更新処理
 	UpdateCamera();		// カメラ
-
+	UpdatePlayer();		// プレイヤー
+	UpdateField();		// フィールド
 }
 
 //=====================================================================
@@ -95,5 +102,6 @@ void DrawGame(void)
 	SetCamera(CAMERATYPE_GAME);
 
 	// 各オブジェクトの描画処理
-
+	DrawPlayer();		// プレイヤー
+	DrawField();		// フィールド
 }
