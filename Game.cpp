@@ -18,6 +18,7 @@
 #include "DebugProc.h"
 #include "player.h"
 #include "field.h"
+#include "light.h"
 
 //*********************************************************************
 // 
@@ -60,12 +61,13 @@
 void InitGame(void)
 {
 	// ライトをオフにする
-	GetDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//GetDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	// 各オブジェクトの初期化処理
 	InitCamera();		// カメラ
 	InitPlayer();		// プレイヤー
 	InitField();		// フィールド
+	InitLight();		//ライト
 }
 
 //=====================================================================
@@ -77,6 +79,7 @@ void UninitGame(void)
 	UninitCamera();		// カメラ
 	UninitPlayer();		// プレイヤー
 	UninitField();		// フィールド
+	UninitLight();		//ライト
 }
 
 //=====================================================================
@@ -91,6 +94,7 @@ void UpdateGame(void)
 	UpdateCamera();		// カメラ
 	UpdatePlayer();		// プレイヤー
 	UpdateField();		// フィールド
+	UpdateLight();		//ライト
 }
 
 //=====================================================================
