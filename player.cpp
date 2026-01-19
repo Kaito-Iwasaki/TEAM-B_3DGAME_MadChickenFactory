@@ -17,17 +17,24 @@
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
+#define MAX_PLAYER				(2)							// プレイヤー数
 #define MOVE_POS				(1.0f)						// 位置移動量
 #define MAX_JUMP				(4.0f)						// ジャンプ量
 #define MOVE_DAMPINGFUNCTION	(0.3f)						// 移動量の減衰係数
 #define ANGLE_DAMPINGFUNCTION	(0.1f)						// 角度の減衰係数
 #define PLAYER_GRAVITY			(0.25)						// 重力
-#define PLAYER_MODELPAS			"data\\MODEL\\player.x"		// プレイヤーモデルへのパス
+#define ONEPLAYER_MODELPAS		"data\\MODEL\\player000.x"	// プレイヤーモデルへのパス
+#define TWOPLAYER_MODELPAS		"data\\MODEL\\player001.x"	// プレイヤーモデルへのパス
 //#define CHARACTER_TXTNAME		"data\\character.txt"		// キャラクターテキストファイル
 
 // グローバル変数
-Player g_Player;											// プレイヤー情報
+Player g_Player[MAX_PLAYER];								// プレイヤー情報
 D3DXVECTOR3 g_vtxMinPlayer, g_vtxMaxPlayer;					// プレイヤーの最小値、最大値
+const char* c_apFilenamePlayer[MAX_PLAYER] =				// プレイヤーのxファイル
+{
+	ONEPLAYER_MODELPAS,
+	TWOPLAYER_MODELPAS
+};
 
 //=======================================================
 // プレイヤーの初期化処理
@@ -44,14 +51,17 @@ void InitPlayer(void)
 	Model* pModel = &g_Player.aModel[0];					// モデル情報ポインタ
 #endif
 
-	g_Player.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 現在の位置初期化
-	g_Player.posOld = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 前回の位置代入
-	g_Player.move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 移動量初期化
-	g_Player.rot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);		// 向き初期化
-	g_Player.rotmove = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);	// 向きの移動量初期化
-	g_Player.fAngle = 0.0f;									// キャラの進む方向初期化
-	g_Player.nIdxShadow = -1;								// 対象の影のインデックス(番号)初期化
-	g_Player.bJump = false;									// ジャンプ状態初期化
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+	{
+		g_Player[nCntPlayer].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 現在の位置初期化
+		g_Player[nCntPlayer].posOld = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 前回の位置代入
+		g_Player[nCntPlayer].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 移動量初期化
+		g_Player[nCntPlayer].rot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);		// 向き初期化
+		g_Player[nCntPlayer].rotmove = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);	// 向きの移動量初期化
+		g_Player[nCntPlayer].fAngle = 0.0f;									// キャラの進む方向初期化
+		g_Player[nCntPlayer].nIdxShadow = -1;								// 対象の影のインデックス(番号)初期化
+		g_Player[nCntPlayer].bJump = false;									// ジャンプ状態初期化
+	}
 
 #if 0
 
@@ -129,7 +139,7 @@ void InitPlayer(void)
 								fscanf(pFile, "%f", &g_Player.pos.z);
 
 							}
-							else if(strcmp(&aString[0], "RADIUS") == 0)
+							else if (strcmp(&aString[0], "RADIUS") == 0)
 							{// 半径読み取り
 
 								fscanf(pFile, "%s", &aString[0]);
@@ -390,13 +400,13 @@ void InitPlayer(void)
 	{
 		// Xファイルの読み込み
 		D3DXLoadMeshFromX(&aFileName[nCntModel][0],
-						D3DXMESH_SYSTEMMEM,
-						pDevice,
-						NULL,
-						&g_Player.aModel[nCntModel].pBuffMat,
-						NULL,
-						&g_Player.aModel[nCntModel].dwNumMat,
-						&g_Player.aModel[nCntModel].pMesh);
+			D3DXMESH_SYSTEMMEM,
+			pDevice,
+			NULL,
+			&g_Player.aModel[nCntModel].pBuffMat,
+			NULL,
+			&g_Player.aModel[nCntModel].dwNumMat,
+			&g_Player.aModel[nCntModel].pMesh);
 	}
 
 	for (int nCntModel = 0; nCntModel < g_Player.nNumModel; nCntModel++)
@@ -421,31 +431,35 @@ void InitPlayer(void)
 
 #endif
 
-	// Xファイルの読み込み
-	D3DXLoadMeshFromX(PLAYER_MODELPAS,
-					D3DXMESH_SYSTEMMEM,
-					pDevice,
-					NULL,
-					&g_Player.BuffMat,
-					NULL,
-					&g_Player.dwNumMat,
-					&g_Player.Mesh);
-
-	// マテリアルデータへのポインタを取得
-	pMat = (D3DXMATERIAL*)g_Player.BuffMat->GetBufferPointer();
-
-	for (int nCntMat = 0; nCntMat < (int)g_Player.dwNumMat; nCntMat++)
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		if (pMat[nCntMat].pTextureFilename != NULL)
-		{
-			// テクスチャの読み込み
-			D3DXCreateTextureFromFile(pDevice,
-				pMat[nCntMat].pTextureFilename,
-				&g_Player.Texture[nCntMat]);
-		}
-	}
+		// Xファイルの読み込み
+		D3DXLoadMeshFromX(c_apFilenamePlayer[nCntPlayer],
+						D3DXMESH_SYSTEMMEM,
+						pDevice,
+						NULL,
+						&g_Player[nCntPlayer].BuffMat,
+						NULL,
+						&g_Player[nCntPlayer].dwNumMat,
+						&g_Player[nCntPlayer].Mesh);
 
-	//g_Player.nIdxShadow = SetShadow(D3DXVECTOR3(g_Player.pos.x, g_Player.pos.y + 1.0f, g_Player.pos.z), 23.0f);		// 影のインデックス設定
+		// マテリアルデータへのポインタを取得
+		pMat = (D3DXMATERIAL*)g_Player[nCntPlayer].BuffMat->GetBufferPointer();
+
+		for (int nCntMat = 0; nCntMat < (int)g_Player[nCntPlayer].dwNumMat; nCntMat++)
+		{
+			if (pMat[nCntMat].pTextureFilename != NULL)
+			{
+				// テクスチャの読み込み
+				D3DXCreateTextureFromFile(pDevice,
+										pMat[nCntMat].pTextureFilename,
+										&g_Player[nCntPlayer].Texture[nCntMat]);
+			}
+		}
+
+		// 影のインデックス設定
+		//g_Player[nCntPlayer].nIdxShadow = SetShadow(D3DXVECTOR3(g_Player.pos.x, g_Player.pos.y + 1.0f, g_Player.pos.z), 23.0f);
+	}
 }
 
 //=======================================================
@@ -453,30 +467,32 @@ void InitPlayer(void)
 //=======================================================
 void UninitPlayer(void)
 {
-	// メッシュの破棄
-	if (g_Player.Mesh != NULL)
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		g_Player.Mesh->Release();
-		g_Player.Mesh = NULL;
-	}
-
-	// マテリアルの破棄
-	if (g_Player.BuffMat != NULL)
-	{
-		g_Player.BuffMat->Release();
-		g_Player.BuffMat = NULL;
-	}
-
-	// テクスチャの破棄
-	for (int nCntMat = 0; nCntMat < (int)g_Player.dwNumMat; nCntMat++)
-	{
-		if (g_Player.Texture[nCntMat] != NULL)
+		// メッシュの破棄
+		if (g_Player[nCntPlayer].Mesh != NULL)
 		{
-			g_Player.Texture[nCntMat]->Release();
-			g_Player.Texture[nCntMat] = NULL;
+			g_Player[nCntPlayer].Mesh->Release();
+			g_Player[nCntPlayer].Mesh = NULL;
+		}
+
+		// マテリアルの破棄
+		if (g_Player[nCntPlayer].BuffMat != NULL)
+		{
+			g_Player[nCntPlayer].BuffMat->Release();
+			g_Player[nCntPlayer].BuffMat = NULL;
+		}
+
+		// テクスチャの破棄
+		for (int nCntMat = 0; nCntMat < (int)g_Player[nCntPlayer].dwNumMat; nCntMat++)
+		{
+			if (g_Player[nCntPlayer].Texture[nCntMat] != NULL)
+			{
+				g_Player[nCntPlayer].Texture[nCntMat]->Release();
+				g_Player[nCntPlayer].Texture[nCntMat] = NULL;
+			}
 		}
 	}
-
 }
 
 //=======================================================
@@ -488,236 +504,399 @@ void UpdatePlayer(void)
 	float fRotDiff = 0.0f;						// 角度の差分代入
 	int nValueH, nValueV;						// スティック値代入
 
-	// 前回の位置保存
-	g_Player.posOld = g_Player.pos;
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+	{
 
-	if (GetKeyboardPress(DIK_W) == true || GetJoypadPress(JOYKEY_UP) == true)
-	{// Wキー入力(Z軸+の方向に移動)
+		// 前回の位置保存
+		g_Player[nCntPlayer].posOld = g_Player[nCntPlayer].pos;
 
-		if (GetKeyboardPress(DIK_A) == true || GetJoypadPress(JOYKEY_LEFT) == true)
-		{// Aキー入力(X軸-の方向に移動)
+		if (nCntPlayer == 0)
+		{// 1P移動操作
 
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+			if (GetKeyboardPress(DIK_W) == true || GetJoypadPress(JOYKEY_UP, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_UP, nCntPlayer) == TRUE)
+			{// Wキー入力(Z軸+の方向に移動)
 
-			// 向き更新
-			g_Player.rotmove.y = ((D3DX_PI / 4) * 3) + pCamera->rot.y;
+				if (GetKeyboardPress(DIK_A) == true || GetJoypadPress(JOYKEY_LEFT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntPlayer) == TRUE)
+				{// Aキー入力(X軸-の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = ((D3DX_PI / 4) * 3) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_D) == true || GetJoypadPress(JOYKEY_RIGHT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntPlayer) == TRUE)
+				{// Dキー入力(X軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = ((-D3DX_PI / 4) * 3) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = D3DX_PI + pCamera->rot.y;
+				}
+			}
+			else if (GetKeyboardPress(DIK_S) == true || GetJoypadPress(JOYKEY_DOWN, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntPlayer) == TRUE)
+			{/// Sキー入力(Z軸-の方向に移動)
+
+				if (GetKeyboardPress(DIK_A) == true || GetJoypadPress(JOYKEY_LEFT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntPlayer) == TRUE)
+				{// Aキー入力(X軸-の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_D) == true || GetJoypadPress(JOYKEY_RIGHT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntPlayer) == TRUE)
+				{// Dキー入力(X軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (-D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y) * -MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y) * -MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = pCamera->rot.y;
+				}
+			}
+			else if (GetKeyboardPress(DIK_A) == true || GetJoypadPress(JOYKEY_LEFT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntPlayer) == TRUE)
+			{// Aキー入力(X軸-の方向に移動)
+
+				if (GetKeyboardPress(DIK_W) == true || GetJoypadPress(JOYKEY_UP, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_UP, nCntPlayer) == TRUE)
+				{// Wキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (D3DX_PI / 4 * 3) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_S) == true || GetJoypadPress(JOYKEY_DOWN, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntPlayer) == TRUE)
+				{// Sキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 2)) * -MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 2)) * -MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = D3DX_PI / 2 + pCamera->rot.y;
+				}
+			}
+			else if (GetKeyboardPress(DIK_D) == true || GetJoypadPress(JOYKEY_RIGHT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntPlayer) == TRUE)
+			{// Dキー入力(X軸+の方向に移動)
+
+				if (GetKeyboardPress(DIK_W) == true || GetJoypadPress(JOYKEY_UP, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_UP, nCntPlayer) == TRUE)
+				{// Wキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (-D3DX_PI / 4 * 3) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_S) == true || GetJoypadPress(JOYKEY_DOWN, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntPlayer) == TRUE)
+				{// Sキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (-D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 2)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 2)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = -D3DX_PI / 2 + pCamera->rot.y;
+				}
+			}
+
+			if (GetKeyboardTrigger(DIK_SPACE) == true || GetJoypadPress(JOYKEY_A, nCntPlayer) == true)
+			{// ジャンプ押下
+
+				if (g_Player[nCntPlayer].bJump == false)
+				{// ジャンプする
+
+					g_Player[nCntPlayer].bJump = true;		// ジャンプ中にする
+					g_Player[nCntPlayer].move.y = MAX_JUMP;	// ジャンプ量
+
+					// モーションの設定処理
+					//SetMosion(MOTIONTYPE_JUMP, true, 30);
+
+					// サウンドの再生
+					//PlaySound(SOUND_LABEL_SE_JUMP);
+				}
+			}
+
 		}
-		else if (GetKeyboardPress(DIK_D) == true || GetJoypadPress(JOYKEY_RIGHT) == true)
-		{// Dキー入力(X軸+の方向に移動)
+		else if (nCntPlayer == 1)
+		{// 2P移動操作
 
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+			if (GetKeyboardPress(DIK_UP) == true || GetJoypadPress(JOYKEY_UP, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_UP, nCntPlayer) == TRUE)
+			{// Wキー入力(Z軸+の方向に移動)
 
-			// 向き更新
-			g_Player.rotmove.y = ((-D3DX_PI / 4) * 3) + pCamera->rot.y;
+				if (GetKeyboardPress(DIK_LEFT) == true || GetJoypadPress(JOYKEY_LEFT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntPlayer) == TRUE)
+				{// Aキー入力(X軸-の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = ((D3DX_PI / 4) * 3) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_RIGHT) == true || GetJoypadPress(JOYKEY_RIGHT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntPlayer) == TRUE)
+				{// Dキー入力(X軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = ((-D3DX_PI / 4) * 3) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = D3DX_PI + pCamera->rot.y;
+				}
+			}
+			else if (GetKeyboardPress(DIK_DOWN) == true || GetJoypadPress(JOYKEY_DOWN, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntPlayer) == TRUE)
+			{/// Sキー入力(Z軸-の方向に移動)
+
+				if (GetKeyboardPress(DIK_LEFT) == true || GetJoypadPress(JOYKEY_LEFT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntPlayer) == TRUE)
+				{// Aキー入力(X軸-の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_RIGHT) == true || GetJoypadPress(JOYKEY_RIGHT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntPlayer) == TRUE)
+				{// Dキー入力(X軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (-D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y) * -MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y) * -MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = pCamera->rot.y;
+				}
+			}
+			else if (GetKeyboardPress(DIK_LEFT) == true || GetJoypadPress(JOYKEY_LEFT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntPlayer) == TRUE)
+			{// Aキー入力(X軸-の方向に移動)
+
+				if (GetKeyboardPress(DIK_UP) == true || GetJoypadPress(JOYKEY_UP, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_UP, nCntPlayer) == TRUE)
+				{// Wキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (D3DX_PI / 4 * 3) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_DOWN) == true || GetJoypadPress(JOYKEY_DOWN, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntPlayer) == TRUE)
+				{// Sキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 2)) * -MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 2)) * -MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = D3DX_PI / 2 + pCamera->rot.y;
+				}
+			}
+			else if (GetKeyboardPress(DIK_RIGHT) == true || GetJoypadPress(JOYKEY_RIGHT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntPlayer) == TRUE)
+			{// Dキー入力(X軸+の方向に移動)
+
+				if (GetKeyboardPress(DIK_UP) == true || GetJoypadPress(JOYKEY_UP, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_UP, nCntPlayer) == TRUE)
+				{// Wキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (-D3DX_PI / 4 * 3) + pCamera->rot.y;
+				}
+				else if (GetKeyboardPress(DIK_DOWN) == true || GetJoypadPress(JOYKEY_DOWN, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntPlayer) == TRUE)
+				{// Sキー入力(Z軸+の方向に移動)
+
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = (-D3DX_PI / 4) + pCamera->rot.y;
+				}
+				else
+				{
+					// 位置更新
+					g_Player[nCntPlayer].move.x += sinf(pCamera->rot.y + (D3DX_PI / 2)) * MOVE_POS;
+					g_Player[nCntPlayer].move.z += cosf(pCamera->rot.y + (D3DX_PI / 2)) * MOVE_POS;
+
+					// 向き更新
+					g_Player[nCntPlayer].rotmove.y = -D3DX_PI / 2 + pCamera->rot.y;
+				}
+			}
+
+			if (GetKeyboardTrigger(DIK_RSHIFT) == true || GetJoypadPress(JOYKEY_A, nCntPlayer) == true)
+			{// ジャンプ押下
+
+				if (g_Player[nCntPlayer].bJump == false)
+				{// ジャンプする
+
+					g_Player[nCntPlayer].bJump = true;		// ジャンプ中にする
+					g_Player[nCntPlayer].move.y = MAX_JUMP;	// ジャンプ量
+
+					// モーションの設定処理
+					//SetMosion(MOTIONTYPE_JUMP, true, 30);
+
+					// サウンドの再生
+					//PlaySound(SOUND_LABEL_SE_JUMP);
+				}
+			}
+
 		}
-		else
-		{
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y) * MOVE_POS;
 
-			// 向き更新
-			g_Player.rotmove.y = D3DX_PI + pCamera->rot.y;
-		}
-	}
-	else if (GetKeyboardPress(DIK_S) == true || GetJoypadPress(JOYKEY_DOWN) == true)
-	{/// Sキー入力(Z軸-の方向に移動)
+		// 角度の値補正
+		g_Player[nCntPlayer].rotmove.y = GetFixedRotation(g_Player[nCntPlayer].rotmove.y);
 
-		if (GetKeyboardPress(DIK_A) == true || GetJoypadPress(JOYKEY_LEFT) == true)
-		{// Aキー入力(X軸-の方向に移動)
+		// 移動量を更新
+		g_Player[nCntPlayer].move.x += (0.0f - g_Player[nCntPlayer].move.x) * MOVE_DAMPINGFUNCTION;
+		g_Player[nCntPlayer].move.z += (0.0f - g_Player[nCntPlayer].move.z) * MOVE_DAMPINGFUNCTION;
 
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
+		// 重力を加える
+		g_Player[nCntPlayer].move.y -= PLAYER_GRAVITY;
 
-			// 向き更新
-			g_Player.rotmove.y = (D3DX_PI / 4) + pCamera->rot.y;
-		}
-		else if (GetKeyboardPress(DIK_D) == true || GetJoypadPress(JOYKEY_RIGHT) == true)
-		{// Dキー入力(X軸+の方向に移動)
-
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = (-D3DX_PI / 4) + pCamera->rot.y;
-		}
-		else
-		{
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y) * -MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y) * -MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = pCamera->rot.y;
-		}
-	}
-	else if (GetKeyboardPress(DIK_A) == true || GetJoypadPress(JOYKEY_LEFT) == true)
-	{// Aキー入力(X軸-の方向に移動)
-
-		if (GetKeyboardPress(DIK_W) == true || GetJoypadPress(JOYKEY_UP) == true)
-		{// Wキー入力(Z軸+の方向に移動)
-
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y - (D3DX_PI / 4)) * MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = (D3DX_PI / 4 * 3) + pCamera->rot.y;
-		}
-		else if (GetKeyboardPress(DIK_S) == true || GetJoypadPress(JOYKEY_DOWN) == true)
-		{// Sキー入力(Z軸+の方向に移動)
-
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y - (D3DX_PI / 4 * 3)) * MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = (D3DX_PI / 4) + pCamera->rot.y;
-		}
-		else
-		{
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y + (D3DX_PI / 2)) * -MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y + (D3DX_PI / 2)) * -MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = D3DX_PI / 2 + pCamera->rot.y;
-		}
-	}
-	else if (GetKeyboardPress(DIK_D) == true || GetJoypadPress(JOYKEY_RIGHT) == true)
-	{// Dキー入力(X軸+の方向に移動)
-
-		if (GetKeyboardPress(DIK_W) == true || GetJoypadPress(JOYKEY_UP) == true)
-		{// Wキー入力(Z軸+の方向に移動)
-
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y + (D3DX_PI / 4)) * MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = (-D3DX_PI / 4 * 3) + pCamera->rot.y;
-		}
-		else if (GetKeyboardPress(DIK_S) == true || GetJoypadPress(JOYKEY_DOWN) == true)
-		{// Sキー入力(Z軸+の方向に移動)
-
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y + (D3DX_PI / 4 * 3)) * MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = (-D3DX_PI / 4) + pCamera->rot.y;
-		}
-		else
-		{
-			// 位置更新
-			g_Player.move.x += sinf(pCamera->rot.y + (D3DX_PI / 2)) * MOVE_POS;
-			g_Player.move.z += cosf(pCamera->rot.y + (D3DX_PI / 2)) * MOVE_POS;
-
-			// 向き更新
-			g_Player.rotmove.y = -D3DX_PI / 2 + pCamera->rot.y;
-		}
-
-	}
-
-	if (GetKeyboardTrigger(DIK_SPACE) == true || GetJoypadPress(JOYKEY_A) == true)
-	{// ジャンプ押下
-
-		if (g_Player.bJump == false)
-		{// ジャンプする
-
-			g_Player.bJump = true;		// ジャンプ中にする
-			g_Player.move.y = MAX_JUMP;	// ジャンプ量
-
-			// モーションの設定処理
-			//SetMosion(MOTIONTYPE_JUMP, true, 30);
-
-			// サウンドの再生
-			//PlaySound(SOUND_LABEL_SE_JUMP);
-		}
-	}
-
-	// 角度の値補正
-	g_Player.rotmove.y = GetFixedRotation(g_Player.rotmove.y);
-
-	// 移動量を更新
-	g_Player.move.x += (0.0f - g_Player.move.x) * MOVE_DAMPINGFUNCTION;
-	g_Player.move.z += (0.0f - g_Player.move.z) * MOVE_DAMPINGFUNCTION;
-
-	// 重力を加える
-	g_Player.move.y -= PLAYER_GRAVITY;
-
-	// 位置を更新
-	g_Player.pos.x += g_Player.move.x;
-	g_Player.pos.y += g_Player.move.y;
-	g_Player.pos.z += g_Player.move.z;
+		// 位置を更新
+		g_Player[nCntPlayer].pos.x += g_Player[nCntPlayer].move.x;
+		g_Player[nCntPlayer].pos.y += g_Player[nCntPlayer].move.y;
+		g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
 
 
-	if (g_Player.pos.y < 0.0f)
-	{// 下画面端
+		if (g_Player[nCntPlayer].pos.y < 0.0f)
+		{// 下画面端
 
-		g_Player.bJump = false;
-		g_Player.move.y = 0.0f;
-		g_Player.pos.y = 0.0f;
+			g_Player[nCntPlayer].bJump = false;
+			g_Player[nCntPlayer].move.y = 0.0f;
+			g_Player[nCntPlayer].pos.y = 0.0f;
 
 #if 0
-		if (g_Player.motionType == MOTIONTYPE_JUMP && g_Player.motionTypeBlend == MOTIONTYPE_JUMP)
-		{// 現在のモーションがジャンプ状態
+			if (g_Player.motionType == MOTIONTYPE_JUMP && g_Player.motionTypeBlend == MOTIONTYPE_JUMP)
+			{// 現在のモーションがジャンプ状態
 
-			// モーションの設定(着地状態)
-			SetMosion(MOTIONTYPE_LANDING, true, 15);
+				// モーションの設定(着地状態)
+				SetMosion(MOTIONTYPE_LANDING, true, 15);
 
-			// 振動の設定
-			SetJoypadVibration(10000, 10000, 10);
-		}
+				// 振動の設定
+				SetJoypadVibration(10000, 10000, 10);
+			}
 #endif
-	}
+		}
 
-	// 目標の移動方向までの差分算出
-	fRotDiff = g_Player.rotmove.y - g_Player.rot.y;
+		// 目標の移動方向までの差分算出
+		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
 
-	// 角度の値補正
-	fRotDiff = GetFixedRotation(fRotDiff);
-	
-	// 移動方向(角度)の補正
-	g_Player.rot.y += fRotDiff * ANGLE_DAMPINGFUNCTION;
+		// 角度の値補正
+		fRotDiff = GetFixedRotation(fRotDiff);
 
-	// 角度の値補正
-	g_Player.rot.y = GetFixedRotation(g_Player.rot.y);
+		// 移動方向(角度)の補正
+		g_Player[nCntPlayer].rot.y += fRotDiff * ANGLE_DAMPINGFUNCTION;
 
-	// 影の位置を設定(更新)
-	//SetPositionShadow(g_Player.nIdxShadow, g_Player.pos, (g_Player.pos.y - g_Player.posOld.y) / 10.0f);
+		// 角度の値補正
+		g_Player[nCntPlayer].rot.y = GetFixedRotation(g_Player[nCntPlayer].rot.y);
+
+		// 影の位置を設定(更新)
+		//SetPositionShadow(g_Player.nIdxShadow, g_Player.pos, (g_Player.pos.y - g_Player.posOld.y) / 10.0f);
 
 #if 0
-	if (g_Player.bFinishMotion == true)
-	{// 現在モーション終了時
+		if (g_Player.bFinishMotion == true)
+		{// 現在モーション終了時
 
-		if (g_Player.motionType != MOTIONTYPE_JUMP && g_Player.motionTypeBlend != MOTIONTYPE_JUMP)
-		{// 現在のモーションがジャンプ状態以外
+			if (g_Player.motionType != MOTIONTYPE_JUMP && g_Player.motionTypeBlend != MOTIONTYPE_JUMP)
+			{// 現在のモーションがジャンプ状態以外
 
-			// モーションの設定処理(待機状態にする)
-			SetMosion(MOTIONTYPE_NEUTRAL, true, 30);
+				// モーションの設定処理(待機状態にする)
+				SetMosion(MOTIONTYPE_NEUTRAL, true, 30);
 
-			g_Player.bFinishMotion = false;		// 未終了にする
+				g_Player.bFinishMotion = false;		// 未終了にする
 
+			}
 		}
-	}
 #endif
 
-	// モーションの更新処理
-	//UpdateMotion();
+		// モーションの更新処理
+		//UpdateMotion();
 
-	// デバック表示
-	//PrintDebugProc("\n\n - プレイヤー情報 -");
-	//PrintDebugProc("\n 位置 (%f, %f, %f)", g_Player.pos.x, g_Player.pos.y, g_Player.pos.z);
-	//PrintDebugProc("\n 移動量 (%f, %f, %f)", g_Player.move.x, g_Player.move.y, g_Player.move.z);
-	//PrintDebugProc("\n 目的の向き (%f)", g_Player.rotmove.y);
-	//PrintDebugProc("\n 向き (%f)", g_Player.rot.y);
+		// デバック表示
+		//PrintDebugProc("\n\n - プレイヤー情報 -");
+		//PrintDebugProc("\n 位置 (%f, %f, %f)", g_Player.pos.x, g_Player.pos.y, g_Player.pos.z);
+		//PrintDebugProc("\n 移動量 (%f, %f, %f)", g_Player.move.x, g_Player.move.y, g_Player.move.z);
+		//PrintDebugProc("\n 目的の向き (%f)", g_Player.rotmove.y);
+		//PrintDebugProc("\n 向き (%f)", g_Player.rot.y);
+
+	}
 }
 
 //=======================================================
@@ -730,41 +909,43 @@ void DrawPlayer(void)
 	D3DMATERIAL9 matDef;							// 現在のマテリアル保存
 	D3DXMATERIAL* pMat;								// マテリアルデータへのポインタ
 
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&g_Player.mtxWorld);
-
-	// 向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot,
-		g_Player.rot.y, g_Player.rot.x, g_Player.rot.z);
-
-	D3DXMatrixMultiply(&g_Player.mtxWorld, &g_Player.mtxWorld, &mtxRot);
-
-	// 位置を反映
-	D3DXMatrixTranslation(&mtxTrans,
-		g_Player.pos.x, g_Player.pos.y, g_Player.pos.z);
-
-	D3DXMatrixMultiply(&g_Player.mtxWorld, &g_Player.mtxWorld, &mtxTrans);
-
-	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_Player.mtxWorld);
-
-	// 現在のマテリアルを取得
-	pDevice->GetMaterial(&matDef);
-
-	// マテリアルデータへのポインタを取得
-	pMat = (D3DXMATERIAL*)g_Player.BuffMat->GetBufferPointer();
-
-	for (int nCntMat = 0; nCntMat < (int)g_Player.dwNumMat; nCntMat++)
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		// マテリアルの設定
-		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+		// ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&g_Player[nCntPlayer].mtxWorld);
 
-		// テクスチャ設定
-		pDevice->SetTexture(0, g_Player.Texture[nCntMat]);
+		// 向きを反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot,
+			g_Player[nCntPlayer].rot.y, g_Player[nCntPlayer].rot.x, g_Player[nCntPlayer].rot.z);
 
-		// モデル(パーツの描画)
-		g_Player.Mesh->DrawSubset(nCntMat);
-	}
+		D3DXMatrixMultiply(&g_Player[nCntPlayer].mtxWorld, &g_Player[nCntPlayer].mtxWorld, &mtxRot);
+
+		// 位置を反映
+		D3DXMatrixTranslation(&mtxTrans,
+			g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].pos.y, g_Player[nCntPlayer].pos.z);
+
+		D3DXMatrixMultiply(&g_Player[nCntPlayer].mtxWorld, &g_Player[nCntPlayer].mtxWorld, &mtxTrans);
+
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &g_Player[nCntPlayer].mtxWorld);
+
+		// 現在のマテリアルを取得
+		pDevice->GetMaterial(&matDef);
+
+		// マテリアルデータへのポインタを取得
+		pMat = (D3DXMATERIAL*)g_Player[nCntPlayer].BuffMat->GetBufferPointer();
+
+		for (int nCntMat = 0; nCntMat < (int)g_Player[nCntPlayer].dwNumMat; nCntMat++)
+		{
+			// マテリアルの設定
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+
+			// テクスチャ設定
+			pDevice->SetTexture(0, g_Player[nCntPlayer].Texture[nCntMat]);
+
+			// モデル(パーツの描画)
+			g_Player[nCntPlayer].Mesh->DrawSubset(nCntMat);
+		}
 #if 0
 	// 全モデル(パーツ)の描画
 	for (int nCntModel = 0; nCntModel < g_Player.nNumModelParts; nCntModel++)
@@ -828,6 +1009,8 @@ void DrawPlayer(void)
 
 	// 保存していたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+
+	}
 }
 
 //=======================================================
@@ -835,7 +1018,7 @@ void DrawPlayer(void)
 //=======================================================
 Player* GetPlayer(void)
 {
-	return &g_Player;
+	return &g_Player[0];
 }
 
 //=======================================================
