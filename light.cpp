@@ -35,7 +35,7 @@ void InitLight(void)
 {
 	//ライトの方向を設定
 	SetLight(0, D3DXVECTOR3(0.2f, -0.8f, 0.4f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	SetSpotLight(1, D3DXVECTOR3(0.0f, 45.0f, 0.0f), D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f));
+	SetSpotLight(1, D3DXVECTOR3(0.0f, 45.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.0f, 1.0f));
 	
 }
 //==================================================
@@ -110,8 +110,8 @@ void SetSpotLight(int nIdx, D3DXVECTOR3 pos, D3DXCOLOR col)
 
 	//ライトの色設定
 	g_aLight[nIdx].Diffuse = col;
-	g_aLight[nIdx].Specular = col;
-	g_aLight[nIdx].Ambient = col;
+	g_aLight[nIdx].Specular = D3DXCOLOR(0.5f, 0.5f, 0.5f,1.0f);
+	g_aLight[nIdx].Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f);
 
 	//ライトのベクトル設定
 	g_aLight[nIdx].Direction = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
@@ -120,9 +120,9 @@ void SetSpotLight(int nIdx, D3DXVECTOR3 pos, D3DXCOLOR col)
 	g_aLight[nIdx].Falloff = 1.0f;
 
 	//定常減衰定数設定
-	g_aLight[nIdx].Attenuation0 = 1.0f;
-	g_aLight[nIdx].Attenuation1 = 1.0f;
-	g_aLight[nIdx].Attenuation2 = 1.0f;
+	g_aLight[nIdx].Attenuation0 = 0.1f;
+	g_aLight[nIdx].Attenuation1 = 0.0f;
+	g_aLight[nIdx].Attenuation2 = 0.0f;
 
 	//有効範囲設定
 	g_aLight[nIdx].Range = 50.0f;
