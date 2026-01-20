@@ -7,7 +7,7 @@
 #include"player.h"
 #include"input.h"
 #include"camera.h"
-//#include"shadow.h"
+#include"shadow.h"
 //#include"debugproc.h"
 #include"stdio.h"
 #include"game.h"
@@ -458,7 +458,7 @@ void InitPlayer(void)
 		}
 
 		// 影のインデックス設定
-		//g_Player[nCntPlayer].nIdxShadow = SetShadow(D3DXVECTOR3(g_Player.pos.x, g_Player.pos.y + 1.0f, g_Player.pos.z), 23.0f);
+		g_Player[nCntPlayer].nIdxShadow = SetShadow(D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].pos.y + 1.0f, g_Player[nCntPlayer].pos.z), 50.0f);
 	}
 }
 
@@ -868,7 +868,7 @@ void UpdatePlayer(void)
 		g_Player[nCntPlayer].rot.y = GetFixedRotation(g_Player[nCntPlayer].rot.y);
 
 		// 影の位置を設定(更新)
-		//SetPositionShadow(g_Player.nIdxShadow, g_Player.pos, (g_Player.pos.y - g_Player.posOld.y) / 10.0f);
+		SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, (g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f);
 
 #if 0
 		if (g_Player.bFinishMotion == true)

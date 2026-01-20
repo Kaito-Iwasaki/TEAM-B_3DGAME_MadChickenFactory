@@ -13,8 +13,7 @@
 #define MAX_PATTERN			(1)				// 全パターン
 #define MAX_PATTERN_X		(1)				// X軸パターン数
 #define MAX_PATTERN_Y		(1)				// Y軸パターン数
-#define SHADOW_WIDTH		(50.0f)			// 幅
-#define SHADOW_DEPTH		(50.0f)			// 奥行
+#define SHADOW_OPACITY		(0.5f)			// 影の不透明度
 
 // グローバル変数
 LPDIRECT3DTEXTURE9	g_pTextureShadow[MAX_TEXTURE] = {};		// テクスチャへのポインタ
@@ -78,10 +77,10 @@ void InitShadow(void)
 		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 		// 頂点カラーの設定
-		pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.3f);
-		pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.3f);
-		pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.3f);
-		pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.3f);
+		pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, SHADOW_OPACITY);
+		pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, SHADOW_OPACITY);
+		pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, SHADOW_OPACITY);
+		pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, SHADOW_OPACITY);
 
 		// テクスチャ座標の指定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);

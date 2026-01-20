@@ -19,6 +19,7 @@
 #include "player.h"
 #include "field.h"
 #include "light.h"
+#include "shadow.h"
 
 //*********************************************************************
 // 
@@ -65,9 +66,10 @@ void InitGame(void)
 
 	// 各オブジェクトの初期化処理
 	InitCamera();		// カメラ
+	InitShadow();		// 影
 	InitPlayer();		// プレイヤー
 	InitField();		// フィールド
-	InitLight();		//ライト
+	InitLight();		// ライト
 }
 
 //=====================================================================
@@ -77,9 +79,10 @@ void UninitGame(void)
 {
 	// 各オブジェクトの終了処理
 	UninitCamera();		// カメラ
+	UninitShadow();		// 影
 	UninitPlayer();		// プレイヤー
 	UninitField();		// フィールド
-	UninitLight();		//ライト
+	UninitLight();		// ライト
 }
 
 //=====================================================================
@@ -92,9 +95,10 @@ void UpdateGame(void)
 
 	// 各オブジェクトの更新処理
 	UpdateCamera();		// カメラ
+	UpdateShadow();		// 影
 	UpdatePlayer();		// プレイヤー
 	UpdateField();		// フィールド
-	UpdateLight();		//ライト
+	UpdateLight();		// ライト
 }
 
 //=====================================================================
@@ -108,4 +112,5 @@ void DrawGame(void)
 	// 各オブジェクトの描画処理
 	DrawPlayer();		// プレイヤー
 	DrawField();		// フィールド
+	DrawShadow();		// 影
 }
