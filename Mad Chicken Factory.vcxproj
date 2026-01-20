@@ -149,6 +149,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="model_loader.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="script.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="model_loader.cpp" />
+    <ClCompile Include="Pause.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="script.cpp" />
