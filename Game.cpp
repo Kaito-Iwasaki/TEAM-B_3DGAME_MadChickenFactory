@@ -22,6 +22,7 @@
 #include "shadow.h"
 #include "title_logo.h"
 #include "wall.h"
+#include "Pause.h"
 
 //*********************************************************************
 // 
@@ -74,6 +75,7 @@ void InitGame(void)
 	InitLight();		// ライト
 	InitTitleLogo();	//タイトルのロゴ（仮置き）
 	InitWall();			// 壁
+	InitPause();		// ポーズ
 }
 
 //=====================================================================
@@ -89,6 +91,7 @@ void UninitGame(void)
 	UninitLight();		// ライト
 	UninitTitleLogo();	//タイトルのロゴ（仮置き）
 	UninitWall();		// 壁
+	UninitPause();		// ポーズ
 }
 
 //=====================================================================
@@ -100,13 +103,27 @@ void UpdateGame(void)
 	PrintDebugProc("ゲーム画面\n");
 
 	// 各オブジェクトの更新処理
-	UpdateCamera();		// カメラ
-	UpdateShadow();		// 影
-	UpdatePlayer();		// プレイヤー
-	UpdateField();		// フィールド
-	UpdateLight();		// ライト
-	UpdateTitleLogo();	//タイトルのロゴ（仮置き）
-	UpdateWall();		// 壁
+	if (GetPause() == false)
+	{//ポーズでない
+		//ポーズ切り替え
+		if (GetKeyboardTrigger(DIK_P) || GetJoypadTrigger(JOYKEY_START))
+		{
+			SwitchPause();
+		}
+
+		UpdateCamera();		// カメラ
+		UpdateShadow();		// 影
+		UpdatePlayer();		// プレイヤー
+		UpdateField();		// フィールド
+		UpdateLight();		// ライト
+		UpdateTitleLogo();	//タイトルのロゴ（仮置き）
+
+	}
+	else
+	{//ポーズ中
+		UpdatePause();		//ポーズメニュー
+
+	}
 }
 
 //=====================================================================
@@ -123,4 +140,6 @@ void DrawGame(void)
 	DrawShadow();		// 影
 	DrawTitleLogo();	//タイトルのロゴ（仮置き）
 	DrawWall();			// 壁
+	DrawPause();		// ポーズ
+
 }
