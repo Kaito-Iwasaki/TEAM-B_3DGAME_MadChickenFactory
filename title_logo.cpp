@@ -12,8 +12,8 @@
 // マクロ定義
 // 
 //===========================================================
-#define TITLELOGO_WIDTH		(400.0f)	//タイトルロゴの幅
-#define TITLEROGO_HEIGHT	(200.0f)	//高さ
+#define TITLELOGO_WIDTH		(100.0f)	//タイトルロゴの幅
+#define TITLEROGO_HEIGHT	(50.0f)	//高さ
 
 //===========================================================
 // 
@@ -33,7 +33,7 @@ bool bEnter;										//エンターを押したか
 //===========================================================
 void InitTitleLogo(void)
 {
-	g_Titlepos = D3DXVECTOR3(640.0f,-300.0f,0.0f);
+	g_Titlepos = D3DXVECTOR3(1000.0f,-600.0f,0.0f);
 	g_nCounter = 1;
 	g_TitleLogoCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	bEnter = false;

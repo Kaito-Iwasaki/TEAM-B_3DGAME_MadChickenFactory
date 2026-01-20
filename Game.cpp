@@ -20,6 +20,7 @@
 #include "field.h"
 #include "light.h"
 #include "shadow.h"
+#include "title_logo.h"
 
 //*********************************************************************
 // 
@@ -70,6 +71,7 @@ void InitGame(void)
 	InitPlayer();		// プレイヤー
 	InitField();		// フィールド
 	InitLight();		// ライト
+	InitTitleLogo();	//タイトルのロゴ（仮置き）
 }
 
 //=====================================================================
@@ -83,6 +85,7 @@ void UninitGame(void)
 	UninitPlayer();		// プレイヤー
 	UninitField();		// フィールド
 	UninitLight();		// ライト
+	UninitTitleLogo();	//タイトルのロゴ（仮置き）
 }
 
 //=====================================================================
@@ -99,6 +102,7 @@ void UpdateGame(void)
 	UpdatePlayer();		// プレイヤー
 	UpdateField();		// フィールド
 	UpdateLight();		// ライト
+	UpdateTitleLogo();	//タイトルのロゴ（仮置き）
 }
 
 //=====================================================================
@@ -113,4 +117,5 @@ void DrawGame(void)
 	DrawPlayer();		// プレイヤー
 	DrawField();		// フィールド
 	DrawShadow();		// 影
+	DrawTitleLogo();	//タイトルのロゴ（仮置き）
 }
