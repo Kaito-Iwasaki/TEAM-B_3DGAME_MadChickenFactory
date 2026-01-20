@@ -105,6 +105,9 @@
     <ClCompile Include="Pause.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
+    <ClCompile Include="wall.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sound.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="Pause.h">
       <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="wall.h">
+      <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

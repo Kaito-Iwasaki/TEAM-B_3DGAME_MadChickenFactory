@@ -158,6 +158,7 @@
     <ClInclude Include="title.h" />
     <ClInclude Include="title_logo.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="title.cpp" />
     <ClCompile Include="title_logo.cpp" />
     <ClCompile Include="util.cpp" />
+    <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
