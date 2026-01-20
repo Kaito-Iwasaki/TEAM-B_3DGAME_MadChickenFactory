@@ -20,6 +20,6 @@ void UpdateWall(void);
 
 void DrawWall(void);
 
-void SetWall(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+void SetWall(D3DXVECTOR3 pos,D3DXVECTOR3 size, D3DXVECTOR3 rot);
 
 #endif // !_WALL_H_
