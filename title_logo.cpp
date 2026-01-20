@@ -35,7 +35,7 @@ void InitTitleLogo(void)
 {
 	g_Titlepos = D3DXVECTOR3(640.0f,-300.0f,0.0f);
 	g_nCounter = 1;
-	g_TitleLogoCol = INIT_D3DXCOLOR;
+	g_TitleLogoCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	bEnter = false;
 	ba = true;
 
