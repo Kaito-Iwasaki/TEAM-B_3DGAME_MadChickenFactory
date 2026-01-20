@@ -42,7 +42,7 @@ void InitTitle(void)
 		g_aTitle[2].nType = 2;
 	
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice,"data\\TEXTURE\\Reslt.jpg",&g_pTextureTitle[0]);
+	D3DXCreateTextureFromFile(pDevice,"data\\TEXTURE\\teamlogo.png",&g_pTextureTitle[0]);
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\3Dtte.png", &g_pTextureTitle[1]);
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\sart.png", &g_pTextureTitle[2]);
 	//頂点バッファの生成
