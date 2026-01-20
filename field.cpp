@@ -11,6 +11,8 @@
 // マクロ定義
 #define FIELD_TXT_PASS "data\\TEXTURE\\field000.jpg"
 #define MAX_FIELD (255)
+#define TEXTURE_SIZE_X (100)
+#define TEXTURE_SIZE_Y (100)
 
 // グローバル変数
 LPDIRECT3DTEXTURE9 g_pTextureField = NULL;				// テクスチャへのポインタ
@@ -114,6 +116,8 @@ void UpdateField(void)
 {
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 
+	float fTexsizeX;
+	float fTexsizeY;
 	// 頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffField->Lock(0, 0, (void**)&pVtx, 0);
 
@@ -126,6 +130,14 @@ void UpdateField(void)
 		pVtx[2].pos = D3DXVECTOR3(g_aField[nCountField].pos.x - g_aField[nCountField].size.x, g_aField[nCountField].pos.y, g_aField[nCountField].pos.z - g_aField[nCountField].size.z);
 		pVtx[3].pos = D3DXVECTOR3(g_aField[nCountField].pos.x + g_aField[nCountField].size.x, g_aField[nCountField].pos.y, g_aField[nCountField].pos.z - g_aField[nCountField].size.z);
 
+		fTexsizeX = g_aField[nCountField].size.x / TEXTURE_SIZE_X;
+		fTexsizeY = g_aField[nCountField].size.z / TEXTURE_SIZE_Y;
+
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(fTexsizeX * 1.0f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, fTexsizeY * 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(fTexsizeX * 1.0f, fTexsizeY * 1.0f);
+	
 		pVtx += 4;
 	}
 	// 頂点バッファをアンロックする
