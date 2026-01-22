@@ -175,7 +175,7 @@ void UpdateTitle(void)
 	pVtx += 8;
 	if (GetKeyboardTrigger(DIK_RETURN) == true && g_aTitle[0].bEnter == false)
 	{
-		g_aTitle[0].bEnter = true;		//true‚É‚µ‚Ä˜A‘Å‚³‚ê‚È‚¢‚æ‚¤‚É‚·‚é
+		//g_aTitle[0].bEnter = true;		//true‚É‚µ‚Ä˜A‘Å‚³‚ê‚È‚¢‚æ‚¤‚É‚·‚é
 		g_aTitle[2].g_nCounterAnimTitle = 20;
 		if (g_aTitle[2].g_nCounterAnimTitle <= 19 && g_aTitle[2].g_nPatternAnimTitle >= 1)
 		{

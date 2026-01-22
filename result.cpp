@@ -7,11 +7,11 @@
 //#include"ranking.h"
 #include <stdlib.h>
 //マクロ定義
-#define MAX_RESULT (6)						//リザルトの最大数
+#define MAX_RESULT (1)						//リザルトの最大数
 #define ZYUNI (80.0f)						//順位の大きさ
 //グローバル変数
 LPDIRECT3DTEXTURE9 g_pTextureResult[MAX_RESULT] = {};		//テクスチャへのポインタ
-LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffResult = NULL;	//頂点バッファのポインタ
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffResult = NULL;			//頂点バッファのポインタ
 Result g_aResult[MAX_RESULT];
 
 //======================
@@ -22,6 +22,8 @@ void InitResult(void)
 	LPDIRECT3DDEVICE9 pDevice;
 	//デバイスの取得
 	pDevice = GetDevice();
+	
+	//リザルトの背景
 	g_aResult[0].g_posResult = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_aResult[0].g_moveResult = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_aResult[0].g_colerResult = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -29,7 +31,7 @@ void InitResult(void)
 	g_aResult[0].g_nPatternAnimResult = 0;
 	g_aResult[0].nType = 0;
 	g_aResult[0].bEnter = false;
-
+#if 0
 	g_aResult[1].g_posResult = D3DXVECTOR3(500.0f, 150.0f, 0.0f);
 	g_aResult[1].g_moveResult = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_aResult[1].g_colerResult = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -69,14 +71,16 @@ void InitResult(void)
 	g_aResult[5].g_nPatternAnimResult = 0;
 	g_aResult[5].nType = 5;
 	g_aResult[5].bEnter = false;
-
+#endif
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,"data\\TEXTURE\\last.png",&g_pTextureResult[0]);		//背景
+#if 0
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\1i.png", &g_pTextureResult[1]);		//1位
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\2i.png", &g_pTextureResult[2]);		//2位
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\3i.png", &g_pTextureResult[3]);		//3位
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\4i.png", &g_pTextureResult[4]);		//4位
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\5i.png", &g_pTextureResult[5]);		//5位
+#endif
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D)*4 * MAX_RESULT, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED,&g_pVtxBuffResult, NULL);		//sizeof(VERTEX)の後に*と頂点数を書く
 	VERTEX_2D* pVtx;
@@ -107,10 +111,10 @@ void InitResult(void)
 	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-
+#if 0
 	pVtx += 4;
 	// 頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(g_aResult[1].g_posResult.x, g_aResult[1].g_posResult.y, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(g_aResult[1].g_posResult.x, g_aResult[1].g_posResult.y, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(g_aResult[1].g_posResult.x + ZYUNI, g_aResult[1].g_posResult.y, 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(g_aResult[1].g_posResult.x, g_aResult[1].g_posResult.y + ZYUNI, 0.0f);
 	pVtx[3].pos = D3DXVECTOR3(g_aResult[1].g_posResult.x + ZYUNI, g_aResult[1].g_posResult.y + ZYUNI, 0.0f);
@@ -210,7 +214,7 @@ void InitResult(void)
 
 	pVtx += 4;
 	// 頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(g_aResult[5].g_posResult.x, g_aResult[5].g_posResult.y, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(g_aResult[5].g_posResult.x, g_aResult[5].g_posResult.y, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(g_aResult[5].g_posResult.x + ZYUNI, g_aResult[5].g_posResult.y, 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(g_aResult[5].g_posResult.x, g_aResult[5].g_posResult.y + ZYUNI, 0.0f);
 	pVtx[3].pos = D3DXVECTOR3(g_aResult[5].g_posResult.x + ZYUNI, g_aResult[5].g_posResult.y + ZYUNI, 0.0f);
@@ -234,6 +238,7 @@ void InitResult(void)
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 	pVtx += 4;
+#endif
 	//頂点バッファをアンロックする
 	g_pVtxBuffResult->Unlock();
 	
@@ -259,6 +264,7 @@ void UninitResult(void)
 		g_pTextureResult[0]->Release();
 		g_pTextureResult[0] = NULL;
 	}
+#if 0
 	if (g_pTextureResult[1] != NULL)
 	{
 		g_pTextureResult[1]->Release();
@@ -284,6 +290,7 @@ void UninitResult(void)
 		g_pTextureResult[5]->Release();
 		g_pTextureResult[5] = NULL;
 	}
+#endif
 	if (g_pVtxBuffResult != NULL)
 	{
 		g_pVtxBuffResult->Release();
@@ -296,18 +303,21 @@ void UninitResult(void)
 //==================
 void UpdateResult(void)
 {
-
+	//エンターキーが押されて最初の時
 	if (GetKeyboardTrigger(DIK_RETURN) == true && g_aResult[0].bEnter == false)
 	{
-		g_aResult[0].bEnter = true;
+		/*g_aResult[0].bEnter = true;*/
 		//ENTERキーが押された
 		SetFade(MODE_TITLE);
+		//タイトル画面に移行
 	}
+	//スタートボタンが押されて再世の時
 	if (GetJoypadTrigger(JOYKEY_START) == true && g_aResult[0].bEnter == false)
 	{
-		g_aResult[0].bEnter = true;
+		/*g_aResult[0].bEnter = true;*/
 		//STARTが押された
 		SetFade(MODE_TITLE);
+		//タイトル画面に移行
 	}
 	/*UpdateRanking();*/
 	

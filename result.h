@@ -1,6 +1,9 @@
 #ifndef _RESULT_H_
 #define _RESULT_H_	
 #include"main.h"
+//=====================
+//リザルト画面の高状態
+//=====================
 typedef struct
 {
 
@@ -15,6 +18,6 @@ typedef struct
 //プロトタイプ宣言
 void InitResult(void);
 void UninitResult(void);
-void UpdateResult(void);		//main.cppから移動
+void UpdateResult(void);		
 void DrawResult(void);
 #endif 
