@@ -44,5 +44,5 @@ void InitTimer(void);
 void UninitTimer(void);
 void UpdateTimer(void);
 void DrawTimer(void);
-
+int GetTimer (void);
 #endif
