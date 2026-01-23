@@ -25,6 +25,8 @@
 #include "Pause.h"
 #include "meshcylinder.h"
 #include "Timer.h"
+#include "model.h"
+#include "model_loader.h"
 
 //*********************************************************************
 // 
@@ -66,6 +68,8 @@
 //=====================================================================
 void InitGame(void)
 {
+	SCRIPTDATA modelData;
+
 	// 各オブジェクトの初期化処理
 	InitCamera();			// カメラ
 	InitShadow();			// 影
@@ -76,6 +80,25 @@ void InitGame(void)
 	InitPause();			// ポーズ
 	InitMeshCylinder();		// メッシュシリンダー
 	InitTimer();			// タイマー
+	InitModel();
+
+	LoadScript("data\\model.txt", &modelData);
+
+	for (int i = 0; i < modelData.nNumModel; i++)
+	{
+		LoadModel(&modelData.aFilenameModel[i][0], i);
+	}
+
+	for (int i = 0; i < modelData.nCountModelSet; i++)
+	{
+		MODELSETDATA setData = modelData.aInfoModelSet[i];
+
+		SetModel(
+			setData.nType,
+			setData.pos,
+			setData.rot
+		);
+	}
 
 	SetCameraPosVFromAngle(0);
 	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
@@ -96,6 +119,7 @@ void UninitGame(void)
 	UninitPause();			// ポーズ
 	UninitMeshCylinder();	// メッシュシリンダー
 	UninitTimer();			// タイマー
+	UninitModel();
 }
 
 //=====================================================================
@@ -122,6 +146,7 @@ void UpdateGame(void)
 		UpdateLight();			// ライト
 		UpdateMeshCylinder();	// メッシュシリンダー
 		UpdateTimer();			// タイマー
+		UpdateModel();
 	}
 	else
 	{//ポーズ中
@@ -145,4 +170,5 @@ void DrawGame(void)
 	DrawPause();			// ポーズ
 	DrawMeshCylinder();		// メッシュシリンダー
 	DrawTimer();			// タイマー
+	DrawModel();
 }
