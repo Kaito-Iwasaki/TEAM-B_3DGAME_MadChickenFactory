@@ -24,6 +24,7 @@
 #include "wall.h"
 #include "Pause.h"
 #include "meshcylinder.h"
+#include "Timer.h"
 
 //*********************************************************************
 // 
@@ -65,19 +66,18 @@
 //=====================================================================
 void InitGame(void)
 {
-	// ライトをオフにする
-	//GetDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
-
 	// 各オブジェクトの初期化処理
 	InitCamera();			// カメラ
 	InitShadow();			// 影
 	InitPlayer();			// プレイヤー
 	InitField();			// フィールド
-	InitLight();			// ライト
-	InitTitleLogo();		//タイトルのロゴ（仮置き）
 	InitWall();				// 壁
 	InitPause();			// ポーズ
 	InitMeshCylinder();		// メッシュシリンダー
+	InitTimer();			// タイマー
+
+	SetCameraPosVFromAngle(0);
+	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
 }
 
 //=====================================================================
@@ -91,10 +91,10 @@ void UninitGame(void)
 	UninitPlayer();			// プレイヤー
 	UninitField();			// フィールド
 	UninitLight();			// ライト
-	UninitTitleLogo();		//タイトルのロゴ（仮置き）
 	UninitWall();			// 壁
 	UninitPause();			// ポーズ
 	UninitMeshCylinder();	// メッシュシリンダー
+	UninitTimer();			// タイマー
 }
 
 //=====================================================================
@@ -119,13 +119,12 @@ void UpdateGame(void)
 		UpdatePlayer();			// プレイヤー
 		UpdateField();			// フィールド
 		UpdateLight();			// ライト
-		UpdateTitleLogo();		//タイトルのロゴ（仮置き）
 		UpdateMeshCylinder();	// メッシュシリンダー
+		UpdateTimer();			// タイマー
 	}
 	else
 	{//ポーズ中
 		UpdatePause();		//ポーズメニュー
-
 	}
 }
 
@@ -138,11 +137,11 @@ void DrawGame(void)
 	SetCamera(CAMERATYPE_GAME);
 
 	// 各オブジェクトの描画処理
-	DrawPlayer();		// プレイヤー
-	DrawField();		// フィールド
-	DrawShadow();		// 影
-	DrawTitleLogo();	//タイトルのロゴ（仮置き）
-	DrawWall();			// 壁
-	DrawPause();		// ポーズ
+	DrawPlayer();			// プレイヤー
+	DrawField();			// フィールド
+	DrawShadow();			// 影
+	DrawWall();				// 壁
+	DrawPause();			// ポーズ
 	DrawMeshCylinder();		// メッシュシリンダー
+	DrawTimer();			// タイマー
 }
