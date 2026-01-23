@@ -14,6 +14,7 @@
 //*********************************************************************
 #include "main.h"
 #include "util.h"
+#include "model_loader.h"
 
 //*********************************************************************
 // 
@@ -21,7 +22,6 @@
 // 
 //*********************************************************************
 #define MAX_TEXTURE_PER_MODEL		(32)
-#define MAX_MODEL					(1024)
 
 #define MODEL_HIT_NONE				(0x00)
 #define MODEL_HIT_IN				(0x01)
@@ -73,6 +73,7 @@ void UninitModel(void);
 void UpdateModel(void);
 void DrawModel(void);
 void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+void LoadAndSetModelFromData(MODELDATA* pModelData);
 void LoadModel(const char* pFilename, int nIdx);
 void LoadModel(const char* pFilename, MESHDATA* pMeshData);
 void ReleaseMesh(MESHDATA* pMeshData);

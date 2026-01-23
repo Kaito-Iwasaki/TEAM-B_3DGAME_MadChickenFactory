@@ -174,6 +174,28 @@ void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 }
 
 //=====================================================================
+// モデル設定処理（モデル配置情報から）
+//=====================================================================
+void LoadAndSetModelFromData(MODELDATA* pModelData)
+{
+	for (int nCountMesh = 0; nCountMesh < pModelData->nNumModel; nCountMesh++)
+	{// xファイルの読み込み
+		LoadModel(&pModelData->aFilenameModel[nCountMesh][0], nCountMesh);
+	}
+
+	for (int nCountModel = 0; nCountModel < pModelData->nCountModelSet; nCountModel++)
+	{// モデルの配置
+		MODELSETDATA setData = pModelData->aInfoModelSet[nCountModel];
+
+		SetModel(
+			setData.nType,
+			setData.pos,
+			setData.rot
+		);
+	}
+}
+
+//=====================================================================
 // モデル読み込み処理
 //=====================================================================
 void LoadModel(const char* pFilename, int nIdx)
