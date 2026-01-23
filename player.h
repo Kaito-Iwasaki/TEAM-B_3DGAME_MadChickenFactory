@@ -10,45 +10,50 @@
 #include"main.h"
 //#include"model.h"
 
+// マクロ定義
+#define MAX_PLAYERMODEL			(10)		// モデルの総数
+#define MAX_PLAYERMOTION		(7)			// モーションの最大数
+#define MAX_PLAYERTEXTURE		(16)		// テクスチャ数
+
 // プレイヤーの構造体の定義
 typedef struct
 {
-	D3DXVECTOR3 pos;							// 現在の位置
-	D3DXVECTOR3 posOld;							// 前回の位置
-	D3DXVECTOR3 move;							// 移動量
-	D3DXVECTOR3 rot;							// 向き
-	D3DXVECTOR3 rotmove;						// 向きの移動量
-	D3DXMATRIX mtxWorld;						// ワールドマトリックス
-	float fAngle;								// キャラの進む方向
-	int nIdxShadow;								// 対象の影のインデックス(番号)
-	bool bJump;									// ジャンプ状態
-	LPD3DXMESH Mesh;							// メッシュ(頂点情報)へのポインタ
-	LPD3DXBUFFER BuffMat;						// マテリアルへのポインタ
-	LPDIRECT3DTEXTURE9 Texture[16];				// テクスチャへのポインタ
-	DWORD dwNumMat;								// マテリアルの数
+	D3DXVECTOR3 pos;										// 現在の位置
+	D3DXVECTOR3 posOld;										// 前回の位置
+	D3DXVECTOR3 move;										// 移動量
+	D3DXVECTOR3 rot;										// 向き
+	D3DXVECTOR3 rotmove;									// 向きの移動量
+	D3DXMATRIX mtxWorld;									// ワールドマトリックス
+	float fAngle;											// キャラの進む方向
+	int nIdxShadow;											// 対象の影のインデックス(番号)
+	bool bJump;												// ジャンプ状態
+	LPD3DXMESH Mesh;										// メッシュ(頂点情報)へのポインタ
+	LPD3DXBUFFER BuffMat;									// マテリアルへのポインタ
+	LPDIRECT3DTEXTURE9 Texture[MAX_PLAYERTEXTURE];			// テクスチャへのポインタ
+	DWORD dwNumMat;											// マテリアルの数
 #if 0
-	Model aModel[10];					// モデル(パーツ)
-	int nNumModelParts;							// モデル(パーツ)の総数
-	int nNumModel;								// モデルの総数
-	MOTION_INFO aMotionInfo[5];					// モーション情報
-	int nNumMotion;								// モーションの総数
-	MOTIONTYPE motionType;						// 現在のモーションの種類
-	bool bLoopMotion;							// 現在のモーションがループするかどうか
-	int nNumKey;								// 現在のモーションのキーの総数
-	int nKey;									// 現在のモーションの現在のキー
-	int nCounterMotion;							// 現在のモーションのカウンター
-	bool bFinishMotion;							// 現在のモーションが終了しているかどうか
-	bool bBlendMotion;							// ブレンドモーションをするかどうか
-	MOTIONTYPE motionTypeBlend;					// ブレンドモーションの種類
-	bool bLoopMotionBlend;						// ブレンドモーションがループするかどうか
-	int nNumKeyBlend;							// ブレンドモーションのキーの総数
-	int nKeyBlend;								// ブレンドモーションの現在のキー
-	int nCounterMotionBlend;					// ブレンドモーションのカウンター
-	int nFrameBlend;							// ブレンドフレーム数
-	int nCounterBlend;							// ブレンドカウンター
+	Model aModel[MAX_PLAYERMODEL];							// モデル(パーツ)
+	int nNumModelParts;										// モデル(パーツ)の総数
+	int nNumModel;											// モデルの総数
+	MOTION_INFO aMotionInfo[MAX_PLAYERMOTION];				// モーション情報
+	int nNumMotion;											// モーションの総数
+	MOTIONTYPE motionType;									// 現在のモーションの種類
+	bool bLoopMotion;										// 現在のモーションがループするかどうか
+	int nNumKey;											// 現在のモーションのキーの総数
+	int nKey;												// 現在のモーションの現在のキー
+	int nCounterMotion;										// 現在のモーションのカウンター
+	bool bFinishMotion;										// 現在のモーションが終了しているかどうか
+	bool bBlendMotion;										// ブレンドモーションをするかどうか
+	MOTIONTYPE motionTypeBlend;								// ブレンドモーションの種類
+	bool bLoopMotionBlend;									// ブレンドモーションがループするかどうか
+	int nNumKeyBlend;										// ブレンドモーションのキーの総数
+	int nKeyBlend;											// ブレンドモーションの現在のキー
+	int nCounterMotionBlend;								// ブレンドモーションのカウンター
+	int nFrameBlend;										// ブレンドフレーム数
+	int nCounterBlend;										// ブレンドカウンター
 #endif
-	float fRadius;								// 半径
-	float fHeight;								// 高さ
+	float fRadius;											// 半径
+	float fHeight;											// 高さ
 }Player;
 
 // プロトタイプ宣言

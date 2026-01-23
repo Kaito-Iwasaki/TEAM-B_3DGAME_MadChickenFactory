@@ -14,6 +14,7 @@
 #include"sound.h"
 #include"fade.h"
 #include"util.h"
+#include"model.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -26,9 +27,6 @@
 #define ONEPLAYER_MODELPAS		"data\\MODEL\\player000.x"	// プレイヤーモデルへのパス
 #define TWOPLAYER_MODELPAS		"data\\MODEL\\player001.x"	// プレイヤーモデルへのパス
 //#define CHARACTER_TXTNAME		"data\\character.txt"		// キャラクターテキストファイル
-#define MAX_MODEL		(10)								// モデルの総数
-#define MAX_MOTION		(7)									// モーションの最大数
-#define MAX_TEXTURE		(16)								// テクスチャ数
 
 // グローバル変数
 Player g_Player[MAX_PLAYER];								// プレイヤー情報
@@ -857,6 +855,9 @@ void UpdatePlayer(void)
 			}
 #endif
 		}
+
+		// モデルとの当たり判定
+		CollisionModel(&g_Player->pos, g_Player->posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
 
 		// 目標の移動方向までの差分算出
 		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
