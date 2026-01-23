@@ -12,8 +12,8 @@
 // マクロ定義
 // 
 //===========================================================
-#define TITLELOGO_WIDTH		(100.0f)	//タイトルロゴの幅
-#define TITLEROGO_HEIGHT	(50.0f)	//高さ
+#define TITLELOGO_WIDTH		(350.0f)	//チームロゴの幅
+#define TITLEROGO_HEIGHT	(200.0f)	//高さ
 
 //===========================================================
 // 
@@ -31,7 +31,7 @@ D3DXCOLOR g_TeamLogoCol;
 //===========================================================
 void InitTeamLogo(void)
 {
-	g_TeamLogopos = D3DXVECTOR3(1000.0f,-600.0f,0.0f);
+	g_TeamLogopos = D3DXVECTOR3(550.0f,-600.0f,0.0f);
 	
 	g_TeamLogoCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	
@@ -42,7 +42,7 @@ void InitTeamLogo(void)
 	pDevice = GetDevice();
 
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\StarInACage.png", &g_pTextureTeamLogo);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\teamlogo.png", &g_pTextureTeamLogo);
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4,

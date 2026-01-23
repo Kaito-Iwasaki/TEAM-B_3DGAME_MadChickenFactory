@@ -22,6 +22,7 @@
 #include"wall.h"
 #include"model.h"
 #include"meshcylinder.h"
+#include"team_logo.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -31,10 +32,9 @@
 //===============
 //グローバル変数
 //===============
-LPDIRECT3DTEXTURE9 g_pTextureTitle[MAX_TITLE] = {};		//テクスチャへのポインタ
-LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTitle = NULL;	//頂点バッファのポインタ
+//LPDIRECT3DTEXTURE9 g_pTextureTitle[MAX_TITLE] = {};		//テクスチャへのポインタ
+//LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTitle = NULL;	//頂点バッファのポインタ
 TITLE g_aTitle[MAX_TITLE];
-int nCnt;
 //===========
 //初期化処理
 //===========
@@ -47,7 +47,7 @@ void InitTitle(void)
 	InitModel();					//モデル
 	InitMeshCylinder();				//メッシュシリンダー
 	InitLight();					//ライト
-	
+	InitTeamLogo();					//チームロゴ
 	
 }
 
@@ -63,6 +63,7 @@ void UninitTitle(void)
 	UninitModel();					//モデル
 	UninitMeshCylinder();			//メッシュシリンダー
 	UninitLight();					//ライト
+	UninitTeamLogo();				//チームロゴ
 
 }
 //==================
@@ -77,6 +78,7 @@ void UpdateTitle(void)
 	UpdateModel();					//モデル
 	UpdateMeshCylinder();			//メッシュシリンダー
 	UpdateLight();					//ライト
+	UpdateTeamLogo();				//チームロゴ
 
 	if (GetKeyboardTrigger(DIK_RETURN) == true && g_aTitle->bEnter == false)
 	{
@@ -108,4 +110,5 @@ void DrawTitle(void)
 	DrawWall();						//壁
 	DrawModel();					//モデル
 	DrawMeshCylinder();				//メッシュシリンダー
+	DrawTeamLogo();					//チームロゴ
 }
