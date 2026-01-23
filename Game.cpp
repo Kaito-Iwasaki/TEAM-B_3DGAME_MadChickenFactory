@@ -71,6 +71,7 @@ void InitGame(void)
 	InitShadow();			// 影
 	InitPlayer();			// プレイヤー
 	InitField();			// フィールド
+	InitLight();			// ライト
 	InitWall();				// 壁
 	InitPause();			// ポーズ
 	InitMeshCylinder();		// メッシュシリンダー
