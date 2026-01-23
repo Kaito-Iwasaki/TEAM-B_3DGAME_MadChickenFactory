@@ -6,6 +6,7 @@
 //=======================================================
 #include"meshcylinder.h"
 #include"input.h"
+#include"util.h"
 
 // マクロ定義
 #define MAX_MESHCYLINDER	(32)			// シリンダーの最大数
@@ -103,7 +104,7 @@ void UpdateMeshCylinder(void)
 			g_aMeshCylinder[nCntMeshCylinder].rot.y += 0.0001f;
 
 			// 角度の補正
-			AngleCorrection(&g_aMeshCylinder[nCntMeshCylinder].rot.y);
+			g_aMeshCylinder[nCntMeshCylinder].rot.y = GetFixedRotation(g_aMeshCylinder[nCntMeshCylinder].rot.y);
 		}
 	}
 }
