@@ -21,10 +21,17 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define CAMERA_VECTOR_UP		D3DXVECTOR3(0, 1, 0)						// 上向きベクトル
-#define INIT_CAMERA_ROT			D3DXVECTOR3(D3DXToRadian(-25), 0, 0)		// カメラ回転初期値
-#define INIT_CAMERA_OFFSET		D3DXVECTOR3(0, 150, 0)						// カメラオフセット初期値
-#define INIT_CAMERA_DISTANCE	(1000)										// カメラ距離初期値
+#define INIT_CAMERA_ROT				D3DXVECTOR3(D3DXToRadian(-25), 0, 0)		// カメラ回転初期値
+#define INIT_CAMERA_OFFSET			D3DXVECTOR3(0, 150, 0)						// カメラオフセット初期値
+#define INIT_CAMERA_DISTANCE		(800)										// カメラ距離初期値
+#define CAMERA_MIN_DISTANCE			(120)										// カメラ距離最小値
+#define CAMERA_MAX_DISTANCE			(2400)										// カメラ距離最大値
+#define CAMERA_ROT_X_MIN			(-(D3DX_PI/2) + 0.01f)						// カメラX軸回転最小値
+#define CAMERA_ROT_X_MAX			((D3DX_PI/2) - 0.01f)						// カメラX軸回転最大値
+#define CAMERA_FREE_MOVESPEED		(5.0f)
+#define CAMERA_FREE_DRAGSPEED		(3.0f)
+#define CAMERA_FREE_ROTATE_SPEED_V	(0.0075f)
+#define CAMERA_FREE_ROTATE_SPEED_R	(0.01f)
 
 //*********************************************************************
 // 
@@ -53,15 +60,14 @@
 // 
 //*********************************************************************
 CAMERA g_camera[CAMERATYPE_MAX];
-bool g_bIs2PEnabled = true;
 
 //=====================================================================
 // 初期化処理
 //=====================================================================
 void InitCamera(void)
 {
-	ZeroMemory(&g_camera[0], sizeof(g_camera));
-	g_camera[CAMERATYPE_GAME].vecU = CAMERA_VECTOR_UP;
+	ZeroMemory(&g_camera[0], sizeof(g_camera) * CAMERATYPE_MAX);
+	g_camera[CAMERATYPE_GAME].vecU = D3DXVECTOR3_UP;
 	g_camera[CAMERATYPE_GAME].rot = INIT_CAMERA_ROT;
 	g_camera[CAMERATYPE_GAME].offset = INIT_CAMERA_OFFSET;
 	g_camera[CAMERATYPE_GAME].fDistance = INIT_CAMERA_DISTANCE;
@@ -71,6 +77,7 @@ void InitCamera(void)
 	g_camera[CAMERATYPE_GAME].viewport.Height = SCREEN_HEIGHT;
 	g_camera[CAMERATYPE_GAME].viewport.MinZ = 0.0f;
 	g_camera[CAMERATYPE_GAME].viewport.MaxZ = 1.0f;
+	g_camera[CAMERATYPE_GAME].mode = CAMERAMODE_NONE;
 }
 
 //=====================================================================
@@ -89,26 +96,80 @@ void UpdateCamera(void)
 	CAMERA* pCamera = &g_camera[0];
 	Player* pPlayer = GetPlayer();
 
-	if (g_bIs2PEnabled)
-	{// ２プレイヤーカメラ
+	switch (pCamera->mode)
+	{
+	case CAMERAMODE_NONE:		// プログラム制御
+		break;
+
+	case CAMERAMODE_SIDEVIEW:	// サイドビュー
+		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
+		SetCameraPosR(0, pPlayer->pos);
+
+		// カメラの視点を設定
+		SetCameraPosVFromAngle(0);
+
+		// カメラをオフセット分ずらす
+		MoveCamera(0, pCamera->offset);
+
+		break;
+
+	case CAMERAMODE_SIDEVIEW2P:	// サイドビュー（2P）
+	{
 		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
 		D3DXVECTOR3 vecP1ToP2 = pPlayer[1].pos - pPlayer[0].pos;
 		SetCameraPosR(0, pPlayer->pos + (vecP1ToP2 / 2));
 
 		// プレイヤーの距離に応じてカメラを離す
 		pCamera->fDistance = max(fabsf(vecP1ToP2.x), INIT_CAMERA_DISTANCE);
-	}
-	else
-	{// １プレイヤーカメラ
-		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
-		SetCameraPosR(0, pPlayer->pos);
-	}
 
-	// カメラの視点を設定
-	SetCameraPosVFromAngle(0);
+		// カメラの視点を設定
+		SetCameraPosVFromAngle(0);
 
-	// カメラをオフセット分ずらす
-	MoveCamera(0, pCamera->offset);
+		// カメラをオフセット分ずらす
+		MoveCamera(0, pCamera->offset);
+	}
+		break;
+
+	case CAMERAMODE_FREE:		// フリーカメラ
+	{
+		DIMOUSESTATE mouse = GetMouse();											// マウス
+		D3DXVECTOR3 vecForwad = Direction(pCamera->posV, pCamera->posR);			// カメラ正面へのベクトル
+		D3DXVECTOR3 vecRight = Normalize(CrossProduct(-vecForwad, D3DXVECTOR3_UP));	// カメラ右方向へのベクトル
+		D3DXVECTOR3 vecUp = Normalize(CrossProduct(-vecRight, vecForwad));			// カメラ上方向へのベクトル
+
+		/*カメラ移動処理*/
+		if (GetMousePress(MOUSE_LEFT) && GetMousePress(MOUSE_RIGHT))
+		{// 平行移動（前後）
+			D3DXVECTOR3 move = vecForwad * -mouse.lY * CAMERA_FREE_DRAGSPEED;
+			MoveCamera(0, move);
+		}
+		else if (GetMousePress(MOUSE_MIDDLE))
+		{// 平行移動（上下左右）
+			D3DXVECTOR3 move = (vecUp * mouse.lY + vecRight * -mouse.lX) * CAMERA_FREE_DRAGSPEED;
+			MoveCamera(0, move);
+		}
+		else if (GetMousePress(MOUSE_LEFT))
+		{// 視点操作
+			pCamera->rot.x = GetFixedRotation(pCamera->rot.x - mouse.lY * CAMERA_FREE_ROTATE_SPEED_R);
+			pCamera->rot.y = GetFixedRotation(pCamera->rot.y + mouse.lX * CAMERA_FREE_ROTATE_SPEED_R);
+			SetCameraPosVFromAngle(0);
+		}
+		else if (GetMousePress(MOUSE_RIGHT))
+		{// 注視点操作
+			pCamera->rot.x = GetFixedRotation(pCamera->rot.x - mouse.lY * CAMERA_FREE_ROTATE_SPEED_V);
+			pCamera->rot.y = GetFixedRotation(pCamera->rot.y + mouse.lX * CAMERA_FREE_ROTATE_SPEED_V);
+			SetCameraPosRFromAngle(0);
+		}
+
+		if (mouse.lZ != 0)
+		{// カメラ距離の設定
+			pCamera->fDistance += mouse.lZ;
+			Clampf(&pCamera->fDistance, CAMERA_MIN_DISTANCE, CAMERA_MAX_DISTANCE);
+			SetCameraPosVFromAngle(0);
+		}
+	}
+		break;
+	}
 }
 
 //=====================================================================
@@ -199,6 +260,8 @@ void SetCameraPosVFromAngle(int nIdx)
 {
 	CAMERA* pCamera = &g_camera[nIdx];
 
+	Clampf(&pCamera->rot.x, -(D3DX_PI / 2) + 0.01f, (D3DX_PI / 2) - 0.01f);
+
 	// 角度から視点の位置を求める
 	pCamera->posV.x = pCamera->posR.x - sinf(pCamera->rot.y) * cosf(pCamera->rot.x) * pCamera->fDistance;
 	pCamera->posV.z = pCamera->posR.z - cosf(pCamera->rot.y) * cosf(pCamera->rot.x) * pCamera->fDistance;
@@ -211,6 +274,8 @@ void SetCameraPosVFromAngle(int nIdx)
 void SetCameraPosRFromAngle(int nIdx)
 {
 	CAMERA* pCamera = &g_camera[nIdx];
+
+	Clampf(&pCamera->rot.x, -(D3DX_PI/2) + 0.01f, (D3DX_PI / 2) - 0.01f);
 
 	// 角度から注視点の位置を求める
 	pCamera->posR.x = pCamera->posV.x + sinf(pCamera->rot.y) * cosf(pCamera->rot.x) * pCamera->fDistance;

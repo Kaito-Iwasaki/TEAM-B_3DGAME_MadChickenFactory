@@ -26,12 +26,27 @@
 // ***** 列挙型 *****
 // 
 //*********************************************************************
+//*********************************************************************
+// カメラタイプ列挙型
+//*********************************************************************
 typedef enum
 {
 	CAMERATYPE_GAME = 0,
 	CAMERATYPE_TIME,
 	CAMERATYPE_MAX
 }CAMERATYPE;
+
+//*********************************************************************
+// カメラモード列挙型
+//*********************************************************************
+typedef enum
+{
+	CAMERAMODE_NONE = 0,		// なし（プログラム制御）
+	CAMERAMODE_SIDEVIEW,		// サイドビュー（ゲーム用）
+	CAMERAMODE_SIDEVIEW2P,		// サイドビュー（２プレイヤーゲーム用）
+	CAMERAMODE_FREE,			// 自由操作
+	CAMERAMODE_MAX
+}CAMERAMODE;
 
 //*********************************************************************
 // 
@@ -45,6 +60,7 @@ typedef struct CAMERA
 	D3DXVECTOR3 vecU;
 	D3DXVECTOR3 rot;
 	D3DXVECTOR3 offset;
+	CAMERAMODE mode;
 	float fDistance;
 	D3DXMATRIX mtxProjection;	// プロジェクションマトリックス（投影行列）
 	D3DXMATRIX mtxView;			// ビューマトリックス
