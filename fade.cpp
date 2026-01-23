@@ -138,10 +138,10 @@ void DrawFade(void)
 	pVtx[2].rhw = 1.0f;
 	pVtx[3].rhw = 1.0f;
 
-	pVtx[0].col = 1.0f;
-	pVtx[1].col = 1.0f;
-	pVtx[2].col = 1.0f;
-	pVtx[3].col = 1.0f;
+	pVtx[0].col = g_fade.color;
+	pVtx[1].col = g_fade.color;
+	pVtx[2].col = g_fade.color;
+	pVtx[3].col = g_fade.color;
 
 	// 頂点バッファをアンロック
 	g_pVtxBuffFade->Unlock();
