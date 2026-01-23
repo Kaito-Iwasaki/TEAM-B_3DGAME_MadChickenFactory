@@ -145,6 +145,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="meshcylinder.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="meshcylinder.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
