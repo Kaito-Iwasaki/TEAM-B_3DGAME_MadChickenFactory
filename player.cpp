@@ -26,6 +26,9 @@
 #define ONEPLAYER_MODELPAS		"data\\MODEL\\player000.x"	// プレイヤーモデルへのパス
 #define TWOPLAYER_MODELPAS		"data\\MODEL\\player001.x"	// プレイヤーモデルへのパス
 //#define CHARACTER_TXTNAME		"data\\character.txt"		// キャラクターテキストファイル
+#define MAX_MODEL		(10)								// モデルの総数
+#define MAX_MOTION		(7)									// モーションの最大数
+#define MAX_TEXTURE		(16)								// テクスチャ数
 
 // グローバル変数
 Player g_Player[MAX_PLAYER];								// プレイヤー情報

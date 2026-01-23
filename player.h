@@ -10,11 +10,6 @@
 #include"main.h"
 //#include"model.h"
 
-// マクロ定義
-#define MAX_MODEL		(10)		// モデルの総数
-#define MAX_MOTION		(7)			// モーションの最大数
-#define MAX_TEXTURE		(16)		// テクスチャ数
-
 // プレイヤーの構造体の定義
 typedef struct
 {
@@ -29,13 +24,13 @@ typedef struct
 	bool bJump;									// ジャンプ状態
 	LPD3DXMESH Mesh;							// メッシュ(頂点情報)へのポインタ
 	LPD3DXBUFFER BuffMat;						// マテリアルへのポインタ
-	LPDIRECT3DTEXTURE9 Texture[MAX_TEXTURE];	// テクスチャへのポインタ
+	LPDIRECT3DTEXTURE9 Texture[16];				// テクスチャへのポインタ
 	DWORD dwNumMat;								// マテリアルの数
 #if 0
-	Model aModel[MAX_MODEL];					// モデル(パーツ)
+	Model aModel[10];					// モデル(パーツ)
 	int nNumModelParts;							// モデル(パーツ)の総数
 	int nNumModel;								// モデルの総数
-	MOTION_INFO aMotionInfo[MAX_MOTION];		// モーション情報
+	MOTION_INFO aMotionInfo[5];					// モーション情報
 	int nNumMotion;								// モーションの総数
 	MOTIONTYPE motionType;						// 現在のモーションの種類
 	bool bLoopMotion;							// 現在のモーションがループするかどうか
