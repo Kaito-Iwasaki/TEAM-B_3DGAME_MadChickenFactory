@@ -156,6 +156,7 @@
     <ClInclude Include="script.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="team_logo.h" />
     <ClInclude Include="Timer.h">
       <SubType>
       </SubType>
@@ -184,6 +185,7 @@
     <ClCompile Include="script.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="team_logo.cpp" />
     <ClCompile Include="timer.cpp">
       <SubType>
       </SubType>
