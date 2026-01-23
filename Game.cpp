@@ -23,6 +23,7 @@
 #include "title_logo.h"
 #include "wall.h"
 #include "Pause.h"
+#include "meshcylinder.h"
 
 //*********************************************************************
 // 
@@ -68,14 +69,15 @@ void InitGame(void)
 	//GetDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	// 各オブジェクトの初期化処理
-	InitCamera();		// カメラ
-	InitShadow();		// 影
-	InitPlayer();		// プレイヤー
-	InitField();		// フィールド
-	InitLight();		// ライト
-	InitTitleLogo();	//タイトルのロゴ（仮置き）
-	InitWall();			// 壁
-	InitPause();		// ポーズ
+	InitCamera();			// カメラ
+	InitShadow();			// 影
+	InitPlayer();			// プレイヤー
+	InitField();			// フィールド
+	InitLight();			// ライト
+	InitTitleLogo();		//タイトルのロゴ（仮置き）
+	InitWall();				// 壁
+	InitPause();			// ポーズ
+	InitMeshCylinder();		// メッシュシリンダー
 }
 
 //=====================================================================
@@ -84,14 +86,15 @@ void InitGame(void)
 void UninitGame(void)
 {
 	// 各オブジェクトの終了処理
-	UninitCamera();		// カメラ
-	UninitShadow();		// 影
-	UninitPlayer();		// プレイヤー
-	UninitField();		// フィールド
-	UninitLight();		// ライト
-	UninitTitleLogo();	//タイトルのロゴ（仮置き）
-	UninitWall();		// 壁
-	UninitPause();		// ポーズ
+	UninitCamera();			// カメラ
+	UninitShadow();			// 影
+	UninitPlayer();			// プレイヤー
+	UninitField();			// フィールド
+	UninitLight();			// ライト
+	UninitTitleLogo();		//タイトルのロゴ（仮置き）
+	UninitWall();			// 壁
+	UninitPause();			// ポーズ
+	UninitMeshCylinder();	// メッシュシリンダー
 }
 
 //=====================================================================
@@ -111,13 +114,13 @@ void UpdateGame(void)
 			SwitchPause();
 		}
 
-		UpdateCamera();		// カメラ
-		UpdateShadow();		// 影
-		UpdatePlayer();		// プレイヤー
-		UpdateField();		// フィールド
-		UpdateLight();		// ライト
-		UpdateTitleLogo();	//タイトルのロゴ（仮置き）
-
+		UpdateCamera();			// カメラ
+		UpdateShadow();			// 影
+		UpdatePlayer();			// プレイヤー
+		UpdateField();			// フィールド
+		UpdateLight();			// ライト
+		UpdateTitleLogo();		//タイトルのロゴ（仮置き）
+		UpdateMeshCylinder();	// メッシュシリンダー
 	}
 	else
 	{//ポーズ中
@@ -141,5 +144,5 @@ void DrawGame(void)
 	DrawTitleLogo();	//タイトルのロゴ（仮置き）
 	DrawWall();			// 壁
 	DrawPause();		// ポーズ
-
+	DrawMeshCylinder();		// メッシュシリンダー
 }
