@@ -15,7 +15,7 @@
 #define FIELD_TEXTURE_SIZE_Y (100)
 
 // グローバル変数
-LPDIRECT3DTEXTURE9 g_pTextureField = NULL;				// テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 g_pTextureField = NULL;							// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffField = NULL;						// 頂点バッファへのポインタ
 Field g_aField[MAX_FIELD];
 
@@ -84,9 +84,9 @@ void InitField(void)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
 
-	SetField(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetField(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1500.0f, 0.0f, 750.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
-	SetField(D3DXVECTOR3(100.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	//SetField(D3DXVECTOR3(100.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 }
 
 //======================
@@ -200,7 +200,6 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 	// 頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffField->Lock(0, 0, (void**)&pVtx, 0);
 
-
 	for (int nCountField = 0; nCountField < MAX_FIELD; nCountField++)
 	{
 		if (g_aField[nCountField].bUse == false)
@@ -210,7 +209,7 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 			g_aField[nCountField].rot = rot;
 			g_aField[nCountField].bUse = true;
 
-		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
+			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 			pVtx[0].pos = D3DXVECTOR3(g_aField[nCountField].pos.x - (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z + (g_aField[nCountField].size.z / 2));
 			pVtx[1].pos = D3DXVECTOR3(g_aField[nCountField].pos.x + (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z + (g_aField[nCountField].size.z / 2));
 			pVtx[2].pos = D3DXVECTOR3(g_aField[nCountField].pos.x - (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z - (g_aField[nCountField].size.z / 2));
