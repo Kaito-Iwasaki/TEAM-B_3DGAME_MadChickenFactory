@@ -10,7 +10,7 @@
 // ***** インクルードファイル *****
 // 
 //*********************************************************************
-#include "Camera.h"
+#include "camera.h"
 #include "input.h"
 #include "DebugProc.h"
 #include "util.h"
@@ -53,6 +53,7 @@
 // 
 //*********************************************************************
 CAMERA g_camera[CAMERATYPE_MAX];
+bool g_bIs2PEnabled = true;
 
 //=====================================================================
 // 初期化処理
@@ -88,8 +89,20 @@ void UpdateCamera(void)
 	CAMERA* pCamera = &g_camera[0];
 	Player* pPlayer = GetPlayer();
 
-	// カメラの注視点をプレイヤーに設定
-	SetCameraPosR(0, pPlayer->pos);
+	if (g_bIs2PEnabled)
+	{// ２プレイヤーカメラ
+		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
+		D3DXVECTOR3 vecP1ToP2 = pPlayer[1].pos - pPlayer[0].pos;
+		SetCameraPosR(0, pPlayer->pos + (vecP1ToP2 / 2));
+
+		// プレイヤーの距離に応じてカメラを離す
+		pCamera->fDistance = max(fabsf(vecP1ToP2.x), INIT_CAMERA_DISTANCE);
+	}
+	else
+	{// １プレイヤーカメラ
+		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
+		SetCameraPosR(0, pPlayer->pos);
+	}
 
 	// カメラの視点を設定
 	SetCameraPosVFromAngle(0);
