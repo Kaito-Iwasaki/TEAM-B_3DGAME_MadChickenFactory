@@ -158,6 +158,10 @@
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="team_logo.h" />
+    <ClInclude Include="texture.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Timer.h">
       <SubType>
       </SubType>
@@ -188,6 +192,10 @@
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="team_logo.cpp" />
+    <ClCompile Include="texture.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="timer.cpp">
       <SubType>
       </SubType>

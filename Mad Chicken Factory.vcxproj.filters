@@ -120,6 +120,9 @@
     <ClCompile Include="effect.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>ソース ファイル\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sound.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="effect.h">
       <Filter>ヘッダー ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>ヘッダー ファイル\Script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
