@@ -66,7 +66,7 @@ CAMERA g_camera[CAMERATYPE_MAX];
 //=====================================================================
 void InitCamera(void)
 {
-	ZeroMemory(&g_camera[0], sizeof(g_camera) * CAMERATYPE_MAX);
+	ZeroMemory(&g_camera[0], sizeof(g_camera));
 	g_camera[CAMERATYPE_GAME].vecU = D3DXVECTOR3_UP;
 	g_camera[CAMERATYPE_GAME].rot = INIT_CAMERA_ROT;
 	g_camera[CAMERATYPE_GAME].offset = INIT_CAMERA_OFFSET;
