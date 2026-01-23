@@ -92,7 +92,7 @@ void InitResult(void)
 	g_aResult[5].bEnter = false;
 #endif
 	//ÉeÉNÉXÉ`ÉÉÇÃì«Ç›çûÇ›
-	D3DXCreateTextureFromFile(pDevice,"data\\TEXTURE\\last.png",&g_pTextureResult[0]);		//îwåi
+	D3DXCreateTextureFromFile(pDevice,"data\\TEXTURE\\ResultTBA.jpg",&g_pTextureResult[0]);		//îwåi
 #if 0
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\1i.png", &g_pTextureResult[1]);		//1à 
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\2i.png", &g_pTextureResult[2]);		//2à 

@@ -132,27 +132,27 @@ void DrawEffect(void)
 		//位置を反映
 		D3DXMatrixTranslation(&mtxTrans, g_aEffect[nCntEffect].pos.x, g_aEffect[nCntEffect].pos.y, g_aEffect[nCntEffect].pos.z);
 
-		D3DXMatrixMultiply(&g_aEffect[nCntEffect].g_mtxWorldEffect, &g_aEffect[nCntEffect].g_mtxWorldEffect, &mtxTrans);				//後ろの二人を掛け合わせるのが前のになる
+		D3DXMatrixMultiply(&g_aEffect[nCntEffect].g_mtxWorldEffect, &g_aEffect[nCntEffect].g_mtxWorldEffect, &mtxTrans);//後ろの二人を掛け合わせるのが前のになる
+		
+		//ワールドマトリックス設定
 		pDevice->SetTransform(D3DTS_WORLD, &g_aEffect[nCntEffect].g_mtxWorldEffect);
 		//頂点バッファをデータストリームに設定
 		pDevice->SetStreamSource(0, g_pVtxBuffEffect, 0, sizeof(VERTEX_3D));		//ここのsizeof(VERTEX)には*がいらない頂点バッファの時だけ
 
 		//頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
-		//Zテスト有効
+
+
+		//zテスト有効
+		pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		//Zテストを無効
-		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		//アルファテスト有効
-		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE,TRUE);
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC,D3DCMP_GREATER);
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 201);
-		//アルファテスト無効
-		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 11);
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 128);
+		
+		
 
 		//テクスチャの設定
 		pDevice->SetTexture(0, g_pTextureEffect);
