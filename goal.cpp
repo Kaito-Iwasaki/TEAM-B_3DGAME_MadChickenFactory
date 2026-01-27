@@ -5,6 +5,7 @@
 //
 //=======================================================
 #include"goal.h"
+#include"fade.h"
 
 // マクロ定義
 #define MAX_GOAL		(1)								// ゴール数
@@ -111,6 +112,10 @@ void InitGoal(void)
 				&g_Goal.apTexture[nCntMat]);
 		}
 	}
+
+	// ブロックの幅と奥行の設定
+	SetGoalWidthAndDepth(&g_Goal, g_Goal.vtxMax, g_Goal.vtxMin);
+
 }
 
 //=======================================================
@@ -195,10 +200,128 @@ void DrawGoal(void)
 		// テクスチャ設定
 		pDevice->SetTexture(0, g_Goal.apTexture[nCntMat]);
 
-		// モデル(パーツの描画)
+		// ブロック(パーツの描画)
 		g_Goal.pMesh->DrawSubset(nCntMat);
 	}
 
 	// 保存していたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+}
+
+//=======================================================
+// ゴールとの当たり判定処理
+//=======================================================
+void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius)
+{
+	FADE pFade = GetFade();			// フェード情報取得
+
+	if (pPos->x + fRadius >= g_Goal.pos.x - g_Goal.fWidMin
+		&& pPos->x - fRadius <= g_Goal.pos.x + g_Goal.fWidMax
+		&& pPos->y + fRadius > g_Goal.pos.y + g_Goal.vtxMin.y
+		&& pPos->y - fRadius < g_Goal.pos.y + g_Goal.vtxMax.y
+		&& pPos->z + fRadius >= g_Goal.pos.z - g_Goal.fDepMin
+		&& pPos->z - fRadius <= g_Goal.pos.z + g_Goal.fDepMax)
+	{// ブロック範囲内
+
+		if (pPosOld->x - fRadius >= g_Goal.pos.x + g_Goal.fWidMax
+			&& pPos->x - fRadius < g_Goal.pos.x + g_Goal.fWidMax
+			&& pPosOld->z + fRadius > g_Goal.pos.z - g_Goal.fDepMin
+			&& pPosOld->z - fRadius < g_Goal.pos.z + g_Goal.fDepMax)
+		{// 右側にめり込んだ
+
+			pPos->x = g_Goal.pos.x + fRadius + g_Goal.fWidMax;	// ブロックの右側面に立たせる
+		}
+		else if (pPosOld->x + fRadius <= g_Goal.pos.x - g_Goal.fWidMin
+			&& pPos->x + fRadius > g_Goal.pos.x - g_Goal.fWidMin
+			&& pPosOld->z + fRadius > g_Goal.pos.z - g_Goal.fDepMin
+			&& pPosOld->z - fRadius < g_Goal.pos.z + g_Goal.fDepMax)
+		{//	左側にめり込んだ
+
+			pPos->x = g_Goal.pos.x - fRadius - g_Goal.fWidMin;	// ブロックの左側面に立たせる
+		}
+
+		if (pPosOld->z + fRadius <= g_Goal.pos.z - g_Goal.fDepMin
+			&& pPos->z + fRadius > g_Goal.pos.z - g_Goal.fDepMin
+			&& pPosOld->x + fRadius > g_Goal.pos.x - g_Goal.fWidMin
+			&& pPosOld->x - fRadius < g_Goal.pos.x + g_Goal.fWidMax)
+		{// 正面側にめり込んだ
+
+			pPos->z = g_Goal.pos.z - fRadius - g_Goal.fDepMin;	// ブロックの下側面に立たせる
+		}
+		else if (pPosOld->z - fRadius >= g_Goal.pos.z + g_Goal.fDepMax
+			&& pPos->z - fRadius < g_Goal.pos.z + g_Goal.fDepMax
+			&& pPosOld->x + fRadius > g_Goal.pos.x - g_Goal.fWidMin
+			&& pPosOld->x - fRadius < g_Goal.pos.x + g_Goal.fWidMax)
+		{// 後ろ側にめり込んだ
+
+			pPos->z = g_Goal.pos.z + fRadius + g_Goal.fDepMax;	// ブロックの上側面に立たせる
+		}
+
+		if (pFade.state == FADESTATE_NONE)
+		{// フェードの設定
+
+			SetFade(MODE_RESULT);
+		}
+	}
+}
+
+//=======================================================
+// ゴールの幅と奥行の設定
+//=======================================================
+void SetGoalWidthAndDepth(GOAL* pGoal, D3DXVECTOR3 vtxMax, D3DXVECTOR3 vtxMin)
+{
+	float rot = D3DX_PI / 2.0f;
+
+	if (pGoal->rot.y == 0.0f)
+	{// 回転無し
+
+		pGoal->fWidMax = vtxMax.x;		// 最大幅設定
+		pGoal->fWidMin = vtxMin.x;		// 最小幅設定
+		pGoal->fDepMax = vtxMax.z;		// 最大奥行設定
+		pGoal->fDepMin = vtxMin.z;		// 最少奥行設定
+	}
+	else if (pGoal->rot.y <= D3DX_PI / 2.0f && pGoal->rot.y > 0)
+	{// 90度回転
+
+		pGoal->fWidMax = vtxMax.z;		// 最大幅設定
+		pGoal->fWidMin = vtxMin.z;		// 最小幅設定
+		pGoal->fDepMax = vtxMin.x;		// 最大奥行設定
+		pGoal->fDepMin = vtxMax.x;		// 最少奥行設定
+	}
+	else if (pGoal->rot.y >= D3DX_PI / -2.0f && pGoal->rot.y < 0)
+	{// -90度回転
+
+		pGoal->fWidMax = vtxMin.z;		// 最大幅設定
+		pGoal->fWidMin = vtxMax.z;		// 最小幅設定
+		pGoal->fDepMax = vtxMax.x;		// 最大奥行設定
+		pGoal->fDepMin = vtxMin.x;		// 最少奥行設定
+	}
+	else if (pGoal->rot.y <= D3DX_PI && pGoal->rot.y > D3DX_PI / 2.0f)
+	{// 180度回転
+
+		pGoal->fWidMax = vtxMin.x;		// 最大幅設定
+		pGoal->fWidMin = vtxMax.x;		// 最小幅設定
+		pGoal->fDepMax = vtxMin.z;		// 最大奥行設定
+		pGoal->fDepMin = vtxMax.z;		// 最少奥行設定
+	}
+	// 正の数にする
+	if (pGoal->fWidMax < 0)
+	{
+		pGoal->fWidMax *= -1.0f;
+	}
+
+	if (pGoal->fWidMin < 0)
+	{
+		pGoal->fWidMin *= -1.0f;
+	}
+
+	if (pGoal->fDepMax < 0)
+	{
+		pGoal->fDepMax *= -1.0f;
+	}
+
+	if (pGoal->fDepMin < 0)
+	{
+		pGoal->fDepMin *= -1.0f;
+	}
 }

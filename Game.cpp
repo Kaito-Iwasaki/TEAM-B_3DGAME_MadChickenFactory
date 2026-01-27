@@ -29,6 +29,7 @@
 #include "model_loader.h"
 #include "saw.h"
 #include"effect.h"
+#include"goal.h"
 
 //*********************************************************************
 // 
@@ -85,6 +86,7 @@ void InitGame(void)
 	InitModel();
 	InitSaw();				//回転ノコギリ
 	InitEffect();			//エフェクト
+	InitGoal();				// ゴール
 
 	LoadScript("data\\model.txt", &modelData);
 
@@ -126,6 +128,7 @@ void UninitGame(void)
 	UninitModel();
 	UninitSaw();			//回転ノコギリ
 	UninitEffect();			//エフェクト
+	UninitGoal();			// ゴール
 }
 
 //=====================================================================
@@ -155,6 +158,7 @@ void UpdateGame(void)
 		UpdateModel();
 		UpdateSaw();			//回転ノコギリ
 		UpdateEffect();			//エフェクト
+		UpdateGoal();			// ゴール
 	}
 	else
 	{//ポーズ中
@@ -181,4 +185,5 @@ void DrawGame(void)
 	DrawModel();
 	DrawSaw();				//回転ノコギリ
 	DrawEffect();			//エフェクト
+	DrawGoal();				// ゴール
 }

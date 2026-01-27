@@ -15,6 +15,7 @@
 #include"fade.h"
 #include"util.h"
 #include"model.h"
+#include"goal.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -63,6 +64,7 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].nIdxShadow = -1;								// 対象の影のインデックス(番号)初期化
 		g_Player[nCntPlayer].bJump = false;									// ジャンプ状態初期化
 		g_Player[nCntPlayer].ModelHit = MODEL_HIT_NONE;						// 当たっていない状態にする
+		g_Player[nCntPlayer].fRadius = 10;									// 半径初期化
 	}
 
 #if 0
@@ -862,6 +864,9 @@ void UpdatePlayer(void)
 
 		// プレイヤーの移動量の設定
 		SetMove(&g_Player[nCntPlayer].move, g_Player[nCntPlayer].ModelHit);
+
+		// ゴールとの当たり判定
+		CollisionGoal(&g_Player->pos, &g_Player->posOld, &g_Player->move, g_Player->fRadius);
 		
 		// 目標の移動方向までの差分算出
 		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
