@@ -7,7 +7,7 @@
 //*********************************************************************
 typedef enum
 {
-	EFFECTTYPE_BULLET = 0,
+	EFFECTTYPE_SHADOW = 0,
 	EFFECTTYPE_MAX,
 }EFFECTTYPE;
 //=====================
@@ -21,6 +21,7 @@ typedef struct
 	EFFECTTYPE type;					//エフェクトの種類
 	int nLife;							//エフェクトの描画時間
 	bool bUse;							//エフェクトを使用しているかどうか
+	D3DCOLOR col;						//エフェクトのカラー
 }Effect;
 //=================
 //プロトタイプ宣言
@@ -29,6 +30,6 @@ void InitEffect(void);
 void UninitEffect(void);
 void UpdateEffect(void);		
 void DrawEffect(void);
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife);
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D3DCOLOR col);
 
 #endif

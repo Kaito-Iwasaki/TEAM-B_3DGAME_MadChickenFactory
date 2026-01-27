@@ -12,9 +12,9 @@
 #include"main.h"
 #include"effect.h"
 #include"input.h"
-//==========
+//==================
 //マクロ定義 
-//==========
+//==================
 #define MAX_EFFECT (512)			//エフェクトの最大数
 //==============
 //グローバル変数
@@ -22,9 +22,9 @@
 LPDIRECT3DTEXTURE9 g_pTextureEffect[EFFECTTYPE_MAX] = {};	//テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffEffect = NULL;	//頂点バッファのポインタ
 Effect g_aEffect[MAX_EFFECT];
-//==========
+//====================
 //初期化処理
-//==========
+//====================
 void InitEffect(void)
 {
 	LPDIRECT3DDEVICE9 pDevice;
@@ -37,9 +37,10 @@ void InitEffect(void)
 	{
 		g_aEffect[nCntEffect].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトの位置
 		g_aEffect[nCntEffect].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトの移動
-		g_aEffect[nCntEffect].type = EFFECTTYPE_BULLET;							//エフェクトの種類
+		g_aEffect[nCntEffect].type = EFFECTTYPE_SHADOW;							//エフェクトの種類
 		g_aEffect[nCntEffect].bUse = false;										//使用しているかどうか
 		g_aEffect[nCntEffect].nLife = 100;										//エフェクトの描画時間
+		g_aEffect[nCntEffect].col = (0.0f, 0.0f, 0.0f, 0.0f);					//エフェクトのカラー
 
 	}
 	//頂点バッファの生成
@@ -61,11 +62,11 @@ void InitEffect(void)
 		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 
-		//色の設定
-		pVtx[0].col = D3DCOLOR_RGBA(155, 255, 255, 255);
-		pVtx[1].col = D3DCOLOR_RGBA(155, 255, 255, 255);
-		pVtx[2].col = D3DCOLOR_RGBA(155, 255, 255, 255);
-		pVtx[3].col = D3DCOLOR_RGBA(155, 255, 255, 255);
+		// 頂点カラーの設定
+		pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 		//テクスチャ座標の設定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
@@ -116,7 +117,6 @@ void UpdateEffect(void)
 			//寿命のカウントダウン
 			if (g_aEffect[nCntEffect].nLife < 1)
 			{
-
 				g_aEffect[nCntEffect].bUse = false;
 			}
 		}
@@ -185,7 +185,7 @@ void DrawEffect(void)
 //===================
 //エフェクトのセット
 //===================
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife)
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D3DCOLOR col)
 {
 	VERTEX_3D* pVtx;
 	g_pVtxBuffEffect->Lock(0, 0, (void**)&pVtx, 0);
@@ -200,6 +200,8 @@ void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife)
 			g_aEffect[nCntEffect].type = type;
 
 			g_aEffect[nCntEffect].nLife = nLife;
+
+			g_aEffect[nCntEffect].col = col;
 
 			g_aEffect[nCntEffect].bUse = true;
 
