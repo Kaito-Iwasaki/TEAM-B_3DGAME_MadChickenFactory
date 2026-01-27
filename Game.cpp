@@ -68,7 +68,7 @@
 //=====================================================================
 void InitGame(void)
 {
-	SCRIPTDATA modelData;
+	MODELDATA modelData;
 
 	// 各オブジェクトの初期化処理
 	InitCamera();			// カメラ
