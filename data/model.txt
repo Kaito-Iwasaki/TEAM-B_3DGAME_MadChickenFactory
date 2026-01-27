@@ -22,7 +22,7 @@ MODEL_FILENAME = data/MODEL/chicken.x
 #
 #-----------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------
-# 
+# è∞èÓïÒ
 #-----------------------------------------------------------------------------------------------------------
 MODELSET
 	TYPE = 0		# éÌóﬁ
@@ -69,5 +69,84 @@ FIELDSET
 	BLOCK = 5 2
 	SIZE = 500 500
 END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ï«èÓïÒ
+#------------------------------------------------------------------------------
+WALLSET
+	TEXTYPE = 3
+	POS = -500 0 0
+	ROT = 0 -90 0
+	BLOCK = 2 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 750 0 500
+	ROT = 0 0 0
+	BLOCK = 5 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 2000 0 1000
+	ROT = 0 -90 0
+	BLOCK = 2 2
+	SIZE = 500 500
+END_WALLSET
+WALLSET
+	TEXTYPE = 3
+	POS = 3000 0 1500
+	ROT = 0 0 0
+	BLOCK = 4 2
+	SIZE = 500 500
+END_WALLSET
+WALLSET
+	TEXTYPE = 3
+	POS = 4000 0 1000
+	ROT = 0 90 0
+	BLOCK = 2 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 5250 0 500
+	ROT = 0 0 0
+	BLOCK = 5 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 6500 0 1000
+	ROT = 0 -90 0
+	BLOCK = 2 2
+	SIZE = 500 500
+END_WALLSET
+WALLSET
+	TEXTYPE = 3
+	POS = 7500 0 1500
+	ROT = 0 0 0
+	BLOCK = 4 2
+	SIZE = 500 500
+END_WALLSET
+WALLSET
+	TEXTYPE = 3
+	POS = 8500 0 1000
+	ROT = 0 90 0
+	BLOCK = 2 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9750 0 500
+	ROT = 0 0 0
+	BLOCK = 5 2
+	SIZE = 500 500
+END_WALLSET
 
 END_SCRIPT		# Ç±ÇÃçsÇÕê‚ëŒè¡Ç≥Ç»Ç¢Ç±Ç∆ÅI

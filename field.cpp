@@ -54,10 +54,10 @@ void InitField(void)
 		g_aField[nCountField].bUse = false;
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(g_aField[nCountField].pos.x - (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z + (g_aField[nCountField].size.z / 2));
-		pVtx[1].pos = D3DXVECTOR3(g_aField[nCountField].pos.x + (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z + (g_aField[nCountField].size.z / 2));
-		pVtx[2].pos = D3DXVECTOR3(g_aField[nCountField].pos.x - (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z - (g_aField[nCountField].size.z / 2));
-		pVtx[3].pos = D3DXVECTOR3(g_aField[nCountField].pos.x + (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z - (g_aField[nCountField].size.z / 2));
+		pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
+		pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
+		pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
+		pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
 
 		// 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -124,10 +124,10 @@ void UpdateField(void)
 	for (int nCountField = 0; nCountField < MAX_FIELD; nCountField++)
 	{
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(g_aField[nCountField].pos.x - (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z + (g_aField[nCountField].size.z / 2));
-		pVtx[1].pos = D3DXVECTOR3(g_aField[nCountField].pos.x + (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z + (g_aField[nCountField].size.z / 2));
-		pVtx[2].pos = D3DXVECTOR3(g_aField[nCountField].pos.x - (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z - (g_aField[nCountField].size.z / 2));
-		pVtx[3].pos = D3DXVECTOR3(g_aField[nCountField].pos.x + (g_aField[nCountField].size.x / 2), g_aField[nCountField].pos.y, g_aField[nCountField].pos.z - (g_aField[nCountField].size.z / 2));
+		pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
+		pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
+		pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
+		pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
 
 		fTexsizeX = g_aField[nCountField].size.x / FIELD_TEXTURE_SIZE_X;
 		fTexsizeY = g_aField[nCountField].size.z / FIELD_TEXTURE_SIZE_Y;
@@ -209,10 +209,10 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 			g_aField[nCountField].bUse = true;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, g_aField[nCountField].pos.y, +g_aField[nCountField].size.z / 2);
-			pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, g_aField[nCountField].pos.y, +g_aField[nCountField].size.z / 2);
-			pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, g_aField[nCountField].pos.y, -g_aField[nCountField].size.z / 2);
-			pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, g_aField[nCountField].pos.y, -g_aField[nCountField].size.z / 2);
+			pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
+			pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
+			pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
+			pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
 
 			fTexsizeX = g_aField[nCountField].size.x / FIELD_TEXTURE_SIZE_X;
 			fTexsizeY = g_aField[nCountField].size.z / FIELD_TEXTURE_SIZE_Y;

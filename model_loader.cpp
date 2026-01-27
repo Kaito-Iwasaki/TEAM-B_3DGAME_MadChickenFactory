@@ -109,13 +109,13 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 		if (strcmp(&aStrLine[0], "NUM_TEXTURE") == 0)
 		{// テクスチャ数読み込み
-			fscanf(pFile, " = %d", pBuffer->nNumTexture);
+			fscanf(pFile, " = %d", &pBuffer->nNumTexture);
 		}
 		else if (strcmp(&aStrLine[0], "TEXTURE_FILENAME") == 0)
 		{// テクスチャファイル名読み込み
 			if (nTextureCount < MAX_LOADABLE_TEXTURE)
 			{// 最大読み込み数まで読み込む
-				fscanf(pFile, " = %s", pBuffer->aFilenameTexture[nTextureCount][0]);
+				fscanf(pFile, " = %s", &pBuffer->aFilenameTexture[nTextureCount][0]);
 				nTextureCount++;
 			}
 		}
@@ -146,6 +146,14 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			_Read_FIELDSET(pFile, pData);
 
 			pBuffer->nCountFieldSet++;
+		}
+		else if (strcmp(&aStrLine[0], "WALLSET") == 0)
+		{// モデルセット情報読み込み
+			WALLSETDATA* pData = &pBuffer->aInfoWallSet[pBuffer->nCountWallSet];
+
+			_Read_WALLSET(pFile, pData);
+
+			pBuffer->nCountWallSet++;
 		}
 	}
 }
@@ -179,7 +187,13 @@ void _Read_MODELSET(FILE* pFile, MODELSETDATA* pBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "ROT") == 0)
 		{
-			fscanf(pFile, " = %f %f %f", &pBuffer->rot.x, &pBuffer->rot.y, &pBuffer->rot.z);
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
 		}
 		else if (strcmp(&aStrLine[0], "COLLISION") == 0)
 		{
@@ -221,7 +235,13 @@ void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "ROT") == 0)
 		{
-			fscanf(pFile, " = %f %f %f", &pBuffer->rot.x, &pBuffer->rot.y, &pBuffer->rot.z);
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
 		}
 		else if (strcmp(&aStrLine[0], "SIZE") == 0)
 		{
@@ -240,4 +260,44 @@ void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer)
 void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer)
 {
 	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_WALLSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "TEXTYPE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nType);
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
+		}
+		else if (strcmp(&aStrLine[0], "SIZE") == 0)
+		{
+			fscanf(pFile, " = %f %f", &pBuffer->size.x, &pBuffer->size.y);
+		}
+		else if (strcmp(&aStrLine[0], "BLOCK") == 0)
+		{
+			fscanf(pFile, " = %d %d", &pBuffer->nBlockX, &pBuffer->nBlockY);
+		}
+	}
 }

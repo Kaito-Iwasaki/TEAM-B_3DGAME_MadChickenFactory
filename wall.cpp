@@ -53,17 +53,16 @@ void InitWall(void)
 
 	for (int nCntWall = 0; nCntWall < MAX_WALL; nCntWall++)
 	{
-	
-			g_aWall[nCntWall].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-			g_aWall[nCntWall].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-			g_aWall[nCntWall].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-			g_aWall[nCntWall].bUse = false;
+		g_aWall[nCntWall].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aWall[nCntWall].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aWall[nCntWall].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aWall[nCntWall].bUse = false;
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x - (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y + g_aWall[nCntWall].size.y, g_aWall[nCntWall].pos.z);
-			pVtx[1].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x + (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y + g_aWall[nCntWall].size.y, g_aWall[nCntWall].pos.z);
-			pVtx[2].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x - (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y, g_aWall[nCntWall].pos.z);
-			pVtx[3].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x + (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y, g_aWall[nCntWall].pos.z);
+		pVtx[0].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
+		pVtx[1].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
+		pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
+		pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
 
 		// 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
@@ -88,8 +87,6 @@ void InitWall(void)
 	
 	// 頂点バッファをアンロックする
 	g_pVtxBuffWall->Unlock();
-
-	SetWall(D3DXVECTOR3(0.0f, 0.0f, 150.0f), D3DXVECTOR3(1500.0f, 300.0f, 0.0f), D3DXVECTOR3(0.0f, (D3DX_PI * 0.0f),0.0f));
 }
 
 //==========================
@@ -132,10 +129,10 @@ void UpdateWall(void)
 	for (int nCntWall = 0; nCntWall < MAX_WALL; nCntWall++)
 	{
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x - (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y + g_aWall[nCntWall].size.y, g_aWall[nCntWall].pos.z);
-		pVtx[1].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x + (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y + g_aWall[nCntWall].size.y, g_aWall[nCntWall].pos.z);
-		pVtx[2].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x - (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y, g_aWall[nCntWall].pos.z);
-		pVtx[3].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x + (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y, g_aWall[nCntWall].pos.z);
+		pVtx[0].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
+		pVtx[1].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
+		pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
+		pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
 
 		fTexsizeX = g_aWall[nCntWall].size.x / WALL_TEXTURE_SIZE_X;
 		fTexsizeY = g_aWall[nCntWall].size.y / WALL_TEXTURE_SIZE_Y;
@@ -221,10 +218,10 @@ void SetWall(D3DXVECTOR3 pos,D3DXVECTOR3 size,D3DXVECTOR3 rot)
 			g_aWall[nCntWall].bUse = true;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x - (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y + g_aWall[nCntWall].size.y, g_aWall[nCntWall].pos.z);
-			pVtx[1].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x + (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y + g_aWall[nCntWall].size.y, g_aWall[nCntWall].pos.z);
-			pVtx[2].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x - (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y, g_aWall[nCntWall].pos.z);
-			pVtx[3].pos = D3DXVECTOR3(g_aWall[nCntWall].pos.x + (g_aWall[nCntWall].size.x / 2), g_aWall[nCntWall].pos.y, g_aWall[nCntWall].pos.z);
+			pVtx[0].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
+			pVtx[1].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
+			pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
+			pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
 
 			fTexsizeX = g_aWall[nCntWall].size.x / WALL_TEXTURE_SIZE_X;
 			fTexsizeY = g_aWall[nCntWall].size.y / WALL_TEXTURE_SIZE_Y;
@@ -233,8 +230,6 @@ void SetWall(D3DXVECTOR3 pos,D3DXVECTOR3 size,D3DXVECTOR3 rot)
 			pVtx[1].tex = D3DXVECTOR2(fTexsizeX * 1.0f, 0.0f);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, fTexsizeY * 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(fTexsizeX * 1.0f, fTexsizeY * 1.0f);
-
-
 			
 			break;
 		}
