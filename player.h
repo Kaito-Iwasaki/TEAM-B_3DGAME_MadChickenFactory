@@ -27,6 +27,7 @@ typedef struct
 	float fAngle;											// キャラの進む方向
 	int nIdxShadow;											// 対象の影のインデックス(番号)
 	bool bJump;												// ジャンプ状態
+	byte ModelHit;											// モデルと当たった面
 	LPD3DXMESH Mesh;										// メッシュ(頂点情報)へのポインタ
 	LPD3DXBUFFER BuffMat;									// マテリアルへのポインタ
 	LPDIRECT3DTEXTURE9 Texture[MAX_PLAYERTEXTURE];			// テクスチャへのポインタ
@@ -62,6 +63,7 @@ void UninitPlayer(void);
 void UpdatePlayer(void);
 void DrawPlayer(void);
 Player* GetPlayer(void);
+void SetMove(D3DXVECTOR3 *move, byte HitModel);
 //void UpdateMotion(void);
 //void SetMosion(MOTIONTYPE motiontype, bool bBlendMotion, int nFrameBlend);
 
