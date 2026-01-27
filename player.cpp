@@ -62,6 +62,7 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].fAngle = 0.0f;									// キャラの進む方向初期化
 		g_Player[nCntPlayer].nIdxShadow = -1;								// 対象の影のインデックス(番号)初期化
 		g_Player[nCntPlayer].bJump = false;									// ジャンプ状態初期化
+		g_Player[nCntPlayer].ModelHit = MODEL_HIT_NONE;						// 当たっていない状態にする
 	}
 
 #if 0
@@ -857,8 +858,11 @@ void UpdatePlayer(void)
 		}
 
 		// モデルとの当たり判定
-		CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
+		g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
 
+		// プレイヤーの移動量の設定
+		SetMove(&g_Player[nCntPlayer].move, g_Player[nCntPlayer].ModelHit);
+		
 		// 目標の移動方向までの差分算出
 		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
 
@@ -1374,3 +1378,40 @@ void SetMosion(MOTIONTYPE motiontype, bool bBlendMotion, int nFrameBlend)
 	}
 }
 #endif
+
+//=======================================================
+// プレイヤーの移動量設定処理
+//=======================================================
+void SetMove(D3DXVECTOR3* move, byte HitModel)
+{
+	if (HitModel == MODEL_HIT_FRONT)
+	{// 正面(z方向の移動量を0にする)
+
+		move->z = 0.0f;
+	}
+	else if (HitModel == MODEL_HIT_BACK)
+	{// 後ろ(z方向の移動量を0にする)
+
+		move->z = 0.0f;
+	}
+	else if (HitModel == MODEL_HIT_RIGHT)
+	{// 右(x方向の移動量を0にする)
+
+		move->x = 0.0f;
+	}
+	else if (HitModel == MODEL_HIT_LEFT)
+	{// 左(x方向の移動量を0にする)
+
+		move->x = 0.0f;
+	}
+	else if (HitModel == MODEL_HIT_TOP)
+	{// 上(y方向の移動量を0にする)
+
+		move->y = 0.0f;
+	}
+	else if (HitModel == MODEL_HIT_BOTTOM)
+	{//下(y方向の移動量を0にする)
+
+		move->y = 0.0f;
+	}
+}
