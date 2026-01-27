@@ -1,10 +1,10 @@
 //==================================================
 //
-// 舞台照明モデル[StageLight.h]
+// 回転ノコギリ[saw.h]
 //
 //==================================================
-#ifndef _STAGELIGHT_H_
-#define _STAGELIGHT_H_
+#ifndef _SAW_H_
+#define _SAW_H_
 
 //==================================================
 //
@@ -12,13 +12,14 @@
 //
 //==================================================
 #include "main.h"
+#include "saw.h"
 
 //==================================================
 //
 //	構造体定義
 //
 //==================================================
-#define MAX_TEXTURE		(16)	//テクスチャの最大数
+#define MAX_TEXTURE		(8)	//テクスチャの最大数
 
 //==================================================
 //
@@ -29,25 +30,21 @@ typedef struct
 {
 	D3DXVECTOR3 pos;	//位置
 	D3DXVECTOR3 rot;	//角度
-	bool bUse;
-
-	LPD3DXMESH Mesh;				//メッシュ（頂点情報）へのポインタ
-	LPD3DXBUFFER BuffMat;			//マテリアルへのポインタ
-	DWORD dwNumMat;					//マテリアルの数
-	D3DXMATRIX mtxWorld;			//ワールドマトリックス
-	LPDIRECT3DTEXTURE9 Texture[MAX_TEXTURE];	//テクスチャへのポインタ
-}StageLight;
+	bool bStartup;		//起動のON/OFF
+	bool bUse;			// 使用 / 不使用
+	D3DXMATRIX mtxWorld;
+}Saw;
 
 //==================================================
 //
 //	プロトタイプ宣言
 //
 //==================================================
-void InitStageLight(void);
-void UninitStageLight(void);
-void UpdateStageLight(void);
-void DrawStageLight(void);
-void SetStageLight(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+void InitSaw(void);
+void UninitSaw(void);
+void UpdateSaw(void);
+void DrawSaw(void);
+void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
 
 #endif // !_STAGELIGHT_H_
 

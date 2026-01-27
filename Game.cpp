@@ -27,6 +27,7 @@
 #include "Timer.h"
 #include "model.h"
 #include "model_loader.h"
+#include "saw.h"
 
 //*********************************************************************
 // 
@@ -81,6 +82,7 @@ void InitGame(void)
 	InitMeshCylinder();		// メッシュシリンダー
 	InitTimer();			// タイマー
 	InitModel();
+	InitSaw();				//回転ノコギリ
 
 	LoadScript("data\\model.txt", &modelData);
 
@@ -120,6 +122,7 @@ void UninitGame(void)
 	UninitMeshCylinder();	// メッシュシリンダー
 	UninitTimer();			// タイマー
 	UninitModel();
+	UninitSaw();			//回転ノコギリ
 }
 
 //=====================================================================
@@ -147,6 +150,7 @@ void UpdateGame(void)
 		UpdateMeshCylinder();	// メッシュシリンダー
 		UpdateTimer();			// タイマー
 		UpdateModel();
+		UpdateSaw();			//回転ノコギリ
 	}
 	else
 	{//ポーズ中
@@ -171,4 +175,5 @@ void DrawGame(void)
 	DrawMeshCylinder();		// メッシュシリンダー
 	DrawTimer();			// タイマー
 	DrawModel();
+	DrawSaw();				//回転ノコギリ
 }
