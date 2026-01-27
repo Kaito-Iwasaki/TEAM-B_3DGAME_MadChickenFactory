@@ -90,7 +90,7 @@ LPDIRECT3DTEXTURE9* GetLoadedTexture(void)
 //=====================================================================
 void ReleaseLoadedTexture(void)
 {
-	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_MODEL; nCountTex)
+	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_TEXTURE; nCountTex++)
 	{
 		RELEASE(g_apTexture[nCountTex]);
 	}
