@@ -33,6 +33,8 @@ typedef struct
 	bool bStartup;		//起動のON/OFF
 	bool bUse;			// 使用 / 不使用
 	D3DXMATRIX mtxWorld;
+
+	float turnSpeed;
 }Saw;
 
 //==================================================
@@ -45,6 +47,8 @@ void UninitSaw(void);
 void UpdateSaw(void);
 void DrawSaw(void);
 void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
+void SwitchSaw(int nIdx);
+void CollisionSaw(void);
 
 #endif // !_STAGELIGHT_H_
 

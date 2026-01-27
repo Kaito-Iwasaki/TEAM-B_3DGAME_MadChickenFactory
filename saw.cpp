@@ -13,14 +13,17 @@
 #include "model.h"
 #include "input.h"
 #include "debugproc.h"
+#include "player.h"
+#include "fade.h"
 
 //==================================================
 //
 //	マクロ定義
 //
 //==================================================
-#define MAX_MODEL		(128)					//モデルの最大数
+#define MAX_SAW		(128)					//モデルの最大数
 #define SAW_MODEL_PATH	"data\\MODEL\\saw000.x"	//saw000.xへのパス
+#define MAX_SAW_SPEED	(0.2f)				//ノコギリの回転速度のMAX
 
 //==================================================
 //
@@ -34,27 +37,32 @@
 //
 //==================================================
 MESHDATA g_aSawModelData;
-Saw g_aSaw[MAX_MODEL];
+Saw g_aSaw[MAX_SAW];
 
 //==================================================
 //
-//	舞台照明の初期化
+//	回転ノコギリの初期化
 //
 //==================================================
 void InitSaw(void)
 {
-	int nNumVtx;	//頂点数
-	DWORD dwSizeFVF;//頂点フォーマットのサイズ
-	BYTE* pVtxBuff;	//頂点バッファへのポインタ
-
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
+	{
+		g_aSaw[nCntSaw].bStartup = false;
+		g_aSaw[nCntSaw].bUse = false;
+		g_aSaw[nCntSaw].pos = D3DXVECTOR3_ZERO;
+		g_aSaw[nCntSaw].rot = D3DXVECTOR3_ZERO;
+		g_aSaw[nCntSaw].turnSpeed = 0;
+	}
 
 	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
+
+	SetSaw(D3DXVECTOR3(50.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
 }
 
 //==================================================
 //
-//	舞台照明の終了処理
+//	回転ノコギリの終了処理
 //
 //==================================================
 void UninitSaw(void)
@@ -64,17 +72,43 @@ void UninitSaw(void)
 
 //==================================================
 //
-//	舞台照明の更新処理
+//	回転ノコギリの更新処理
 //
 //==================================================
 void UpdateSaw(void)
 {
-	
+	if (GetKeyboardTrigger(DIK_F3))
+	{
+		SwitchSaw(0);
+	}
+
+	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
+	{
+		if (g_aSaw[nCntSaw].bUse == true)
+		{
+			if (g_aSaw[nCntSaw].bStartup == true)
+			{//起動スイッチがON
+				//MAX_SAW_SPEEDまで速度をあげながら回転
+				g_aSaw[nCntSaw].turnSpeed += (MAX_SAW_SPEED - g_aSaw[nCntSaw].turnSpeed) * 0.005f;
+				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
+				
+			}
+			else
+			{//OFF
+				//0.0まで速度を徐々に落とす
+				g_aSaw[nCntSaw].turnSpeed += (0.0f - g_aSaw[nCntSaw].turnSpeed) * 0.02f;
+				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
+
+			}
+		}
+	}
+
+	CollisionSaw();
 }
 
 //==================================================
 //
-//	舞台照明の描画処理
+//	回転ノコギリの描画処理
 //
 //==================================================
 void DrawSaw(void)
@@ -84,7 +118,7 @@ void DrawSaw(void)
 	D3DMATERIAL9 matDef;			//現在のマテリアル保存用
 	D3DXMATERIAL* pMat;				//マテリアルデータへのポインタ
 
-	for (int nCnt = 0; nCnt < MAX_MODEL; nCnt++)
+	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
 	{
 		if (g_aSaw[nCnt].bUse == true)
 		{
@@ -127,12 +161,12 @@ void DrawSaw(void)
 }
 //==================================================
 //
-//	モデル設置処理
+//	回転ノコギリ設置処理
 //
 //==================================================
 void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 {
-	for (int nCnt = 0; nCnt < MAX_MODEL; nCnt++)
+	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
 	{
 		if (g_aSaw[nCnt].bUse == false)
 		{
@@ -143,4 +177,30 @@ void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 			break;
 		}
 	}
+}
+//==================================================
+//
+//	回転ノコギリの当たり判定
+//
+//==================================================
+void CollisionSaw(void)
+{
+	Player* pPlayer = GetPlayer();
+
+	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
+	{
+		if(CollisionModel(&pPlayer->pos, pPlayer->posOld))
+		{
+			SetFade(MODE_GAME);
+		}
+	}
+}
+//==================================================
+//
+//	回転ノコギリのスイッチを切り替え
+//
+//==================================================
+void SwitchSaw(int nIdx)
+{
+	g_aSaw[nIdx].bStartup ^= true;
 }
