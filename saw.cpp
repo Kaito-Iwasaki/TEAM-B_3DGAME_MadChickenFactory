@@ -183,17 +183,59 @@ void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 //	‰ñ“]ƒmƒRƒMƒŠ‚Ì“–‚½‚è”»’è
 //
 //==================================================
-void CollisionSaw(void)
+bool CollisionSaw(void)
 {
 	Player* pPlayer = GetPlayer();
+	bool bHitCheck = false;
 
 	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
 		{
-			
+			if ((pPlayer->pos.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x) &&
+				(pPlayer->pos.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x) &&
+				(pPlayer->pos.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y) &&
+				(pPlayer->pos.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y) &&
+				(pPlayer->pos.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z) &&
+				(pPlayer->pos.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z))
+			{
+				if (pPlayer->posOld.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x)
+				{//‰E‚©‚ç
+					pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x;
+					bHitCheck = true;
+				}
+				else if (pPlayer->posOld.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x)
+				{//¶‚©‚ç
+					pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x;
+					bHitCheck = true;
+				}
+
+				if (pPlayer->posOld.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y)
+				{//ã‚©‚ç
+					pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y;
+					bHitCheck = true;
+				}
+				else if (pPlayer->posOld.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y)
+				{//‰º‚©‚ç
+					pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y;
+					bHitCheck = true;
+				}
+
+				if (pPlayer->posOld.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z)
+				{//‰œ‚©‚ç
+					pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z;
+					bHitCheck = true;
+				}
+				else if (pPlayer->posOld.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z)
+				{//Žè‘O‚©‚ç
+					pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z;
+					bHitCheck = true;
+				}
+			}
 		}
 	}
+
+	return bHitCheck;
 }
 //==================================================
 //
