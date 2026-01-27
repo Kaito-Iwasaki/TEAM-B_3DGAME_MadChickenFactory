@@ -24,6 +24,9 @@
 #define INIT_CAMERA_ROT				D3DXVECTOR3(D3DXToRadian(-25), 0, 0)		// カメラ回転初期値
 #define INIT_CAMERA_OFFSET			D3DXVECTOR3(0, 150, 0)						// カメラオフセット初期値
 #define INIT_CAMERA_DISTANCE		(800)										// カメラ距離初期値
+#define CAMERA_PROJECTION_FOV		(45.0f)										// 最近点
+#define CAMERA_PROJECTION_MIN		(10.0f)										// 最近点
+#define CAMERA_PROJECTION_MAX		(50000.0f)									// 最遠点
 #define CAMERA_MIN_DISTANCE			(120)										// カメラ距離最小値
 #define CAMERA_MAX_DISTANCE			(2400)										// カメラ距離最大値
 #define CAMERA_ROT_X_MIN			(-(D3DX_PI/2) + 0.01f)						// カメラX軸回転最小値
@@ -189,10 +192,10 @@ void SetCamera(int nIdx)
 	// プロジェクションマトリックスを作成（透視投影行列）
 	D3DXMatrixPerspectiveFovLH(
 		&pCamera->mtxProjection,
-		D3DXToRadian(45.0f),							// 視野角
-		(float)pCamera->viewport.Width / (float)pCamera->viewport.Height,		// アスペクト比
-		10.0f,											// 最小Z値
-		5000.0f											// 最大Z値
+		D3DXToRadian(CAMERA_PROJECTION_FOV),								// 視野角
+		(float)pCamera->viewport.Width / (float)pCamera->viewport.Height,	// アスペクト比
+		CAMERA_PROJECTION_MIN,												// 最小Z値
+		CAMERA_PROJECTION_MAX												// 最大Z値
 	);
 
 	// プロジェクションマトリックスの設定
