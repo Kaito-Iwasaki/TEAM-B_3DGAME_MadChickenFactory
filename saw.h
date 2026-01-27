@@ -48,7 +48,7 @@ void UpdateSaw(void);
 void DrawSaw(void);
 void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
 void SwitchSaw(int nIdx);
-void CollisionSaw(void);
+bool CollisionSaw(void);
 
 #endif // !_STAGELIGHT_H_
 
