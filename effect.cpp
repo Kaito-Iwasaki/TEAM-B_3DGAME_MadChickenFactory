@@ -15,11 +15,11 @@
 //==========
 //マクロ定義 
 //==========
-#define MAX_EFFECT (60)			//エフェクトの最大数
+#define MAX_EFFECT (512)			//エフェクトの最大数
 //==============
 //グローバル変数
 //==============
-LPDIRECT3DTEXTURE9 g_pTextureEffect = NULL;	//テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 g_pTextureEffect[EFFECTTYPE_MAX] = {};	//テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffEffect = NULL;	//頂点バッファのポインタ
 Effect g_aEffect[MAX_EFFECT];
 //==========
@@ -32,10 +32,11 @@ void InitEffect(void)
 	pDevice = GetDevice();
 
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\explosion000.png", &g_pTextureEffect);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\shadow000.jpg", &g_pTextureEffect[0]);
 	for (int nCntEffect = 0;  nCntEffect < MAX_EFFECT;  nCntEffect++)
 	{
 		g_aEffect[nCntEffect].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトの位置
+		g_aEffect[nCntEffect].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトの移動
 		g_aEffect[nCntEffect].type = EFFECTTYPE_BULLET;							//エフェクトの種類
 		g_aEffect[nCntEffect].bUse = false;										//使用しているかどうか
 		g_aEffect[nCntEffect].nLife = 100;										//エフェクトの描画時間
@@ -48,10 +49,10 @@ void InitEffect(void)
 	for (int  nCntEffect = 0;  nCntEffect < MAX_EFFECT;  nCntEffect++)
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x -30.0f, g_aEffect[nCntEffect].pos.y +60.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 30.0f, g_aEffect[nCntEffect].pos.y+ 60.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x-30.0f, 0.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x +30.0f, 0.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x -10.0f, g_aEffect[nCntEffect].pos.y +20.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 10.0f, g_aEffect[nCntEffect].pos.y+ 20.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x-10.0f, 0.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x +10.0f, 0.0f, 0.0f);
 
 		//法線ベクトル
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -84,10 +85,10 @@ void InitEffect(void)
 void UninitEffect(void)
 {
 	//テクスチャの破棄
-	if (g_pTextureEffect != NULL)
+	if (g_pTextureEffect[0] != NULL)
 	{			
-		g_pTextureEffect->Release();
-		g_pTextureEffect = NULL;
+		g_pTextureEffect[0]->Release();
+		g_pTextureEffect[0] = NULL;
 	}		
 	if (g_pVtxBuffEffect != NULL)
 	{			
@@ -102,7 +103,25 @@ void UpdateEffect(void)
 {
 	VERTEX_3D* pVtx;
 	g_pVtxBuffEffect->Lock(0, 0, (void**)&pVtx, 0);
+	for (int nCntEffect = 0; nCntEffect < MAX_EFFECT; nCntEffect++)
+	{
+		if (g_aEffect[nCntEffect].bUse == true)
+		{
+			//エフェクトの移動
+			g_aEffect[nCntEffect].pos.x += g_aEffect[nCntEffect].move.x;
+			g_aEffect[nCntEffect].pos.y += g_aEffect[nCntEffect].move.y;
+			g_aEffect[nCntEffect].pos.z += g_aEffect[nCntEffect].move.z;
 
+			g_aEffect[nCntEffect].nLife--;
+			//寿命のカウントダウン
+			if (g_aEffect[nCntEffect].nLife < 1)
+			{
+
+				g_aEffect[nCntEffect].bUse = false;
+			}
+		}
+		pVtx += 4;
+	}
 
 	g_pVtxBuffEffect->Unlock();
 }
@@ -153,14 +172,43 @@ void DrawEffect(void)
 		pDevice->SetRenderState(D3DRS_ALPHAREF, 128);
 		
 		
+		if (g_aEffect[nCntEffect].bUse == true)
+		{
+			//テクスチャの設定
+			pDevice->SetTexture(0, g_pTextureEffect[g_aEffect[nCntEffect].type]);
 
-		//テクスチャの設定
-		pDevice->SetTexture(0, g_pTextureEffect);
-
-		//ポリゴンの描画
-		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntEffect * 4, 2);		//TRIANGLELIST,1 TRIANGLESTRIP,2は四角形
-
+			//ポリゴンの描画
+			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntEffect * 4, 2);		//TRIANGLELIST,1 TRIANGLESTRIP,2は四角形
+		}
 	}
+}
+//===================
+//エフェクトのセット
+//===================
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife)
+{
+	VERTEX_3D* pVtx;
+	g_pVtxBuffEffect->Lock(0, 0, (void**)&pVtx, 0);
+	for (int nCntEffect = 0; nCntEffect < MAX_EFFECT; nCntEffect++)
+	{
+		if (g_aEffect[nCntEffect].bUse == false)
+		{
+			g_aEffect[nCntEffect].pos = pos;
+
+			g_aEffect[nCntEffect].move = move;
+
+			g_aEffect[nCntEffect].type = type;
+
+			g_aEffect[nCntEffect].nLife = nLife;
+
+			g_aEffect[nCntEffect].bUse = true;
+
+			break;
+		}
+		pVtx += 4;
+	}
+
+	g_pVtxBuffEffect->Unlock();
 }
 
 

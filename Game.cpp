@@ -28,6 +28,7 @@
 #include "model.h"
 #include "model_loader.h"
 #include "saw.h"
+#include"effect.h"
 
 //*********************************************************************
 // 
@@ -83,6 +84,7 @@ void InitGame(void)
 	InitTimer();			// タイマー
 	InitModel();
 	InitSaw();				//回転ノコギリ
+	InitEffect();			//エフェクト
 
 	LoadScript("data\\model.txt", &modelData);
 
@@ -123,6 +125,7 @@ void UninitGame(void)
 	UninitTimer();			// タイマー
 	UninitModel();
 	UninitSaw();			//回転ノコギリ
+	UninitEffect();			//エフェクト
 }
 
 //=====================================================================
@@ -151,6 +154,7 @@ void UpdateGame(void)
 		UpdateTimer();			// タイマー
 		UpdateModel();
 		UpdateSaw();			//回転ノコギリ
+		UpdateEffect();			//エフェクト
 	}
 	else
 	{//ポーズ中
@@ -176,4 +180,5 @@ void DrawGame(void)
 	DrawTimer();			// タイマー
 	DrawModel();
 	DrawSaw();				//回転ノコギリ
+	DrawEffect();			//エフェクト
 }

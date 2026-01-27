@@ -16,6 +16,7 @@ typedef enum
 typedef struct
 {
 	D3DXVECTOR3 pos;					//エフェクトの位置
+	D3DXVECTOR3 move;					//エフェクトの移動
 	D3DXMATRIX g_mtxWorldEffect;		//ワールドマトリックス
 	EFFECTTYPE type;					//エフェクトの種類
 	int nLife;							//エフェクトの描画時間
@@ -28,6 +29,6 @@ void InitEffect(void);
 void UninitEffect(void);
 void UpdateEffect(void);		
 void DrawEffect(void);
-
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife);
 
 #endif
