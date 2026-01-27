@@ -33,6 +33,9 @@ void InitEffect(void)
 
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\shadow000.jpg", &g_pTextureEffect[0]);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\dasheffect.png", &g_pTextureEffect[1]);				//ダッシュエフェクト
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\landingeffect.png", &g_pTextureEffect[2]);			//着地エフェクト
+
 	for (int nCntEffect = 0;  nCntEffect < MAX_EFFECT;  nCntEffect++)
 	{
 		g_aEffect[nCntEffect].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトの位置
@@ -90,7 +93,17 @@ void UninitEffect(void)
 	{			
 		g_pTextureEffect[0]->Release();
 		g_pTextureEffect[0] = NULL;
-	}		
+	}	
+	if (g_pTextureEffect[1] != NULL)
+	{
+		g_pTextureEffect[1]->Release();
+		g_pTextureEffect[1] = NULL;
+	}
+	if (g_pTextureEffect[2] != NULL)
+	{
+		g_pTextureEffect[2]->Release();
+		g_pTextureEffect[2] = NULL;
+	}
 	if (g_pVtxBuffEffect != NULL)
 	{			
 		g_pVtxBuffEffect->Release();
@@ -112,6 +125,13 @@ void UpdateEffect(void)
 			g_aEffect[nCntEffect].pos.x += g_aEffect[nCntEffect].move.x;
 			g_aEffect[nCntEffect].pos.y += g_aEffect[nCntEffect].move.y;
 			g_aEffect[nCntEffect].pos.z += g_aEffect[nCntEffect].move.z;
+
+			//色の反映
+			pVtx[0].col = g_aEffect[nCntEffect].col;
+			pVtx[1].col = g_aEffect[nCntEffect].col;
+			pVtx[2].col = g_aEffect[nCntEffect].col;
+			pVtx[3].col = g_aEffect[nCntEffect].col;
+
 
 			g_aEffect[nCntEffect].nLife--;
 			//寿命のカウントダウン

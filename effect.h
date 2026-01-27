@@ -8,6 +8,8 @@
 typedef enum
 {
 	EFFECTTYPE_SHADOW = 0,
+	EFFECTTYPE_DASH,				//‘–‚Á‚½Œã‚Ì‰Œ
+	EFFECTTYPE_LANDINGE,			//’…’n‚Ì‰Œ
 	EFFECTTYPE_MAX,
 }EFFECTTYPE;
 //=====================
