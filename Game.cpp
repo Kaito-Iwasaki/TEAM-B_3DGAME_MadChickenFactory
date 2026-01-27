@@ -1,7 +1,11 @@
 //=====================================================================
 //
-// Game [Game.cpp]
-// Author : 
+// ゲーム画面 [Game.cpp]
+// Author : Kaito Iwasaki
+//			Shuhei Ida
+//			Airi Takahashi
+//			Sora Tutida
+//			Ketaro Nagate
 // 
 //=====================================================================
 
@@ -30,6 +34,7 @@
 #include "saw.h"
 #include"effect.h"
 #include"goal.h"
+#include "texture.h"
 
 //*********************************************************************
 // 
@@ -83,29 +88,48 @@ void InitGame(void)
 	InitPause();			// ポーズ
 	InitMeshCylinder();		// メッシュシリンダー
 	InitTimer();			// タイマー
-	InitModel();
-	InitSaw();				//回転ノコギリ
-	InitEffect();			//エフェクト
+	InitModel();			// モデル
+	InitSaw();				// 回転ノコギリ
+	InitEffect();			// エフェクト
 	InitGoal();				// ゴール
 
+	// スクリプトの読み込み
 	LoadScript("data\\model.txt", &modelData);
 
-	for (int i = 0; i < modelData.nNumModel; i++)
+	// モデルの読み込み・配置
+	LoadAndSetModelFromData(&modelData);
+
+	// テクスチャの読み込み
+	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_TEXTURE; nCountTex++)
 	{
-		LoadModel(&modelData.aFilenameModel[i][0], i);
+		LoadTexture(&modelData.aFilenameTexture[nCountTex][0], nCountTex);
 	}
 
-	for (int i = 0; i < modelData.nCountModelSet; i++)
+	// フィールドの設定
+	for (int nCountField = 0; nCountField < modelData.nCountFieldSet; nCountField++)
 	{
-		MODELSETDATA setData = modelData.aInfoModelSet[i];
+		FIELDSETDATA* pFieldData = &modelData.aInfoFieldSet[nCountField];
 
-		SetModel(
-			setData.nType,
-			setData.pos,
-			setData.rot
+		SetField(
+			pFieldData->pos,
+			D3DXVECTOR3(pFieldData->size.x * pFieldData->nBlockX, 0, pFieldData->size.z * pFieldData->nBlockZ),
+			pFieldData->rot
 		);
 	}
 
+	// ウォールの設定
+	for (int nCountWALL = 0; nCountWALL < modelData.nCountWallSet; nCountWALL++)
+	{
+		WALLSETDATA* pWallData = &modelData.aInfoWallSet[nCountWALL];
+
+		SetWall(
+			pWallData->pos,
+			D3DXVECTOR3(pWallData->size.x * pWallData->nBlockX, pWallData->size.y * pWallData->nBlockY, 0),
+			pWallData->rot
+		);
+	}
+
+	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
 	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
 }
@@ -125,10 +149,13 @@ void UninitGame(void)
 	UninitPause();			// ポーズ
 	UninitMeshCylinder();	// メッシュシリンダー
 	UninitTimer();			// タイマー
-	UninitModel();
-	UninitSaw();			//回転ノコギリ
-	UninitEffect();			//エフェクト
+	UninitModel();			// モデル
+	UninitSaw();			// 回転ノコギリ
+	UninitEffect();			// エフェクト
 	UninitGoal();			// ゴール
+
+	// テクスチャの解放
+	ReleaseLoadedTexture();
 }
 
 //=====================================================================
@@ -155,14 +182,14 @@ void UpdateGame(void)
 		UpdateLight();			// ライト
 		UpdateMeshCylinder();	// メッシュシリンダー
 		UpdateTimer();			// タイマー
-		UpdateModel();
-		UpdateSaw();			//回転ノコギリ
-		UpdateEffect();			//エフェクト
+		UpdateModel();			// モデル
+		UpdateSaw();			// 回転ノコギリ
+		UpdateEffect();			// エフェクト
 		UpdateGoal();			// ゴール
 	}
 	else
 	{//ポーズ中
-		UpdatePause();		//ポーズメニュー
+		UpdatePause();			// ポーズメニュー
 	}
 }
 
@@ -182,8 +209,8 @@ void DrawGame(void)
 	DrawPause();			// ポーズ
 	DrawMeshCylinder();		// メッシュシリンダー
 	DrawTimer();			// タイマー
-	DrawModel();
-	DrawSaw();				//回転ノコギリ
-	DrawEffect();			//エフェクト
+	DrawModel();			// モデル
+	DrawSaw();				// 回転ノコギリ
+	DrawEffect();			// エフェクト
 	DrawGoal();				// ゴール
 }
