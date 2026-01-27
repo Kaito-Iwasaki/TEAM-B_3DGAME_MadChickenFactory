@@ -138,6 +138,32 @@ void UpdateEffect(void)
 			if (g_aEffect[nCntEffect].nLife < 1)
 			{
 				g_aEffect[nCntEffect].bUse = false;
+
+			}
+			switch (g_aEffect[nCntEffect].type)
+			{
+			case EFFECTTYPE_SHADOW:				
+
+				break;
+			case EFFECTTYPE_DASH:				//走った後の煙
+				pVtx[0].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
+				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
+				pVtx[2].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, 0.0f, 0.0f);
+				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, 0.0f, 0.0f);
+				break;
+			case EFFECTTYPE_LANDINGE:			//着地の煙
+				pVtx[0].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
+				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
+				pVtx[2].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, 0.0f, 0.0f);
+				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, 0.0f, 0.0f);
+				//法線ベクトル
+				pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+				pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+				pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+				pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+				break;
+			default:
+				break;
 			}
 		}
 		pVtx += 4;

@@ -23,7 +23,7 @@ typedef struct
 	EFFECTTYPE type;					//エフェクトの種類
 	int nLife;							//エフェクトの描画時間
 	bool bUse;							//エフェクトを使用しているかどうか
-	D3DCOLOR col;						//エフェクトのカラー
+	D3DXCOLOR col;						//エフェクトのカラー
 }Effect;
 //=================
 //プロトタイプ宣言
