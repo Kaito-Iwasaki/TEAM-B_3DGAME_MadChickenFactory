@@ -57,7 +57,7 @@ void InitSaw(void)
 
 	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
 
-	SetSaw(D3DXVECTOR3(50.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+	SetSaw(D3DXVECTOR3(200.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
 }
 
 //==================================================
