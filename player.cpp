@@ -857,7 +857,7 @@ void UpdatePlayer(void)
 		}
 
 		// ƒ‚ƒfƒ‹‚Æ‚Ì“–‚½‚è”»’è
-		CollisionModel(&g_Player->pos, g_Player->posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
+		CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
 
 		// –Ú•W‚ÌˆÚ“®•ûŒü‚Ü‚Å‚Ì·•ªZo
 		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
