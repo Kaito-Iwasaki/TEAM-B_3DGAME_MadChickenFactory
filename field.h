@@ -9,6 +9,8 @@
 #define _FIELD_H_
 #include "main.h"
 
+#define MAX_FIELD (256)
+
 // フィールドの構造体
 typedef struct
 {

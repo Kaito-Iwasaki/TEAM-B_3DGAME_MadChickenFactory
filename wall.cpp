@@ -7,7 +7,6 @@
 #include "input.h"
 #include "wall.h"
 
-#define MAX_WALL (4)
 #define WALL_TEXTURE_SIZE_X (100)
 #define WALL_TEXTURE_SIZE_Y (100)
 
