@@ -10,6 +10,8 @@
 #define _WALL_H_
 #include "main.h"
 
+#define MAX_WALL (256)
+
 //プロトタイプ宣言
 
 void InitWall(void);

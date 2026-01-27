@@ -13,6 +13,8 @@
 // 
 //*********************************************************************
 #include "main.h"
+#include "field.h"
+#include "wall.h"
 
 //*********************************************************************
 // 
@@ -36,7 +38,30 @@ typedef struct
 	int nType;
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 rot;
+	bool bCollision;
+	bool bShadow;
 }MODELSETDATA;
+
+//*********************************************************************
+// 床配置情報構造体
+//*********************************************************************
+typedef struct
+{
+	int nType;
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 rot;
+	D3DXVECTOR3 size;
+	int nBlockX, nBlockZ;
+}FIELDSETDATA;
+
+//*********************************************************************
+// 壁配置情報構造体
+//*********************************************************************
+typedef struct
+{
+	D3DXVECTOR3 pos;
+	D3DXVECTOR2 size;
+}WALLSETDATA;
 
 //*********************************************************************
 // モデル配置情報構造体
@@ -51,25 +76,13 @@ typedef struct
 
 	int nCountModelSet;
 	MODELSETDATA aInfoModelSet[MAX_MODEL];
+
+	int nCountFieldSet;
+	FIELDSETDATA aInfoFieldSet[MAX_FIELD];
+
+	int nCountWallSet;
+	WALLSETDATA aInfoWallSet[MAX_WALL];
 }MODELDATA;
-
-//*********************************************************************
-// 床配置情報構造体
-//*********************************************************************
-typedef struct
-{
-	D3DXVECTOR3 pos;
-	D3DXVECTOR2 size;
-}FIELDSETDATA;
-
-//*********************************************************************
-// 壁配置情報構造体
-//*********************************************************************
-typedef struct
-{
-	D3DXVECTOR3 pos;
-	D3DXVECTOR2 size;
-}WALLSETDATA;
 
 //*********************************************************************
 // 

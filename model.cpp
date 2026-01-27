@@ -174,6 +174,31 @@ void SetModel(int nType, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 }
 
 //=====================================================================
+// モデル設定処理（配置情報から）
+//=====================================================================
+void SetModel(MODELSETDATA* pData)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	MODEL* pModel = &g_aModel[0];
+
+	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
+	{
+		if (pModel->bUsed == true) continue; // 使用中ならスキップ
+
+		// 構造体の初期化
+		ZeroMemory(pModel, sizeof(MODEL));
+		pModel->bUsed = true;
+		pModel->transform.pos = pData->pos;
+		pModel->transform.rot = pData->rot;
+		pModel->nType = pData->nType;
+		pModel->bCollision = pData->bCollision;
+		pModel->bShadow = pData->bShadow;
+
+		break;
+	}
+}
+
+//=====================================================================
 // モデル設定処理（モデル配置情報から）
 //=====================================================================
 void LoadAndSetModelFromData(MODELDATA* pModelData)

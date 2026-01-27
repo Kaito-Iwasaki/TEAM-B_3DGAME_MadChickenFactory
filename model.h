@@ -52,6 +52,7 @@ typedef struct
 	int nType;						// ƒ‚ƒfƒ‹”Ô†
 	bool bUsed;						// g—p’†‚©
 	bool bCollision;				// Õ“Ë”»’è
+	bool bShadow;					// ‰e
 }MODEL;
 
 typedef struct

@@ -24,6 +24,10 @@ typedef struct
 	DWORD dwNumMat;									// マテリアルの数
 	D3DXVECTOR3 vtxMax;								// 最大値
 	D3DXVECTOR3 vtxMin;								// 最小値
+	float fWidMax;									// 幅の最大値
+	float fWidMin;									// 幅の最小値
+	float fDepMax;									// 奥行の最大値
+	float fDepMin;									// 奥行の最小値
 
 }GOAL;
 
@@ -32,5 +36,8 @@ void InitGoal(void);
 void UninitGoal(void);
 void UpdateGoal(void);
 void DrawGoal(void);
+void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
+void SetGoalWidthAndDepth(GOAL* pGoal, D3DXVECTOR3 vtxMax, D3DXVECTOR3 vtxMin);
+
 
 #endif

@@ -13,6 +13,8 @@
 #include "model_loader.h"
 #include "script.h"
 #include <cassert>
+#include "model.h"
+#include "texture.h"
 
 //*********************************************************************
 // 
@@ -137,6 +139,14 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 			pBuffer->nCountModelSet++;
 		}
+		else if (strcmp(&aStrLine[0], "FIELDSET") == 0)
+		{// モデルセット情報読み込み
+			FIELDSETDATA* pData = &pBuffer->aInfoFieldSet[pBuffer->nCountFieldSet];
+
+			_Read_FIELDSET(pFile, pData);
+
+			pBuffer->nCountFieldSet++;
+		}
 	}
 }
 
@@ -171,6 +181,14 @@ void _Read_MODELSET(FILE* pFile, MODELSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %f %f %f", &pBuffer->rot.x, &pBuffer->rot.y, &pBuffer->rot.z);
 		}
+		else if (strcmp(&aStrLine[0], "COLLISION") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->bCollision);
+		}
+		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->bShadow);
+		}
 	}
 }
 
@@ -180,6 +198,40 @@ void _Read_MODELSET(FILE* pFile, MODELSETDATA* pBuffer)
 void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer)
 {
 	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_FIELDSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "TEXTYPE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nType);
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->rot.x, &pBuffer->rot.y, &pBuffer->rot.z);
+		}
+		else if (strcmp(&aStrLine[0], "SIZE") == 0)
+		{
+			fscanf(pFile, " = %f %f", &pBuffer->size.x, &pBuffer->size.z);
+		}
+		else if (strcmp(&aStrLine[0], "BLOCK") == 0)
+		{
+			fscanf(pFile, " = %d %d", &pBuffer->nBlockX, &pBuffer->nBlockZ);
+		}
+	}
 }
 
 //=====================================================================
