@@ -23,7 +23,7 @@
 //==================================================
 #define MAX_SAW		(128)					//モデルの最大数
 #define SAW_MODEL_PATH	"data\\MODEL\\saw000.x"	//saw000.xへのパス
-#define MAX_SAW_SPEED	(0.2f)				//ノコギリの回転速度のMAX
+#define MAX_SAW_SPEED	(0.15f)				//ノコギリの回転速度のMAX
 
 //==================================================
 //
@@ -57,7 +57,7 @@ void InitSaw(void)
 
 	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
 
-	SetSaw(D3DXVECTOR3(200.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+	SetSaw(D3DXVECTOR3(200.0f, 30.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
 }
 
 //==================================================
@@ -189,9 +189,9 @@ void CollisionSaw(void)
 
 	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
 	{
-		if(CollisionModel(&pPlayer->pos, pPlayer->posOld))
+		if (g_aSaw[nCntSaw].bUse == true)
 		{
-			SetFade(MODE_GAME);
+			
 		}
 	}
 }
