@@ -53,10 +53,10 @@ void InitEffect(void)
 	for (int  nCntEffect = 0;  nCntEffect < MAX_EFFECT;  nCntEffect++)
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x -10.0f, g_aEffect[nCntEffect].pos.y +20.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 10.0f, g_aEffect[nCntEffect].pos.y+ 20.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x-10.0f, 0.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x +10.0f, 0.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3( -10.0f, 20.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3( + 10.0f, 20.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(-10.0f, 0.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3( +10.0f, 0.0f, 0.0f);
 
 		//法線ベクトル
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -146,16 +146,17 @@ void UpdateEffect(void)
 
 				break;
 			case EFFECTTYPE_DASH:				//走った後の煙
-				pVtx[0].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
-				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
-				pVtx[2].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, 0.0f, 0.0f);
-				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, 0.0f, 0.0f);
+				pVtx[0].pos = D3DXVECTOR3( -15.0f,  30.0f, 0.0f);		//マトリックスでもらっているからpos指定しなくてもいい
+				pVtx[1].pos = D3DXVECTOR3( 15.0f,  30.0f, 0.0f);
+				pVtx[2].pos = D3DXVECTOR3( -15.0f, 0.0f, 0.0f);
+				pVtx[3].pos = D3DXVECTOR3( 15.0f, 0.0f, 0.0f);
+
 				break;
 			case EFFECTTYPE_LANDINGE:			//着地の煙
-				pVtx[0].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
-				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, g_aEffect[nCntEffect].pos.y + 30.0f, 0.0f);
-				pVtx[2].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x - 15.0f, 0.0f, 0.0f);
-				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].pos.x + 15.0f, 0.0f, 0.0f);
+				pVtx[0].pos = D3DXVECTOR3( - 15.0f, 30.0f, 0.0f);
+				pVtx[1].pos = D3DXVECTOR3(  15.0f,  30.0f, 0.0f);
+				pVtx[2].pos = D3DXVECTOR3( - 15.0f, 0.0f, 0.0f);
+				pVtx[3].pos = D3DXVECTOR3(  15.0f, 0.0f, 0.0f);
 				//法線ベクトル
 				pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
 				pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
@@ -207,15 +208,10 @@ void DrawEffect(void)
 		//頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
-
-		//zテスト有効
-		pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+		//zテスト無効
 		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		//アルファテスト有効
-		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 128);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+		
 		
 		
 		if (g_aEffect[nCntEffect].bUse == true)
@@ -225,13 +221,20 @@ void DrawEffect(void)
 
 			//ポリゴンの描画
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntEffect * 4, 2);		//TRIANGLELIST,1 TRIANGLESTRIP,2は四角形
+
+
 		}
+
+		//zテスト有効
+		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		
 	}
 }
 //===================
 //エフェクトのセット
 //===================
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D3DCOLOR col)
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D3DXCOLOR col)
 {
 	VERTEX_3D* pVtx;
 	g_pVtxBuffEffect->Lock(0, 0, (void**)&pVtx, 0);
@@ -255,7 +258,7 @@ void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D
 		}
 		pVtx += 4;
 	}
-
+	
 	g_pVtxBuffEffect->Unlock();
 }
 

@@ -23,6 +23,7 @@
 #include"model.h"
 #include"meshcylinder.h"
 #include"team_logo.h"
+#include"DebugProc.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -71,6 +72,7 @@ void UninitTitle(void)
 //==================
 void UpdateTitle(void)
 {
+	PrintDebugProc("タイトル画面\n");
 	UpdateCamera();					//カメラ
 	UpdateTitleLogo();				//タイトルロゴ
 	UpdateField();					//フィールド

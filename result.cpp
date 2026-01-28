@@ -18,6 +18,7 @@
 #include <stdio.h>
 //#include"ranking.h"
 #include <stdlib.h>
+#include"DebugProc.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -124,6 +125,7 @@ void UninitResult(void)
 //==================
 void UpdateResult(void)
 {
+	PrintDebugProc("リザルト画面\n");
 	//エンターキーが押されて最初の時
 	if (GetKeyboardTrigger(DIK_RETURN) == true && g_aResult[0].bEnter == false)
 	{
