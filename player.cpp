@@ -863,7 +863,7 @@ void UpdatePlayer(void)
 		g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
 
 		// プレイヤーの移動量の設定
-		SetMove(&g_Player[nCntPlayer].move, g_Player[nCntPlayer].ModelHit);
+		SetMove(&g_Player[nCntPlayer].move, g_Player[nCntPlayer].ModelHit, &g_Player[nCntPlayer].bJump);
 
 		// ゴールとの当たり判定
 		CollisionGoal(&g_Player->pos, &g_Player->posOld, &g_Player->move, g_Player->fRadius);
@@ -924,6 +924,8 @@ void DrawPlayer(void)
 
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
+		DrawPlayerShadow(nCntPlayer);
+
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&g_Player[nCntPlayer].mtxWorld);
 
@@ -1024,6 +1026,62 @@ void DrawPlayer(void)
 	pDevice->SetMaterial(&matDef);
 
 	}
+}
+//=======================================================
+// プレイヤーの影の描画処理
+//=======================================================
+void DrawPlayerShadow(int nCnt)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();			// デバイスの取得
+	D3DMATERIAL9 matDef;								// 現在のマテリアル保存
+	D3DXMATERIAL* pMat;									// マテリアルデータへのポインタ
+	D3DXMATRIX mtxShadow;								// シャドウマトリックス
+	D3DLIGHT9 light;									// ライト情報
+	D3DXVECTOR4 posLight;								// ライトの位置
+	D3DXVECTOR3 pos, normal;							// 平面上の任意の点、ベクトル
+	D3DXPLANE plane;									// 平面情報
+	D3DMATERIAL9 Mat;									// マテリアル
+	Mat.Diffuse = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);	// マテリアルカラー設定
+
+	// ライトの位置を設定
+	pDevice->GetLight(0, &light);
+	posLight = D3DXVECTOR4(-0.2f, 0.8f, -0.4f, 0.0f);
+
+	// 平面情報を生成
+	pos = D3DXVECTOR3(0.0f, 0.7f, 0.0f);
+	normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	D3DXPlaneFromPointNormal(&plane, &pos, &normal);
+
+	// シャドウマトリックスの初期化
+	D3DXMatrixIdentity(&mtxShadow);
+
+	// シャドウマトリックスの作成
+	D3DXMatrixShadow(&mtxShadow, &posLight, &plane);
+	D3DXMatrixMultiply(&mtxShadow, &g_Player[nCnt].mtxWorld, &mtxShadow);
+
+	// シャドウマトリックスをワールドマトリックスに設定
+	pDevice->SetTransform(D3DTS_WORLD, &mtxShadow);
+
+	// 現在のマテリアルを取得
+	pDevice->GetMaterial(&matDef);
+
+	// マテリアルデータへのポインタを取得
+	pMat = (D3DXMATERIAL*)g_Player[nCnt].BuffMat->GetBufferPointer();
+
+	for (int nCntMat = 0; nCntMat < (int)g_Player[nCnt].dwNumMat; nCntMat++)
+	{
+		// マテリアルの設定
+		pDevice->SetMaterial(&Mat);
+
+		// テクスチャ設定
+		pDevice->SetTexture(0, NULL);
+
+		// モデル(パーツの描画)
+		g_Player[nCnt].Mesh->DrawSubset(nCntMat);
+	}
+
+	// 保存していたマテリアルを戻す
+	pDevice->SetMaterial(&matDef);
 }
 
 //=======================================================
@@ -1387,7 +1445,7 @@ void SetMosion(MOTIONTYPE motiontype, bool bBlendMotion, int nFrameBlend)
 //=======================================================
 // プレイヤーの移動量設定処理
 //=======================================================
-void SetMove(D3DXVECTOR3* move, byte HitModel)
+void SetMove(D3DXVECTOR3* move, byte HitModel, bool *pbjump)
 {
 	if (HitModel == MODEL_HIT_FRONT)
 	{// 正面(z方向の移動量を0にする)
@@ -1413,6 +1471,7 @@ void SetMove(D3DXVECTOR3* move, byte HitModel)
 	{// 上(y方向の移動量を0にする)
 
 		move->y = 0.0f;
+		*pbjump = false;
 	}
 	else if (HitModel == MODEL_HIT_BOTTOM)
 	{//下(y方向の移動量を0にする)

@@ -62,8 +62,9 @@ void InitPlayer(void);
 void UninitPlayer(void);
 void UpdatePlayer(void);
 void DrawPlayer(void);
+void DrawPlayerShadow(int nCnt);
 Player* GetPlayer(void);
-void SetMove(D3DXVECTOR3 *move, byte HitModel);
+void SetMove(D3DXVECTOR3* move, byte HitModel, bool *pbjump);
 //void UpdateMotion(void);
 //void SetMosion(MOTIONTYPE motiontype, bool bBlendMotion, int nFrameBlend);
 
