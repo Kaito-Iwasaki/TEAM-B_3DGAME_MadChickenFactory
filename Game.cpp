@@ -96,7 +96,7 @@ void InitGame(void)
 	InitPress();			// プレス機
 
 	// スクリプトの読み込み
-	LoadScript("data\\model.txt", &modelData);
+	LoadScript("data\\model_factory.txt", &modelData);
 
 	// モデルの読み込み・配置
 	LoadAndSetModelFromData(&modelData);
