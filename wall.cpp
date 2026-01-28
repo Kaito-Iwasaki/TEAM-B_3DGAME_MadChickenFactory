@@ -7,6 +7,7 @@
 #include "input.h"
 #include "wall.h"
 
+// マクロ定義
 #define WALL_TEXTURE_SIZE_X (100)
 #define WALL_TEXTURE_SIZE_Y (100)
 
@@ -20,7 +21,7 @@ typedef struct
 	bool bUse;
 } Wall;
 
-
+// グローバル変数
 LPDIRECT3DTEXTURE9 g_apTextureWall[MAX_WALL] = {};				// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffWall = NULL;			// 頂点バッファへのポインタ
 Wall g_aWall[MAX_WALL];

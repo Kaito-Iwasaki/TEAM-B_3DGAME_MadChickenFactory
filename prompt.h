@@ -1,6 +1,6 @@
 //===================================
 // 
-//  ビルボード処理　[billboard.h]
+//  プロンプト処理　[prompt.h]
 //  Author shuuhei Ida
 //
 //===================================
@@ -11,12 +11,12 @@
 
 //プロトタイプ宣言
 
-void InitBillboard(void);
+void InitPrompt(void);
 
-void UninitBillboard(void);
+void UninitPrompt(void);
 
-void UpdateBillboard(void);
+void UpdatePrompt(void);
 
-void DrawBillboard(void);
+void DrawPrompt(void);
 
 #endif // !_BILLBOAD_H_

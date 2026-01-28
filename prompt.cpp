@@ -1,22 +1,27 @@
 //===================================
 // 
-//  ビルボード処理　[billboard.cpp]
+//  プロンプト処理　[prompt.cpp]
 //  Author shuuhei Ida
 //
 //===================================
 
 #include "input.h"
-#include "billboard.h"
+#include "prompt.h"
 
-LPDIRECT3DTEXTURE9 g_pTextureBillboard = NULL;				// テクスチャへのポインタ
-LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffBillboard = NULL;			// 頂点バッファへのポインタ
-D3DXVECTOR3 g_posBillboard;
-D3DXMATRIX g_mtxWorldBillboard;								//	ワールドマトリックス
+// マクロ定義
+
+// プロンプト構造体
+
+// グローバル変数
+LPDIRECT3DTEXTURE9 g_pTexturePrompt = NULL;				// テクスチャへのポインタ
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffPrompt = NULL;			// 頂点バッファへのポインタ
+D3DXVECTOR3 g_posPrompt;
+D3DXMATRIX g_mtxWorldPrompt;								//	ワールドマトリックス
 
 //=========================
 // ビルボードの初期化処理
 //=========================
-void InitBillboard(void)
+void InitPrompt(void)
 {
 	LPDIRECT3DDEVICE9 pDevice ;				// デバイスへのポインタ
 
@@ -24,28 +29,28 @@ void InitBillboard(void)
 	pDevice = GetDevice();
 
 	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\ski001.jpg", &g_pTextureBillboard);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\ski001.jpg", &g_pTexturePrompt);
 
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4,
 		D3DUSAGE_WRITEONLY,
 		FVF_VERTEX_3D,
 		D3DPOOL_MANAGED,
-		&g_pVtxBuffBillboard,
+		&g_pVtxBuffPrompt,
 		NULL);
 
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 
 	// 頂点バッファをロックし、頂点情報へのポインタを取得
-	g_pVtxBuffBillboard->Lock(0, 0, (void**)&pVtx, 0);
+	g_pVtxBuffPrompt->Lock(0, 0, (void**)&pVtx, 0);
 
-	g_posBillboard = D3DXVECTOR3(0.0f, 0.0f, -100.0f);
+	g_posPrompt = D3DXVECTOR3(0.0f, 0.0f, -100.0f);
 
 	// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-	pVtx[0].pos = D3DXVECTOR3(g_posBillboard.x - 100.0f, g_posBillboard.y + 100.0f, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(g_posBillboard.x + 100.0f, g_posBillboard.y + 100.0f, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(g_posBillboard.x - 100.0f, g_posBillboard.y - 100.0f, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(g_posBillboard.x + 100.0f, g_posBillboard.y - 100.0f, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(g_posPrompt.x - 100.0f, g_posPrompt.y + 100.0f, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(g_posPrompt.x + 100.0f, g_posPrompt.y + 100.0f, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(g_posPrompt.x - 100.0f, g_posPrompt.y - 100.0f, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(g_posPrompt.x + 100.0f, g_posPrompt.y - 100.0f, 0.0f);
 
 	// 法線ベクトルの設定
 	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -66,33 +71,33 @@ void InitBillboard(void)
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 	// 頂点バッファをアンロックする
-	g_pVtxBuffBillboard->Unlock();
+	g_pVtxBuffPrompt->Unlock();
 }
 
 //======================
 // ビルボードの終了処理
 //======================
-void UninitBillboard(void)
+void UninitPrompt(void)
 {
 	// テクスチャの破棄
-	if (g_pTextureBillboard != NULL)
+	if (g_pTexturePrompt != NULL)
 	{
-		g_pTextureBillboard->Release();
-		g_pTextureBillboard = NULL;
+		g_pTexturePrompt->Release();
+		g_pTexturePrompt = NULL;
 	}
 	// 頂点バッファの破棄
-	if (g_pVtxBuffBillboard != NULL)
+	if (g_pVtxBuffPrompt != NULL)
 	{
-		g_pVtxBuffBillboard->Release();
+		g_pVtxBuffPrompt->Release();
 
-		g_pVtxBuffBillboard = NULL;
+		g_pVtxBuffPrompt = NULL;
 	}
 }
 
 //======================
 // ビルボードの更新処理
 //======================
-void UpdateBillboard(void)
+void UpdatePrompt(void)
 {
 
 }
@@ -100,7 +105,7 @@ void UpdateBillboard(void)
 //======================
 // ビルボードの描画処理
 //======================
-void DrawBillboard(void)
+void DrawPrompt(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();				// デバイスへのポインタ
 	D3DXMATRIX mtxTrans;
@@ -108,27 +113,27 @@ void DrawBillboard(void)
 
 
 	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&g_mtxWorldBillboard);
+	D3DXMatrixIdentity(&g_mtxWorldPrompt);
 
 	// ビューマトリックスを取得
 	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 	
 	// ポリゴンをカメラに対して正面を向ける
-	D3DXMatrixInverse(&g_mtxWorldBillboard, NULL, &mtxView); // 逆行列を求める
-	g_mtxWorldBillboard._41 = 0.0f;
-	g_mtxWorldBillboard._42 = 0.0f;
-	g_mtxWorldBillboard._43 = 0.0f;
+	D3DXMatrixInverse(&g_mtxWorldPrompt, NULL, &mtxView); // 逆行列を求める
+	g_mtxWorldPrompt._41 = 0.0f;
+	g_mtxWorldPrompt._42 = 0.0f;
+	g_mtxWorldPrompt._43 = 0.0f;
 
 	// 位置を反映
-	D3DXMatrixTranslation(&mtxTrans, g_posBillboard.x, g_posBillboard.y, g_posBillboard.z);
+	D3DXMatrixTranslation(&mtxTrans, g_posPrompt.x, g_posPrompt.y, g_posPrompt.z);
 	
-	D3DXMatrixMultiply(&g_mtxWorldBillboard, &g_mtxWorldBillboard, &mtxTrans);
+	D3DXMatrixMultiply(&g_mtxWorldPrompt, &g_mtxWorldPrompt, &mtxTrans);
 
 	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldBillboard);
+	pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldPrompt);
 
 	// 頂点バッファをデータストリームに設定
-	pDevice->SetStreamSource(0, g_pVtxBuffBillboard, 0, sizeof(VERTEX_3D));
+	pDevice->SetStreamSource(0, g_pVtxBuffPrompt, 0, sizeof(VERTEX_3D));
 
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_3D);
@@ -143,7 +148,7 @@ void DrawBillboard(void)
 	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	// テクスチャの設定
-	pDevice->SetTexture(0, g_pTextureBillboard);
+	pDevice->SetTexture(0, g_pTexturePrompt);
 
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
