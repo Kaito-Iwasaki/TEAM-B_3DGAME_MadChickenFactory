@@ -35,6 +35,7 @@
 #include"effect.h"
 #include"goal.h"
 #include "texture.h"
+#include "press.h"
 
 //*********************************************************************
 // 
@@ -92,6 +93,7 @@ void InitGame(void)
 	InitSaw();				// 回転ノコギリ
 	InitEffect();			// エフェクト
 	InitGoal();				// ゴール
+	InitPress();			// プレス機
 
 	// スクリプトの読み込み
 	LoadScript("data\\model.txt", &modelData);
@@ -153,6 +155,7 @@ void UninitGame(void)
 	UninitSaw();			// 回転ノコギリ
 	UninitEffect();			// エフェクト
 	UninitGoal();			// ゴール
+	UninitPress();			// プレス機
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -186,6 +189,8 @@ void UpdateGame(void)
 		UpdateSaw();			// 回転ノコギリ
 		UpdateEffect();			// エフェクト
 		UpdateGoal();			// ゴール
+		UpdatePress();			// プレス機
+
 	}
 	else
 	{//ポーズ中
@@ -213,4 +218,5 @@ void DrawGame(void)
 	DrawSaw();				// 回転ノコギリ
 	DrawEffect();			// エフェクト
 	DrawGoal();				// ゴール
+	DrawPress();			// プレス機
 }
