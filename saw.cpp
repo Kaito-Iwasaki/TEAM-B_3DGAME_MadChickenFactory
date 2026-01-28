@@ -235,6 +235,11 @@ bool CollisionSaw(void)
 		}
 	}
 
+	if (bHitCheck == true)
+	{
+		SetFade(MODE_GAME);
+	}
+
 	return bHitCheck;
 }
 //==================================================
