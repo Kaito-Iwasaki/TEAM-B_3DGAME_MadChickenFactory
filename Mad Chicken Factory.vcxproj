@@ -154,6 +154,7 @@
     <ClInclude Include="model_loader.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="prompt.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="saw.h" />
     <ClInclude Include="script.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="model_loader.cpp" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="prompt.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="saw.cpp" />
     <ClCompile Include="script.cpp" />
