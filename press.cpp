@@ -23,8 +23,10 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_PRESS (128)		//プレス機の最大数
+#define MAX_PRESS (128)				//プレス機の最大数
 #define PRESS_MODEL_PATH	"data\\MODEL\\chicken.x"	//プレス機のモデルへのパス
+#define DESCENTSPEED	(10.0f)		//プレス機の下降速度
+#define DESCENT_LIMIT	(150.0f)	//プレス機の下降限界
 
 //*********************************************************************
 // 
@@ -65,12 +67,14 @@ void InitPress(void)
 		g_aPress[nCntPress].bStartup = false;
 		g_aPress[nCntPress].bUse = false;
 		g_aPress[nCntPress].pos = D3DXVECTOR3_ZERO;
+		g_aPress[nCntPress].Setpos = D3DXVECTOR3_ZERO;
+		g_aPress[nCntPress].interval = 0;
 		g_aPress[nCntPress].rot = D3DXVECTOR3_ZERO;
-		g_aPress[nCntPress].fInterval = 0;
+		g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
 	}
 
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
-	SetPress(D3DXVECTOR3(200.0f, 0.0f, 0.0f), D3DXVECTOR3_ZERO, 0);
+	SetPress(D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, 60,true);
 }
 
 //=====================================================================
@@ -86,7 +90,46 @@ void UninitPress(void)
 //=====================================================================
 void UpdatePress(void)
 {
+	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
+	{
+		if (g_aPress[nCntPress].bUse == true)
+		{//使用時
+			if (GetKeyboardTrigger(DIK_F3))
+			{
+				g_aPress[nCntPress].bStartup ^= true;
+			}
 
+			if (g_aPress[nCntPress].bStartup == true)
+			{//起動時
+
+				if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
+				{//下降
+					g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
+					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
+					{//一定範囲まで落下しきったら切り替え
+						g_aPress[nCntPress].PState = PRESSSTATE_UP;
+					}
+				}
+				else if(g_aPress[nCntPress].PState == PRESSSTATE_UP)
+				{//上昇
+					g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
+					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
+					{//一定範囲まで上昇しきったら切り替え
+						g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+					}
+				}
+				else if (g_aPress[nCntPress].PState == PRESSSTATE_STAY)
+				{//待機
+					g_aPress[nCntPress].intervalCnt++;
+					if ((g_aPress[nCntPress].intervalCnt >= g_aPress[nCntPress].interval) == true)
+					{//設定間隔が経過
+						g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
+						g_aPress[nCntPress].intervalCnt = 0;
+					}
+				}
+			}
+		}
+	}
 }
 
 //=====================================================================
@@ -145,15 +188,18 @@ void DrawPress(void)
 //	プレス機設置処理
 //
 //==================================================
-void SetPress(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool Interval)
-{
+void SetPress(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval,bool startup)
+{//位置、角度、下降速度、起動するかの選択
+
 	for (int nCnt = 0; nCnt < MAX_PRESS; nCnt++)
 	{
 		if (g_aPress[nCnt].bUse == false)
 		{
-			g_aPress[nCnt].bStartup = Interval;
+			g_aPress[nCnt].bStartup = startup;
 			g_aPress[nCnt].bUse = true;
 			g_aPress[nCnt].pos = pos;
+			g_aPress[nCnt].Setpos = pos;
+			g_aPress[nCnt].interval = interval;
 			g_aPress[nCnt].rot = rot;
 			break;
 		}
