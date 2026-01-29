@@ -7,7 +7,7 @@
 //*********************************************************************
 typedef enum
 {
-	EFFECTTYPE_SHADOW = 0,
+	EFFECTTYPE_NOMALE = 0,
 	EFFECTTYPE_DASH,				//走った後の煙
 	EFFECTTYPE_LANDINGE,			//着地の煙
 	EFFECTTYPE_MAX,
@@ -24,6 +24,7 @@ typedef struct
 	int nLife;							//エフェクトの描画時間
 	bool bUse;							//エフェクトを使用しているかどうか
 	D3DXCOLOR col;						//エフェクトのカラー
+	int Frame;							//エフェクトの制限
 }Effect;
 //=================
 //プロトタイプ宣言
