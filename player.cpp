@@ -8,7 +8,7 @@
 #include"input.h"
 #include"camera.h"
 #include"shadow.h"
-//#include"debugproc.h"
+#include"debugproc.h"
 #include"stdio.h"
 #include"game.h"
 #include"sound.h"
@@ -924,6 +924,7 @@ void DrawPlayer(void)
 
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
+		// プレイヤーの影の描画
 		DrawPlayerShadow(nCntPlayer);
 
 		// ワールドマトリックスの初期化
