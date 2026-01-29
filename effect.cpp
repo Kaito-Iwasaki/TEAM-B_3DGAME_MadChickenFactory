@@ -40,10 +40,11 @@ void InitEffect(void)
 	{
 		g_aEffect[nCntEffect].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトの位置
 		g_aEffect[nCntEffect].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトの移動
-		g_aEffect[nCntEffect].type = EFFECTTYPE_SHADOW;							//エフェクトの種類
+		g_aEffect[nCntEffect].type = EFFECTTYPE_NOMALE;							//エフェクトの種類
 		g_aEffect[nCntEffect].bUse = false;										//使用しているかどうか
 		g_aEffect[nCntEffect].nLife = 100;										//エフェクトの描画時間
 		g_aEffect[nCntEffect].col = (0.0f, 0.0f, 0.0f, 0.0f);					//エフェクトのカラー
+		g_aEffect[nCntEffect].Frame = 10;										//エフェクトの制限
 
 	}
 	//頂点バッファの生成
@@ -54,9 +55,9 @@ void InitEffect(void)
 	{
 		//頂点座標の設定
 		pVtx[0].pos = D3DXVECTOR3( -10.0f, 20.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3( + 10.0f, 20.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(10.0f, 20.0f, 0.0f);
 		pVtx[2].pos = D3DXVECTOR3(-10.0f, 0.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3( +10.0f, 0.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
 
 		//法線ベクトル
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -121,51 +122,67 @@ void UpdateEffect(void)
 	{
 		if (g_aEffect[nCntEffect].bUse == true)
 		{
-			//エフェクトの移動
-			g_aEffect[nCntEffect].pos.x += g_aEffect[nCntEffect].move.x;
-			g_aEffect[nCntEffect].pos.y += g_aEffect[nCntEffect].move.y;
-			g_aEffect[nCntEffect].pos.z += g_aEffect[nCntEffect].move.z;
+		
+				//エフェクトの移動
+				g_aEffect[nCntEffect].pos.x += g_aEffect[nCntEffect].move.x;
+				g_aEffect[nCntEffect].pos.y += g_aEffect[nCntEffect].move.y;
+				g_aEffect[nCntEffect].pos.z += g_aEffect[nCntEffect].move.z;
 
-			//色の反映
-			pVtx[0].col = g_aEffect[nCntEffect].col;
-			pVtx[1].col = g_aEffect[nCntEffect].col;
-			pVtx[2].col = g_aEffect[nCntEffect].col;
-			pVtx[3].col = g_aEffect[nCntEffect].col;
+				//色の反映
+				pVtx[0].col = g_aEffect[nCntEffect].col;
+				pVtx[1].col = g_aEffect[nCntEffect].col;
+				pVtx[2].col = g_aEffect[nCntEffect].col;
+				pVtx[3].col = g_aEffect[nCntEffect].col;
+				/*if (GetKeyboardPress(DIK_D) == true)
+				{
+					Player* pPlayer = GetPlayer();
+					SetEffect(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y, pPlayer->pos.z), D3DXVECTOR3(0.0f, 0.0f, 0.0f), EFFECTTYPE_DASH, 100, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+				}*/
 
+				g_aEffect[nCntEffect].nLife--;
+				//寿命のカウントダウン
+				if (g_aEffect[nCntEffect].nLife < 1)
+				{
+					g_aEffect[nCntEffect].bUse = false;
 
-			g_aEffect[nCntEffect].nLife--;
-			//寿命のカウントダウン
-			if (g_aEffect[nCntEffect].nLife < 1)
-			{
-				g_aEffect[nCntEffect].bUse = false;
+				}
+				g_aEffect[nCntEffect].Frame--;
+				if (g_aEffect[nCntEffect].Frame < 1)
+				{
 
-			}
-			switch (g_aEffect[nCntEffect].type)
-			{
-			case EFFECTTYPE_SHADOW:				
+					if (g_aEffect[nCntEffect].type == EFFECTTYPE_DASH)
+					{
+						g_aEffect[nCntEffect].Frame = 20;
+					}
+				}
+				switch (g_aEffect[nCntEffect].type)
+				{
+				case EFFECTTYPE_NOMALE:
 
-				break;
-			case EFFECTTYPE_DASH:				//走った後の煙
-				pVtx[0].pos = D3DXVECTOR3( -15.0f,  30.0f, 0.0f);		//マトリックスでもらっているからpos指定しなくてもいい
-				pVtx[1].pos = D3DXVECTOR3( 15.0f,  30.0f, 0.0f);
-				pVtx[2].pos = D3DXVECTOR3( -15.0f, 0.0f, 0.0f);
-				pVtx[3].pos = D3DXVECTOR3( 15.0f, 0.0f, 0.0f);
-
-				break;
-			case EFFECTTYPE_LANDINGE:			//着地の煙
-				pVtx[0].pos = D3DXVECTOR3( - 15.0f, 30.0f, 0.0f);
-				pVtx[1].pos = D3DXVECTOR3(  15.0f,  30.0f, 0.0f);
-				pVtx[2].pos = D3DXVECTOR3( - 15.0f, 0.0f, 0.0f);
-				pVtx[3].pos = D3DXVECTOR3(  15.0f, 0.0f, 0.0f);
-				//法線ベクトル
-				pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
-				pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
-				pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
-				pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
-				break;
-			default:
-				break;
-			}
+					break;
+				case EFFECTTYPE_DASH:				//走った後の煙
+				
+					pVtx[0].pos = D3DXVECTOR3(-30.0f, 60.0f, 0.0f);		//マトリックスでもらっているからpos指定しなくてもいい
+					pVtx[1].pos = D3DXVECTOR3(30.0f, 60.0f, 0.0f);
+					pVtx[2].pos = D3DXVECTOR3(-30.0f, 0.0f, 0.0f);
+					pVtx[3].pos = D3DXVECTOR3(30.0f, 0.0f, 0.0f);
+					
+					break;
+				case EFFECTTYPE_LANDINGE:			//着地の煙
+					pVtx[0].pos = D3DXVECTOR3(-15.0f, 30.0f, 0.0f);
+					pVtx[1].pos = D3DXVECTOR3(15.0f, 30.0f, 0.0f);
+					pVtx[2].pos = D3DXVECTOR3(-15.0f, 0.0f, 0.0f);
+					pVtx[3].pos = D3DXVECTOR3(15.0f, 0.0f, 0.0f);
+					//法線ベクトル
+					pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+					pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+					pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+					pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+					break;
+				default:
+					break;
+				}
+			
 		}
 		pVtx += 4;
 	}
@@ -242,19 +259,21 @@ void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D
 	{
 		if (g_aEffect[nCntEffect].bUse == false)
 		{
-			g_aEffect[nCntEffect].pos = pos;
+			
+				g_aEffect[nCntEffect].pos = pos;
 
-			g_aEffect[nCntEffect].move = move;
+				g_aEffect[nCntEffect].move = move;
 
-			g_aEffect[nCntEffect].type = type;
+				g_aEffect[nCntEffect].type = type;
 
-			g_aEffect[nCntEffect].nLife = nLife;
+				g_aEffect[nCntEffect].nLife = nLife;
 
-			g_aEffect[nCntEffect].col = col;
+				g_aEffect[nCntEffect].col = col;
 
-			g_aEffect[nCntEffect].bUse = true;
+				g_aEffect[nCntEffect].bUse = true;
 
-			break;
+				break;
+			
 		}
 		pVtx += 4;
 	}

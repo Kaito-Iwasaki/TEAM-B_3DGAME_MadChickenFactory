@@ -8,8 +8,8 @@
 #include "wall.h"
 
 // マクロ定義
-#define WALL_TEXTURE_SIZE_X (100)
-#define WALL_TEXTURE_SIZE_Y (100)
+#define WALL_TEXTURE_SIZE_X (300.0f)
+#define WALL_TEXTURE_SIZE_Y (300.0f)
 
 // 壁の構造体
 typedef struct
