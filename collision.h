@@ -40,6 +40,7 @@
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-
+bool CollisionPointBox(D3DXVECTOR3 posA, D3DXVECTOR3 posB, D3DXVECTOR3 sizeB);
+bool CollisionPointBox(D3DXVECTOR3 posA, D3DXVECTOR3 posB, D3DXVECTOR3 boxMin, D3DXVECTOR3 boxMax);
 
 #endif

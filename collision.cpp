@@ -45,3 +45,47 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
+
+//=====================================================================
+// 衝突判定処理（点と立方体）
+// 点posAがposBとsizeBで作られる立方体の内にあるか判定します。
+// posA  : 点
+// posB  : 立方体の位置
+// sizeB : 立方体のサイズ
+//=====================================================================
+bool CollisionPointBox(D3DXVECTOR3 posA, D3DXVECTOR3 posB, D3DXVECTOR3 sizeB)
+{
+	if (posA.x >= posB.x + sizeB.x * 0.5f &&
+		posA.x <= posB.x - sizeB.x * 0.5f &&
+		posA.y >= posB.y + sizeB.y * 0.5f &&
+		posA.y <= posB.y - sizeB.y * 0.5f &&
+		posA.z >= posB.z + sizeB.z * 0.5f &&
+		posA.z <= posB.z - sizeB.z * 0.5f)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+//=====================================================================
+// 衝突判定処理（点と立方体）
+// 点posAがposBとboxMin、boxMaxで作られる立方体の内にあるか判定します。
+// posA : 点
+// posB : 立方体の位置
+// boxMin・boxMax : 立方体の最小・最大頂点位置
+//=====================================================================
+bool CollisionPointBox(D3DXVECTOR3 posA, D3DXVECTOR3 posB, D3DXVECTOR3 boxMin, D3DXVECTOR3 boxMax)
+{
+	if (posA.x >= posB.x + boxMin.x &&
+		posA.x <= posB.x + boxMax.x &&
+		posA.y >= posB.y + boxMin.y &&
+		posA.y <= posB.y + boxMax.y &&
+		posA.z >= posB.z + boxMin.z &&
+		posA.z <= posB.z + boxMax.z)
+	{
+		return true;
+	}
+
+	return false;
+}
