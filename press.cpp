@@ -76,7 +76,7 @@ void InitPress(void)
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
 	SetPress(0,D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
 	SetPress(0, D3DXVECTOR3(150.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
-	SetPress(1, D3DXVECTOR3(200.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
+	SetPress(1, D3DXVECTOR3(200.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, 60);
 }
 
 //=====================================================================
