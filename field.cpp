@@ -10,8 +10,8 @@
 
 // マクロ定義
 #define FIELD_TXT_PASS "data\\TEXTURE\\field000.jpg"
-#define FIELD_TEXTURE_SIZE_X (100.0f)
-#define FIELD_TEXTURE_SIZE_Y (100.0f)
+#define FIELD_TEXTURE_SIZE_X (300.0f)
+#define FIELD_TEXTURE_SIZE_Y (300.0f)
 
 // グローバル変数
 LPDIRECT3DTEXTURE9 g_pTextureField = NULL;							// テクスチャへのポインタ
