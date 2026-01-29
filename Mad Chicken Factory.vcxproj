@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="box_movable.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision.h">
       <SubType>
@@ -187,6 +188,7 @@
     <ClInclude Include="wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="box_movable.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision.cpp">
       <SubType>
