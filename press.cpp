@@ -70,11 +70,13 @@ void InitPress(void)
 		g_aPress[nCntPress].Setpos = D3DXVECTOR3_ZERO;
 		g_aPress[nCntPress].interval = 0;
 		g_aPress[nCntPress].rot = D3DXVECTOR3_ZERO;
-		g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
+		g_aPress[nCntPress].PState = PRESSSTATE_STAY;
 	}
 
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
-	SetPress(D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, 60,true);
+	SetPress(0,D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
+	SetPress(0, D3DXVECTOR3(150.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
+	SetPress(1, D3DXVECTOR3(200.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
 }
 
 //=====================================================================
@@ -90,43 +92,66 @@ void UninitPress(void)
 //=====================================================================
 void UpdatePress(void)
 {
+	if (GetKeyboardTrigger(DIK_F3))
+	{
+		PressMachineSwitch(0);
+	}
+
 	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
 	{
 		if (g_aPress[nCntPress].bUse == true)
 		{//使用時
-			if (GetKeyboardTrigger(DIK_F3))
-			{
-				g_aPress[nCntPress].bStartup ^= true;
+			if (g_aPress[nCntPress].interval > 0)
+			{//自動操縦
+				if (g_aPress[nCntPress].bStartup == true)
+				{//起動時
+
+					if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
+					{//下降
+						g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
+						if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
+						{//一定範囲まで落下しきったら切り替え
+							g_aPress[nCntPress].PState = PRESSSTATE_UP;
+						}
+					}
+					else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
+					{//上昇
+						g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
+						if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
+						{//一定範囲まで上昇しきったら切り替え
+							g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+						}
+					}
+					else if (g_aPress[nCntPress].PState == PRESSSTATE_STAY)
+					{//待機
+						g_aPress[nCntPress].intervalCnt++;
+						if ((g_aPress[nCntPress].intervalCnt >= g_aPress[nCntPress].interval) == true)
+						{//設定間隔が経過
+							g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
+							g_aPress[nCntPress].intervalCnt = 0;
+						}
+					}
+				}
+
 			}
-
-			if (g_aPress[nCntPress].bStartup == true)
-			{//起動時
-
-				if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
-				{//下降
-					g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
-					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
-					{//一定範囲まで落下しきったら切り替え
-						g_aPress[nCntPress].PState = PRESSSTATE_UP;
-					}
+			else
+			{//手動操縦
+			if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
+			{//下降
+				g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
+				if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
+				{//一定範囲まで落下しきったら切り替え
+					g_aPress[nCntPress].PState = PRESSSTATE_STAY;
 				}
-				else if(g_aPress[nCntPress].PState == PRESSSTATE_UP)
-				{//上昇
-					g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
-					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
-					{//一定範囲まで上昇しきったら切り替え
-						g_aPress[nCntPress].PState = PRESSSTATE_STAY;
-					}
+			}
+			else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
+			{//上昇
+				g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
+				if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
+				{//一定範囲まで上昇しきったら切り替え
+					g_aPress[nCntPress].PState = PRESSSTATE_STAY;
 				}
-				else if (g_aPress[nCntPress].PState == PRESSSTATE_STAY)
-				{//待機
-					g_aPress[nCntPress].intervalCnt++;
-					if ((g_aPress[nCntPress].intervalCnt >= g_aPress[nCntPress].interval) == true)
-					{//設定間隔が経過
-						g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
-						g_aPress[nCntPress].intervalCnt = 0;
-					}
-				}
+			}
 			}
 		}
 	}
@@ -188,20 +213,44 @@ void DrawPress(void)
 //	プレス機設置処理
 //
 //==================================================
-void SetPress(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval,bool startup)
-{//位置、角度、下降速度、起動するかの選択
-
-	for (int nCnt = 0; nCnt < MAX_PRESS; nCnt++)
+void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval)
+{//IDX,位置、角度、インターバルの設定
+	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
 	{
-		if (g_aPress[nCnt].bUse == false)
+		if (g_aPress[nCntPress].bUse == false)
 		{
-			g_aPress[nCnt].bStartup = startup;
-			g_aPress[nCnt].bUse = true;
-			g_aPress[nCnt].pos = pos;
-			g_aPress[nCnt].Setpos = pos;
-			g_aPress[nCnt].interval = interval;
-			g_aPress[nCnt].rot = rot;
+			g_aPress[nCntPress].nIdx = nIdx;
+			g_aPress[nCntPress].bUse = true;
+			g_aPress[nCntPress].bStartup = true;
+			g_aPress[nCntPress].pos = pos;
+			g_aPress[nCntPress].Setpos = pos;
+			g_aPress[nCntPress].interval = interval;
+			g_aPress[nCntPress].rot = rot;
 			break;
+		}
+	}
+
+}
+
+//==================================================
+//
+//	スイッチ切り替え処理
+//
+//==================================================
+void PressMachineSwitch(int nIdx)
+{
+	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
+	{
+		if ((g_aPress[nCntPress].bUse == true) && (g_aPress[nCntPress].nIdx == nIdx))
+		{
+			if ((g_aPress[nCntPress].Setpos.y - g_aPress[nIdx].pos.y) >= (DESCENT_LIMIT - 0.5f) == true)
+			{//落下しきっていたら
+				g_aPress[nCntPress].PState = PRESSSTATE_UP;
+			}
+			else if (((g_aPress[nCntPress].Setpos.y - g_aPress[nIdx].pos.y) < 0.5f) == true)
+			{//上昇しきっていたら切り替え
+				g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
+			}
 		}
 	}
 }
