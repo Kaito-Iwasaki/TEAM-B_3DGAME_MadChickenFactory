@@ -14,10 +14,11 @@
 // フィールドの構造体
 typedef struct
 {
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 rot;
-	D3DXVECTOR3 size;
-	D3DXMATRIX mtxWorld;						//	ワールドマトリックス
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 rot;		// 向き
+	D3DXVECTOR3 size;		// 大きさ
+	int nTxtype;			// テクスチャの種類
+	D3DXMATRIX mtxWorld;	//	ワールドマトリックス
 	bool bUse;
 }Field;
 
@@ -31,6 +32,6 @@ void UpdateField(void);
 
 void DrawField(void);
 
-void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot);
+void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype);
 
 #endif // !_FIELD_H_
