@@ -138,6 +138,9 @@
     <ClCompile Include="fire.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sound.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="fire.h">
       <Filter>ヘッダー ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
