@@ -7,11 +7,12 @@
 
 #include "input.h"
 #include "field.h"
+#include "texture.h"
 
 // マクロ定義
 #define FIELD_TXT_PASS "data\\TEXTURE\\field000.jpg"
-#define FIELD_TEXTURE_SIZE_X (100.0f)
-#define FIELD_TEXTURE_SIZE_Y (100.0f)
+#define FIELD_TEXTURE_SIZE_X (300.0f)
+#define FIELD_TEXTURE_SIZE_Y (300.0f)
 
 // グローバル変数
 LPDIRECT3DTEXTURE9 g_pTextureField = NULL;							// テクスチャへのポインタ
@@ -27,9 +28,6 @@ void InitField(void)
 
 	// デバイスの取得
 	pDevice = GetDevice();
-
-	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, FIELD_TXT_PASS, &g_pTextureField);
 
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4 * MAX_FIELD,
@@ -48,10 +46,11 @@ void InitField(void)
 	for (int nCountField = 0; nCountField < MAX_FIELD; nCountField++)
 	{
 
-		g_aField[nCountField].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		g_aField[nCountField].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		g_aField[nCountField].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		g_aField[nCountField].bUse = false;
+		g_aField[nCountField].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置初期化
+		g_aField[nCountField].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き初期化
+		g_aField[nCountField].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 大きさ初期化
+		g_aField[nCountField].nTxtype = -1;								// 種類初期化
+		g_aField[nCountField].bUse = false;								// 使用していない状態にする
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 		pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
@@ -150,6 +149,7 @@ void UpdateField(void)
 void DrawField(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();				// デバイスへのポインタ
+	LPDIRECT3DTEXTURE9 *pTexture = GetLoadedTexture();		// テクスチャ情報読み取り
 	D3DXMATRIX mtxRot, mtxTrans;
 
 	for (int nCountField = 0; nCountField < MAX_FIELD; nCountField++)
@@ -177,7 +177,7 @@ void DrawField(void)
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
 		// テクスチャの設定
-		pDevice->SetTexture(0, g_pTextureField);
+		pDevice->SetTexture(0, pTexture[g_aField->nTxtype]);
 
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
@@ -190,7 +190,7 @@ void DrawField(void)
 //===================
 // フィールドの設置
 //===================
-void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
+void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype)
 {
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 
@@ -203,10 +203,11 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 	{
 		if (g_aField[nCountField].bUse == false)
 		{
-			g_aField[nCountField].pos = pos;
-			g_aField[nCountField].size = size;
-			g_aField[nCountField].rot = rot;
-			g_aField[nCountField].bUse = true;
+			g_aField[nCountField].pos = pos;			// 位置設定
+			g_aField[nCountField].size = size;			// 大きさ設定
+			g_aField[nCountField].rot = rot;			// 向き設定
+			g_aField[nCountField].nTxtype = ntxtype;	// テクスチャ設定
+			g_aField[nCountField].bUse = true;			// 使用している状態にする
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 			pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);

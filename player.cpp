@@ -8,7 +8,7 @@
 #include"input.h"
 #include"camera.h"
 #include"shadow.h"
-//#include"debugproc.h"
+#include"debugproc.h"
 #include"stdio.h"
 #include"game.h"
 #include"sound.h"
@@ -20,11 +20,11 @@
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
 #define MAX_PLAYER				(2)							// プレイヤー数
-#define MOVE_POS				(1.0f)						// 位置移動量
-#define MAX_JUMP				(4.0f)						// ジャンプ量
+#define MOVE_POS				(3.0f)						// 位置移動量
+#define MAX_JUMP				(20.0f)						// ジャンプ量
 #define MOVE_DAMPINGFUNCTION	(0.3f)						// 移動量の減衰係数
 #define ANGLE_DAMPINGFUNCTION	(0.1f)						// 角度の減衰係数
-#define PLAYER_GRAVITY			(0.25)						// 重力
+#define PLAYER_GRAVITY			(0.85f)						// 重力
 #define ONEPLAYER_MODELPAS		"data\\MODEL\\player000.x"	// プレイヤーモデルへのパス
 #define TWOPLAYER_MODELPAS		"data\\MODEL\\player001.x"	// プレイヤーモデルへのパス
 //#define CHARACTER_TXTNAME		"data\\character.txt"		// キャラクターテキストファイル
@@ -924,6 +924,7 @@ void DrawPlayer(void)
 
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
+		// プレイヤーの影の描画
 		DrawPlayerShadow(nCntPlayer);
 
 		// ワールドマトリックスの初期化

@@ -12,6 +12,17 @@
 
 #define MAX_WALL (256)
 
+// 壁の構造体
+typedef struct
+{
+	int nTexType;
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 rot;
+	D3DXVECTOR3 size;
+	D3DXMATRIX mtxWorldWall;
+	bool bUse;
+} Wall;
+
 //プロトタイプ宣言
 
 void InitWall(void);
@@ -22,6 +33,6 @@ void UpdateWall(void);
 
 void DrawWall(void);
 
-void SetWall(D3DXVECTOR3 pos,D3DXVECTOR3 size, D3DXVECTOR3 rot);
+void SetWall(int nTexType,  D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot);
 
 #endif // !_WALL_H_

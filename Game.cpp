@@ -36,6 +36,7 @@
 #include"goal.h"
 #include "texture.h"
 #include "press.h"
+#include "prompt.h"
 
 //*********************************************************************
 // 
@@ -94,6 +95,7 @@ void InitGame(void)
 	InitEffect();			// エフェクト
 	InitGoal();				// ゴール
 	InitPress();			// プレス機
+	InitPrompt();			// プロンプト
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_factory.txt", &modelData);
@@ -115,7 +117,8 @@ void InitGame(void)
 		SetField(
 			pFieldData->pos,
 			D3DXVECTOR3(pFieldData->size.x * pFieldData->nBlockX, 0, pFieldData->size.z * pFieldData->nBlockZ),
-			pFieldData->rot
+			pFieldData->rot,
+			pFieldData->nType
 		);
 	}
 
@@ -125,6 +128,7 @@ void InitGame(void)
 		WALLSETDATA* pWallData = &modelData.aInfoWallSet[nCountWALL];
 
 		SetWall(
+			pWallData->nType,
 			pWallData->pos,
 			D3DXVECTOR3(pWallData->size.x * pWallData->nBlockX, pWallData->size.y * pWallData->nBlockY, 0),
 			pWallData->rot
@@ -156,6 +160,7 @@ void UninitGame(void)
 	UninitEffect();			// エフェクト
 	UninitGoal();			// ゴール
 	UninitPress();			// プレス機
+	UninitPrompt();			// プロンプト
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -190,7 +195,7 @@ void UpdateGame(void)
 		UpdateEffect();			// エフェクト
 		UpdateGoal();			// ゴール
 		UpdatePress();			// プレス機
-
+		UpdatePrompt();			// プロンプト
 	}
 	else
 	{//ポーズ中
@@ -219,4 +224,5 @@ void DrawGame(void)
 	DrawEffect();			// エフェクト
 	DrawGoal();				// ゴール
 	DrawPress();			// プレス機
+	DrawPrompt();			// プロンプト
 }
