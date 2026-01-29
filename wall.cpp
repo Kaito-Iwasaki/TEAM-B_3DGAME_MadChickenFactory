@@ -6,23 +6,13 @@
 //================================
 #include "input.h"
 #include "wall.h"
+#include "texture.h"
 
 // マクロ定義
 #define WALL_TEXTURE_SIZE_X (300.0f)
 #define WALL_TEXTURE_SIZE_Y (300.0f)
 
-// 壁の構造体
-typedef struct
-{
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 rot;
-	D3DXVECTOR3 size;
-	D3DXMATRIX mtxWorldWall;
-	bool bUse;
-} Wall;
-
 // グローバル変数
-LPDIRECT3DTEXTURE9 g_apTextureWall[MAX_WALL] = {};				// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffWall = NULL;			// 頂点バッファへのポインタ
 Wall g_aWall[MAX_WALL];
 
@@ -35,9 +25,6 @@ void InitWall(void)
 
 	// デバイスの取得
 	pDevice = GetDevice();
-
-	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\wall000.jpg", &g_apTextureWall[0]);
 
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4 * MAX_WALL,
@@ -54,6 +41,7 @@ void InitWall(void)
 
 	for (int nCntWall = 0; nCntWall < MAX_WALL; nCntWall++)
 	{
+		g_aWall[nCntWall].nTexType = 0;
 		g_aWall[nCntWall].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aWall[nCntWall].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aWall[nCntWall].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -95,16 +83,6 @@ void InitWall(void)
 //==========================
 void UninitWall(void)
 {
-	for (int nCntWall = 0; nCntWall < MAX_WALL; nCntWall++)
-	{
-		// テクスチャの破棄
-		if (g_apTextureWall[nCntWall] != NULL)
-		{
-			g_apTextureWall[nCntWall]->Release();
-			g_apTextureWall[nCntWall] = NULL;
-		}
-	}
-	
 	// 頂点バッファの破棄
 	if (g_pVtxBuffWall != NULL)
 	{
@@ -186,7 +164,7 @@ void DrawWall(void)
 			pDevice->SetFVF(FVF_VERTEX_3D);
 
 			// テクスチャの設定
-			pDevice->SetTexture(0, g_apTextureWall[0]);
+			pDevice->SetTexture(0, GetLoadedTexture()[g_aWall[nCntWall].nTexType]);
 
 			// ポリゴンの描画
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
@@ -200,7 +178,7 @@ void DrawWall(void)
 //=================
 // 壁の設置処理
 //=================
-void SetWall(D3DXVECTOR3 pos,D3DXVECTOR3 size,D3DXVECTOR3 rot)
+void SetWall(int nTexType, D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 {
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 
@@ -213,6 +191,7 @@ void SetWall(D3DXVECTOR3 pos,D3DXVECTOR3 size,D3DXVECTOR3 rot)
 	{
 		if (g_aWall[nCntWall].bUse == false)
 		{
+			g_aWall[nCntWall].nTexType = nTexType;
 			g_aWall[nCntWall].pos = pos;
 			g_aWall[nCntWall].size = size;
 			g_aWall[nCntWall].rot = rot;
