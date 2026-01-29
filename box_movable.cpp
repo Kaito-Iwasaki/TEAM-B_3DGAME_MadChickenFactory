@@ -1,6 +1,6 @@
 //==================================================
 //
-//	回転ノコギリ[saw.cpp]
+//	可動箱[box_movable.cpp]
 //
 //==================================================
 //==================================================
@@ -8,7 +8,7 @@
 //	ファイルインクルード
 //
 //==================================================
-#include "Saw.h"
+#include "box_movable.h"
 #include "main.h"
 #include "model.h"
 #include "input.h"
@@ -21,9 +21,9 @@
 //	マクロ定義
 //
 //==================================================
-#define MAX_SAW		(128)					//モデルの最大数
-#define SAW_MODEL_PATH	"data\\MODEL\\saw000.x"	//saw000.xへのパス
-#define MAX_SAW_SPEED	(0.15f)				//ノコギリの回転速度のMAX
+#define MAX_MOVEBOX		(128)					//モデルの最大数
+#define MOVEBOX_MODEL_PATH	"data\\MODEL\\movebox000.x"	//movebox000.xへのパス
+#define MAX_MOVEBOX_SPEED	(0.15f)				//ノコギリの回転速度のMAX
 
 //==================================================
 //
@@ -36,28 +36,28 @@
 //	グローバル変数宣言
 //
 //==================================================
-MESHDATA g_aSawModelData;
-Saw g_aSaw[MAX_SAW];
+MESHDATA g_aMoveBoxModelData;
+MoveBox g_aMoveBox[MAX_MOVEBOX];
 
 //==================================================
 //
 //	回転ノコギリの初期化
 //
 //==================================================
-void InitSaw(void)
+void InitMoveBox(void)
 {
-	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
+	for (int nCntMoveBox = 0; nCntMoveBox < MAX_MOVEBOX; nCntMoveBox++)
 	{
-		g_aSaw[nCntSaw].bStartup = false;
-		g_aSaw[nCntSaw].bUse = false;
-		g_aSaw[nCntSaw].pos = D3DXVECTOR3_ZERO;
-		g_aSaw[nCntSaw].rot = D3DXVECTOR3_ZERO;
-		g_aSaw[nCntSaw].turnSpeed = 0;
+		g_aMoveBox[nCntMoveBox].bStartup = false;
+		g_aMoveBox[nCntMoveBox].bUse = false;
+		g_aMoveBox[nCntMoveBox].pos = D3DXVECTOR3_ZERO;
+		g_aMoveBox[nCntMoveBox].rot = D3DXVECTOR3_ZERO;
+		g_aMoveBox[nCntMoveBox].turnSpeed = 0;
 	}
 
-	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
+	LoadModel(MOVEBOX_MODEL_PATH, &g_aMoveBoxModelData);
 
-	SetSaw(D3DXVECTOR3(200.0f, 30.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+	SetMoveBox(D3DXVECTOR3(200.0f, 30.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
 }
 
 //==================================================
@@ -65,9 +65,9 @@ void InitSaw(void)
 //	回転ノコギリの終了処理
 //
 //==================================================
-void UninitSaw(void)
+void UninitMoveBox(void)
 {
-	ReleaseMesh(&g_aSawModelData);
+	ReleaseMesh(&g_aMoveBoxModelData);
 }
 
 //==================================================
@@ -75,35 +75,35 @@ void UninitSaw(void)
 //	回転ノコギリの更新処理
 //
 //==================================================
-void UpdateSaw(void)
+void UpdateMoveBox(void)
 {
 	if (GetKeyboardTrigger(DIK_F3))
 	{
-		SwitchSaw(0);
+		SwitchMoveBox(0);
 	}
 
-	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
+	for (int nCntMoveBox = 0; nCntMoveBox < MAX_MOVEBOX; nCntMoveBox++)
 	{
-		if (g_aSaw[nCntSaw].bUse == true)
+		if (g_aMoveBox[nCntMoveBox].bUse == true)
 		{
-			if (g_aSaw[nCntSaw].bStartup == true)
+			if (g_aMoveBox[nCntMoveBox].bStartup == true)
 			{//起動スイッチがON
-				//MAX_SAW_SPEEDまで速度をあげながら回転
-				g_aSaw[nCntSaw].turnSpeed += (MAX_SAW_SPEED - g_aSaw[nCntSaw].turnSpeed) * 0.005f;
-				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
+				//MAX_MOVEBOX_SPEEDまで速度をあげながら回転
+				g_aMoveBox[nCntMoveBox].turnSpeed += (MAX_MOVEBOX_SPEED - g_aMoveBox[nCntMoveBox].turnSpeed) * 0.005f;
+				g_aMoveBox[nCntMoveBox].rot.z += g_aMoveBox[nCntMoveBox].turnSpeed;
 				
 			}
 			else
 			{//OFF
 				//0.0まで速度を徐々に落とす
-				g_aSaw[nCntSaw].turnSpeed += (0.0f - g_aSaw[nCntSaw].turnSpeed) * 0.02f;
-				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
+				g_aMoveBox[nCntMoveBox].turnSpeed += (0.0f - g_aMoveBox[nCntMoveBox].turnSpeed) * 0.02f;
+				g_aMoveBox[nCntMoveBox].rot.z += g_aMoveBox[nCntMoveBox].turnSpeed;
 
 			}
 		}
 	}
 
-	CollisionSaw();
+	CollisionMoveBox();
 }
 
 //==================================================
@@ -111,47 +111,47 @@ void UpdateSaw(void)
 //	回転ノコギリの描画処理
 //
 //==================================================
-void DrawSaw(void)
+void DrawMoveBox(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 	D3DMATERIAL9 matDef;			//現在のマテリアル保存用
 	D3DXMATERIAL* pMat;				//マテリアルデータへのポインタ
 
-	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
+	for (int nCnt = 0; nCnt < MAX_MOVEBOX; nCnt++)
 	{
-		if (g_aSaw[nCnt].bUse == true)
+		if (g_aMoveBox[nCnt].bUse == true)
 		{
 			//ワールドマトリックスの初期化
-			D3DXMatrixIdentity(&g_aSaw[nCnt].mtxWorld);
+			D3DXMatrixIdentity(&g_aMoveBox[nCnt].mtxWorld);
 
 			//向きを反映
-			D3DXMatrixRotationYawPitchRoll(&mtxRot, g_aSaw[nCnt].rot.y, g_aSaw[nCnt].rot.x, g_aSaw[nCnt].rot.z);
-			D3DXMatrixMultiply(&g_aSaw[nCnt].mtxWorld, &g_aSaw[nCnt].mtxWorld, &mtxRot);
+			D3DXMatrixRotationYawPitchRoll(&mtxRot, g_aMoveBox[nCnt].rot.y, g_aMoveBox[nCnt].rot.x, g_aMoveBox[nCnt].rot.z);
+			D3DXMatrixMultiply(&g_aMoveBox[nCnt].mtxWorld, &g_aMoveBox[nCnt].mtxWorld, &mtxRot);
 
 			//位置を反映
-			D3DXMatrixTranslation(&mtxTrans, g_aSaw[nCnt].pos.x, g_aSaw[nCnt].pos.y, g_aSaw[nCnt].pos.z);
-			D3DXMatrixMultiply(&g_aSaw[nCnt].mtxWorld, &g_aSaw[nCnt].mtxWorld, &mtxTrans);
+			D3DXMatrixTranslation(&mtxTrans, g_aMoveBox[nCnt].pos.x, g_aMoveBox[nCnt].pos.y, g_aMoveBox[nCnt].pos.z);
+			D3DXMatrixMultiply(&g_aMoveBox[nCnt].mtxWorld, &g_aMoveBox[nCnt].mtxWorld, &mtxTrans);
 
 			//ワールドマトリックスの設定
-			pDevice->SetTransform(D3DTS_WORLD, &g_aSaw[nCnt].mtxWorld);
+			pDevice->SetTransform(D3DTS_WORLD, &g_aMoveBox[nCnt].mtxWorld);
 
 			//現在のマテリアルを取得
 			pDevice->GetMaterial(&matDef);
 
 			//マテリアルデータへのポインタを取得
-			pMat = (D3DXMATERIAL*)g_aSawModelData.pBuffMat->GetBufferPointer();
+			pMat = (D3DXMATERIAL*)g_aMoveBoxModelData.pBuffMat->GetBufferPointer();
 
-			for (int nCntMat = 0; nCntMat < (int)g_aSawModelData.dwNumMat; nCntMat++)
+			for (int nCntMat = 0; nCntMat < (int)g_aMoveBoxModelData.dwNumMat; nCntMat++)
 			{
 				//テクスチャの設定
-				pDevice->SetTexture(0, g_aSawModelData.apTexture[nCntMat]);
+				pDevice->SetTexture(0, g_aMoveBoxModelData.apTexture[nCntMat]);
 
 				//マテリアルの設定
 				pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
 				//モデル(パーツ)の描画
-				g_aSawModelData.pMesh->DrawSubset(nCntMat);
+				g_aMoveBoxModelData.pMesh->DrawSubset(nCntMat);
 			}
 
 			//保存していたマテリアルを戻す
@@ -164,16 +164,16 @@ void DrawSaw(void)
 //	回転ノコギリ設置処理
 //
 //==================================================
-void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
+void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 {
-	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
+	for (int nCnt = 0; nCnt < MAX_MOVEBOX; nCnt++)
 	{
-		if (g_aSaw[nCnt].bUse == false)
+		if (g_aMoveBox[nCnt].bUse == false)
 		{
-			g_aSaw[nCnt].bStartup = startup;
-			g_aSaw[nCnt].bUse = true;
-			g_aSaw[nCnt].pos = pos;
-			g_aSaw[nCnt].rot = rot;
+			g_aMoveBox[nCnt].bStartup = startup;
+			g_aMoveBox[nCnt].bUse = true;
+			g_aMoveBox[nCnt].pos = pos;
+			g_aMoveBox[nCnt].rot = rot;
 			break;
 		}
 	}
@@ -183,52 +183,52 @@ void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 //	回転ノコギリの当たり判定
 //
 //==================================================
-bool CollisionSaw(void)
+bool CollisionMoveBox(void)
 {
 	Player* pPlayer = GetPlayer();
 	bool bHitCheck = false;
 
-	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
+	for (int nCntMoveBox = 0; nCntMoveBox < MAX_MOVEBOX; nCntMoveBox++)
 	{
-		if (g_aSaw[nCntSaw].bUse == true)
+		if (g_aMoveBox[nCntMoveBox].bUse == true)
 		{
-			if ((pPlayer->pos.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x) &&
-				(pPlayer->pos.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x) &&
-				(pPlayer->pos.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y) &&
-				(pPlayer->pos.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y) &&
-				(pPlayer->pos.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z) &&
-				(pPlayer->pos.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z))
+			if ((pPlayer->pos.x <= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMax.x) &&
+				(pPlayer->pos.x >= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMin.x) &&
+				(pPlayer->pos.y <= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMax.y) &&
+				(pPlayer->pos.y >= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y) &&
+				(pPlayer->pos.z <= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMax.z) &&
+				(pPlayer->pos.z >= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMin.z))
 			{
-				if (pPlayer->posOld.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x)
+				if (pPlayer->posOld.x >= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMax.x)
 				{//右から
-					pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x;
+					pPlayer->pos.x = g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMax.x;
 					bHitCheck = true;
 				}
-				else if (pPlayer->posOld.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x)
+				else if (pPlayer->posOld.x <= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMin.x)
 				{//左から
-					pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x;
+					pPlayer->pos.x = g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMin.x;
 					bHitCheck = true;
 				}
 
-				if (pPlayer->posOld.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y)
+				if (pPlayer->posOld.y >= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMax.y)
 				{//上から
-					pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y;
+					pPlayer->pos.y = g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMax.y;
 					bHitCheck = true;
 				}
-				else if (pPlayer->posOld.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y)
+				else if (pPlayer->posOld.y <= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y)
 				{//下から
-					pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y;
+					pPlayer->pos.y = g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y;
 					bHitCheck = true;
 				}
 
-				if (pPlayer->posOld.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z)
+				if (pPlayer->posOld.z >= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMax.z)
 				{//奥から
-					pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z;
+					pPlayer->pos.z = g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMax.z;
 					bHitCheck = true;
 				}
-				else if (pPlayer->posOld.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z)
+				else if (pPlayer->posOld.z <= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMin.z)
 				{//手前から
-					pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z;
+					pPlayer->pos.z = g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMin.z;
 					bHitCheck = true;
 				}
 			}
@@ -247,7 +247,7 @@ bool CollisionSaw(void)
 //	回転ノコギリのスイッチを切り替え
 //
 //==================================================
-void SwitchSaw(int nIdx)
+void SwitchMoveBox(int nIdx)
 {
-	g_aSaw[nIdx].bStartup ^= true;
+	g_aMoveBox[nIdx].bStartup ^= true;
 }

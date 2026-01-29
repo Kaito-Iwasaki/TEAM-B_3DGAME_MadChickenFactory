@@ -1,10 +1,10 @@
 //==================================================
 //
-// 回転ノコギリ[saw.h]
+// 可動箱[box_movable.h]
 //
 //==================================================
-#ifndef _SAW_H_
-#define _SAW_H_
+#ifndef _BOX_MOVABLE_H_
+#define _BOX_MOVABLE_H_
 
 //==================================================
 //
@@ -12,7 +12,6 @@
 //
 //==================================================
 #include "main.h"
-#include "saw.h"
 
 //==================================================
 //
@@ -35,20 +34,20 @@ typedef struct
 	D3DXMATRIX mtxWorld;
 
 	float turnSpeed;
-}Saw;
+}MoveBox;
 
 //==================================================
 //
 //	プロトタイプ宣言
 //
 //==================================================
-void InitSaw(void);
-void UninitSaw(void);
-void UpdateSaw(void);
-void DrawSaw(void);
-void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
-void SwitchSaw(int nIdx);
-bool CollisionSaw(void);
+void InitMoveBox(void);
+void UninitMoveBox(void);
+void UpdateMoveBox(void);
+void DrawMoveBox(void);
+void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
+void SwitchMoveBox(int nIdx);
+bool CollisionMoveBox(void);
 
 #endif // !_STAGELIGHT_H_
 
