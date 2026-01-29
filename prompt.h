@@ -19,4 +19,6 @@ void UpdatePrompt(void);
 
 void DrawPrompt(void);
 
+void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+
 #endif // !_BILLBOAD_H_

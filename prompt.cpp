@@ -9,14 +9,24 @@
 #include "prompt.h"
 
 // マクロ定義
+#define MAX_PROMPT (256)									// 最大数
+#define PROMPT_TXT_PASS "data\\TEXTURE\\ski001.jpg"			// プロンプトのテクスチャパス
+#define PROMPT_TEXTURE_SIZE_Y (100.0f)						// プロンプトのテクスチャサイズ(Y)
+#define PROMPT_TEXTURE_SIZE_X (100.0f)						// プロンプトのテクスチャサイズ(X)
 
 // プロンプト構造体
+typedef struct
+{
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 size;
+	bool bUse;
 
+}Prompt;
 // グローバル変数
 LPDIRECT3DTEXTURE9 g_pTexturePrompt = NULL;				// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffPrompt = NULL;			// 頂点バッファへのポインタ
-D3DXVECTOR3 g_posPrompt;
 D3DXMATRIX g_mtxWorldPrompt;								//	ワールドマトリックス
+Prompt g_aPrompt[MAX_PROMPT];
 
 //=========================
 // ビルボードの初期化処理
@@ -29,10 +39,10 @@ void InitPrompt(void)
 	pDevice = GetDevice();
 
 	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\ski001.jpg", &g_pTexturePrompt);
+	D3DXCreateTextureFromFile(pDevice, PROMPT_TXT_PASS, &g_pTexturePrompt);
 
 	// 頂点バッファの生成
-	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4,
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4 * MAX_PROMPT,
 		D3DUSAGE_WRITEONLY,
 		FVF_VERTEX_3D,
 		D3DPOOL_MANAGED,
@@ -44,34 +54,48 @@ void InitPrompt(void)
 	// 頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffPrompt->Lock(0, 0, (void**)&pVtx, 0);
 
-	g_posPrompt = D3DXVECTOR3(0.0f, 0.0f, -100.0f);
+	for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+	{
+		
+		g_aPrompt[nCountPrompt].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aPrompt[nCountPrompt].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		g_aPrompt[nCountPrompt].bUse = false;
 
-	// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-	pVtx[0].pos = D3DXVECTOR3(g_posPrompt.x - 100.0f, g_posPrompt.y + 100.0f, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(g_posPrompt.x + 100.0f, g_posPrompt.y + 100.0f, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(g_posPrompt.x - 100.0f, g_posPrompt.y - 100.0f, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(g_posPrompt.x + 100.0f, g_posPrompt.y - 100.0f, 0.0f);
+		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
+		pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[1].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[2].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[3].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
 
-	// 法線ベクトルの設定
-	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	// 頂点カラーの設定
+		// 法線ベクトルの設定
+		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	pVtx[0].col = D3DXCOLOR(1.0f,1.0f,1.0f,1.0f);
-	pVtx[1].col = D3DXCOLOR(1.0f,1.0f,1.0f,1.0f);
-	pVtx[2].col = D3DXCOLOR(1.0f,1.0f,1.0f,1.0f);
-	pVtx[3].col = D3DXCOLOR(1.0f,1.0f,1.0f,1.0f);
+		// 頂点カラーの設定
+		pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	// テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
-	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
-	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+		// テクスチャ座標の設定
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+		pVtx += 4;
+	}
+	
 
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
+
+
+	SetPrompt(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
+
+	SetPrompt(D3DXVECTOR3(500.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
 }
 
 //======================
@@ -111,57 +135,107 @@ void DrawPrompt(void)
 	D3DXMATRIX mtxTrans;
 	D3DXMATRIX mtxView;										// ビューマトリックス取得用
 
+	for(int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+	{
 
-	// ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&g_mtxWorldPrompt);
+		// ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&g_mtxWorldPrompt);
 
-	// ビューマトリックスを取得
-	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
-	
-	// ポリゴンをカメラに対して正面を向ける
-	D3DXMatrixInverse(&g_mtxWorldPrompt, NULL, &mtxView); // 逆行列を求める
-	g_mtxWorldPrompt._41 = 0.0f;
-	g_mtxWorldPrompt._42 = 0.0f;
-	g_mtxWorldPrompt._43 = 0.0f;
+		// ビューマトリックスを取得
+		pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 
-	// 位置を反映
-	D3DXMatrixTranslation(&mtxTrans, g_posPrompt.x, g_posPrompt.y, g_posPrompt.z);
-	
-	D3DXMatrixMultiply(&g_mtxWorldPrompt, &g_mtxWorldPrompt, &mtxTrans);
+		// ポリゴンをカメラに対して正面を向ける
+		D3DXMatrixInverse(&g_mtxWorldPrompt, NULL, &mtxView); // 逆行列を求める
+		g_mtxWorldPrompt._41 = 0.0f;
+		g_mtxWorldPrompt._42 = 0.0f;
+		g_mtxWorldPrompt._43 = 0.0f;
 
-	// ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldPrompt);
+		// 位置を反映
+		D3DXMatrixTranslation(&mtxTrans, g_aPrompt[nCountPrompt].pos.x, g_aPrompt[nCountPrompt].pos.y, g_aPrompt[nCountPrompt].pos.z);
 
-	// 頂点バッファをデータストリームに設定
-	pDevice->SetStreamSource(0, g_pVtxBuffPrompt, 0, sizeof(VERTEX_3D));
+		D3DXMatrixMultiply(&g_mtxWorldPrompt, &g_mtxWorldPrompt, &mtxTrans);
 
-	// 頂点フォーマットの設定
-	pDevice->SetFVF(FVF_VERTEX_3D);
+		// ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldPrompt);
 
-	//// アルファテストを有効にする
-	//pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	//pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	//pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+		// 頂点バッファをデータストリームに設定
+		pDevice->SetStreamSource(0, g_pVtxBuffPrompt, 0, sizeof(VERTEX_3D));
 
-	// Zテストを無効にする
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+		// 頂点フォーマットの設定
+		pDevice->SetFVF(FVF_VERTEX_3D);
 
-	// テクスチャの設定
-	pDevice->SetTexture(0, g_pTexturePrompt);
+		// アルファテストを有効にする
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
-	// ポリゴンの描画
-	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-		0,
-		2);
+		// Zテストを無効にする
+		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	// Zテストを有効にする
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		// テクスチャの設定
+		pDevice->SetTexture(0, g_pTexturePrompt);
 
-	//// アルファテストを有効にする
-	//pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	//pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
-	//pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+		// ポリゴンの描画
+		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+			0,
+			2);
+
+		// Zテストを有効にする
+		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+		// アルファテストを有効にする
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+
+	}
+
+
+}
+
+void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+{
+
+	float fTexsizeX;
+	float fTexsizeY;
+
+	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
+
+	// 頂点バッファをロックし、頂点情報へのポインタを取得
+	g_pVtxBuffPrompt->Lock(0, 0, (void**)&pVtx, 0);
+
+	for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+	{
+		if (g_aPrompt[nCountPrompt].bUse == false)
+		{
+			g_aPrompt[nCountPrompt].pos = pos;
+			g_aPrompt[nCountPrompt].size = size;
+			g_aPrompt[nCountPrompt].bUse = true;
+
+			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
+			pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[1].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[2].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[3].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+
+			float fTexsizeX = g_aPrompt[nCountPrompt].size.x / PROMPT_TEXTURE_SIZE_X;
+			float fTexsizeY = g_aPrompt[nCountPrompt].size.y / PROMPT_TEXTURE_SIZE_Y;
+
+			// テクスチャ座標の設定
+			pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+			pVtx[1].tex = D3DXVECTOR2(fTexsizeX, 0.0f);
+			pVtx[2].tex = D3DXVECTOR2(0.0f, fTexsizeY);
+			pVtx[3].tex = D3DXVECTOR2(fTexsizeX, fTexsizeY);
+
+			break;
+		}
+
+		pVtx += 4;
+	}
+
+	// 頂点バッファをアンロックする
+	g_pVtxBuffPrompt->Unlock();
 
 }
