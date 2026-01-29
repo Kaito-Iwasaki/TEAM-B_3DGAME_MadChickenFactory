@@ -23,7 +23,7 @@
 //*********************************************************************
 #define INIT_CAMERA_ROT				D3DXVECTOR3(D3DXToRadian(-25), 0, 0)		// カメラ回転初期値
 #define INIT_CAMERA_OFFSET			D3DXVECTOR3(0, 150, 0)						// カメラオフセット初期値
-#define INIT_CAMERA_DISTANCE		(800)										// カメラ距離初期値
+#define INIT_CAMERA_DISTANCE		(2000)										// カメラ距離初期値
 #define CAMERA_PROJECTION_FOV		(45.0f)										// 最近点
 #define CAMERA_PROJECTION_MIN		(10.0f)										// 最近点
 #define CAMERA_PROJECTION_MAX		(50000.0f)									// 最遠点
