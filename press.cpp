@@ -17,6 +17,7 @@
 #include "debugproc.h"
 #include "player.h"
 #include "fade.h"
+#include "collision.h"
 
 //*********************************************************************
 // 
@@ -74,9 +75,9 @@ void InitPress(void)
 	}
 
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
-	SetPress(0,D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
-	SetPress(0, D3DXVECTOR3(150.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
-	SetPress(1, D3DXVECTOR3(200.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, 60);
+	SetPress(0,D3DXVECTOR3(-100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
+	SetPress(0, D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
+	SetPress(1, D3DXVECTOR3(300.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, 60);
 }
 
 //=====================================================================
@@ -92,6 +93,8 @@ void UninitPress(void)
 //=====================================================================
 void UpdatePress(void)
 {
+	Player* pPlayer = GetPlayer();
+
 	if (GetKeyboardTrigger(DIK_F3))
 	{
 		PressMachineSwitch(0);
@@ -136,23 +139,37 @@ void UpdatePress(void)
 			}
 			else
 			{//è“®‘€c
+				if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
+				{//‰º~
+					g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
+					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
+					{//ˆê’è”ÍˆÍ‚Ü‚Å—‰º‚µ‚«‚Á‚½‚çØ‚è‘Ö‚¦
+						g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+					}
+				}
+				else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
+				{//ã¸
+					g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
+					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
+					{//ˆê’è”ÍˆÍ‚Ü‚Åã¸‚µ‚«‚Á‚½‚çØ‚è‘Ö‚¦
+						g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+					}
+				}
+			}
+			//************************************
+			// ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è
+			//************************************
 			if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
-			{//‰º~
-				g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
-				if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
-				{//ˆê’è”ÍˆÍ‚Ü‚Å—‰º‚µ‚«‚Á‚½‚çØ‚è‘Ö‚¦
-					g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+			{
+				if (CollisionPointBox(pPlayer->pos, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
+				{
+					if (g_aPress[nCntPress].pos.y >= pPlayer->pos.y)
+					{
+						SetFade(MODE_GAME);
+					}
 				}
 			}
-			else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
-			{//ã¸
-				g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
-				if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
-				{//ˆê’è”ÍˆÍ‚Ü‚Åã¸‚µ‚«‚Á‚½‚çØ‚è‘Ö‚¦
-					g_aPress[nCntPress].PState = PRESSSTATE_STAY;
-				}
-			}
-			}
+
 		}
 	}
 }
