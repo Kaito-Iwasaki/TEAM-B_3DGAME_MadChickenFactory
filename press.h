@@ -48,6 +48,7 @@ typedef struct
 	bool bStartup;		//起動のON/OFF
 	PressState PState;	//プレス機の状態
 	bool bUse;			// 使用 / 不使用
+	int nIdx;			//インデックス
 	D3DXMATRIX mtxWorld;
 }Press;
 

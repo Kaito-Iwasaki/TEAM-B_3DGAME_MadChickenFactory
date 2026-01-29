@@ -75,6 +75,8 @@ void InitPress(void)
 
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
 	SetPress(0,D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
+	SetPress(0, D3DXVECTOR3(150.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
+	SetPress(1, D3DXVECTOR3(200.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
 }
 
 //=====================================================================
@@ -213,12 +215,20 @@ void DrawPress(void)
 //==================================================
 void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval)
 {//IDX,位置、角度、インターバルの設定
-	g_aPress[nIdx].bUse = true;
-	g_aPress[nIdx].bStartup = true;
-	g_aPress[nIdx].pos = pos;
-	g_aPress[nIdx].Setpos = pos;
-	g_aPress[nIdx].interval = interval;
-	g_aPress[nIdx].rot = rot;
+	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
+	{
+		if (g_aPress[nCntPress].bUse == false)
+		{
+			g_aPress[nCntPress].nIdx = nIdx;
+			g_aPress[nCntPress].bUse = true;
+			g_aPress[nCntPress].bStartup = true;
+			g_aPress[nCntPress].pos = pos;
+			g_aPress[nCntPress].Setpos = pos;
+			g_aPress[nCntPress].interval = interval;
+			g_aPress[nCntPress].rot = rot;
+			break;
+		}
+	}
 
 }
 
@@ -229,12 +239,18 @@ void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval)
 //==================================================
 void PressMachineSwitch(int nIdx)
 {
-	if ((g_aPress[nIdx].Setpos.y - g_aPress[nIdx].pos.y) >= (DESCENT_LIMIT - 0.5f) == true)
-	{//落下しきっていたら
-		g_aPress[nIdx].PState = PRESSSTATE_UP;
-	}
-	else if (((g_aPress[nIdx].Setpos.y - g_aPress[nIdx].pos.y) < 0.5f) == true)
-	{//上昇しきっていたら切り替え
-		g_aPress[nIdx].PState = PRESSSTATE_DOWN;
+	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
+	{
+		if ((g_aPress[nCntPress].bUse == true) && (g_aPress[nCntPress].nIdx == nIdx))
+		{
+			if ((g_aPress[nCntPress].Setpos.y - g_aPress[nIdx].pos.y) >= (DESCENT_LIMIT - 0.5f) == true)
+			{//落下しきっていたら
+				g_aPress[nCntPress].PState = PRESSSTATE_UP;
+			}
+			else if (((g_aPress[nCntPress].Setpos.y - g_aPress[nIdx].pos.y) < 0.5f) == true)
+			{//上昇しきっていたら切り替え
+				g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
+			}
+		}
 	}
 }
