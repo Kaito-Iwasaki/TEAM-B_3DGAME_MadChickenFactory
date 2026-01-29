@@ -143,6 +143,10 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
+    <ClInclude Include="fire.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="goal.h" />
     <ClInclude Include="input.h" />
@@ -184,6 +188,10 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
+    <ClCompile Include="fire.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="goal.cpp" />
     <ClCompile Include="input.cpp" />
