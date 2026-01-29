@@ -26,7 +26,7 @@
 //
 //==================================================
 typedef enum
-{
+{//ÉvÉåÉXã@ÇÃèÛë‘
 	PRESSSTATE_UP = 0,
 	PRESSSTATE_DOWN,
 	PRESSSTATE_STAY,
@@ -61,6 +61,7 @@ void InitPress(void);
 void UninitPress(void);
 void UpdatePress(void);
 void DrawPress(void);
-void SetPress(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval, bool startup);
+void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval);
+void PressMachineSwitch(int nIdx);
 
 #endif
