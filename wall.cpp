@@ -4,15 +4,26 @@
 //  Author shuuhei Ida
 //
 //================================
+#include "util.h"
 #include "input.h"
 #include "wall.h"
 #include "texture.h"
+#include "effect.h"
+#include "player.h"
 
+//*******************************
+// 
 // マクロ定義
+//
+//*******************************
 #define WALL_TEXTURE_SIZE_X (300.0f)
 #define WALL_TEXTURE_SIZE_Y (300.0f)
 
+//*******************************
+// 
 // グローバル変数
+//
+//*******************************
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffWall = NULL;			// 頂点バッファへのポインタ
 Wall g_aWall[MAX_WALL];
 
@@ -73,6 +84,8 @@ void InitWall(void)
 
 		pVtx += 4;
 	}
+
+	SetWall(0, D3DXVECTOR3_ZERO, D3DXVECTOR3(1000.0f, 1000.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	
 	// 頂点バッファをアンロックする
 	g_pVtxBuffWall->Unlock();
@@ -97,35 +110,7 @@ void UninitWall(void)
 //====================
 void UpdateWall(void)
 {
-	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
-
-	float fTexsizeX;
-	float fTexsizeY;
-	// 頂点バッファをロックし、頂点情報へのポインタを取得
-	g_pVtxBuffWall->Lock(0, 0, (void**)&pVtx, 0);
-
-
-	for (int nCntWall = 0; nCntWall < MAX_WALL; nCntWall++)
-	{
-		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
-		pVtx[1].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
-		pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
-		pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
-
-		fTexsizeX = g_aWall[nCntWall].size.x / WALL_TEXTURE_SIZE_X;
-		fTexsizeY = g_aWall[nCntWall].size.y / WALL_TEXTURE_SIZE_Y;
-
-		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-		pVtx[1].tex = D3DXVECTOR2(fTexsizeX * 1.0f, 0.0f);
-		pVtx[2].tex = D3DXVECTOR2(0.0f, fTexsizeY * 1.0f);
-		pVtx[3].tex = D3DXVECTOR2(fTexsizeX * 1.0f, fTexsizeY * 1.0f);
-
-		pVtx += 4;
-	}
-	// 頂点バッファをアンロックする
-	g_pVtxBuffWall->Unlock();
-
+	
 }
 
 //====================
@@ -218,4 +203,83 @@ void SetWall(int nTexType, D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffWall->Unlock();
 
+}
+//=====================================================================
+// 
+// ***** 壁の当たり判定 *****
+// 
+//=====================================================================
+bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold, D3DXVECTOR3 size)
+{
+	bool check = false, checkold = false;
+	bool bChek = false, bcheckold = false;
+
+	D3DXVECTOR3 VecLine, VecToPos, VecMove, VecToPosOld;
+	D3DXVECTOR3 v0, v1;
+	float fRate, fAll, fIntersect;
+
+	VecMove = *pos - posold;
+
+	for (int nCnt = 0; nCnt < MAX_WALL; nCnt++)
+	{
+		if (g_aWall[nCnt].bUse == true)
+		{
+			v0.x = (g_aWall[nCnt].pos.x - (g_aWall[nCnt].size.x / 2.0f) * cosf(-g_aWall[nCnt].rot.y));
+			v0.y = 0.0f;
+			v0.z = (g_aWall[nCnt].pos.z - (g_aWall[nCnt].size.x / 2.0f) * sinf(-g_aWall[nCnt].rot.y));
+
+			v1.x = (g_aWall[nCnt].pos.x + (g_aWall[nCnt].size.x / 2.0f) * cosf(-g_aWall[nCnt].rot.y));
+			v1.y = 0.0f;
+			v1.z = (g_aWall[nCnt].pos.z + (g_aWall[nCnt].size.x / 2.0f) * sinf(-g_aWall[nCnt].rot.y));
+
+			VecLine = v1 - v0;
+
+			VecToPos = *pos - v0;
+
+			VecToPosOld = posold - v0;
+
+			if ((VecLine.z * VecToPos.x) - (VecLine.x * VecToPos.z) < 0)
+			{//posが右にいる
+				check = true;
+
+			}
+			else
+			{//posが左にいる
+				check = false;
+
+			}
+
+			if ((VecLine.z * VecToPosOld.x) - (VecLine.x * VecToPosOld.z) > 0)
+			{//posoldが左にいる
+				checkold = true;
+
+			}
+			else
+			{//posoldが右にいる
+				checkold = false;
+
+			}
+
+			if (check == true && checkold == true)
+			{//範囲検証
+				fIntersect = (VecToPos.z * VecMove.x) - (VecToPos.x * VecMove.z);
+				fAll = (VecLine.z * VecMove.x) - (VecLine.x * VecMove.z);
+				fRate = fIntersect / fAll;
+
+				if (0.0f <= fRate && fRate <= 1.0f)
+				{
+					bChek = true;
+
+				}
+				else
+				{
+					bChek = false;
+
+				}
+			}
+		}
+
+	}
+
+	return bChek;
 }
