@@ -196,7 +196,6 @@ void UpdateGame(void)
 		UpdateGoal();			// ゴール
 		UpdatePress();			// プレス機
 		UpdatePrompt();			// プロンプト
-		UpdateWall();			// 壁
 	}
 	else
 	{//ポーズ中

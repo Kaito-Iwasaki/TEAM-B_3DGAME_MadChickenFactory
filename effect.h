@@ -25,14 +25,15 @@ typedef struct
 	bool bUse;							//エフェクトを使用しているかどうか
 	D3DXCOLOR col;						//エフェクトのカラー
 	int Frame;							//エフェクトの制限
+	D3DXVECTOR3 size;					//エフェクトのサイズ
 }Effect;
 //=================
 //プロトタイプ宣言
-//=================
+
 void InitEffect(void);
 void UninitEffect(void);
 void UpdateEffect(void);		
 void DrawEffect(void);
-void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D3DXCOLOR col);
+void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D3DXCOLOR col , D3DXVECTOR3 size);
 
 #endif
