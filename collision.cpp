@@ -55,12 +55,12 @@
 //=====================================================================
 bool CollisionPointBox(D3DXVECTOR3 posA, D3DXVECTOR3 posB, D3DXVECTOR3 sizeB)
 {
-	if (posA.x >= posB.x + sizeB.x * 0.5f &&
-		posA.x <= posB.x - sizeB.x * 0.5f &&
-		posA.y >= posB.y + sizeB.y * 0.5f &&
-		posA.y <= posB.y - sizeB.y * 0.5f &&
-		posA.z >= posB.z + sizeB.z * 0.5f &&
-		posA.z <= posB.z - sizeB.z * 0.5f)
+	if (posA.x >= posB.x - sizeB.x * 0.5f &&
+		posA.x <= posB.x + sizeB.x * 0.5f &&
+		posA.y >= posB.y - sizeB.y * 0.5f &&
+		posA.y <= posB.y + sizeB.y * 0.5f &&
+		posA.z >= posB.z - sizeB.z * 0.5f &&
+		posA.z <= posB.z + sizeB.z * 0.5f)
 	{
 		return true;
 	}

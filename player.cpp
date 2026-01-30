@@ -20,7 +20,6 @@
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
-#define MAX_PLAYER				(2)							// プレイヤー数
 #define MOVE_POS				(3.0f)						// 位置移動量
 #define MAX_JUMP				(20.0f)						// ジャンプ量
 #define MOVE_DAMPINGFUNCTION	(0.3f)						// 移動量の減衰係数
@@ -871,6 +870,16 @@ void UpdatePlayer(void)
 
 		// 火炎放射器との当たり判定
 		CollisionFlamethrower(&g_Player->pos, &g_Player->posOld, &g_Player->move, g_Player->fRadius);
+
+		if (g_Player[nCntPlayer].move.y != 0.0f)
+		{// 落下中
+
+			if (g_Player[nCntPlayer].bJump == false)
+			{// ジャンプ状態にする
+
+				g_Player[nCntPlayer].bJump = true;		// ジャンプ中にする
+			}
+		}
 		
 		// 目標の移動方向までの差分算出
 		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;

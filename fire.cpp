@@ -12,6 +12,9 @@
 //*********************************************************************
 #include "fire.h"
 #include "player.h"
+#include "effect.h"
+#include "collision.h"
+#include "fade.h"
 
 //*********************************************************************
 // 
@@ -64,9 +67,10 @@ void InitFire(void)
 
 	for (int nCntFire = 0; nCntFire < MAX_FIREMODEL; nCntFire++)
 	{
-		g_aflamethrower[nCntFire].pos = D3DXVECTOR3(500.0f, 0.0f, 0.0f);		// 位置の初期化
-		g_aflamethrower[nCntFire].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 向きの初期化
-		g_aflamethrower[nCntFire].state = FIRESTATE_NONE;						// 状態の初期化
+		g_aflamethrower[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置の初期化
+		g_aflamethrower[nCntFire].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向きの初期化
+		g_aflamethrower[nCntFire].state = FIRESTATE_NONE;					// 状態の初期化
+		g_aflamethrower[nCntFire].bUse = false;								// 使用していない状態にする
 	}
 
 	// Xファイルの読み込み
@@ -154,6 +158,7 @@ void InitFire(void)
 		}
 	}
 
+	// 火炎放射器の設置
 	SetFlamethrower(D3DXVECTOR3(200.0f, 0.0f, -200.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), FIRESTATE_MANUAL);
 }
 
@@ -192,7 +197,34 @@ void UninitFire(void)
 //=====================================================================
 void UpdateFire(void)
 {
+	FLAMETHROWER* pFlamethrower = &g_aflamethrower[0];		// 火炎放射器情報へのポインタ 
+	Player* pPlayer = GetPlayer();							// プレイヤーへのポインタ
+	FADE pFade = GetFade();									// フェード情報取得
 
+
+	for (int nCntFire = 0; nCntFire < MAX_FIREMODEL; nCntFire++, pFlamethrower++)
+	{
+		if (pFlamethrower->bUse == true)
+		{// 使用している
+
+
+			// エフェクト設定
+			SetEffect(D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_FlamethrowerModel.vtxMax.y, pFlamethrower->pos.z),
+				D3DXVECTOR3(0.0f, 5.0f, 0.0f), EFFECTTYPE_DASH, 60, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+
+			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++, pPlayer++)
+			{
+				if (CollisionPointBox(pPlayer->pos,
+					D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_FlamethrowerModel.vtxMax.y, pFlamethrower->pos.z),
+					D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
+					&& pFade.state == FADESTATE_NONE)
+				{// 炎に当たった
+
+					SetFade(MODE_GAME);
+				}
+			}
+		}
+	}
 }
 
 //=====================================================================
