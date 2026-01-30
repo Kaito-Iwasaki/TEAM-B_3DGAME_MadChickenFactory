@@ -46,6 +46,9 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer);
 void _Read_MODELSET(FILE* pFile, MODELSETDATA* pBuffer);
 void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer);
 void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer);
+void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer);
+void _Read_PRESSSET(FILE* pFile, SAWSETDATA* pBuffer);
+void _Read_FIRESET(FILE* pFile, SAWSETDATA* pBuffer);
 
 //=====================================================================
 // スクリプト読み込み処理
@@ -300,4 +303,28 @@ void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer)
 			fscanf(pFile, " = %d %d", &pBuffer->nBlockX, &pBuffer->nBlockY);
 		}
 	}
+}
+
+//=====================================================================
+// [SAWSET]読み込み処理
+//=====================================================================
+void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer)
+{
+
+}
+
+//=====================================================================
+// [PRESSSET]読み込み処理
+//=====================================================================
+void _Read_PRESSSET(FILE* pFile, SAWSETDATA* pBuffer)
+{
+
+}
+
+//=====================================================================
+// [FIRESET]読み込み処理
+//=====================================================================
+void _Read_FIRESET(FILE* pFile, SAWSETDATA* pBuffer)
+{
+
 }
