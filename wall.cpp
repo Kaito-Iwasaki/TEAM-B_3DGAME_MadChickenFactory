@@ -10,6 +10,7 @@
 #include "texture.h"
 #include "effect.h"
 #include "player.h"
+#include "DebugProc.h"
 
 //*******************************
 // 
@@ -85,7 +86,7 @@ void InitWall(void)
 		pVtx += 4;
 	}
 
-	SetWall(0, D3DXVECTOR3_ZERO, D3DXVECTOR3(1000.0f, 1000.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetWall(0, D3DXVECTOR3_ZERO, D3DXVECTOR3(1000.0f, 1000.0f, 0.0f), D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	
 	// 頂点バッファをアンロックする
 	g_pVtxBuffWall->Unlock();
@@ -269,6 +270,7 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold, D3DXVECTOR3 size)
 				if (0.0f <= fRate && fRate <= 1.0f)
 				{
 					bChek = true;
+					PrintDebugProc("HIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 				}
 				else
