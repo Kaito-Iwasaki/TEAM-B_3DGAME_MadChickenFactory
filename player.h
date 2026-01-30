@@ -14,6 +14,7 @@
 #define MAX_PLAYERMODEL			(10)		// モデルの総数
 #define MAX_PLAYERMOTION		(7)			// モーションの最大数
 #define MAX_PLAYERTEXTURE		(16)		// テクスチャ数
+#define MAX_PLAYER				(2)			// プレイヤー数
 
 // プレイヤーの構造体の定義
 typedef struct

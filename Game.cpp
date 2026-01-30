@@ -37,6 +37,7 @@
 #include "texture.h"
 #include "press.h"
 #include "prompt.h"
+#include "fire.h"
 
 //*********************************************************************
 // 
@@ -96,6 +97,7 @@ void InitGame(void)
 	InitGoal();				// ゴール
 	InitPress();			// プレス機
 	InitPrompt();			// プロンプト
+	InitFire();				// 火炎放射器
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_factory.txt", &modelData);
@@ -161,6 +163,7 @@ void UninitGame(void)
 	UninitGoal();			// ゴール
 	UninitPress();			// プレス機
 	UninitPrompt();			// プロンプト
+	UninitFire();			// 火炎放射器
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -196,6 +199,7 @@ void UpdateGame(void)
 		UpdateGoal();			// ゴール
 		UpdatePress();			// プレス機
 		UpdatePrompt();			// プロンプト
+		UpdateFire();			// 火炎放射器
 	}
 	else
 	{//ポーズ中
@@ -225,4 +229,5 @@ void DrawGame(void)
 	DrawGoal();				// ゴール
 	DrawPress();			// プレス機
 	DrawPrompt();			// プロンプト
+	DrawFire();				// 火炎放射器
 }
