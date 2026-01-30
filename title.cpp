@@ -76,7 +76,6 @@ void UpdateTitle(void)
 	UpdateCamera();					//カメラ
 	UpdateTitleLogo();				//タイトルロゴ
 	UpdateField();					//フィールド
-	UpdateWall();					//壁
 	UpdateModel();					//モデル
 	UpdateMeshCylinder();			//メッシュシリンダー
 	UpdateLight();					//ライト

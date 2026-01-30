@@ -7,12 +7,16 @@
 
 #include "input.h"
 #include "prompt.h"
+#include "util.h"
+#include "player.h"
+#include "DebugProc.h"
 
 // マクロ定義
 #define MAX_PROMPT (256)									// 最大数
 #define PROMPT_TXT_PASS "data\\TEXTURE\\ski001.jpg"			// プロンプトのテクスチャパス
 #define PROMPT_TEXTURE_SIZE_Y (100.0f)						// プロンプトのテクスチャサイズ(Y)
 #define PROMPT_TEXTURE_SIZE_X (100.0f)						// プロンプトのテクスチャサイズ(X)
+#define VIEW_PROMPT (300.0f)								// プロンプトを表示する範囲
 
 // プロンプト構造体
 typedef struct
@@ -20,6 +24,7 @@ typedef struct
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 size;
 	bool bUse;
+	int nIdx;
 
 }Prompt;
 // グローバル変数
@@ -92,10 +97,9 @@ void InitPrompt(void)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
 
-
-	SetPrompt(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
-
-	SetPrompt(D3DXVECTOR3(500.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f));
+	SetPrompt(D3DXVECTOR3_ZERO, D3DXVECTOR3(100, 100, 0), 0);
+	SetPrompt(D3DXVECTOR3(500, 0, 0), D3DXVECTOR3(100, 100, 0), 1);
+	SetPrompt(D3DXVECTOR3(500, 200, 0), D3DXVECTOR3(100, 100, 0), 1);
 }
 
 //======================
@@ -123,7 +127,26 @@ void UninitPrompt(void)
 //======================
 void UpdatePrompt(void)
 {
+	Player* pPlayer = GetPlayer(); // = g_Player[0]
 
+	for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+	{
+
+
+		bool bRengeX = VIEW_PROMPT >= fabsf(pPlayer->pos.x - g_aPrompt[nCountPrompt].pos.x);
+		bool bRengeY = VIEW_PROMPT >= fabsf(pPlayer->pos.y - g_aPrompt[nCountPrompt].pos.y);
+		bool bRengeZ = VIEW_PROMPT >= fabsf(pPlayer->pos.z - g_aPrompt[nCountPrompt].pos.z);
+		bool bRenge = bRengeX && bRengeY && bRengeZ;
+
+		if (bRenge)
+		{
+			g_aPrompt[nCountPrompt].bUse = true;
+		}
+		else
+		{
+			g_aPrompt[nCountPrompt].bUse = false;
+		}
+	}
 }
 
 //======================
@@ -137,65 +160,71 @@ void DrawPrompt(void)
 
 	for(int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
 	{
+		if (g_aPrompt[nCountPrompt].bUse == true)
+		{
+			// ワールドマトリックスの初期化
+			D3DXMatrixIdentity(&g_mtxWorldPrompt);
 
-		// ワールドマトリックスの初期化
-		D3DXMatrixIdentity(&g_mtxWorldPrompt);
+			// ビューマトリックスを取得
+			pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 
-		// ビューマトリックスを取得
-		pDevice->GetTransform(D3DTS_VIEW, &mtxView);
+			// ポリゴンをカメラに対して正面を向ける
+			D3DXMatrixInverse(&g_mtxWorldPrompt, NULL, &mtxView); // 逆行列を求める
+			g_mtxWorldPrompt._41 = 0.0f;
+			g_mtxWorldPrompt._42 = 0.0f;
+			g_mtxWorldPrompt._43 = 0.0f;
 
-		// ポリゴンをカメラに対して正面を向ける
-		D3DXMatrixInverse(&g_mtxWorldPrompt, NULL, &mtxView); // 逆行列を求める
-		g_mtxWorldPrompt._41 = 0.0f;
-		g_mtxWorldPrompt._42 = 0.0f;
-		g_mtxWorldPrompt._43 = 0.0f;
+			// 位置を反映
+			D3DXMatrixTranslation(&mtxTrans, g_aPrompt[nCountPrompt].pos.x, g_aPrompt[nCountPrompt].pos.y, g_aPrompt[nCountPrompt].pos.z);
 
-		// 位置を反映
-		D3DXMatrixTranslation(&mtxTrans, g_aPrompt[nCountPrompt].pos.x, g_aPrompt[nCountPrompt].pos.y, g_aPrompt[nCountPrompt].pos.z);
+			D3DXMatrixMultiply(&g_mtxWorldPrompt, &g_mtxWorldPrompt, &mtxTrans);
 
-		D3DXMatrixMultiply(&g_mtxWorldPrompt, &g_mtxWorldPrompt, &mtxTrans);
+			// ワールドマトリックスの設定
+			pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldPrompt);
 
-		// ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &g_mtxWorldPrompt);
+			// 頂点バッファをデータストリームに設定
+			pDevice->SetStreamSource(0, g_pVtxBuffPrompt, 0, sizeof(VERTEX_3D));
 
-		// 頂点バッファをデータストリームに設定
-		pDevice->SetStreamSource(0, g_pVtxBuffPrompt, 0, sizeof(VERTEX_3D));
+			// 頂点フォーマットの設定
+			pDevice->SetFVF(FVF_VERTEX_3D);
 
-		// 頂点フォーマットの設定
-		pDevice->SetFVF(FVF_VERTEX_3D);
+			// アルファテストを有効にする
+			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+			pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
-		// アルファテストを有効にする
-		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+			// Zテストを無効にする
+			pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+			pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-		// Zテストを無効にする
-		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+			// テクスチャの設定
+			pDevice->SetTexture(0, g_pTexturePrompt);
 
-		// テクスチャの設定
-		pDevice->SetTexture(0, g_pTexturePrompt);
+			// ポリゴンの描画
+			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
+				0,
+				2);
 
-		// ポリゴンの描画
-		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-			0,
-			2);
+			// Zテストを有効にする
+			pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+			pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
-		// Zテストを有効にする
-		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+			// アルファテストを有効にする
+			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
+			pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
-		// アルファテストを有効にする
-		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
-		pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+		}
 
 	}
 
 
 }
 
-void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+//=====================================
+// 設置処理
+//=====================================
+void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx)
 {
 
 	float fTexsizeX;
@@ -213,6 +242,7 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 			g_aPrompt[nCountPrompt].pos = pos;
 			g_aPrompt[nCountPrompt].size = size;
 			g_aPrompt[nCountPrompt].bUse = true;
+			g_aPrompt[nCountPrompt].nIdx = nIdx;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 			pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
@@ -238,4 +268,18 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
 
+}
+
+void SetPromptUse(int nIdx, bool bUse)
+{
+	for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+	{
+		//このインデックス の bUseを変えたい
+		g_aPrompt[nCountPrompt].nIdx;
+		if (g_aPrompt[nCountPrompt].nIdx == nIdx)
+		{
+			g_aPrompt[nCountPrompt].bUse = bUse;
+		}
+		
+	}
 }
