@@ -11,12 +11,14 @@
 #include "player.h"
 #include "DebugProc.h"
 
+
 // マクロ定義
 #define MAX_PROMPT (256)									// 最大数
-#define PROMPT_TXT_PASS "data\\TEXTURE\\ski001.jpg"			// プロンプトのテクスチャパス
+#define PROMPT_TXT_PASS "data\\TEXTURE\\pressA.png"			// プロンプトのテクスチャパス
 #define PROMPT_TEXTURE_SIZE_Y (100.0f)						// プロンプトのテクスチャサイズ(Y)
 #define PROMPT_TEXTURE_SIZE_X (100.0f)						// プロンプトのテクスチャサイズ(X)
 #define VIEW_PROMPT (300.0f)								// プロンプトを表示する範囲
+#define MAX_COUNT_PLAYER (2)								// プレイヤーのポインタをずらす用のマクロ
 
 // プロンプト構造体
 typedef struct
@@ -24,6 +26,7 @@ typedef struct
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 size;
 	bool bUse;
+	bool bLock;
 	int nIdx;
 
 }Prompt;
@@ -32,6 +35,7 @@ LPDIRECT3DTEXTURE9 g_pTexturePrompt = NULL;				// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffPrompt = NULL;			// 頂点バッファへのポインタ
 D3DXMATRIX g_mtxWorldPrompt;								//	ワールドマトリックス
 Prompt g_aPrompt[MAX_PROMPT];
+
 
 //=========================
 // ビルボードの初期化処理
@@ -65,6 +69,7 @@ void InitPrompt(void)
 		g_aPrompt[nCountPrompt].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aPrompt[nCountPrompt].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aPrompt[nCountPrompt].bUse = false;
+		g_aPrompt[nCountPrompt].bLock = false;
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 		pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
@@ -99,7 +104,7 @@ void InitPrompt(void)
 
 	SetPrompt(D3DXVECTOR3_ZERO, D3DXVECTOR3(100, 100, 0), 0);
 	SetPrompt(D3DXVECTOR3(500, 0, 0), D3DXVECTOR3(100, 100, 0), 1);
-	SetPrompt(D3DXVECTOR3(500, 200, 0), D3DXVECTOR3(100, 100, 0), 1);
+
 }
 
 //======================
@@ -127,26 +132,40 @@ void UninitPrompt(void)
 //======================
 void UpdatePrompt(void)
 {
-	Player* pPlayer = GetPlayer(); // = g_Player[0]
+	Player* pPlayer = GetPlayer(); 
 
-	for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+	bool bLock = false;
+
+	for (int nCountPlayer = 0; nCountPlayer < MAX_COUNT_PLAYER; nCountPlayer++)
 	{
-
-
-		bool bRengeX = VIEW_PROMPT >= fabsf(pPlayer->pos.x - g_aPrompt[nCountPrompt].pos.x);
-		bool bRengeY = VIEW_PROMPT >= fabsf(pPlayer->pos.y - g_aPrompt[nCountPrompt].pos.y);
-		bool bRengeZ = VIEW_PROMPT >= fabsf(pPlayer->pos.z - g_aPrompt[nCountPrompt].pos.z);
-		bool bRenge = bRengeX && bRengeY && bRengeZ;
-
-		if (bRenge)
+		if (bLock == false)
 		{
-			g_aPrompt[nCountPrompt].bUse = true;
+			for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+			{
+
+				bool bRengeX = VIEW_PROMPT >= fabsf(pPlayer->pos.x - g_aPrompt[nCountPrompt].pos.x);
+				bool bRengeY = VIEW_PROMPT >= fabsf(pPlayer->pos.y - g_aPrompt[nCountPrompt].pos.y);
+				bool bRengeZ = VIEW_PROMPT >= fabsf(pPlayer->pos.z - g_aPrompt[nCountPrompt].pos.z);
+				bool bRenge = bRengeX && bRengeY && bRengeZ;
+
+				if (bRenge)
+				{
+					g_aPrompt[nCountPrompt].bUse = true;
+					bLock = true;
+				}
+				else
+				{
+					g_aPrompt[nCountPrompt].bUse = false;
+				}
+
+
+			}
 		}
-		else
-		{
-			g_aPrompt[nCountPrompt].bUse = false;
-		}
+
+	
+		pPlayer++;
 	}
+
 }
 
 //======================
@@ -243,6 +262,7 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx)
 			g_aPrompt[nCountPrompt].size = size;
 			g_aPrompt[nCountPrompt].bUse = true;
 			g_aPrompt[nCountPrompt].nIdx = nIdx;
+			g_aPrompt[nCountPrompt].bLock = false;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 			pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
