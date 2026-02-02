@@ -27,12 +27,19 @@
 // ***** 列挙型 *****
 // 
 //*********************************************************************
+// 操作状態列挙型
 typedef enum
 {
-	FIRESTATE_NONE = 0,		// 操作未設定
-	FIRESTATE_MANUAL,		// 手動操作
-	FIRESTATE_AUTMATIC		// 自動操作
-}FIRESTATE;
+	OPERATIONSTATE_NONE = 0,	// 操作未設定
+	OPERATIONSTATE_MANUAL,		// 手動操作
+	OPERATIONSTATE_AUTMATIC		// 自動操作
+}OPERATIONSTATE;
+
+// 炎状態列挙型
+typedef enum
+{
+	
+};
 
 //*********************************************************************
 // 
@@ -57,7 +64,7 @@ typedef struct
 	D3DXVECTOR3 pos;								// 位置
 	D3DXVECTOR3 rot;								// 向き
 	D3DXMATRIX mtxWorld;							// ワールドマトリックス
-	FIRESTATE state;								// 状態
+	OPERATIONSTATE state;							// 状態
 	float fWidMax;									// 幅の最大値
 	float fWidMin;									// 幅の最小値
 	float fDepMax;									// 奥行の最大値
@@ -70,6 +77,7 @@ typedef struct
 typedef struct
 {
 	D3DXVECTOR3 pos;		// 位置
+	int nIdx;				// インデックス
 	bool bUse;				// 使用しているかどうか
 }FIRE;
 
@@ -82,7 +90,7 @@ void InitFire(void);
 void UninitFire(void);
 void UpdateFire(void);
 void DrawFire(void);
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, FIRESTATE state);
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state);
 void SetFire(int nIdx, D3DXVECTOR3 pos);
 void SetFlamethrowerWidthAndDepth(int nIdx);
 void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);

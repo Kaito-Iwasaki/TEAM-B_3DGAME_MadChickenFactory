@@ -97,10 +97,10 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
-	D3DXVECTOR3 pos;	// 位置
-	D3DXVECTOR3 rot;	// 向き
-	FIRESTATE state;	// 状態
-	bool bShadow;		// 影の有無
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 rot;		// 向き
+	OPERATIONSTATE state;	// 状態
+	bool bShadow;			// 影の有無
 }FIRESETDATA;
 
 //*********************************************************************
