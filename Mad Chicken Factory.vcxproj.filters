@@ -147,6 +147,9 @@
     <ClCompile Include="particle.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sound.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="particle.h">
       <Filter>ヘッダー ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

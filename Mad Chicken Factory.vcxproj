@@ -145,6 +145,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DebugProc.h" />
+    <ClInclude Include="Editor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="effect.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
@@ -199,6 +203,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="DebugProc.cpp" />
+    <ClCompile Include="Editor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />

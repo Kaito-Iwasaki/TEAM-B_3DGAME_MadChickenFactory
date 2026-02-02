@@ -17,9 +17,10 @@
 #include "DebugProc.h"
 
 // シーンファイルのヘッダ
-#include"title.h"
+#include "title.h"
 #include "Game.h"
-#include"result.h"
+#include "result.h"
+#include "Editor.h"
 
 //*********************************************************************
 // 
@@ -36,6 +37,7 @@ MODEDATA g_modes[MODE_MAX] = {
 	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
 	{ InitResult, UninitResult, UpdateResult, DrawResult },
+	{ InitEditor, UninitEditor, UpdateEditor, DrawEditor },
 };
 
 //=====================================================================
