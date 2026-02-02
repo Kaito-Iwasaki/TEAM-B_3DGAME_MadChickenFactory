@@ -143,7 +143,7 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			pBuffer->nCountModelSet++;
 		}
 		else if (strcmp(&aStrLine[0], "FIELDSET") == 0)
-		{// モデルセット情報読み込み
+		{// フィールドセット情報読み込み
 			FIELDSETDATA* pData = &pBuffer->aInfoFieldSet[pBuffer->nCountFieldSet];
 
 			_Read_FIELDSET(pFile, pData);
@@ -151,7 +151,7 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			pBuffer->nCountFieldSet++;
 		}
 		else if (strcmp(&aStrLine[0], "WALLSET") == 0)
-		{// モデルセット情報読み込み
+		{// ウォールセット情報読み込み
 			WALLSETDATA* pData = &pBuffer->aInfoWallSet[pBuffer->nCountWallSet];
 
 			_Read_WALLSET(pFile, pData);
