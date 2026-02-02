@@ -49,6 +49,7 @@ void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer);
 void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer);
 void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer);
 void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer);
+void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer);
 
 //=====================================================================
 // スクリプト読み込み処理
@@ -182,7 +183,13 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 			pBuffer->nCountFireSet++;
 		}
+		else if (strcmp(&aStrLine[0], "GOALSET") == 0)
+		{// ゴールセット情報読み取り
 
+			GOALSETDATA* pData = &pBuffer->InfoGoalSet;
+
+			_Read_GOALSET(pFile, pData);
+		}
 
 	}
 }
@@ -455,6 +462,46 @@ void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer)
 		else if (strcmp(&aStrLine[0], "STATE") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->state);
+		}
+		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->bShadow);
+		}
+	}
+}
+
+//=====================================================================
+// [GOALSET]読み込み処理
+//=====================================================================
+void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_GOALSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
 		}
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{

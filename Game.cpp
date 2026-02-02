@@ -163,6 +163,11 @@ void InitGame(void)
 		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state);
 	}
 
+	// ƒS[ƒ‹‚ÌÝ’è
+	GOALSETDATA* pGoalData = &modelData.InfoGoalSet;
+
+	SetGoal(pGoalData->pos, pGoalData->rot);
+
 	// ƒJƒƒ‰‚Ì‰ŠúÝ’è
 	SetCameraPosVFromAngle(0);
 	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
