@@ -15,6 +15,7 @@
 #include "effect.h"
 #include "collision.h"
 #include "fade.h"
+#include "input.h"
 
 //*********************************************************************
 // 
@@ -23,6 +24,7 @@
 //*********************************************************************
 #define	MAX_FIREMODEL	(256)									// 最大数
 #define FIRE_MODELPAS	"data\\MODEL\\Factory\\gasburner00.x"	// モデルパス
+#define FIRE_INTERVAL	(180)									// 炎の切り替え間隔
 
 //*********************************************************************
 // 
@@ -70,7 +72,10 @@ void InitFire(void)
 		g_aflamethrower[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置の初期化
 		g_aflamethrower[nCntFire].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向きの初期化
 		g_aflamethrower[nCntFire].state = FIRESTATE_NONE;					// 状態の初期化
+		g_aflamethrower[nCntFire].fireCounter = 0;							// 炎カウンター初期化
 		g_aflamethrower[nCntFire].bUse = false;								// 使用していない状態にする
+		g_aFire[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				// 位置初期化
+		g_aFire[nCntFire].bUse = false;										// 使用していない状態にする
 	}
 
 	// Xファイルの読み込み
@@ -159,7 +164,9 @@ void InitFire(void)
 	}
 
 	// 火炎放射器の設置
-	SetFlamethrower(D3DXVECTOR3(200.0f, 0.0f, -200.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), FIRESTATE_MANUAL);
+	SetFlamethrower(D3DXVECTOR3(700.0f, 0.0f, -200.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), FIRESTATE_AUTMATIC);
+	SetFlamethrower(D3DXVECTOR3(900.0f, 0.0f, -200.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), FIRESTATE_MANUAL);
+
 }
 
 //=====================================================================
@@ -197,31 +204,67 @@ void UninitFire(void)
 //=====================================================================
 void UpdateFire(void)
 {
-	FLAMETHROWER* pFlamethrower = &g_aflamethrower[0];		// 火炎放射器情報へのポインタ 
+	FLAMETHROWER* pFlamethrower = &g_aflamethrower[0];		// 火炎放射器情報へのポインタ
+	FIRE* pFire = &g_aFire[0];								// 炎情報へのポインタ
 	Player* pPlayer = GetPlayer();							// プレイヤーへのポインタ
 	FADE pFade = GetFade();									// フェード情報取得
+	D3DXVECTOR3 move;										// 移動量
 
-
-	for (int nCntFire = 0; nCntFire < MAX_FIREMODEL; nCntFire++, pFlamethrower++)
+	for (int nCntFire = 0; nCntFire < MAX_FIREMODEL; nCntFire++, pFlamethrower++, pFire++)
 	{
 		if (pFlamethrower->bUse == true)
 		{// 使用している
 
+			if (pFire->bUse == true)
+			{// 炎放射中
 
-			// エフェクト設定
-			SetEffect(D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_FlamethrowerModel.vtxMax.y, pFlamethrower->pos.z),
-				D3DXVECTOR3(0.0f, 5.0f, 0.0f), EFFECTTYPE_DASH, 60, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
+				move.y = (float)(rand() % 200) / 100 + 3.0f;
+				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
 
-			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++, pPlayer++)
-			{
-				if (CollisionPointBox(pPlayer->pos,
-					D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_FlamethrowerModel.vtxMax.y, pFlamethrower->pos.z),
-					D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
-					&& pFade.state == FADESTATE_NONE)
-				{// 炎に当たった
+				// エフェクト設定
+				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(30.0f, 30.0f, 0.0f));
 
-					SetFade(MODE_GAME);
+				// 炎との当たり判定
+				for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++, pPlayer++)
+				{
+					if (CollisionPointBox(pPlayer->pos,
+						D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_FlamethrowerModel.vtxMax.y, pFlamethrower->pos.z),
+						D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
+						&& pFade.state == FADESTATE_NONE)
+					{// 炎に当たった
+
+						// 画面遷移する(GAME)
+						SetFade(MODE_GAME);
+					}
 				}
+			}
+	
+			switch (pFlamethrower->state)
+			{
+			case FIRESTATE_AUTMATIC:		// 自動操作
+
+				pFlamethrower->fireCounter++;		// 炎カウンター加算
+
+				if (pFlamethrower->fireCounter > FIRE_INTERVAL)
+				{// 炎をONOFFの切り替え
+
+					pFire->bUse = pFire->bUse ? false : true;
+					pFlamethrower->fireCounter = 0;	// カウント初期化
+
+				}
+
+				break;
+
+			case FIRESTATE_MANUAL:		// 自動操作
+
+				if (GetKeyboardTrigger(DIK_F3) == true)
+				{// 炎のONOFF切り替え
+
+					pFire->bUse = pFire->bUse ? false : true;
+				}
+
+				break;
 			}
 		}
 	}
@@ -237,7 +280,6 @@ void DrawFire(void)
 	D3DMATERIAL9 matDef;									// 現在のマテリアル保存
 	D3DXMATERIAL* pMat;										// マテリアルデータへのポインタ
 	FLAMETHROWER* pFlamethrower = &g_aflamethrower[0];		// 火炎放射器情報のポインタ
-
 
 	for (int nCntFlaethrower = 0; nCntFlaethrower < MAX_FIREMODEL; nCntFlaethrower++, pFlamethrower++)
 	{
@@ -302,12 +344,22 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, FIRESTATE state)
 
 			// ブロックの幅と奥行の設定
 			SetFlamethrowerWidthAndDepth(nCntFlamethrower);
+
+			// 炎の設定
+			SetFire(nCntFlamethrower, D3DXVECTOR3(g_aflamethrower[nCntFlamethrower].pos.x, g_aflamethrower[nCntFlamethrower].pos.y + g_FlamethrowerModel.vtxMax.y, g_aflamethrower[nCntFlamethrower].pos.z));
 			
 			break;
 		}
 	}
 }
-
+//=====================================================================
+// 炎の設定
+//=====================================================================
+void SetFire(int nIdx, D3DXVECTOR3 pos)
+{
+	g_aFire[nIdx].pos = pos;		// 位置設定
+	g_aFire[nIdx].bUse = true;		// 使用している状態にする
+}
 
 //=====================================================================
 // 火炎放射器の幅と奥行の設定

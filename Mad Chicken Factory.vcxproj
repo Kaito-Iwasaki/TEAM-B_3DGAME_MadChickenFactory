@@ -161,6 +161,10 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="model_loader.h" />
+    <ClInclude Include="particle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Pause.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="press.h">
@@ -211,6 +215,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="model_loader.cpp" />
+    <ClCompile Include="particle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="press.cpp">
