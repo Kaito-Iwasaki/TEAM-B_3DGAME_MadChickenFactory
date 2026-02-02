@@ -136,13 +136,13 @@ void UpdatePrompt(void)
 
 	bool bLock = false;
 
-	for (int nCountPlayer = 0; nCountPlayer < MAX_COUNT_PLAYER; nCountPlayer++)
+	for (int nCountPlayer = 0; nCountPlayer < MAX_COUNT_PLAYER; nCountPlayer++, pPlayer++)
 	{
+
 		if (bLock == false)
 		{
 			for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
 			{
-
 				bool bRengeX = VIEW_PROMPT >= fabsf(pPlayer->pos.x - g_aPrompt[nCountPrompt].pos.x);
 				bool bRengeY = VIEW_PROMPT >= fabsf(pPlayer->pos.y - g_aPrompt[nCountPrompt].pos.y);
 				bool bRengeZ = VIEW_PROMPT >= fabsf(pPlayer->pos.z - g_aPrompt[nCountPrompt].pos.z);
@@ -156,14 +156,13 @@ void UpdatePrompt(void)
 				else
 				{
 					g_aPrompt[nCountPrompt].bUse = false;
+
 				}
 
 
 			}
 		}
-
-	
-		pPlayer++;
+		
 	}
 
 }
