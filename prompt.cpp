@@ -163,9 +163,13 @@ void UpdatePrompt(void)
 
 		}
 
-		if (g_aPrompt[nCountPrompt].bUse == true && g_aPrompt[nCountPrompt].bDisp == true && GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
+		if (g_aPrompt[nCountPrompt].bUse == true && g_aPrompt[nCountPrompt].bDisp == true && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))
 		{
 			g_aPromptTrigger[nCountPrompt] = true;
+		}
+		else
+		{
+			g_aPromptTrigger[nCountPrompt] = false;
 		}
 	}
 }
