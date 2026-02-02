@@ -20,6 +20,17 @@
 // 
 //*********************************************************************
 
+//*********************************************************************
+// 
+// ***** 列挙型 *****
+// 
+//*********************************************************************
+typedef enum
+{
+	PARTICLETYPE_BALL = 0,				//ボール型
+	PARTICLETYPE_FIRE,
+	PARTICLETYPE_MAX,
+}PARTICLETYPE;
 
 //*********************************************************************
 // 
@@ -30,17 +41,14 @@ typedef struct
 {
 	D3DXVECTOR3 pos;				//パーティクルの位置
 	D3DXVECTOR3 move;				//パーティクルの移動量
+	D3DXVECTOR3 size;				//パーティクルのサイズ
 	D3DXCOLOR col;					//パーティクルの色
 	int nLife;						//パーティクルの寿命
 	bool bUse;						//パーティクルを使用しているかどうか
+	PARTICLETYPE nTyoe;				//パーティクルの種類
 	
 }Particle;
 
-//*********************************************************************
-// 
-// ***** 列挙型 *****
-// 
-//*********************************************************************
 
 
 //*********************************************************************
@@ -52,6 +60,6 @@ void InitParticle(void);
 void UninitParticle(void);
 void UpdateParticle(void);
 void DrawParticle(void);
-void SetParticle(D3DXVECTOR3 pos, D3DXCOLOR col , D3DXVECTOR3 move , int nLife);
+void SetParticle(D3DXVECTOR3 pos, D3DXCOLOR col , D3DXVECTOR3 move , int nLife , D3DXVECTOR3 size , PARTICLETYPE nType);
 
 #endif

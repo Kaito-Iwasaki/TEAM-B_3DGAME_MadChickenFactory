@@ -257,13 +257,5 @@ void DrawGame(void)
 	DrawPress();			// プレス機
 	DrawPrompt();			// プロンプト
 	DrawFire();				// 火炎放射器
-	static int dashCool = 0;
 
-				if (dashCool > 0) dashCool--;
-				if (GetKeyboardPress(DIK_D) == true && dashCool == 0)
-				{
-					Player* pPlayer = GetPlayer();
-					SetParticle(pPlayer->pos, D3DXCOLOR(0.8f, 0.5f, 0.4f, 1.0f), pPlayer->move,100);
-					dashCool = 20; // 10フレーム間隔
-				}
 }
