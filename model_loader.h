@@ -74,7 +74,10 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
-	
+	D3DXVECTOR3 pos;		// ˆÊ’u
+	D3DXVECTOR3 rot;		// Œü‚«
+	bool bStartup;			// ‹N“®‚ÌON/OFF
+	bool bShadow;			// ‰e‚Ì—L–³
 }SAWSETDATA;
 
 //*********************************************************************
@@ -112,6 +115,9 @@ typedef struct
 
 	int nCountWallSet;
 	WALLSETDATA aInfoWallSet[MAX_WALL];
+
+	int nCountSawSet;
+	SAWSETDATA aInfoSawSet[MAX_SAW];
 }MODELDATA;
 
 //*********************************************************************

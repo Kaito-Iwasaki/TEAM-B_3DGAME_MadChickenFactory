@@ -21,7 +21,6 @@
 //	マクロ定義
 //
 //==================================================
-#define MAX_SAW		(128)					//モデルの最大数
 #define SAW_MODEL_PATH	"data\\MODEL\\saw000.x"	//saw000.xへのパス
 #define MAX_SAW_SPEED	(0.15f)				//ノコギリの回転速度のMAX
 
@@ -56,8 +55,6 @@ void InitSaw(void)
 	}
 
 	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
-
-	SetSaw(D3DXVECTOR3(200.0f, 30.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
 }
 
 //==================================================

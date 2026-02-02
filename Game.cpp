@@ -137,6 +137,14 @@ void InitGame(void)
 			pWallData->rot
 		);
 	}
+	
+	// ‰ñ“]ƒmƒRƒMƒŠ‚Ìİ’è
+	for (int nCntSaw = 0; nCntSaw < modelData.nCountSawSet; nCntSaw++)
+	{
+		SAWSETDATA* pSawData = &modelData.aInfoSawSet[nCntSaw];
+
+		SetSaw(pSawData->pos, pSawData->rot, pSawData->bStartup);
+	}
 
 	// ƒJƒƒ‰‚Ì‰Šúİ’è
 	SetCameraPosVFromAngle(0);

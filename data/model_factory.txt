@@ -285,12 +285,19 @@ END_MODELSET
 # ノコギリ
 #-----------------------------------------
 
-MODELSET
-	TYPE = 18
+SAWSET
 	POS = 3250 80 1100
 	ROT = 0 0 0
+	STARTUP = 1
 	SHADOW = 0
-END_MODELSET
+END_SAWSET
+
+SAWSET
+	POS = 200 30 500
+	ROT = 0 0 0
+	STARTUP = 1
+	SHADOW = 0
+END_SAWSET
 
 #-----------------------------------------
 # コンベア
