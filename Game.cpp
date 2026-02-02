@@ -38,7 +38,7 @@
 #include "press.h"
 #include "prompt.h"
 #include "fire.h"
-
+#include"particle.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -98,6 +98,7 @@ void InitGame(void)
 	InitPress();			// プレス機
 	InitPrompt();			// プロンプト
 	InitFire();				// 火炎放射器
+	InitParticle();
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_factory.txt", &modelData);
@@ -200,6 +201,7 @@ void UpdateGame(void)
 		UpdatePress();			// プレス機
 		UpdatePrompt();			// プロンプト
 		UpdateFire();			// 火炎放射器
+		UpdateParticle();
 	}
 	else
 	{//ポーズ中
@@ -230,4 +232,13 @@ void DrawGame(void)
 	DrawPress();			// プレス機
 	DrawPrompt();			// プロンプト
 	DrawFire();				// 火炎放射器
+	static int dashCool = 0;
+
+				if (dashCool > 0) dashCool--;
+				if (GetKeyboardPress(DIK_D) == true && dashCool == 0)
+				{
+					Player* pPlayer = GetPlayer();
+					SetParticle(pPlayer->pos, D3DXCOLOR(0.8f, 0.5f, 0.4f, 1.0f), pPlayer->move,100);
+					dashCool = 20; // 10フレーム間隔
+				}
 }

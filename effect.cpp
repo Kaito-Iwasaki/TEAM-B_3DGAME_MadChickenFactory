@@ -136,7 +136,7 @@ void UpdateEffect(void)
 				pVtx[1].col = g_aEffect[nCntEffect].col;
 				pVtx[2].col = g_aEffect[nCntEffect].col;
 				pVtx[3].col = g_aEffect[nCntEffect].col;
-
+				//サイズの反映
 				pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);		
 				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
 				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x,0.0f, g_aEffect[nCntEffect].size.z);
@@ -244,6 +244,7 @@ void DrawEffect(void)
 		pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
 		if (g_aEffect[nCntEffect].bUse == true)
 		{
 			//テクスチャの設定

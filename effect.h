@@ -29,7 +29,7 @@ typedef struct
 }Effect;
 //=================
 //プロトタイプ宣言
-
+//=================
 void InitEffect(void);
 void UninitEffect(void);
 void UpdateEffect(void);		

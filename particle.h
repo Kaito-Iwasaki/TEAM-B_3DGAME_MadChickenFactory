@@ -26,7 +26,15 @@
 // ***** 構造体 *****
 // 
 //*********************************************************************
-
+typedef struct
+{
+	D3DXVECTOR3 pos;				//パーティクルの位置
+	D3DXVECTOR3 move;				//パーティクルの移動量
+	D3DXCOLOR col;					//パーティクルの色
+	int nLife;						//パーティクルの寿命
+	bool bUse;						//パーティクルを使用しているかどうか
+	
+}Particle;
 
 //*********************************************************************
 // 
@@ -44,5 +52,6 @@ void InitParticle(void);
 void UninitParticle(void);
 void UpdateParticle(void);
 void DrawParticle(void);
+void SetParticle(D3DXVECTOR3 pos, D3DXCOLOR col , D3DXVECTOR3 move , int nLife);
 
 #endif
