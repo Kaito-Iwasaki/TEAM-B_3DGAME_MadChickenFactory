@@ -23,4 +23,6 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx);
 
 void SetPromptUse(int nIdx, bool bUse);
 
+bool GetPromptTrigger(int nIdx);
+
 #endif // !_BILLBOAD_H_

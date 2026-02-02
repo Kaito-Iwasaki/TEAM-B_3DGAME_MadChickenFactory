@@ -34,7 +34,7 @@ LPDIRECT3DTEXTURE9 g_pTexturePrompt = NULL;				// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffPrompt = NULL;			// 頂点バッファへのポインタ
 D3DXMATRIX g_mtxWorldPrompt;								//	ワールドマトリックス
 Prompt g_aPrompt[MAX_PROMPT];
-
+bool g_aPromptTrigger[MAX_PROMPT];
 
 //=========================
 // ビルボードの初期化処理
@@ -162,8 +162,12 @@ void UpdatePrompt(void)
 			g_aPrompt[nCountPrompt].bDisp = false;
 
 		}
-	}
 
+		if (g_aPrompt[nCountPrompt].bUse == true && g_aPrompt[nCountPrompt].bDisp == true && GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
+		{
+			g_aPromptTrigger[nCountPrompt] = true;
+		}
+	}
 }
 
 //======================
@@ -300,4 +304,9 @@ void SetPromptUse(int nIdx, bool bUse)
 		}
 		
 	}
+}
+
+bool GetPromptTrigger(int nIdx)
+{
+	return g_aPromptTrigger[nIdx];
 }
