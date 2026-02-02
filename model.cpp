@@ -133,6 +133,11 @@ void DrawModel(void)
 		// マテリアルデータへのポインタを取得
 		pMat = (D3DXMATERIAL*)pMeshData->pBuffMat->GetBufferPointer();
 
+		// アルファテストを有効化
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
 		for (int nCntMat = 0; nCntMat < (int)pMeshData->dwNumMat; nCntMat++)
 		{
 			// マテリアルの設定
@@ -144,6 +149,9 @@ void DrawModel(void)
 			// モデル（パーツ）の描画
 			pMeshData->pMesh->DrawSubset(nCntMat);
 		}
+
+		// アルファテストを有効化
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 		// 保存していたマテリアルを戻す
 		pDevice->SetMaterial(&matDef);
