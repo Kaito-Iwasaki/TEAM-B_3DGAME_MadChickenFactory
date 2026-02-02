@@ -72,7 +72,7 @@ void InitFire(void)
 	{
 		g_aflamethrower[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置の初期化
 		g_aflamethrower[nCntFire].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向きの初期化
-		g_aflamethrower[nCntFire].state = FIRESTATE_NONE;					// 状態の初期化
+		g_aflamethrower[nCntFire].state = OPERATIONSTATE_NONE;				// 状態の初期化
 		g_aflamethrower[nCntFire].fireCounter = 0;							// 炎カウンター初期化
 		g_aflamethrower[nCntFire].bUse = false;								// 使用していない状態にする
 		g_aFire[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				// 位置初期化
@@ -133,7 +133,7 @@ void UpdateFire(void)
 	
 			switch (pFlamethrower->state)
 			{
-			case FIRESTATE_AUTMATIC:		// 自動操作
+			case OPERATIONSTATE_AUTMATIC:		// 自動操作
 
 				pFlamethrower->fireCounter++;		// 炎カウンター加算
 
@@ -147,7 +147,7 @@ void UpdateFire(void)
 
 				break;
 
-			case FIRESTATE_MANUAL:		// 自動操作
+			case OPERATIONSTATE_MANUAL:		// 自動操作
 
 				if (GetKeyboardTrigger(DIK_F3) == true)
 				{// 炎のONOFF切り替え
@@ -222,7 +222,7 @@ void DrawFire(void)
 //=====================================================================
 // 火炎放射器の設定
 //=====================================================================
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, FIRESTATE state)
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
 {
 	for (int nCntFlamethrower = 0; nCntFlamethrower < MAX_FIRE; nCntFlamethrower++)
 	{
@@ -249,6 +249,7 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, FIRESTATE state)
 void SetFire(int nIdx, D3DXVECTOR3 pos)
 {
 	g_aFire[nIdx].pos = pos;		// 位置設定
+	g_aFire[nIdx].nIdx = nIdx;		// インデックス設定
 	g_aFire[nIdx].bUse = true;		// 使用している状態にする
 }
 
