@@ -21,13 +21,14 @@
 #include "Game.h"
 #include "result.h"
 #include "Editor.h"
+#include "Test.h"
 
 //*********************************************************************
 // 
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-MODE g_currentMode = MODE_GAME;			// 現在のシーン
+MODE g_currentMode = MODE_TEST;			// 現在のシーン
 MODE g_previousMode = g_currentMode;		// 直前のシーン
 
 //*********************************************************************
@@ -38,6 +39,7 @@ MODEDATA g_modes[MODE_MAX] = {
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
 	{ InitResult, UninitResult, UpdateResult, DrawResult },
 	{ InitEditor, UninitEditor, UpdateEditor, DrawEditor },
+	{ InitTest, UninitTest, UpdateTest, DrawTest },
 };
 
 //=====================================================================
