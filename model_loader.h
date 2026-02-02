@@ -86,6 +86,10 @@ typedef struct
 typedef struct
 {
 
+	D3DXVECTOR3 pos;	//位置
+	D3DXVECTOR3 rot;	//角度
+	int interval;		//下降のインターバル
+	bool bShadow;		// 影の有無
 }PRESSSETDATA;
 
 //*********************************************************************
@@ -93,7 +97,10 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
-
+	D3DXVECTOR3 pos;	// 位置
+	D3DXVECTOR3 rot;	// 向き
+	FIRESTATE state;	// 状態
+	bool bShadow;		// 影の有無
 }FIRESETDATA;
 
 //*********************************************************************
@@ -118,6 +125,12 @@ typedef struct
 
 	int nCountSawSet;
 	SAWSETDATA aInfoSawSet[MAX_SAW];
+
+	int nCountPressSet;
+	PRESSSETDATA aInfoPressSet[MAX_PRESS];
+
+	int nCountFireSet;
+	FIRESETDATA aInfoFireSet[MAX_FIRE];
 }MODELDATA;
 
 //*********************************************************************
