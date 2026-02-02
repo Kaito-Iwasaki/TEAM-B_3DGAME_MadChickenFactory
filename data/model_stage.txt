@@ -103,7 +103,7 @@ FIRESET
 END_FIRESET
 
 GOALSET
-	POS = 0 0 0
+	POS = 500 0 0
 END_GOALSET
 
 END_SCRIPT		# Ç±ÇÃçsÇÕê‚ëŒè¡Ç≥Ç»Ç¢Ç±Ç∆ÅI
