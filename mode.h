@@ -35,7 +35,6 @@ typedef enum
 	MODE_GAME,
 	MODE_RESULT,
 	MODE_EDITOR,
-	MODE_TEST,
 	MODE_MAX
 }MODE;	
 

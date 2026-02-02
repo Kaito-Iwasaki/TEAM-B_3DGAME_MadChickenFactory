@@ -21,7 +21,6 @@
 #include "Game.h"
 #include "result.h"
 #include "Editor.h"
-#include "Test.h"
 
 //*********************************************************************
 // 
@@ -39,7 +38,6 @@ MODEDATA g_modes[MODE_MAX] = {
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
 	{ InitResult, UninitResult, UpdateResult, DrawResult },
 	{ InitEditor, UninitEditor, UpdateEditor, DrawEditor },
-	{ InitTest, UninitTest, UpdateTest, DrawTest },
 };
 
 //=====================================================================
