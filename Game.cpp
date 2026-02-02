@@ -39,6 +39,7 @@
 #include "prompt.h"
 #include "fire.h"
 #include"particle.h"
+
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -101,7 +102,7 @@ void InitGame(void)
 	InitParticle();
 
 	// スクリプトの読み込み
-	LoadScript("data\\model_factory.txt", &modelData);
+	LoadScript("data\\model_stage.txt", &modelData);
 
 	// モデルの読み込み・配置
 	LoadAndSetModelFromData(&modelData);
