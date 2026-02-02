@@ -18,16 +18,11 @@ typedef struct
 	D3DXVECTOR3 pos;								// 位置
 	D3DXVECTOR3 rot;								// 向き
 	D3DXMATRIX mtxWorld;							// ワールドマトリックス
-	LPDIRECT3DTEXTURE9 apTexture[MAX_GOALTEXTURE];	// テクスチャへのポインタ
-	LPD3DXMESH pMesh;								// メッシュ(頂点情報)へのポインタ
-	LPD3DXBUFFER pBuffMat;							// マテリアルへのポインタ
-	DWORD dwNumMat;									// マテリアルの数
-	D3DXVECTOR3 vtxMax;								// 最大値
-	D3DXVECTOR3 vtxMin;								// 最小値
 	float fWidMax;									// 幅の最大値
 	float fWidMin;									// 幅の最小値
 	float fDepMax;									// 奥行の最大値
 	float fDepMin;									// 奥行の最小値
+	bool bUse;										// 使用しているかどうか
 
 }GOAL;
 
@@ -38,6 +33,7 @@ void UpdateGoal(void);
 void DrawGoal(void);
 void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
 void SetGoalWidthAndDepth(GOAL* pGoal, D3DXVECTOR3 vtxMax, D3DXVECTOR3 vtxMin);
+void SetGoal(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 
 #endif
