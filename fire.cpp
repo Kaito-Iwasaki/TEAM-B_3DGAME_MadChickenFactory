@@ -56,7 +56,6 @@ MESHDATA g_aFireModelData;					// 火炎放射器のモデル情報
 FLAMETHROWER g_aflamethrower[MAX_FIRE];		// 火炎放射器情報
 FIRE g_aFire[MAX_FIRE];						// 炎情報
 
-
 //=====================================================================
 // 初期化処理
 //=====================================================================
@@ -76,6 +75,9 @@ void InitFire(void)
 		g_aflamethrower[nCntFire].fireCounter = 0;							// 炎カウンター初期化
 		g_aflamethrower[nCntFire].bUse = false;								// 使用していない状態にする
 		g_aFire[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				// 位置初期化
+		g_aFire[nCntFire].nSwitching = -1;									// 炎の切り替え順番初期化
+		g_aFire[nCntFire].nIdx = -1;										// インデックス初期化
+		g_aFire[nCntFire].state = FIRESTATE_OFF;							// 炎様態初期化
 		g_aFire[nCntFire].bUse = false;										// 使用していない状態にする
 	}
 
@@ -103,11 +105,29 @@ void UpdateFire(void)
 
 	for (int nCntFire = 0; nCntFire < MAX_FIRE; nCntFire++, pFlamethrower++, pFire++)
 	{
-		if (pFlamethrower->bUse == true)
+		if (pFire->bUse == true)
 		{// 使用している
 
-			if (pFire->bUse == true)
-			{// 炎放射中
+			// 炎の状態事の処理
+			switch (pFire->state)
+			{
+			case FIRESTATE_OFF:		// 炎OFF状態
+
+				break;
+
+			case FIRESTATE_READY:	// 炎準備状態
+
+
+				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
+				move.y = (float)(rand() % 200) / 100 + 0.1f;
+				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
+
+				// エフェクト設定
+				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(30.0f, 30.0f, 0.0f));
+
+				break;
+
+			case FIRESTATE_ON:		// 炎ON状態
 
 				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
 				move.y = (float)(rand() % 200) / 100 + 3.0f;
@@ -116,21 +136,10 @@ void UpdateFire(void)
 				// エフェクト設定
 				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(30.0f, 30.0f, 0.0f));
 
-				// 炎との当たり判定
-				for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++, pPlayer++)
-				{
-					if (CollisionPointBox(pPlayer->pos,
-						D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_aFireModelData.vtxMax.y, pFlamethrower->pos.z),
-						D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
-						&& pFade.state == FADESTATE_NONE)
-					{// 炎に当たった
-
-						// 画面遷移する(GAME)
-						SetFade(MODE_GAME);
-					}
-				}
+				break;
 			}
-	
+			
+			// 炎の操作状態毎の処理
 			switch (pFlamethrower->state)
 			{
 			case OPERATIONSTATE_AUTMATIC:		// 自動操作
@@ -140,9 +149,14 @@ void UpdateFire(void)
 				if (pFlamethrower->fireCounter > FIRE_INTERVAL)
 				{// 炎をONOFFの切り替え
 
-					pFire->bUse = pFire->bUse ? false : true;
+					pFire->state = (FIRESTATE)(int)(pFire->state + pFire->nSwitching);
 					pFlamethrower->fireCounter = 0;	// カウント初期化
 
+					if (pFire->state != FIRESTATE_READY)
+					{// 炎の切り替え順番反転
+
+						pFire->nSwitching *= -1;
+					}
 				}
 
 				break;
@@ -152,10 +166,37 @@ void UpdateFire(void)
 				if (GetKeyboardTrigger(DIK_F3) == true)
 				{// 炎のONOFF切り替え
 
-					pFire->bUse = pFire->bUse ? false : true;
+					if (pFire->state == FIRESTATE_ON)
+					{// 炎をOFFにする
+
+						pFire->state = FIRESTATE_OFF;
+					}
+					else
+					{// 炎をONにする
+
+						pFire->state = FIRESTATE_ON;
+					}
 				}
 
 				break;
+			}
+
+			if (pFire->state != FIRESTATE_OFF)
+			{// 炎が出ている
+
+				// 炎との当たり判定
+				for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+				{
+					if (CollisionPointBox(pPlayer[nCntPlayer].pos,
+						D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_aFireModelData.vtxMax.y, pFlamethrower->pos.z),
+						D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
+						&& pFade.state == FADESTATE_NONE)
+					{// 炎に当たった
+
+						// 画面遷移する(GAME)
+						SetFade(MODE_GAME);
+					}
+				}
 			}
 		}
 	}
@@ -248,9 +289,10 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
 //=====================================================================
 void SetFire(int nIdx, D3DXVECTOR3 pos)
 {
-	g_aFire[nIdx].pos = pos;		// 位置設定
-	g_aFire[nIdx].nIdx = nIdx;		// インデックス設定
-	g_aFire[nIdx].bUse = true;		// 使用している状態にする
+	g_aFire[nIdx].pos = pos;				// 位置設定
+	g_aFire[nIdx].nIdx = nIdx;				// インデックス設定
+	g_aFire[nIdx].state = FIRESTATE_ON;		// 炎状態設定
+	g_aFire[nIdx].bUse = true;				// 使用している状態にする
 }
 
 //=====================================================================

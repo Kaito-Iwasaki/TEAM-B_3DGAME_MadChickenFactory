@@ -32,14 +32,18 @@ typedef enum
 {
 	OPERATIONSTATE_NONE = 0,	// 操作未設定
 	OPERATIONSTATE_MANUAL,		// 手動操作
-	OPERATIONSTATE_AUTMATIC		// 自動操作
+	OPERATIONSTATE_AUTMATIC,	// 自動操作
+	OPERATIONSTATE_MAX
 }OPERATIONSTATE;
 
 // 炎状態列挙型
 typedef enum
 {
-	
-};
+	FIRESTATE_OFF = 0,			// 炎OFF状態
+	FIRESTATE_READY,			// 炎準備状態
+	FIRESTATE_ON,				// 炎ON状態
+	FIRESTATE_MAX
+}FIRESTATE;
 
 //*********************************************************************
 // 
@@ -78,6 +82,8 @@ typedef struct
 {
 	D3DXVECTOR3 pos;		// 位置
 	int nIdx;				// インデックス
+	int nSwitching;			// 炎の切り替え値
+	FIRESTATE state;		// 炎状態
 	bool bUse;				// 使用しているかどうか
 }FIRE;
 
