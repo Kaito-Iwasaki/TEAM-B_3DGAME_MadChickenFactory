@@ -137,11 +137,11 @@ void UpdateEffect(void)
 				pVtx[2].col = g_aEffect[nCntEffect].col;
 				pVtx[3].col = g_aEffect[nCntEffect].col;
 				//サイズの反映
-				pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);		
-				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
-				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x,0.0f, g_aEffect[nCntEffect].size.z);
-				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x,0.0f, g_aEffect[nCntEffect].size.z);
-				//static int dashCool = 0;
+				pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);		
+				pVtx[1].pos = D3DXVECTOR3( g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
+				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f,0.0f, g_aEffect[nCntEffect].size.z);
+				pVtx[3].pos = D3DXVECTOR3( g_aEffect[nCntEffect].size.x * 0.5f,0.0f, g_aEffect[nCntEffect].size.z);
+				//static int dashCool = 0;							    * 0.5f
 
 				//if (dashCool > 0) dashCool--;
 				//if (GetKeyboardPress(DIK_D) == true && dashCool == 0)
@@ -180,11 +180,7 @@ void UpdateEffect(void)
 						break;
 					case EFFECTTYPE_LANDINGE:			//着地の煙
 						
-						////法線ベクトル
-						//pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
-						//pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
-						//pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
-						//pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.5f);
+						
 						break;
 					default:
 						break;
