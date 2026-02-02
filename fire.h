@@ -69,8 +69,7 @@ typedef struct
 typedef struct
 {
 	D3DXVECTOR3 pos;		// 位置
-	int nIdx;				// インデックス
-
+	bool bUse;				// 使用しているかどうか
 }FIRE;
 
 //*********************************************************************
@@ -83,7 +82,7 @@ void UninitFire(void);
 void UpdateFire(void);
 void DrawFire(void);
 void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, FIRESTATE state);
-//void SetFire(int nIdx, D3DXVECTOR3 pos);
+void SetFire(int nIdx, D3DXVECTOR3 pos);
 void SetFlamethrowerWidthAndDepth(int nIdx);
 void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
 
