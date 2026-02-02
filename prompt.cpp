@@ -26,9 +26,8 @@ typedef struct
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 size;
 	bool bUse;
-	bool bLock;
 	int nIdx;
-
+	bool bDisp;
 }Prompt;
 // グローバル変数
 LPDIRECT3DTEXTURE9 g_pTexturePrompt = NULL;				// テクスチャへのポインタ
@@ -69,7 +68,7 @@ void InitPrompt(void)
 		g_aPrompt[nCountPrompt].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aPrompt[nCountPrompt].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		g_aPrompt[nCountPrompt].bUse = false;
-		g_aPrompt[nCountPrompt].bLock = false;
+		g_aPrompt[nCountPrompt].bDisp = false;
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 		pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
@@ -132,37 +131,37 @@ void UninitPrompt(void)
 //======================
 void UpdatePrompt(void)
 {
-	Player* pPlayer = GetPlayer(); 
 
-	bool bLock = false;
+	for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+	{// １プロンプトずつ確認していく
+		if (g_aPrompt[nCountPrompt].bUse == false) continue;
 
-	for (int nCountPlayer = 0; nCountPlayer < MAX_COUNT_PLAYER; nCountPlayer++, pPlayer++)
-	{
+		Player* pPlayer = GetPlayer();
+		int nPlayerCounter = 0;						// 初期化
 
-		if (bLock == false)
-		{
-			for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
+		for (int nCountPlayer = 0; nCountPlayer < MAX_COUNT_PLAYER; nCountPlayer++, pPlayer++)
+		{// １プレイヤーずつ確認していく
+			bool bRengeX = VIEW_PROMPT >= fabsf(pPlayer->pos.x - g_aPrompt[nCountPrompt].pos.x);
+			bool bRengeY = VIEW_PROMPT >= fabsf(pPlayer->pos.y - g_aPrompt[nCountPrompt].pos.y);
+			bool bRengeZ = VIEW_PROMPT >= fabsf(pPlayer->pos.z - g_aPrompt[nCountPrompt].pos.z);
+			bool bRenge = bRengeX && bRengeY && bRengeZ;
+
+			if (bRenge)
 			{
-				bool bRengeX = VIEW_PROMPT >= fabsf(pPlayer->pos.x - g_aPrompt[nCountPrompt].pos.x);
-				bool bRengeY = VIEW_PROMPT >= fabsf(pPlayer->pos.y - g_aPrompt[nCountPrompt].pos.y);
-				bool bRengeZ = VIEW_PROMPT >= fabsf(pPlayer->pos.z - g_aPrompt[nCountPrompt].pos.z);
-				bool bRenge = bRengeX && bRengeY && bRengeZ;
-
-				if (bRenge)
-				{
-					g_aPrompt[nCountPrompt].bUse = true;
-					bLock = true;
-				}
-				else
-				{
-					g_aPrompt[nCountPrompt].bUse = false;
-
-				}
-
-
-			}
+				nPlayerCounter++;					// プレイヤー数のカウントを＋１
+			}	
 		}
-		
+
+		// プロンプトに近いプレイヤーの数のカウントが０じゃなかったら表示する
+		if (nPlayerCounter >= 1)
+		{
+			g_aPrompt[nCountPrompt].bDisp = true;
+		}
+		else
+		{
+			g_aPrompt[nCountPrompt].bDisp = false;
+
+		}
 	}
 
 }
@@ -178,7 +177,7 @@ void DrawPrompt(void)
 
 	for(int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
 	{
-		if (g_aPrompt[nCountPrompt].bUse == true)
+		if (g_aPrompt[nCountPrompt].bUse == true && g_aPrompt[nCountPrompt].bDisp == true)
 		{
 			// ワールドマトリックスの初期化
 			D3DXMatrixIdentity(&g_mtxWorldPrompt);
@@ -261,7 +260,7 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx)
 			g_aPrompt[nCountPrompt].size = size;
 			g_aPrompt[nCountPrompt].bUse = true;
 			g_aPrompt[nCountPrompt].nIdx = nIdx;
-			g_aPrompt[nCountPrompt].bLock = false;
+			g_aPrompt[nCountPrompt].bDisp = false;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 			pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
