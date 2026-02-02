@@ -274,12 +274,33 @@ END_MODELSET
 # プレス機
 #-----------------------------------------
 
-MODELSET
-	TYPE = 9
+PRESSSET
 	POS = 3000 80 1100
 	ROT = 0 90 0
+	INTERVAL = -1
 	SHADOW = 0
-END_MODELSET
+END_PRESSSET
+
+PRESSSET
+	POS = -100 100 200
+	ROT = 0 90 0
+	INTERVAL = -1
+	SHADOW = 0
+END_PRESSSET
+
+PRESSSET
+	POS = 100 100 200
+	ROT = 0 90 0
+	INTERVAL = -1
+	SHADOW = 0
+END_PRESSSET
+
+PRESSSET
+	POS = 300 100 200
+	ROT = 0 90 0
+	INTERVAL = 60
+	SHADOW = 0
+END_PRESSSET
 
 #-----------------------------------------
 # ノコギリ
@@ -364,11 +385,29 @@ END_MODELSET
 # バーナー
 #-----------------------------------------
 
-MODELSET
+FIRESET
 	TYPE = 15
 	POS = 2750 100 1100
 	ROT = 0 0 0
-END_MODELSET
+	STATE = 1
+	SHADOW = 0
+END_FIRESET
+
+FIRESET
+	TYPE = 15
+	POS = 700 0 -200
+	ROT = 0 0 0
+	STATE = 2
+	SHADOW = 0
+END_FIRESET
+
+FIRESET
+	TYPE = 15
+	POS = 900 0 -200
+	ROT = 0 0 0
+	STATE = 1
+	SHADOW = 0
+END_FIRESET
 
 #-----------------------------------------
 # フライヤー

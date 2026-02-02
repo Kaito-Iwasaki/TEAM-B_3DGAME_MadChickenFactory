@@ -24,7 +24,6 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_PRESS (128)				//プレス機の最大数
 #define PRESS_MODEL_PATH	"data\\MODEL\\chicken.x"	//プレス機のモデルへのパス
 #define DESCENTSPEED	(10.0f)		//プレス機の下降速度
 #define DESCENT_LIMIT	(150.0f)	//プレス機の下降限界
@@ -75,9 +74,6 @@ void InitPress(void)
 	}
 
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
-	SetPress(0,D3DXVECTOR3(-100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
-	SetPress(0, D3DXVECTOR3(100.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, -1);
-	SetPress(1, D3DXVECTOR3(300.0f, 100.0f, 200.0f), D3DXVECTOR3_ZERO, 60);
 }
 
 //=====================================================================

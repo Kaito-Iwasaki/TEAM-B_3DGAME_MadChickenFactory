@@ -146,6 +146,22 @@ void InitGame(void)
 		SetSaw(pSawData->pos, pSawData->rot, pSawData->bStartup);
 	}
 
+	// プレス機の設定
+	for (int nCntPress = 0; nCntPress < modelData.nCountPressSet; nCntPress++)
+	{
+		PRESSSETDATA* pPressData = &modelData.aInfoPressSet[nCntPress];
+
+		SetPress(nCntPress, pPressData->pos, pPressData->rot, pPressData->interval);
+	}
+
+	// 火炎放射器の設定
+	for (int nCntFire = 0; nCntFire < modelData.nCountFireSet; nCntFire++)
+	{
+		FIRESETDATA* pFireData = &modelData.aInfoFireSet[nCntFire];
+
+		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state);
+	}
+
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
 	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
