@@ -70,10 +70,10 @@ void InitPrompt(void)
 		g_aPrompt[nCountPrompt].bDisp = false;
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[1].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[2].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[3].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[0].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[1].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[2].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[3].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
 
 		// 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -99,6 +99,7 @@ void InitPrompt(void)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
 
+	SetPrompt(D3DXVECTOR3(1000.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f), 0);
 }
 
 //======================
@@ -275,10 +276,10 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx)
 			g_aPrompt[nCountPrompt].bDisp = false;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[1].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[2].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[3].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[0].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[1].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[2].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[3].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
 
 			float fTexsizeX = g_aPrompt[nCountPrompt].size.x / PROMPT_TEXTURE_SIZE_X;
 			float fTexsizeY = g_aPrompt[nCountPrompt].size.y / PROMPT_TEXTURE_SIZE_Y;
