@@ -98,6 +98,7 @@ void InitPrompt(void)
 	
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
+
 }
 
 //======================
@@ -144,7 +145,7 @@ void UpdatePrompt(void)
 			{
 				nPlayerCounter++;					// プレイヤー数のカウントを＋１
 
-				if (g_aPrompt[nCountPrompt].bDisp == true && ((nCountPlayer == 0) && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))|| ((nCountPlayer == 1) && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A))))
+				if (g_aPrompt[nCountPrompt].bDisp == true && (((nCountPlayer == 0) && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))|| ((nCountPlayer == 1) && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A)))))
 				{
 					g_aPromptTrigger[nCountPrompt] = true;
 				}
@@ -211,6 +212,7 @@ void DrawPrompt(void)
 			// 頂点フォーマットの設定
 			pDevice->SetFVF(FVF_VERTEX_3D);
 
+			// ライティングを無効にする
 			pDevice->SetRenderState(D3DRS_LIGHTING,FALSE);
 
 			// アルファテストを有効にする
@@ -229,7 +231,7 @@ void DrawPrompt(void)
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
 				0,
 				2);
-
+			// ライティングを有効にする
 			pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 			// Zテストを有効にする
