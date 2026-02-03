@@ -18,6 +18,7 @@
 #include "saw.h"
 #include "press.h"
 #include "fire.h"
+#include "prompt.h"
 
 //*********************************************************************
 // 
@@ -104,6 +105,16 @@ typedef struct
 }FIRESETDATA;
 
 //*********************************************************************
+// ギミック配置情報構造体（プロンプト）
+//*********************************************************************
+typedef struct
+{
+	int nIdx;				// インデックス（番号）
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 size;		// サイズ
+}PROMPTSETDATA;
+
+//*********************************************************************
 // ギミック配置情報構造体（ゴール）
 //*********************************************************************
 typedef struct
@@ -141,6 +152,9 @@ typedef struct
 
 	int nCountFireSet;
 	FIRESETDATA aInfoFireSet[MAX_FIRE];
+
+	int nCountPromptSet;
+	PROMPTSETDATA aInfoPromptSet[MAX_PROMPT];
 
 	GOALSETDATA InfoGoalSet;
 }MODELDATA;
