@@ -13,7 +13,6 @@
 
 
 // マクロ定義
-#define MAX_PROMPT (256)									// 最大数
 #define PROMPT_TXT_PASS "data\\TEXTURE\\pressA.png"			// プロンプトのテクスチャパス
 #define PROMPT_TEXTURE_SIZE_Y (100.0f)						// プロンプトのテクスチャサイズ(Y)
 #define PROMPT_TEXTURE_SIZE_X (100.0f)						// プロンプトのテクスチャサイズ(X)
