@@ -83,6 +83,11 @@ void UpdateSaw(void)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
 		{
+			if (GetPromptTrigger(nCntSaw))
+			{
+				SwitchSaw(nCntSaw);
+			}
+
 			if (g_aSaw[nCntSaw].bStartup == true)
 			{//起動スイッチがON
 				//MAX_SAW_SPEEDまで速度をあげながら回転
@@ -161,12 +166,13 @@ void DrawSaw(void)
 //	回転ノコギリ設置処理
 //
 //==================================================
-void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
+void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 {
 	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
 	{
 		if (g_aSaw[nCnt].bUse == false)
 		{
+			g_aSaw[nCnt].nIdx = nIdx;
 			g_aSaw[nCnt].bStartup = startup;
 			g_aSaw[nCnt].bUse = true;
 			g_aSaw[nCnt].pos = pos;

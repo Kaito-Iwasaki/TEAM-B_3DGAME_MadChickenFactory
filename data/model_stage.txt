@@ -69,9 +69,16 @@ END_FIELDSET
 # ギミック情報
 #------------------------------------------------------------------------------
 #----------------------------------------
+# ゴール
+#----------------------------------------
+GOALSET
+	POS = 3000 0 0
+END_GOALSET
+
+#----------------------------------------
 # 回転ノコギリ
 #----------------------------------------
-#SAWSET
+SAWSET
 	ID = 0
 	POS = 1000 0 0
 	ROT = 0 0 0
@@ -82,28 +89,103 @@ END_SAWSET
 #----------------------------------------
 # プレス機
 #----------------------------------------
-#PRESSSET
+PRESSSET
 	ID = 0
 	POS = 500 0 0
 	ROT = 0 0 0
-	INTERVAL = 30
+	INTERVAL = -1
 	SHADOW = 1
 END_PRESSSET
+
+PROMPTSET
+	ID = 0
+	POS = 500 0 0
+	SIZE = 100 100 100
+END_PROMPTSET
 
 #----------------------------------------
 # 火炎放射器
 #----------------------------------------
 FIRESET
 	ID = 0
-	POS = 1000 0 0
+	POS = 1000 0 -450
 	ROT = 0 0 0
-	INTERVAL = 60
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 -350
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 -250
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 -150
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 -50
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 50
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 150
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 250
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 350
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 2
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 1000 0 450
+	ROT = 0 0 0
+	INTERVAL = 30
 	STATE = 2
 	SHADOW = 1
 END_FIRESET
 
-GOALSET
-	POS = 500 0 0
-END_GOALSET
 
 END_SCRIPT		# この行は絶対消さないこと！

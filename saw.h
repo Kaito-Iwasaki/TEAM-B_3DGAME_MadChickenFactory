@@ -30,6 +30,7 @@
 //==================================================
 typedef struct
 {
+	int nIdx;
 	D3DXVECTOR3 pos;	//ˆÊ’u
 	D3DXVECTOR3 rot;	//Šp“x
 	bool bStartup;		//‹N“®‚ÌON/OFF
@@ -48,7 +49,7 @@ void InitSaw(void);
 void UninitSaw(void);
 void UpdateSaw(void);
 void DrawSaw(void);
-void SetSaw(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
+void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
 void SwitchSaw(int nIdx);
 bool CollisionSaw(void);
 

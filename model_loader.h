@@ -75,6 +75,7 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
+	int nIdx;				// インデックス（番号）
 	D3DXVECTOR3 pos;		// 位置
 	D3DXVECTOR3 rot;		// 向き
 	bool bStartup;			// 起動のON/OFF
