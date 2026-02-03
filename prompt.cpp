@@ -97,13 +97,8 @@ void InitPrompt(void)
 		pVtx += 4;
 	}
 	
-
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
-
-	SetPrompt(D3DXVECTOR3_ZERO, D3DXVECTOR3(100, 100, 0), 0);
-	SetPrompt(D3DXVECTOR3(500, 0, 0), D3DXVECTOR3(100, 100, 0), 1);
-
 }
 
 //======================
@@ -217,6 +212,8 @@ void DrawPrompt(void)
 			// 頂点フォーマットの設定
 			pDevice->SetFVF(FVF_VERTEX_3D);
 
+			pDevice->SetRenderState(D3DRS_LIGHTING,FALSE);
+
 			// アルファテストを有効にする
 			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -233,6 +230,8 @@ void DrawPrompt(void)
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
 				0,
 				2);
+
+			pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 			// Zテストを有効にする
 			pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
