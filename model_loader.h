@@ -87,7 +87,7 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
-
+	int nIdx;			// インデックス（番号）
 	D3DXVECTOR3 pos;	//位置
 	D3DXVECTOR3 rot;	//角度
 	int interval;		//下降のインターバル

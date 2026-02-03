@@ -414,6 +414,10 @@ void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer)
 		{
 			break;
 		}
+		else if (strcmp(&aStrLine[0], "ID") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nIdx);
+		}
 		else if (strcmp(&aStrLine[0], "POS") == 0)
 		{
 			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
