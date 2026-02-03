@@ -29,6 +29,7 @@ typedef enum
 {
 	PARTICLETYPE_BALL = 0,				//ボール型
 	PARTICLETYPE_FIRE,
+	PARTICLETYPE_FOG,					//霧
 	PARTICLETYPE_MAX,
 }PARTICLETYPE;
 
@@ -46,6 +47,7 @@ typedef struct
 	int nLife;						//パーティクルの寿命
 	bool bUse;						//パーティクルを使用しているかどうか
 	PARTICLETYPE nTyoe;				//パーティクルの種類
+	int nFream;
 	
 }Particle;
 

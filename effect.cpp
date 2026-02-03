@@ -37,6 +37,7 @@ void InitEffect(void)
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\shadow000.jpg", &g_pTextureEffect[0]);
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\dasheffect.png", &g_pTextureEffect[1]);				//ダッシュエフェクト
 	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\landingeffect.png", &g_pTextureEffect[2]);			//着地エフェクト
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\smokeeffect.png", &g_pTextureEffect[3]);			//着地エフェクト
 
 	for (int nCntEffect = 0;  nCntEffect < MAX_EFFECT;  nCntEffect++)
 	{
@@ -108,6 +109,11 @@ void UninitEffect(void)
 		g_pTextureEffect[2]->Release();
 		g_pTextureEffect[2] = NULL;
 	}
+	if (g_pTextureEffect[3] != NULL)
+	{
+		g_pTextureEffect[3]->Release();
+		g_pTextureEffect[3] = NULL;
+	}
 	if (g_pVtxBuffEffect != NULL)
 	{			
 		g_pVtxBuffEffect->Release();
@@ -174,13 +180,12 @@ void UpdateEffect(void)
 
 						break;
 					case EFFECTTYPE_DASH:				//走った後の煙
-						g_aEffect[nCntEffect].Frame = 20;
-						
-
+							
 						break;
 					case EFFECTTYPE_LANDINGE:			//着地の煙
-						
-						
+												
+						break;
+					case EFFECTTYPE_SMOKE:
 						break;
 					default:
 						break;
