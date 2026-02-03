@@ -18,6 +18,7 @@
 #include "saw.h"
 #include "press.h"
 #include "fire.h"
+#include "prompt.h"
 
 //*********************************************************************
 // 
@@ -74,6 +75,7 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
+	int nIdx;				// インデックス（番号）
 	D3DXVECTOR3 pos;		// 位置
 	D3DXVECTOR3 rot;		// 向き
 	bool bStartup;			// 起動のON/OFF
@@ -85,7 +87,7 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
-
+	int nIdx;			// インデックス（番号）
 	D3DXVECTOR3 pos;	//位置
 	D3DXVECTOR3 rot;	//角度
 	int interval;		//下降のインターバル
@@ -102,6 +104,16 @@ typedef struct
 	OPERATIONSTATE state;	// 状態
 	bool bShadow;			// 影の有無
 }FIRESETDATA;
+
+//*********************************************************************
+// ギミック配置情報構造体（プロンプト）
+//*********************************************************************
+typedef struct
+{
+	int nIdx;				// インデックス（番号）
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 size;		// サイズ
+}PROMPTSETDATA;
 
 //*********************************************************************
 // ギミック配置情報構造体（ゴール）
@@ -141,6 +153,9 @@ typedef struct
 
 	int nCountFireSet;
 	FIRESETDATA aInfoFireSet[MAX_FIRE];
+
+	int nCountPromptSet;
+	PROMPTSETDATA aInfoPromptSet[MAX_PROMPT];
 
 	GOALSETDATA InfoGoalSet;
 }MODELDATA;

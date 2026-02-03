@@ -49,6 +49,7 @@ void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer);
 void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer);
 void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer);
 void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer);
+void _Read_PROMPTSET(FILE* pFile, PROMPTSETDATA* pBuffer);
 void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer);
 
 //=====================================================================
@@ -182,6 +183,14 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			_Read_FIRESET(pFile, pData);
 
 			pBuffer->nCountFireSet++;
+		}
+		else if (strcmp(&aStrLine[0], "PROMPTSET") == 0)
+		{
+			PROMPTSETDATA* pData = &pBuffer->aInfoPromptSet[pBuffer->nCountPromptSet];
+
+			_Read_PROMPTSET(pFile, pData);
+
+			pBuffer->nCountPromptSet++;
 		}
 		else if (strcmp(&aStrLine[0], "GOALSET") == 0)
 		{// ゴールセット情報読み取り
@@ -357,6 +366,10 @@ void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer)
 		{
 			break;
 		}
+		else if (strcmp(&aStrLine[0], "ID") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nIdx);
+		}
 		else if (strcmp(&aStrLine[0], "POS") == 0)
 		{
 			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
@@ -400,6 +413,10 @@ void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer)
 		if (strcmp(&aStrLine[0], "END_PRESSSET") == 0)
 		{
 			break;
+		}
+		else if (strcmp(&aStrLine[0], "ID") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nIdx);
 		}
 		else if (strcmp(&aStrLine[0], "POS") == 0)
 		{
@@ -466,6 +483,40 @@ void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer)
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->bShadow);
+		}
+	}
+}
+
+//=====================================================================
+// [PROMPTSET]読み込み処理
+//=====================================================================
+void _Read_PROMPTSET(FILE* pFile, PROMPTSETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_PROMPTSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "ID") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nIdx);
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "SIZE") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->size.x, &pBuffer->size.y, &pBuffer->size.z);
 		}
 	}
 }

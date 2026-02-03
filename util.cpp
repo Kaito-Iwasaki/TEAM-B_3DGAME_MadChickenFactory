@@ -265,20 +265,94 @@ D3DXVECTOR3 Vector2To3(D3DXVECTOR2 source, float fValueZ)
 // ベクトルとベクトルの交差判定
 //=====================================================================
 bool IsCrossingVector(
-	D3DXVECTOR3 vec0,
-	D3DXVECTOR3 vec1,
-	D3DXVECTOR3 pos,
-	D3DXVECTOR3 posOld,
-	D3DXVECTOR3* vecHit
+	D3DXVECTOR3 vec0,		// 境界線ベクトル始点
+	D3DXVECTOR3 vec1,		// 境界線ベクトル終点
+	D3DXVECTOR3 pos,		// オブジェクト位置
+	D3DXVECTOR3 posOld,		// オブジェクト過去位置
+	D3DXVECTOR3* vecHit		// 衝突点のベクトルへのポインタ
 )
 {
-	D3DXVECTOR3 vecLine = vec1 - vec0;
-	D3DXVECTOR3 vecMove = pos - posOld;
-	D3DXVECTOR3 vecToPos = pos - vec0;
-	D3DXVECTOR3 vecToOld = posOld - vec0;
+	D3DXVECTOR3 vecLine = vec1 - vec0;		// 境界線ベクトル
+	D3DXVECTOR3 vecMove = pos - posOld;		// 移動ベクトル
+	D3DXVECTOR3 vecToPos = pos - vec0;		// vecLine始点からオブジェクト位置まで
+	D3DXVECTOR3 vecToOld = posOld - vec0;	// vecLine始点からオブジェクト過去位置まで
+	D3DXVECTOR3 vecNor = Normalize(D3DXVECTOR3(-vecLine.y, vecLine.x, 0));	// 法線ベクトル
 
+	if (CrossProduct(vecLine, vecToOld).y >= 0 && CrossProduct(vecLine, vecToPos).y < 0)
+	{
+		if (vecHit != NULL)
+		{
+			float c0 = CrossProduct(vecToPos, vecMove).y;
+			float c1 = CrossProduct(vecLine, vecMove).y;
+
+			*vecHit = vecLine * (c0 / c1);
+		}
+
+		return true;
+	}
+	
 
 	return false;
+}
+
+//=====================================================================
+// スクリーン座標からワールド座標への変換処理
+//=====================================================================
+D3DXVECTOR3 ScreenToWorld(D3DXVECTOR2 posScreen, D3DXVECTOR3 posPlane, D3DXVECTOR3 norPlane)
+{
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	D3DXMATRIX mtxView, mtxProj, mtxViewport;
+	D3DXMATRIX mtxInv, mtxViewInv, mtxProjInv, mtxViewportInv;
+	D3DXVECTOR3 worldPos;
+	D3DXVECTOR3 posNear = D3DXVECTOR3(posScreen.x, posScreen.y, 0.0f);
+	D3DXVECTOR3 posFar = D3DXVECTOR3(posScreen.x, posScreen.y, 1.0f);
+	D3DXVECTOR3 vecRay;
+	D3DXVECTOR3 vecNearToPlane = posPlane - posNear;
+
+	// ワールド座標＝スクリーン座標×逆ビューポート行列×逆プロジェクション行列×逆ビュー行列
+
+	// ビュー行列を取得
+	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
+
+	// プロジェクション行列を取得
+	pDevice->GetTransform(D3DTS_PROJECTION, &mtxProj);
+
+	// ビューポート行列の取得
+	D3DXMatrixIdentity(&mtxViewport);
+	mtxViewport._11 = SCREEN_WIDTH;
+	mtxViewport._22 = -SCREEN_HEIGHT;
+	mtxViewport._41 = SCREEN_WIDTH;
+	mtxViewport._42 = SCREEN_HEIGHT;
+
+	// 各行列の逆行列を求める
+	D3DXMatrixInverse(&mtxViewInv, NULL, &mtxView);
+	D3DXMatrixInverse(&mtxProjInv, NULL, &mtxProj);
+	D3DXMatrixInverse(&mtxViewportInv, NULL, &mtxViewport);
+	mtxInv = mtxViewportInv * mtxProjInv * mtxView;	// １つにまとめる
+
+	// ベクトルに行列を掛け合わせて最近点と最遠点を求める
+	D3DXVec3TransformCoord(&posNear, &posNear, &mtxInv);
+	D3DXVec3TransformCoord(&posFar, &posFar, &mtxInv);
+
+	// 最近点と最遠点から光線ベクトルを求める
+	vecRay = Normalize(posFar - posNear);
+
+	if (vecRay < 0)
+	{// 光線ベクトルが下向き＝平面と接しているなら
+
+		// 射影長を使ってvecRayから衝突点までの距離を求める
+		float fLengthProjRay = DotProduct(vecRay, norPlane);
+		float fLengthProjToPlane = DotProduct(vecNearToPlane, norPlane);
+
+		// 最近点＋光線ベクトル（方向）×衝突点までの距離
+		worldPos = posNear + vecRay * (fLengthProjToPlane / fLengthProjRay);
+	}
+	else
+	{// 平面と接していないので最遠点を指す
+		worldPos = posFar;
+	}
+
+	return worldPos;
 }
 
 //=====================================================================

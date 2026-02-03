@@ -867,10 +867,10 @@ void UpdatePlayer(void)
 		SetMove(&g_Player[nCntPlayer].move, g_Player[nCntPlayer].ModelHit, &g_Player[nCntPlayer].bJump);
 
 		// ƒS[ƒ‹‚Æ‚Ì“–‚½‚è”»’è
-		CollisionGoal(&g_Player->pos, &g_Player->posOld, &g_Player->move, g_Player->fRadius);
+		CollisionGoal(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
 
 		// ‰Î‰Š•úŽËŠí‚Æ‚Ì“–‚½‚è”»’è
-		CollisionFlamethrower(&g_Player->pos, &g_Player->posOld, &g_Player->move, g_Player->fRadius);
+		CollisionFlamethrower(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
 
 			// •Ç‚Æ‚Ì“–‚½‚è”»’è
 			CollisionWall(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, D3DXVECTOR3_ZERO);

@@ -91,11 +91,6 @@ void UpdatePress(void)
 {
 	Player* pPlayer = GetPlayer();
 
-	if (GetKeyboardTrigger(DIK_F3))
-	{
-		PressMachineSwitch(0);
-	}
-
 	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
 	{
 		if (g_aPress[nCntPress].bUse == true)
@@ -135,6 +130,11 @@ void UpdatePress(void)
 			}
 			else
 			{//Žè“®‘€c
+				if (GetPromptTrigger(nCntPress))
+				{
+					PressMachineSwitch(nCntPress);
+				}
+
 				if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
 				{//‰º~
 					g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;

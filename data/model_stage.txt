@@ -59,9 +59,9 @@ MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [21]木箱
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 750 0 0
+	POS = 1250 0 0
 	ROT = 0 0 0
-	BLOCK = 5 2
+	BLOCK = 7 2
 	SIZE = 500 500
 END_FIELDSET
 
@@ -69,11 +69,25 @@ END_FIELDSET
 # ギミック情報
 #------------------------------------------------------------------------------
 #----------------------------------------
+# ゴール
+#----------------------------------------
+GOALSET
+	POS = 3000 0 0
+END_GOALSET
+
+#----------------------------------------
 # 回転ノコギリ
 #----------------------------------------
-#SAWSET
+SAWSET
 	ID = 0
-	POS = 1000 0 0
+	POS = 500 0 -250
+	ROT = 0 0 0
+	STARTUP = 1
+	SHADOW = 1
+END_SAWSET
+SAWSET
+	ID = 0
+	POS = 500 0 250
 	ROT = 0 0 0
 	STARTUP = 1
 	SHADOW = 1
@@ -82,9 +96,23 @@ END_SAWSET
 #----------------------------------------
 # プレス機
 #----------------------------------------
-#PRESSSET
+PRESSSET
 	ID = 0
-	POS = 500 0 0
+	POS = 1500 200 -300
+	ROT = 0 0 0
+	INTERVAL = 30
+	SHADOW = 1
+END_PRESSSET
+PRESSSET
+	ID = 0
+	POS = 1500 200 0
+	ROT = 0 0 0
+	INTERVAL = 30
+	SHADOW = 1
+END_PRESSSET
+PRESSSET
+	ID = 0
+	POS = 1500 200 300
 	ROT = 0 0 0
 	INTERVAL = 30
 	SHADOW = 1
@@ -95,15 +123,93 @@ END_PRESSSET
 #----------------------------------------
 FIRESET
 	ID = 0
-	POS = 1000 0 0
+	POS = 2500 0 -450
 	ROT = 0 0 0
-	INTERVAL = 60
-	STATE = 2
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 -350
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 -250
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 -150
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 -50
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 50
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 150
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 250
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 350
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	SHADOW = 1
+END_FIRESET
+FIRESET
+	ID = 0
+	POS = 2500 0 450
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
 	SHADOW = 1
 END_FIRESET
 
-GOALSET
-	POS = 500 0 0
-END_GOALSET
+#----------------------------------------
+# プロンプト
+#----------------------------------------
+PROMPTSET
+	ID = 0
+	POS = 2300 0 0
+	SIZE = 100 100 100
+END_PROMPTSET
+
 
 END_SCRIPT		# この行は絶対消さないこと！

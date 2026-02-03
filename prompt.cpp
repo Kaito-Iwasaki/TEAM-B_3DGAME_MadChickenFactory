@@ -13,7 +13,6 @@
 
 
 // マクロ定義
-#define MAX_PROMPT (256)									// 最大数
 #define PROMPT_TXT_PASS "data\\TEXTURE\\pressA.png"			// プロンプトのテクスチャパス
 #define PROMPT_TEXTURE_SIZE_Y (100.0f)						// プロンプトのテクスチャサイズ(Y)
 #define PROMPT_TEXTURE_SIZE_X (100.0f)						// プロンプトのテクスチャサイズ(X)
@@ -71,10 +70,10 @@ void InitPrompt(void)
 		g_aPrompt[nCountPrompt].bDisp = false;
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[1].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[2].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[3].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[0].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[1].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[2].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[3].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
 
 		// 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -97,12 +96,9 @@ void InitPrompt(void)
 		pVtx += 4;
 	}
 	
-
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
 
-	SetPrompt(D3DXVECTOR3_ZERO, D3DXVECTOR3(100, 100, 0), 0);
-	SetPrompt(D3DXVECTOR3(500, 0, 0), D3DXVECTOR3(100, 100, 0), 1);
 
 }
 
@@ -149,8 +145,19 @@ void UpdatePrompt(void)
 			if (bRenge)
 			{
 				nPlayerCounter++;					// プレイヤー数のカウントを＋１
+
+				if (g_aPrompt[nCountPrompt].bDisp == true && (((nCountPlayer == 0) && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))|| ((nCountPlayer == 1) && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A)))))
+				{
+					g_aPromptTrigger[nCountPrompt] = true;
+				}
+				else
+				{
+					g_aPromptTrigger[nCountPrompt] = false;
+				}
 			}	
 		}
+
+		PrintDebugProc("%d\n", nPlayerCounter);
 
 		// プロンプトに近いプレイヤーの数のカウントが０じゃなかったら表示する
 		if (nPlayerCounter >= 1)
@@ -163,14 +170,7 @@ void UpdatePrompt(void)
 
 		}
 
-		if (g_aPrompt[nCountPrompt].bUse == true && g_aPrompt[nCountPrompt].bDisp == true && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))
-		{
-			g_aPromptTrigger[nCountPrompt] = true;
-		}
-		else
-		{
-			g_aPromptTrigger[nCountPrompt] = false;
-		}
+		
 	}
 }
 
@@ -213,6 +213,9 @@ void DrawPrompt(void)
 			// 頂点フォーマットの設定
 			pDevice->SetFVF(FVF_VERTEX_3D);
 
+			// ライティングを無効にする
+			pDevice->SetRenderState(D3DRS_LIGHTING,FALSE);
+
 			// アルファテストを有効にする
 			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -229,6 +232,8 @@ void DrawPrompt(void)
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
 				0,
 				2);
+			// ライティングを有効にする
+			pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 			// Zテストを有効にする
 			pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
@@ -271,10 +276,10 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx)
 			g_aPrompt[nCountPrompt].bDisp = false;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[1].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[2].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x - g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[3].pos = D3DXVECTOR3(g_aPrompt[nCountPrompt].pos.x + g_aPrompt[nCountPrompt].size.x, g_aPrompt[nCountPrompt].pos.y - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[0].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[1].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[2].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[3].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
 
 			float fTexsizeX = g_aPrompt[nCountPrompt].size.x / PROMPT_TEXTURE_SIZE_X;
 			float fTexsizeY = g_aPrompt[nCountPrompt].size.y / PROMPT_TEXTURE_SIZE_Y;
