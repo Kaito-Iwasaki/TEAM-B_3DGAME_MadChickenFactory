@@ -2,6 +2,7 @@
 // 
 //  壁処理　[wall.cpp]
 //  Author shuuhei Ida
+//		   : Keitaro Nagate
 //
 //================================
 #include "util.h"
@@ -19,6 +20,7 @@
 //*******************************
 #define WALL_TEXTURE_SIZE_X (300.0f)
 #define WALL_TEXTURE_SIZE_Y (300.0f)
+#define MARGIN_RANGE		(0.1f)		//当たり判定のゆとり
 
 //*******************************
 // 
@@ -86,7 +88,7 @@ void InitWall(void)
 		pVtx += 4;
 	}
 
-	SetWall(0, D3DXVECTOR3_ZERO, D3DXVECTOR3(1000.0f, 1000.0f, 0.0f), D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	SetWall(0, D3DXVECTOR3_ZERO, D3DXVECTOR3(1000.0f, 1000.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.3f, 0.0f));
 	
 	// 頂点バッファをアンロックする
 	g_pVtxBuffWall->Unlock();
@@ -182,6 +184,10 @@ void SetWall(int nTexType, D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 			g_aWall[nCntWall].size = size;
 			g_aWall[nCntWall].rot = rot;
 			g_aWall[nCntWall].bUse = true;
+			g_aWall[nCntWall].nor.x = -sinf(g_aWall[nCntWall].rot.y);
+			g_aWall[nCntWall].nor.z = -cosf(g_aWall[nCntWall].rot.y);
+			float size = sqrt(pow(g_aWall[nCntWall].nor.x, 2.0f) + pow(g_aWall[nCntWall].nor.z, 2.0f));
+			g_aWall[nCntWall].nor = g_aWall[nCntWall].nor / size;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 			pVtx[0].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
@@ -210,13 +216,16 @@ void SetWall(int nTexType, D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 // ***** 壁の当たり判定 *****
 // 
 //=====================================================================
-bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold, D3DXVECTOR3 size)
+bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVECTOR3 size)
 {
 	bool check = false, checkold = false;
 	bool bChek = false, bcheckold = false;
 
 	D3DXVECTOR3 VecLine, VecToPos, VecMove, VecToPosOld;
-	D3DXVECTOR3 v0, v1;
+	D3DXVECTOR3 v0, v1;		//壁の端to端ベクトル
+	D3DXVECTOR3 WallMove, Reflection;	//壁ずりベクトル,反射ベクトル
+
+	float fNormal;	//正規化法線ベクトル
 	float fRate, fAll, fIntersect;
 
 	VecMove = *pos - posold;
@@ -239,7 +248,7 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold, D3DXVECTOR3 size)
 
 			VecToPosOld = posold - v0;
 
-			if ((VecLine.z * VecToPos.x) - (VecLine.x * VecToPos.z) < 0)
+			if ((VecLine.z * VecToPos.x) - (VecLine.x * VecToPos.z) < MARGIN_RANGE)
 			{//posが右にいる
 				check = true;
 
@@ -250,7 +259,7 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold, D3DXVECTOR3 size)
 
 			}
 
-			if ((VecLine.z * VecToPosOld.x) - (VecLine.x * VecToPosOld.z) > 0)
+			if ((VecLine.z * VecToPosOld.x) - (VecLine.x * VecToPosOld.z) > -MARGIN_RANGE)
 			{//posoldが左にいる
 				checkold = true;
 
@@ -271,7 +280,10 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold, D3DXVECTOR3 size)
 				{
 					bChek = true;
 					PrintDebugProc("HIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+					fNormal = -DotProduct(*move, g_aWall[nCnt].nor);
+					WallMove = *move + fNormal * g_aWall[nCnt].nor;
+					*pos = v0 + VecLine * fRate;
+					*pos += WallMove;
 				}
 				else
 				{

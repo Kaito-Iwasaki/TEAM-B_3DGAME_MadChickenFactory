@@ -17,6 +17,7 @@
 #include"model.h"
 #include"goal.h"
 #include"fire.h"
+#include "wall.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -870,6 +871,9 @@ void UpdatePlayer(void)
 
 		// 火炎放射器との当たり判定
 		CollisionFlamethrower(&g_Player->pos, &g_Player->posOld, &g_Player->move, g_Player->fRadius);
+
+			// 壁との当たり判定
+			CollisionWall(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, D3DXVECTOR3_ZERO);
 
 		if (g_Player[nCntPlayer].move.y != 0.0f)
 		{// 落下中

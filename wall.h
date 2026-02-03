@@ -31,6 +31,7 @@ typedef struct
 	int nTexType;
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 rot;
+	D3DXVECTOR3 nor;
 	D3DXVECTOR3 size;
 	D3DXMATRIX mtxWorldWall;
 	bool bUse;
@@ -51,6 +52,6 @@ void DrawWall(void);
 
 void SetWall(int nTexType,  D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot);
 
-bool CollisionWall(D3DXVECTOR3* pos, D3DXVECTOR3 posold, D3DXVECTOR3 size);
+bool CollisionWall(D3DXVECTOR3* pos, D3DXVECTOR3 posold, D3DXVECTOR3* move,D3DXVECTOR3 size);
 
 #endif // !_WALL_H_
