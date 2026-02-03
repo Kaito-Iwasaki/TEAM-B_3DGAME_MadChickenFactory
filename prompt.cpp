@@ -99,7 +99,7 @@ void InitPrompt(void)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffPrompt->Unlock();
 
-	SetPrompt(D3DXVECTOR3(1000.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 100.0f, 0.0f), 0);
+
 }
 
 //======================
