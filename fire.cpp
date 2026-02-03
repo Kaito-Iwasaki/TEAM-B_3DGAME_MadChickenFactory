@@ -118,9 +118,9 @@ void UpdateFire(void)
 			case FIRESTATE_READY:	// 炎準備状態
 
 
-				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
-				move.y = (float)(rand() % 200) / 100 + 0.1f;
-				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
+				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 495 + 0.1f;
+				move.y = 0.1f;
+				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 495 + 0.1f;
 
 				// エフェクト設定
 				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(30.0f, 30.0f, 0.0f));
@@ -135,6 +135,20 @@ void UpdateFire(void)
 
 				// エフェクト設定
 				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(30.0f, 30.0f, 0.0f));
+
+				// 炎との当たり判定
+				for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+				{
+					if (CollisionPointBox(pPlayer[nCntPlayer].pos,
+						D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_aFireModelData.vtxMax.y, pFlamethrower->pos.z),
+						D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
+						&& pFade.state == FADESTATE_NONE)
+					{// 炎に当たった
+
+						// 画面遷移する(GAME)
+						SetFade(MODE_GAME);
+					}
+				}
 
 				break;
 			}
@@ -179,24 +193,6 @@ void UpdateFire(void)
 				}
 
 				break;
-			}
-
-			if (pFire->state != FIRESTATE_OFF)
-			{// 炎が出ている
-
-				// 炎との当たり判定
-				for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-				{
-					if (CollisionPointBox(pPlayer[nCntPlayer].pos,
-						D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_aFireModelData.vtxMax.y, pFlamethrower->pos.z),
-						D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
-						&& pFade.state == FADESTATE_NONE)
-					{// 炎に当たった
-
-						// 画面遷移する(GAME)
-						SetFade(MODE_GAME);
-					}
-				}
 			}
 		}
 	}
