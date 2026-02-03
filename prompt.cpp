@@ -149,8 +149,19 @@ void UpdatePrompt(void)
 			if (bRenge)
 			{
 				nPlayerCounter++;					// プレイヤー数のカウントを＋１
+
+				if (g_aPrompt[nCountPrompt].bDisp == true && ((nCountPlayer == 0) && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))|| ((nCountPlayer == 1) && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A))))
+				{
+					g_aPromptTrigger[nCountPrompt] = true;
+				}
+				else
+				{
+					g_aPromptTrigger[nCountPrompt] = false;
+				}
 			}	
 		}
+
+		PrintDebugProc("%d\n", nPlayerCounter);
 
 		// プロンプトに近いプレイヤーの数のカウントが０じゃなかったら表示する
 		if (nPlayerCounter >= 1)
@@ -163,14 +174,7 @@ void UpdatePrompt(void)
 
 		}
 
-		if (g_aPrompt[nCountPrompt].bUse == true && g_aPrompt[nCountPrompt].bDisp == true && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))
-		{
-			g_aPromptTrigger[nCountPrompt] = true;
-		}
-		else
-		{
-			g_aPromptTrigger[nCountPrompt] = false;
-		}
+		
 	}
 }
 
