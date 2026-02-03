@@ -144,7 +144,7 @@ void InitGame(void)
 	{
 		SAWSETDATA* pSawData = &modelData.aInfoSawSet[nCntSaw];
 
-		SetSaw(pSawData->pos, pSawData->rot, pSawData->bStartup);
+		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->bStartup);
 	}
 
 	// プレス機の設定
@@ -161,6 +161,14 @@ void InitGame(void)
 		FIRESETDATA* pFireData = &modelData.aInfoFireSet[nCntFire];
 
 		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state);
+	}
+
+	// プロンプトの設定
+	for (int nCntPrompt = 0; nCntPrompt < modelData.nCountPromptSet; nCntPrompt++)
+	{
+		PROMPTSETDATA* pPromptData = &modelData.aInfoPromptSet[nCntPrompt];
+
+		SetPrompt(pPromptData->pos, pPromptData->size, pPromptData->nIdx);
 	}
 
 	// ゴールの設定
