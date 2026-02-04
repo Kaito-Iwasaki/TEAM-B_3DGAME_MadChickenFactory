@@ -63,7 +63,8 @@ void InitField(void)
 
 		g_aField[nCountField].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置初期化
 		g_aField[nCountField].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き初期化
-		g_aField[nCountField].move = D3DXVECTOR3_ZERO;					// 移動量初期化
+		g_aField[nCountField].speed = D3DXVECTOR3_ZERO;					// 移動量初期化
+		g_aField[nCountField].range = D3DXVECTOR3_ZERO;
 		g_aField[nCountField].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 大きさ初期化
 		g_aField[nCountField].nTxtype = -1;								// 種類初期化
 		g_aField[nCountField].bUse = false;								// 使用していない状態にする
@@ -94,11 +95,11 @@ void InitField(void)
 
 		pVtx += 4;
 	}
+	SetField(D3DXVECTOR3_ZERO, D3DXVECTOR3(200.0f, 0.0f, 200.0f), D3DXVECTOR3_ZERO,
+		2, D3DXVECTOR3(2.0f, 2.0f, 0.0f), D3DXVECTOR3(200.0f, 200.0f, 200.0f));
 
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
-
-	SetField(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1, D3DXVECTOR3(1.0,1.0f,0.0f));
 }
 
 //======================
@@ -134,25 +135,30 @@ void UpdateField(void)
 	g_pVtxBuffField->Lock(0, 0, (void**)&pVtx, 0);
 
 
-	for (int nCountField = 0; nCountField < MAX_FIELD; nCountField++)
+	for (int nCntField = 0; nCntField < MAX_FIELD; nCntField++)
 	{
-		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
-		pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
-		pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
-		pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
+		if (g_aField[nCntField].bUse == true)
+		{
+			g_aField[nCntField].pos += g_aField[nCntField].speed;
 
-		fTexsizeX = g_aField[nCountField].size.x / FIELD_TEXTURE_SIZE_X;
-		fTexsizeY = g_aField[nCountField].size.z / FIELD_TEXTURE_SIZE_Y;
+			if (g_aField[nCntField].pos.x <= g_aField[nCntField].poslocal.x - g_aField[nCntField].range.x ||
+				g_aField[nCntField].pos.x >= g_aField[nCntField].poslocal.x + g_aField[nCntField].range.x)
+			{//移動して、範囲外へ出たら
+				g_aField[nCntField].speed.x *= -1;
+			}
 
-		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-		pVtx[1].tex = D3DXVECTOR2(fTexsizeX * 1.0f, 0.0f);
-		pVtx[2].tex = D3DXVECTOR2(0.0f, fTexsizeY * 1.0f);
-		pVtx[3].tex = D3DXVECTOR2(fTexsizeX * 1.0f, fTexsizeY * 1.0f);
-	
-		pVtx += 4;
+			if (g_aField[nCntField].pos.y <= g_aField[nCntField].poslocal.y - g_aField[nCntField].range.y ||
+				g_aField[nCntField].pos.y >= g_aField[nCntField].poslocal.y + g_aField[nCntField].range.y)
+			{//移動して、範囲外へ出たら
+				g_aField[nCntField].speed.y *= -1;
+			}
 
-		g_aField[nCountField].pos += g_aField[nCountField].move;
+			if (g_aField[nCntField].pos.z <= g_aField[nCntField].poslocal.z - g_aField[nCntField].range.z ||
+				g_aField[nCntField].pos.z >= g_aField[nCntField].poslocal.z + g_aField[nCntField].range.z)
+			{//移動して、範囲外へ出たら
+				g_aField[nCntField].speed.z *= -1;
+			}
+		}
 	}
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
@@ -206,7 +212,7 @@ void DrawField(void)
 //===================
 // フィールドの設置
 //===================
-void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot,int ntxtype, D3DXVECTOR3 move)
+void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot,int ntxtype, D3DXVECTOR3 speed, D3DXVECTOR3 range)
 {
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 
@@ -220,10 +226,12 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot,int ntxtype, D3
 		if (g_aField[nCountField].bUse == false)
 		{
 			g_aField[nCountField].pos = pos;			// 位置設定
+			g_aField[nCountField].poslocal = pos;		// 位置保存
 			g_aField[nCountField].size = size;			// 大きさ設定
 			g_aField[nCountField].rot = rot;			// 向き設定
 			g_aField[nCountField].nTxtype = ntxtype;	// テクスチャ設定
-			g_aField[nCountField].move = move;			// 移動量設定
+			g_aField[nCountField].speed = speed;		// 移動量設定
+			g_aField[nCountField].range = range;		// 可動域
 			g_aField[nCountField].bUse = true;			// 使用している状態にする
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
@@ -278,7 +286,7 @@ bool CollisionField(D3DXVECTOR3 *pos, D3DXVECTOR3 posold)
 
 			if (bGround == true)
 			{
-				*pos += g_aField[nCntField].move;
+				*pos += g_aField[nCntField].speed;
 			}
 
 		}
