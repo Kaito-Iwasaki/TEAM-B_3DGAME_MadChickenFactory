@@ -157,8 +157,6 @@ void UpdatePrompt(void)
 			}	
 		}
 
-		PrintDebugProc("%d\n", nPlayerCounter);
-
 		// プロンプトに近いプレイヤーの数のカウントが０じゃなかったら表示する
 		if (nPlayerCounter >= 1)
 		{
