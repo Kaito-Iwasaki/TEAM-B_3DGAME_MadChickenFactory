@@ -296,6 +296,14 @@ void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %d %d", &pBuffer->nBlockX, &pBuffer->nBlockZ);
 		}
+		else if (strcmp(&aStrLine[0], "SPEED") == 0)
+		{
+			fscanf(pFile, " = %d %d", &pBuffer->nBlockX, &pBuffer->nBlockZ);
+		}
+		else if (strcmp(&aStrLine[0], "RANGE") == 0)
+		{
+			fscanf(pFile, " = %d %d", &pBuffer->nBlockX, &pBuffer->nBlockZ);
+		}
 	}
 }
 
@@ -388,14 +396,6 @@ void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %d", &pBuffer->bStartup);
 		}
-		else if (strcmp(&aStrLine[0], "RANGE") == 0)
-		{
-			fscanf(pFile, " = %f %f %f", &pBuffer->moveRange.x, &pBuffer->moveRange.y, &pBuffer->moveRange.z);
-		}
-		else if (strcmp(&aStrLine[0], "TIME") == 0)
-		{
-			fscanf(pFile, " = %d", &pBuffer->nTimeMove);
-		}
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->bShadow);
@@ -487,14 +487,6 @@ void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer)
 		else if (strcmp(&aStrLine[0], "STATE") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->state);
-		}
-		else if (strcmp(&aStrLine[0], "FIRESTATE") == 0)
-		{
-			fscanf(pFile, " = %d", &pBuffer->firestate);
-		}
-		else if (strcmp(&aStrLine[0], "IDX") == 0)
-		{
-			fscanf(pFile, " = %d", &pBuffer->nIdx);
 		}
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{
