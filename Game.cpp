@@ -74,6 +74,7 @@
 // 
 //*********************************************************************
 MODELDATA g_modelDataGame;
+bool g_bLightGame = false;
 
 //=====================================================================
 // 初期化処理
@@ -177,6 +178,8 @@ void InitGame(void)
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
 	GetCamera(0)->mode = CAMERAMODE_FREE;
+
+	g_bLightGame = true;
 }
 
 //=====================================================================
@@ -239,11 +242,21 @@ void UpdateGame(void)
 		UpdateFire();			// 火炎放射器
 		UpdateParticle();
 
+#ifdef  _DEBUG
 		// デバッグ表示
 		Player* pPlayer = GetPlayer();
 
-		PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
+		PrintDebugProc("ライト切り替え:[F1]\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
+		if (GetKeyboardTrigger(DIK_F1))
+		{
+			g_bLightGame = !g_bLightGame;
+			GetDevice()->SetRenderState(D3DRS_LIGHTING, (DWORD)g_bLightGame);
+		}
+
+		PrintDebugProc("位置[0]：%f, %f, %f\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
 		PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[1].pos.x, pPlayer[1].pos.y, pPlayer[1].pos.z);
+#endif //  _DEBUG
+
 	}
 	else
 	{//ポーズ中

@@ -1,6 +1,7 @@
 //==================================================
 //
 // 可動箱[box_movable.h]
+// Author : Keitaro Nagate
 //
 //==================================================
 #ifndef _BOX_MOVABLE_H_
@@ -27,13 +28,12 @@
 //==================================================
 typedef struct
 {
-	D3DXVECTOR3 pos;	//位置
-	D3DXVECTOR3 rot;	//角度
-	bool bStartup;		//起動のON/OFF
-	bool bUse;			// 使用 / 不使用
+	D3DXVECTOR3 pos;			// 位置
+	D3DXVECTOR3 rot;			// 角度
+	D3DXVECTOR3 MotionRange;	// 可動域
+	bool bChatch;				// 掴まれているか
+	bool bUse;					// 使用 /不使用
 	D3DXMATRIX mtxWorld;
-
-	float turnSpeed;
 }MoveBox;
 
 //==================================================
@@ -46,7 +46,6 @@ void UninitMoveBox(void);
 void UpdateMoveBox(void);
 void DrawMoveBox(void);
 void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
-void SwitchMoveBox(int nIdx);
 bool CollisionMoveBox(void);
 
 #endif // !_STAGELIGHT_H_

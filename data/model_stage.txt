@@ -57,6 +57,23 @@ MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [21]ñÿî†
 #------------------------------------------------------------------------------
 # ínñ èÓïÒ
 #------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 6
+	POS = -1500 0 0
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 1000 500
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = -1500 0 1000
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 1000 500
+END_FIELDSET
+
 FIELDSET
 	TEXTYPE = 6
 	POS = 2500 0 0
@@ -68,12 +85,45 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 # ï«èÓïÒ
 #------------------------------------------------------------------------------
+
+WALLSET
+	TEXTYPE = 3
+	POS = -1500 0 1500
+	ROT = 0 0 0
+	BLOCK = 4 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = -500 0 1000
+	ROT = 0 90 0
+	BLOCK = 2 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = -2500 0 500
+	ROT = 0 -90 0
+	BLOCK = 4 2
+	SIZE = 500 500
+END_WALLSET
+
 WALLSET
 	TEXTYPE = 3
 	POS = 2500 0 500
 	ROT = 0 0 0
 	BLOCK = 12 2
 	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 1500 0 -500
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 8000 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
