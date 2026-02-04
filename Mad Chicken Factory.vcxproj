@@ -165,6 +165,8 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="model_loader.h" />
+    <ClInclude Include="motion.h" />
+    <ClInclude Include="motion_loader.h" />
     <ClInclude Include="particle.h">
       <SubType>
       </SubType>
@@ -223,6 +225,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="model_loader.cpp" />
+    <ClCompile Include="motion.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="motion_loader.cpp" />
     <ClCompile Include="particle.cpp">
       <SubType>
       </SubType>
