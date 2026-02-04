@@ -103,6 +103,8 @@ typedef struct
 	D3DXVECTOR3 pos;		// 位置
 	D3DXVECTOR3 rot;		// 向き
 	OPERATIONSTATE state;	// 状態
+	FIRESTATE firestate;	// 炎の状態
+	int nIdx;				// インデックス
 	bool bShadow;			// 影の有無
 }FIRESETDATA;
 

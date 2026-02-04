@@ -17,6 +17,7 @@
 #include "fade.h"
 #include "input.h"
 #include "model.h"
+#include "prompt.h"
 
 //*********************************************************************
 // 
@@ -162,7 +163,7 @@ void UpdateFire(void)
 
 				if (pFlamethrower->fireCounter > FIRE_INTERVAL)
 				{// 炎をONOFFの切り替え
-
+					
 					if (pFire->state == FIRESTATE_ON)
 					{// OFFにする
 
@@ -180,18 +181,17 @@ void UpdateFire(void)
 
 			case OPERATIONSTATE_MANUAL:		// 自動操作
 
-				if (GetKeyboardTrigger(DIK_F3) == true)
-				{// 炎のONOFF切り替え
-
+				if (GetPromptTrigger(0) == true)
+				{
 					if (pFire->state == FIRESTATE_ON)
 					{// 炎をOFFにする
 
-						pFire->state = FIRESTATE_OFF;
+						SetFire(SETFIREMODE_SWICHING, 0, pFire->pos, FIRESTATE_OFF, nCntFire);
 					}
 					else
 					{// 炎をONにする
 
-						pFire->state = FIRESTATE_ON;
+						SetFire(SETFIREMODE_SWICHING, 0, pFire->pos, FIRESTATE_ON, nCntFire);
 					}
 				}
 
@@ -262,7 +262,7 @@ void DrawFire(void)
 //=====================================================================
 // 火炎放射器の設定
 //=====================================================================
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx)
 {
 	for (int nCntFlamethrower = 0; nCntFlamethrower < MAX_FIRE; nCntFlamethrower++)
 	{
@@ -277,9 +277,9 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
 			SetFlamethrowerWidthAndDepth(nCntFlamethrower);
 
 			// 炎の設定
-			SetFire(SETFIREMODE_SETTING, nCntFlamethrower,
+			SetFire(SETFIREMODE_SETTING, nIdx,
 					D3DXVECTOR3(g_aflamethrower[nCntFlamethrower].pos.x, g_aflamethrower[nCntFlamethrower].pos.y + g_aFireModelData.vtxMax.y - 5.0f, g_aflamethrower[nCntFlamethrower].pos.z),
-					FIRESTATE_OFF);
+					firestate, nCntFlamethrower);
 			
 			break;
 		}
@@ -288,20 +288,31 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
 //=====================================================================
 // 炎の設定
 //=====================================================================
-void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state)
+void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state, int nCnt)
 {
 	if (setfiremode == SETFIREMODE_SETTING)
 	{// 炎設定
 
-		g_aFire[nIdx].pos = pos;				// 位置設定
-		g_aFire[nIdx].nIdx = nIdx;				// インデックス設定
-		g_aFire[nIdx].state = state;			// 炎状態設定
-		g_aFire[nIdx].bUse = true;				// 使用している状態にする
+		if (g_aFire[nCnt].bUse == false)
+		{// 使用していない
+			g_aFire[nCnt].pos = pos;				// 位置設定
+			g_aFire[nCnt].nIdx = nIdx;				// インデックス設定
+			g_aFire[nCnt].state = state;			// 炎状態設定
+			g_aFire[nCnt].bUse = true;				// 使用している状態にする
+		}
 	}
 	else if (setfiremode == SETFIREMODE_SWICHING)
 	{// 炎状態変更
 
-		g_aFire[nIdx].state = state;			// 炎状態設定
+		if (g_aFire[nCnt].bUse == true)
+		{// 使用している
+
+			if (g_aFire[nCnt].nIdx == nIdx)
+			{// 指定されたインデックスの炎変更
+
+				g_aFire[nCnt].state = state;			// 炎状態設定
+			}
+		}
 	}
 }
 
