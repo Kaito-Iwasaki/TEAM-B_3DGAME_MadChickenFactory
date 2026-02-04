@@ -291,14 +291,16 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
 void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state)
 {
 	if (setfiremode == SETFIREMODE_SETTING)
-	{
+	{// 炎設定
+
 		g_aFire[nIdx].pos = pos;				// 位置設定
 		g_aFire[nIdx].nIdx = nIdx;				// インデックス設定
 		g_aFire[nIdx].state = state;			// 炎状態設定
 		g_aFire[nIdx].bUse = true;				// 使用している状態にする
 	}
 	else if (setfiremode == SETFIREMODE_SWICHING)
-	{
+	{// 炎状態変更
+
 		g_aFire[nIdx].state = state;			// 炎状態設定
 	}
 }
