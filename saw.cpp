@@ -164,19 +164,22 @@ void DrawSaw(void)
 //==================================================
 //
 //	‰ñ“]ƒmƒRƒMƒŠİ’uˆ—
-//
+//	moveRange = pos‚ğ’†S‚É+-‚Å“®ì
+// 
 //==================================================
-void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
+void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange,bool startup)
 {
 	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
 	{
 		if (g_aSaw[nCnt].bUse == false)
 		{
 			g_aSaw[nCnt].nIdx = nIdx;
+			g_aSaw[nCnt].pos = pos;
+			g_aSaw[nCnt].poslocal = pos;
+			g_aSaw[nCnt].rot = rot;
+			g_aSaw[nCnt].moveRange = moveRange;
 			g_aSaw[nCnt].bStartup = startup;
 			g_aSaw[nCnt].bUse = true;
-			g_aSaw[nCnt].pos = pos;
-			g_aSaw[nCnt].rot = rot;
 			break;
 		}
 	}

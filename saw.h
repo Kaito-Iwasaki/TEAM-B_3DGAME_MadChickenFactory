@@ -31,10 +31,12 @@
 typedef struct
 {
 	int nIdx;
-	D3DXVECTOR3 pos;	//位置
-	D3DXVECTOR3 rot;	//角度
-	bool bStartup;		//起動のON/OFF
-	bool bUse;			// 使用 / 不使用
+	D3DXVECTOR3 pos;		//位置
+	D3DXVECTOR3 poslocal;	//設定位置
+	D3DXVECTOR3 rot;		//角度
+	D3DXVECTOR3 moveRange;	//可動域
+	bool bStartup;			//起動のON/OFF
+	bool bUse;				// 使用 / 不使用
 	D3DXMATRIX mtxWorld;
 
 	float turnSpeed;
@@ -49,7 +51,7 @@ void InitSaw(void);
 void UninitSaw(void);
 void UpdateSaw(void);
 void DrawSaw(void);
-void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup);
+void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, bool startup);
 void SwitchSaw(int nIdx);
 bool CollisionSaw(void);
 
