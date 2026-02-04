@@ -78,6 +78,7 @@ typedef struct
 	int nIdx;				// インデックス（番号）
 	D3DXVECTOR3 pos;		// 位置
 	D3DXVECTOR3 rot;		// 向き
+	D3DXVECTOR3 moveRamge;	//可動域
 	bool bStartup;			// 起動のON/OFF
 	bool bShadow;			// 影の有無
 }SAWSETDATA;
