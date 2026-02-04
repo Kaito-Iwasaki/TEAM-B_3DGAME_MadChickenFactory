@@ -238,6 +238,12 @@ void UpdateGame(void)
 		UpdatePrompt();			// プロンプト
 		UpdateFire();			// 火炎放射器
 		UpdateParticle();
+
+		// デバッグ表示
+		Player* pPlayer = GetPlayer();
+
+		PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
+		PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[1].pos.x, pPlayer[1].pos.y, pPlayer[1].pos.z);
 	}
 	else
 	{//ポーズ中
