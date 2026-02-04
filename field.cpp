@@ -96,8 +96,6 @@ void InitField(void)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
 
-	SetField(D3DXVECTOR3(0.0f, -50.0f, 0.0f), D3DXVECTOR3(1500.0f, 0.0f, 750.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),2);
-
 	//SetField(D3DXVECTOR3(100.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 }
 
