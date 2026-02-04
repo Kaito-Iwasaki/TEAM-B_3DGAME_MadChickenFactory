@@ -75,7 +75,7 @@ void InitFire(void)
 		g_aflamethrower[nCntFire].fireCounter = 0;							// 炎カウンター初期化
 		g_aflamethrower[nCntFire].bUse = false;								// 使用していない状態にする
 		g_aFire[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				// 位置初期化
-		g_aFire[nCntFire].nSwitching = -1;									// 炎の切り替え順番初期化
+		g_aFire[nCntFire].nSwitching = 1;									// 炎の切り替え順番初期化
 		g_aFire[nCntFire].nIdx = -1;										// インデックス初期化
 		g_aFire[nCntFire].state = FIRESTATE_OFF;							// 炎様態初期化
 		g_aFire[nCntFire].bUse = false;										// 使用していない状態にする
@@ -118,12 +118,12 @@ void UpdateFire(void)
 			case FIRESTATE_READY:	// 炎準備状態
 
 
-				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 495 + 0.1f;
+				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 100) / 300 + 0.1f;
 				move.y = 0.1f;
-				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 495 + 0.1f;
+				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 100) / 300 + 0.1f;
 
 				// エフェクト設定
-				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(30.0f, 30.0f, 0.0f));
+				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(20.0f, 20.0f, 0.0f));
 
 				break;
 
@@ -134,7 +134,7 @@ void UpdateFire(void)
 				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
 
 				// エフェクト設定
-				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(30.0f, 30.0f, 0.0f));
+				SetEffect(pFire->pos, move, EFFECTTYPE_NOMALE, 60, D3DXCOLOR(0.8f, 0.3f, 0.1f, 1.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 
 				// 炎との当たり判定
 				for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
@@ -163,14 +163,17 @@ void UpdateFire(void)
 				if (pFlamethrower->fireCounter > FIRE_INTERVAL)
 				{// 炎をONOFFの切り替え
 
-					pFire->state = (FIRESTATE)(int)(pFire->state + pFire->nSwitching);
-					pFlamethrower->fireCounter = 0;	// カウント初期化
+					if (pFire->state == FIRESTATE_ON)
+					{// OFFにする
 
-					if (pFire->state != FIRESTATE_READY)
-					{// 炎の切り替え順番反転
-
-						pFire->nSwitching *= -1;
+						pFire->state == FIRESTATE_OFF;
 					}
+					else
+					{// 状態を1つ進める
+						pFire->state = (FIRESTATE)(int)(pFire->state + pFire->nSwitching);
+					}
+
+					pFlamethrower->fireCounter = 0;	// カウント初期化
 				}
 
 				break;
@@ -274,7 +277,9 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
 			SetFlamethrowerWidthAndDepth(nCntFlamethrower);
 
 			// 炎の設定
-			SetFire(nCntFlamethrower, D3DXVECTOR3(g_aflamethrower[nCntFlamethrower].pos.x, g_aflamethrower[nCntFlamethrower].pos.y + g_aFireModelData.vtxMax.y, g_aflamethrower[nCntFlamethrower].pos.z));
+			SetFire(SETFIREMODE_SETTING, nCntFlamethrower,
+					D3DXVECTOR3(g_aflamethrower[nCntFlamethrower].pos.x, g_aflamethrower[nCntFlamethrower].pos.y + g_aFireModelData.vtxMax.y - 5.0f, g_aflamethrower[nCntFlamethrower].pos.z),
+					FIRESTATE_OFF);
 			
 			break;
 		}
@@ -283,12 +288,19 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state)
 //=====================================================================
 // 炎の設定
 //=====================================================================
-void SetFire(int nIdx, D3DXVECTOR3 pos)
+void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state)
 {
-	g_aFire[nIdx].pos = pos;				// 位置設定
-	g_aFire[nIdx].nIdx = nIdx;				// インデックス設定
-	g_aFire[nIdx].state = FIRESTATE_ON;		// 炎状態設定
-	g_aFire[nIdx].bUse = true;				// 使用している状態にする
+	if (setfiremode == SETFIREMODE_SETTING)
+	{
+		g_aFire[nIdx].pos = pos;				// 位置設定
+		g_aFire[nIdx].nIdx = nIdx;				// インデックス設定
+		g_aFire[nIdx].state = state;			// 炎状態設定
+		g_aFire[nIdx].bUse = true;				// 使用している状態にする
+	}
+	else if (setfiremode == SETFIREMODE_SWICHING)
+	{
+		g_aFire[nIdx].state = state;			// 炎状態設定
+	}
 }
 
 //=====================================================================

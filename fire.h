@@ -45,6 +45,14 @@ typedef enum
 	FIRESTATE_MAX
 }FIRESTATE;
 
+typedef enum
+{
+	SETFIREMODE_SETTING = 0,
+	SETFIREMODE_SWICHING,
+	SETFIREMODE_MAX
+
+}SETFIREMODE;
+
 //*********************************************************************
 // 
 // ***** ç\ë¢ëÃ *****
@@ -97,7 +105,7 @@ void UninitFire(void);
 void UpdateFire(void);
 void DrawFire(void);
 void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state);
-void SetFire(int nIdx, D3DXVECTOR3 pos);
+void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state);
 void SetFlamethrowerWidthAndDepth(int nIdx);
 void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
 
