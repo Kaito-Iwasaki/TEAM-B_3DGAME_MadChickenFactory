@@ -2,19 +2,33 @@
 // 
 //  フィールド処理　[field.cpp]
 //  Author shuuhei Ida
+//		  : Keitaro Nagate
 //
 //================================
-
+//*********************************************************************
+// 
+// ***** インクルードファイル *****
+// 
+//*********************************************************************
 #include "input.h"
 #include "field.h"
 #include "texture.h"
+#include "player.h"
 
-// マクロ定義
+//*********************************************************************
+// 
+// ***** マクロ定義 *****
+// 
+//*********************************************************************
 #define FIELD_TXT_PASS "data\\TEXTURE\\field000.jpg"
 #define FIELD_TEXTURE_SIZE_X (300.0f)
 #define FIELD_TEXTURE_SIZE_Y (300.0f)
 
-// グローバル変数
+//*********************************************************************
+// 
+// ***** グローバル変数宣言 *****
+// 
+//*********************************************************************
 LPDIRECT3DTEXTURE9 g_pTextureField = NULL;							// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffField = NULL;						// 頂点バッファへのポインタ
 Field g_aField[MAX_FIELD];
@@ -82,7 +96,7 @@ void InitField(void)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
 
-	//SetField(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1500.0f, 0.0f, 750.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetField(D3DXVECTOR3(0.0f, -50.0f, 0.0f), D3DXVECTOR3(1500.0f, 0.0f, 750.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),2);
 
 	//SetField(D3DXVECTOR3(100.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 }
@@ -232,4 +246,35 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
 
+}
+//*********************************************************************
+// 
+// ***** 当たり判定 *****
+// 
+//*********************************************************************
+bool CollisionField(D3DXVECTOR3 *pos, D3DXVECTOR3 posold)
+{
+	bool bGround = false;
+	Player* pPlayer = GetPlayer();
+
+	for (int nCntField = 0; nCntField < MAX_FIELD; nCntField++)
+	{
+		if (g_aField[nCntField].bUse == true)
+		{
+			if (pos->x >= g_aField[nCntField].pos.x - g_aField[nCntField].size.x &&
+				pos->x <= g_aField[nCntField].pos.x + g_aField[nCntField].size.x &&
+				pos->z >= g_aField[nCntField].pos.z - g_aField[nCntField].size.z &&
+				pos->z <= g_aField[nCntField].pos.z + g_aField[nCntField].size.z &&
+				pos->y <= g_aField[nCntField].pos.y)
+			{
+				if (posold.y >= g_aField[nCntField].pos.y)
+				{
+					pos->y = g_aField[nCntField].pos.y;
+					bGround = true;
+				}
+			}
+		}
+	}
+
+	return bGround;
 }

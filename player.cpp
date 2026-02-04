@@ -19,6 +19,7 @@
 #include"fire.h"
 #include "wall.h"
 #include"effect.h"
+#include "field.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -844,26 +845,26 @@ void UpdatePlayer(void)
 		g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
 
 
-		if (g_Player[nCntPlayer].pos.y < 0.0f)
-		{// 下画面端
-
-			g_Player[nCntPlayer].bJump = false;
-			g_Player[nCntPlayer].move.y = 0.0f;
-			g_Player[nCntPlayer].pos.y = 0.0f;
-
-			
-#if 0
-			if (g_Player.motionType == MOTIONTYPE_JUMP && g_Player.motionTypeBlend == MOTIONTYPE_JUMP)
-			{// 現在のモーションがジャンプ状態
-
-				// モーションの設定(着地状態)
-				SetMosion(MOTIONTYPE_LANDING, true, 15);
-
-				// 振動の設定
-				SetJoypadVibration(10000, 10000, 10);
-			}
-#endif
-		}
+//		if (g_Player[nCntPlayer].pos.y < 0.0f)
+//		{// 下画面端
+//
+//			g_Player[nCntPlayer].bJump = false;
+//			g_Player[nCntPlayer].move.y = 0.0f;
+//			g_Player[nCntPlayer].pos.y = 0.0f;
+//
+//			
+//#if 0
+//			if (g_Player.motionType == MOTIONTYPE_JUMP && g_Player.motionTypeBlend == MOTIONTYPE_JUMP)
+//			{// 現在のモーションがジャンプ状態
+//
+//				// モーションの設定(着地状態)
+//				SetMosion(MOTIONTYPE_LANDING, true, 15);
+//
+//				// 振動の設定
+//				SetJoypadVibration(10000, 10000, 10);
+//			}
+//#endif
+//		}
 
 		// モデルとの当たり判定
 		g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
@@ -877,10 +878,27 @@ void UpdatePlayer(void)
 		// 火炎放射器との当たり判定
 		CollisionFlamethrower(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
 
-			// 壁との当たり判定
-			CollisionWall(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, D3DXVECTOR3_ZERO);
+		// 壁との当たり判定
+		CollisionWall(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, D3DXVECTOR3_ZERO);
 
-		if (g_Player[nCntPlayer].move.y != 0.0f)
+		//床との当たり判定
+		if (CollisionField(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld))
+		{
+			g_Player[nCntPlayer].bJump = false;
+
+#if 0
+						if (g_Player.motionType == MOTIONTYPE_JUMP && g_Player.motionTypeBlend == MOTIONTYPE_JUMP)
+						{// 現在のモーションがジャンプ状態
+			
+							// モーションの設定(着地状態)
+							SetMosion(MOTIONTYPE_LANDING, true, 15);
+			
+							// 振動の設定
+							SetJoypadVibration(10000, 10000, 10);
+						}
+#endif
+		}
+		else
 		{// 落下中
 
 			if (g_Player[nCntPlayer].bJump == false)
