@@ -15,7 +15,7 @@
 //==================
 //マクロ定義 
 //==================
-#define MAX_EFFECT (512)			//エフェクトの最大数
+#define MAX_EFFECT (2048)			//エフェクトの最大数
 #define EFFECTSIZE_DASH (60)		//ダッシュエフェクトのサイズ
 #define EFFECTSIZE_LANDINGE	(80)		//着地エフェクトのサイズ
 //==============
@@ -132,6 +132,11 @@ void UpdateEffect(void)
 		if (g_aEffect[nCntEffect].bUse == true)
 		{
 		
+				//サイズの反映
+				pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
+				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
+				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
+				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
 				//エフェクトの移動
 				g_aEffect[nCntEffect].pos.x += g_aEffect[nCntEffect].move.x;
 				g_aEffect[nCntEffect].pos.y += g_aEffect[nCntEffect].move.y;
@@ -147,13 +152,20 @@ void UpdateEffect(void)
 				pVtx[1].pos = D3DXVECTOR3( g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
 				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f,0.0f, g_aEffect[nCntEffect].size.z);
 				pVtx[3].pos = D3DXVECTOR3( g_aEffect[nCntEffect].size.x * 0.5f,0.0f, g_aEffect[nCntEffect].size.z);
-				//static int dashCool = 0;							    * 0.5f
+				
+				//透明度減少
+				if (g_aEffect[nCntEffect].col.a > 0.0f)
+				{
+						g_aEffect[nCntEffect].col.a-=0.01f;
+				}
+				
+				//static int dashCool = 0;
 
 				//if (dashCool > 0) dashCool--;
-				//if (GetKeyboardPress(DIK_D) == true && dashCool == 0)
+				//if (dashCool == 0)
 				//{
 				//	Player* pPlayer = GetPlayer();
-				//	SetEffect(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y, pPlayer->pos.z), D3DXVECTOR3(0.0f, 0.0f, 0.0f), EFFECTTYPE_DASH, 100, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(80.0f, 160.0f, 0.0f));
+				//	SetEffect(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y, pPlayer->pos.z), D3DXVECTOR3(0.0f, 0.0f, 0.0f), EFFECTTYPE_DASH, 100, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(80.0f, 80.0f, 0.0f));
 				//	dashCool = 20; // 10フレーム間隔
 				//}
 
@@ -161,19 +173,12 @@ void UpdateEffect(void)
 				//寿命のカウントダウン
 				if (g_aEffect[nCntEffect].nLife < 1)
 				{
+				
 					g_aEffect[nCntEffect].bUse = false;
 
 				}
-				g_aEffect[nCntEffect].Frame--;
-				if (g_aEffect[nCntEffect].Frame < 1)
-				{
-
-					if (g_aEffect[nCntEffect].type == EFFECTTYPE_DASH)
-					{
-						g_aEffect[nCntEffect].Frame = 20;
-					}
-
-
+			
+			
 					switch (g_aEffect[nCntEffect].type)
 					{
 					case EFFECTTYPE_NOMALE:
@@ -190,7 +195,7 @@ void UpdateEffect(void)
 					default:
 						break;
 					}
-				}
+				
 			
 		}
 		pVtx += 4;
