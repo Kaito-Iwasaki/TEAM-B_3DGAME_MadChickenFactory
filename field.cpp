@@ -14,6 +14,7 @@
 #include "field.h"
 #include "texture.h"
 #include "player.h"
+#include "util.h"
 
 //*********************************************************************
 // 
@@ -62,6 +63,7 @@ void InitField(void)
 
 		g_aField[nCountField].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置初期化
 		g_aField[nCountField].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き初期化
+		g_aField[nCountField].move = D3DXVECTOR3_ZERO;					// 移動量初期化
 		g_aField[nCountField].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 大きさ初期化
 		g_aField[nCountField].nTxtype = -1;								// 種類初期化
 		g_aField[nCountField].bUse = false;								// 使用していない状態にする
@@ -96,7 +98,7 @@ void InitField(void)
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
 
-	//SetField(D3DXVECTOR3(100.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetField(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 100.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1, D3DXVECTOR3(1.0,1.0f,0.0f));
 }
 
 //======================
@@ -149,6 +151,8 @@ void UpdateField(void)
 		pVtx[3].tex = D3DXVECTOR2(fTexsizeX * 1.0f, fTexsizeY * 1.0f);
 	
 		pVtx += 4;
+
+		g_aField[nCountField].pos += g_aField[nCountField].move;
 	}
 	// 頂点バッファをアンロックする
 	g_pVtxBuffField->Unlock();
@@ -202,7 +206,7 @@ void DrawField(void)
 //===================
 // フィールドの設置
 //===================
-void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype)
+void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot,int ntxtype, D3DXVECTOR3 move)
 {
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 
@@ -219,6 +223,7 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype)
 			g_aField[nCountField].size = size;			// 大きさ設定
 			g_aField[nCountField].rot = rot;			// 向き設定
 			g_aField[nCountField].nTxtype = ntxtype;	// テクスチャ設定
+			g_aField[nCountField].move = move;			// 移動量設定
 			g_aField[nCountField].bUse = true;			// 使用している状態にする
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
@@ -253,7 +258,6 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype)
 bool CollisionField(D3DXVECTOR3 *pos, D3DXVECTOR3 posold)
 {
 	bool bGround = false;
-	Player* pPlayer = GetPlayer();
 
 	for (int nCntField = 0; nCntField < MAX_FIELD; nCntField++)
 	{
@@ -271,6 +275,12 @@ bool CollisionField(D3DXVECTOR3 *pos, D3DXVECTOR3 posold)
 					bGround = true;
 				}
 			}
+
+			if (bGround == true)
+			{
+				*pos += g_aField[nCntField].move;
+			}
+
 		}
 	}
 
