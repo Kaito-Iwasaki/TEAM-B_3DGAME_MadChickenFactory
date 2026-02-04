@@ -166,7 +166,7 @@ void UpdateFire(void)
 					if (pFire->state == FIRESTATE_ON)
 					{// OFF‚É‚·‚é
 
-						pFire->state == FIRESTATE_OFF;
+						pFire->state = FIRESTATE_OFF;
 					}
 					else
 					{// ó‘Ô‚ğ1‚Âi‚ß‚é
