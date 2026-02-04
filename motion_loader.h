@@ -1,7 +1,7 @@
 //=====================================================================
 //
 // motion_loader.cppのヘッダファイル [motion_loader.h]
-// Author : 
+// Author : Kaito Iwasaki
 // 
 //=====================================================================
 #ifndef _MOTION_LOADER_H_
@@ -13,17 +13,18 @@
 // 
 //*********************************************************************
 #include "main.h"
-#include "model.h"
+#include "motion_loader.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_MOTION_INFO		(32)		// １つのモデルに読み込めるモーションのスクリプトの総数
-#define MAX_KEY_INFO		(32)		// １つのモーションに読み込めるキー情報の総数
-#define MAX_PART_PER_KEY	(32)		// １つのキーで設定できるパーツの総数
-#define MAX_PART			(32)		// モーションとして設定できるパーツの総数
+#define MOTION_MAX_MOTION_INFO			(32)		// １つのモデルに読み込めるモーションのスクリプトの総数
+#define MOTION_MAX_KEY_INFO				(32)		// １つのモーションに読み込めるキー情報の総数
+#define MOTION_MAX_PART_PER_KEY			(32)		// １つのキーで設定できるパーツの総数
+#define MOTION_MAX_PART					(32)		// モーションとして設定できるパーツの総数
+#define MOTION_MAX_TEXTURE_PER_MODEL	(32)		// １つのパーツに読み込めるテクスチャの総数
 
 //*********************************************************************
 // 
@@ -43,17 +44,17 @@
 //*********************************************************************
 typedef struct
 {
-	LPDIRECT3DTEXTURE9 apTexture[MAX_TEXTURE_PER_MODEL];	// テクスチャへのポインタ
-	LPD3DXMESH pMesh;										// メッシュ情報へのポインタ
-	LPD3DXBUFFER pBuffMat;									// マテリアルへのポインタ
-	DWORD dwNumMat;											// マテリアル数
-	int nIdxModelParent;									// 親モデルのインデックス(-1で親なし）
-	int nIdxPart;											// このパーツのインデックス
-	D3DXVECTOR3 pos;										// 位置
-	D3DXVECTOR3 posOffset;									// 位置オフセット
-	D3DXVECTOR3 rot;										// 回転
-	D3DXVECTOR3 rotOffset;									// 回転オフセット
-	D3DXMATRIX mtxWorld;									// ワールドマトリックス
+	LPDIRECT3DTEXTURE9 apTexture[MOTION_MAX_TEXTURE_PER_MODEL];	// テクスチャへのポインタ
+	LPD3DXMESH pMesh;											// メッシュ情報へのポインタ
+	LPD3DXBUFFER pBuffMat;										// マテリアルへのポインタ
+	DWORD dwNumMat;												// マテリアル数
+	int nIdxModelParent;										// 親モデルのインデックス(-1で親なし）
+	int nIdxPart;												// このパーツのインデックス
+	D3DXVECTOR3 pos;											// 現在のパーツ位置
+	D3DXVECTOR3 posOffset;										// 位置オフセット（初期化時の位置）
+	D3DXVECTOR3 rot;											// 現在のパーツ回転
+	D3DXVECTOR3 rotOffset;										// 回転オフセット（初期化時の回転）
+	D3DXMATRIX mtxWorld;										// ワールドマトリックス
 }PART;
 
 //*********************************************************************
@@ -73,19 +74,19 @@ typedef struct
 //*********************************************************************
 typedef struct
 {
-	int nFrame;								// 再生フレーム
-	KEY aKey[MAX_PART];						// 各パーツのキー要素
+	int nFrame;						// 全体フレーム
+	KEY aKey[MOTION_MAX_PART];		// 各パーツのキー要素
 }KEY_INFO;
 
 //*********************************************************************
-// モーション情報構造体
+// [モーション情報構造体]
 // キー情報構造体
 //*********************************************************************
 typedef struct
 {
-	bool bLoop;								// ループするかどうか
-	int nNumKey;							// キーの総数
-	KEY_INFO aKeyInfo[MAX_KEY_INFO];		// キー情報
+	bool bLoop;									// ループするかどうか
+	int nNumKey;								// キーの総数
+	KEY_INFO aKeyInfo[MOTION_MAX_KEY_INFO];		// キー情報
 }MOTION_INFO;
 
 //*********************************************************************
@@ -93,11 +94,11 @@ typedef struct
 // パーツとして読み込むモデルやモーションの情報を含みます。
 //*********************************************************************
 typedef struct {
-	int nNumPart;								// 合計パーツ数
-	int nNumMotion;								// 合計モーション数
-	char aPartFilename[MAX_PART][MAX_PATH];		// パーツのモデルのファイル名
-	PART aPart[MAX_PART];						// パーツ情報構造体
-	MOTION_INFO aMotionInfo[MAX_MOTION_INFO];
+	int nNumPart;										// 合計パーツ数
+	int nNumMotion;										// 合計モーション数
+	char aPartFilename[MOTION_MAX_PART][MAX_PATH];		// パーツのモデルのファイル名
+	PART aPart[MOTION_MAX_PART];						// パーツ情報構造体
+	MOTION_INFO aMotionInfo[MOTION_MAX_MOTION_INFO];
 }MOTION;
 
 //*********************************************************************
