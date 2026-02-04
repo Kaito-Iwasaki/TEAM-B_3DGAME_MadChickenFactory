@@ -172,6 +172,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Pause.h" />
+    <ClInclude Include="Platform.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="player.h" />
     <ClInclude Include="press.h">
       <SubType>
@@ -235,6 +239,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="Platform.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="player.cpp" />
     <ClCompile Include="press.cpp">
       <SubType>
