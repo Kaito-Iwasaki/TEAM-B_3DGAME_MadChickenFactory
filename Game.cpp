@@ -159,7 +159,7 @@ void InitGame(void)
 	{
 		FIRESETDATA* pFireData = &g_modelDataGame.aInfoFireSet[nCntFire];
 
-		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state);
+		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state, pFireData->nIdx);
 	}
 
 	// プロンプトの設定
@@ -371,7 +371,7 @@ void ReloadGame(void)
 	{
 		FIRESETDATA* pFireData = &g_modelDataGame.aInfoFireSet[nCntFire];
 
-		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state);
+		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state, pFireData->nIdx);
 	}
 
 	// プロンプトの設定
