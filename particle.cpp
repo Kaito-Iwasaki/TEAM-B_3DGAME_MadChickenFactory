@@ -17,7 +17,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_PARTICLE (512)				//パーティクルの最大数
+#define MAX_PARTICLE (2048)				//パーティクルの最大数
 
 //*********************************************************************
 // 
@@ -65,6 +65,7 @@ void InitParticle(void)
 		g_aParticle[nCntParticle].nLife = 0;										//寿命の初期化
 		g_aParticle[nCntParticle].bUse = false;										//使用しているかの初期化
 		g_aParticle[nCntParticle].nTyoe = PARTICLETYPE_BALL;						//パーティクルの種類
+		g_aParticle[nCntParticle].nFream = 0;
 	}
 }
 
@@ -101,6 +102,9 @@ void UpdateParticle(void)
 				//g_aParticle[nCountParticle].move.x = sinf(phi) * cosf(theta) * speed;
 				//g_aParticle[nCountParticle].move.y = cosf(phi) * speed;
 				//g_aParticle[nCountParticle].move.z = sinf(phi) * sinf(theta) * speed;
+				g_aParticle[nCountParticle].pos.x += g_aParticle[nCountParticle].move.x;
+				g_aParticle[nCountParticle].pos.y += g_aParticle[nCountParticle].move.y;
+				g_aParticle[nCountParticle].pos.z += g_aParticle[nCountParticle].move.z;
 				switch (g_aParticle->nTyoe)
 				{
 				case PARTICLETYPE_BALL:
@@ -114,6 +118,18 @@ void UpdateParticle(void)
 				g_aParticle[nCountParticle].move.y = (float)(rand() % 200) / 100 + 3.0f;
 				g_aParticle[nCountParticle].move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
 				break;
+				case PARTICLETYPE_FOG:
+					
+					g_aParticle[nCountParticle].pos.x = ((float)rand() / RAND_MAX - 0.5f) * 3200.0f;
+					g_aParticle[nCountParticle].pos.y = ((float)rand() / RAND_MAX) * 400.0f;
+					g_aParticle[nCountParticle].pos.z = ((float)rand() / RAND_MAX - 0.5f) * 3200.0f;
+
+					// 動きはほぼ停止レベル
+					g_aParticle[nCountParticle].move.x = ((float)rand() / RAND_MAX - 0.5f) * 0.03f;
+					g_aParticle[nCountParticle].move.y = ((float)rand() / RAND_MAX - 0.5f) * 0.01f;
+					g_aParticle[nCountParticle].move.z = ((float)rand() / RAND_MAX - 0.5f) * 0.03f;
+
+					break;
 				default:
 					break;
 				}
@@ -133,10 +149,10 @@ void UpdateParticle(void)
 		//static int dashCool = 0;
 
 		//if (dashCool > 0) dashCool--;
-		//if (GetKeyboardPress(DIK_D) == true && dashCool == 0)
+		//if (dashCool == 0)
 		//{
-		//	Player* pPlayer = GetPlayer();
-		//	SetParticle(pPlayer->pos, D3DXCOLOR(0.8f, 0.5f, 0.4f, 1.0f), pPlayer->move, 100);
+
+		//	SetParticle(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXCOLOR(0.7f, 0.7f, 0.7f, 0.15f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100, D3DXVECTOR3(10000.0f, 500.0f, 1000.0f), PARTICLETYPE_FOG);
 		//	dashCool = 20; // 10フレーム間隔
 		//}
 }

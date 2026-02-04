@@ -73,15 +73,13 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-
+MODELDATA g_modelDataGame;
 
 //=====================================================================
 // 初期化処理
 //=====================================================================
 void InitGame(void)
 {
-	MODELDATA modelData;
-
 	// 各オブジェクトの初期化処理
 	InitCamera();			// カメラ
 	InitShadow();			// 影
@@ -102,21 +100,21 @@ void InitGame(void)
 	InitParticle();
 
 	// スクリプトの読み込み
-	LoadScript("data\\model_stage.txt", &modelData);
+	LoadScript("data\\model_stage.txt", &g_modelDataGame);
 
 	// モデルの読み込み・配置
-	LoadAndSetModelFromData(&modelData);
+	LoadAndSetModelFromData(&g_modelDataGame);
 
 	// テクスチャの読み込み
 	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_TEXTURE; nCountTex++)
 	{
-		LoadTexture(&modelData.aFilenameTexture[nCountTex][0], nCountTex);
+		LoadTexture(&g_modelDataGame.aFilenameTexture[nCountTex][0], nCountTex);
 	}
 
 	// フィールドの設定
-	for (int nCountField = 0; nCountField < modelData.nCountFieldSet; nCountField++)
+	for (int nCountField = 0; nCountField < g_modelDataGame.nCountFieldSet; nCountField++)
 	{
-		FIELDSETDATA* pFieldData = &modelData.aInfoFieldSet[nCountField];
+		FIELDSETDATA* pFieldData = &g_modelDataGame.aInfoFieldSet[nCountField];
 
 		SetField(
 			pFieldData->pos,
@@ -127,9 +125,9 @@ void InitGame(void)
 	}
 
 	// ウォールの設定
-	for (int nCountWALL = 0; nCountWALL < modelData.nCountWallSet; nCountWALL++)
+	for (int nCountWALL = 0; nCountWALL < g_modelDataGame.nCountWallSet; nCountWALL++)
 	{
-		WALLSETDATA* pWallData = &modelData.aInfoWallSet[nCountWALL];
+		WALLSETDATA* pWallData = &g_modelDataGame.aInfoWallSet[nCountWALL];
 
 		SetWall(
 			pWallData->nType,
@@ -140,45 +138,45 @@ void InitGame(void)
 	}
 	
 	// 回転ノコギリの設定
-	for (int nCntSaw = 0; nCntSaw < modelData.nCountSawSet; nCntSaw++)
+	for (int nCntSaw = 0; nCntSaw < g_modelDataGame.nCountSawSet; nCntSaw++)
 	{
-		SAWSETDATA* pSawData = &modelData.aInfoSawSet[nCntSaw];
+		SAWSETDATA* pSawData = &g_modelDataGame.aInfoSawSet[nCntSaw];
 
 		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->bStartup);
 	}
 
 	// プレス機の設定
-	for (int nCntPress = 0; nCntPress < modelData.nCountPressSet; nCntPress++)
+	for (int nCntPress = 0; nCntPress < g_modelDataGame.nCountPressSet; nCntPress++)
 	{
-		PRESSSETDATA* pPressData = &modelData.aInfoPressSet[nCntPress];
+		PRESSSETDATA* pPressData = &g_modelDataGame.aInfoPressSet[nCntPress];
 
 		SetPress(pPressData->nIdx, pPressData->pos, pPressData->rot, pPressData->interval);
 	}
 
 	// 火炎放射器の設定
-	for (int nCntFire = 0; nCntFire < modelData.nCountFireSet; nCntFire++)
+	for (int nCntFire = 0; nCntFire < g_modelDataGame.nCountFireSet; nCntFire++)
 	{
-		FIRESETDATA* pFireData = &modelData.aInfoFireSet[nCntFire];
+		FIRESETDATA* pFireData = &g_modelDataGame.aInfoFireSet[nCntFire];
 
 		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state);
 	}
 
 	// プロンプトの設定
-	for (int nCntPrompt = 0; nCntPrompt < modelData.nCountPromptSet; nCntPrompt++)
+	for (int nCntPrompt = 0; nCntPrompt < g_modelDataGame.nCountPromptSet; nCntPrompt++)
 	{
-		PROMPTSETDATA* pPromptData = &modelData.aInfoPromptSet[nCntPrompt];
+		PROMPTSETDATA* pPromptData = &g_modelDataGame.aInfoPromptSet[nCntPrompt];
 
 		SetPrompt(pPromptData->pos, pPromptData->size, pPromptData->nIdx);
 	}
 
 	// ゴールの設定
-	GOALSETDATA* pGoalData = &modelData.InfoGoalSet;
+	GOALSETDATA* pGoalData = &g_modelDataGame.InfoGoalSet;
 
 	SetGoal(pGoalData->pos, pGoalData->rot);
 
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
-	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
+	GetCamera(0)->mode = CAMERAMODE_FREE;
 }
 
 //=====================================================================
@@ -273,4 +271,101 @@ void DrawGame(void)
 	DrawEffect();			// エフェクト
 	DrawPrompt();			// プロンプト
 	DrawPause();			// ポーズ
+}
+
+void ReloadGame(void)
+{
+	UninitField();			// フィールド
+	UninitWall();
+	UninitModel();			// モデル
+	UninitSaw();			// 回転ノコギリ
+	UninitGoal();			// ゴール
+	UninitPress();			// プレス機
+	UninitPrompt();			// プロンプト
+	UninitFire();			// 火炎放射器
+
+	InitField();			// フィールド
+	InitWall();
+	InitModel();			// モデル
+	InitSaw();			// 回転ノコギリ
+	InitGoal();			// ゴール
+	InitPress();			// プレス機
+	InitPrompt();			// プロンプト
+	InitFire();			// 火炎放射器
+
+	// スクリプトの読み込み
+	LoadScript("data\\model_stage.txt", &g_modelDataGame);
+
+	// モデルの読み込み・配置
+	LoadAndSetModelFromData(&g_modelDataGame);
+
+	// テクスチャの読み込み
+	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_TEXTURE; nCountTex++)
+	{
+		LoadTexture(&g_modelDataGame.aFilenameTexture[nCountTex][0], nCountTex);
+	}
+
+	// フィールドの設定
+	for (int nCountField = 0; nCountField < g_modelDataGame.nCountFieldSet; nCountField++)
+	{
+		FIELDSETDATA* pFieldData = &g_modelDataGame.aInfoFieldSet[nCountField];
+
+		SetField(
+			pFieldData->pos,
+			D3DXVECTOR3(pFieldData->size.x * pFieldData->nBlockX, 0, pFieldData->size.z * pFieldData->nBlockZ),
+			pFieldData->rot,
+			pFieldData->nType
+		);
+	}
+
+	// ウォールの設定
+	for (int nCountWALL = 0; nCountWALL < g_modelDataGame.nCountWallSet; nCountWALL++)
+	{
+		WALLSETDATA* pWallData = &g_modelDataGame.aInfoWallSet[nCountWALL];
+
+		SetWall(
+			pWallData->nType,
+			pWallData->pos,
+			D3DXVECTOR3(pWallData->size.x * pWallData->nBlockX, pWallData->size.y * pWallData->nBlockY, 0),
+			pWallData->rot
+		);
+	}
+
+	// 回転ノコギリの設定
+	for (int nCntSaw = 0; nCntSaw < g_modelDataGame.nCountSawSet; nCntSaw++)
+	{
+		SAWSETDATA* pSawData = &g_modelDataGame.aInfoSawSet[nCntSaw];
+
+		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->bStartup);
+	}
+
+	// プレス機の設定
+	for (int nCntPress = 0; nCntPress < g_modelDataGame.nCountPressSet; nCntPress++)
+	{
+		PRESSSETDATA* pPressData = &g_modelDataGame.aInfoPressSet[nCntPress];
+
+		SetPress(pPressData->nIdx, pPressData->pos, pPressData->rot, pPressData->interval);
+	}
+
+	// 火炎放射器の設定
+	for (int nCntFire = 0; nCntFire < g_modelDataGame.nCountFireSet; nCntFire++)
+	{
+		FIRESETDATA* pFireData = &g_modelDataGame.aInfoFireSet[nCntFire];
+
+		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state);
+	}
+
+	// プロンプトの設定
+	for (int nCntPrompt = 0; nCntPrompt < g_modelDataGame.nCountPromptSet; nCntPrompt++)
+	{
+		PROMPTSETDATA* pPromptData = &g_modelDataGame.aInfoPromptSet[nCntPrompt];
+
+		SetPrompt(pPromptData->pos, pPromptData->size, pPromptData->nIdx);
+	}
+
+	// ゴールの設定
+	GOALSETDATA* pGoalData = &g_modelDataGame.InfoGoalSet;
+
+	SetGoal(pGoalData->pos, pGoalData->rot);
+
 }

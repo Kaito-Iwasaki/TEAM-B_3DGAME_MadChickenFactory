@@ -18,6 +18,7 @@
 #include"goal.h"
 #include"fire.h"
 #include "wall.h"
+#include"effect.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -847,6 +848,7 @@ void UpdatePlayer(void)
 			g_Player[nCntPlayer].move.y = 0.0f;
 			g_Player[nCntPlayer].pos.y = 0.0f;
 
+			SetEffect(g_Player->pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), EFFECTTYPE_LANDINGE, 40, D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.0f), D3DXVECTOR3(120.0f, 120.0f, 120.0f));
 #if 0
 			if (g_Player.motionType == MOTIONTYPE_JUMP && g_Player.motionTypeBlend == MOTIONTYPE_JUMP)
 			{// 現在のモーションがジャンプ状態

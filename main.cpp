@@ -15,6 +15,7 @@
 #include "input.h"
 #include "sound.h"
 #include "mode.h"
+#include "Game.h"
 
 //*********************************************************************
 // 
@@ -209,6 +210,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			return 0;	// 0Çï‘Ç≥Ç»Ç¢Ç∆èIóπÇµÇƒÇµÇ‹Ç§
 		}
+		break;
+
+	case WM_SETFOCUS:
+#if _DEBUG
+		if (GetCurrentMode() == MODE_GAME)
+			ReloadGame();
+#endif // _DEBUG
 		break;
 	}
 
