@@ -143,7 +143,7 @@ void InitGame(void)
 	{
 		SAWSETDATA* pSawData = &g_modelDataGame.aInfoSawSet[nCntSaw];
 
-		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot,pSawData->moveRamge, pSawData->bStartup);
+		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->moveRange, pSawData->nTimeMove, pSawData->bStartup);
 	}
 
 	// プレス機の設定
@@ -355,7 +355,7 @@ void ReloadGame(void)
 	{
 		SAWSETDATA* pSawData = &g_modelDataGame.aInfoSawSet[nCntSaw];
 
-		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->moveRamge, pSawData->bStartup);
+		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->moveRange, pSawData->nTimeMove, pSawData->bStartup);
 	}
 
 	// プレス機の設定

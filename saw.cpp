@@ -74,11 +74,6 @@ void UninitSaw(void)
 //==================================================
 void UpdateSaw(void)
 {
-	if (GetKeyboardTrigger(DIK_F3))
-	{
-		SwitchSaw(0);
-	}
-
 	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
@@ -93,7 +88,16 @@ void UpdateSaw(void)
 				//MAX_SAW_SPEEDÇ‹Ç≈ë¨ìxÇÇ†Ç∞Ç»Ç™ÇÁâÒì]
 				g_aSaw[nCntSaw].turnSpeed += (MAX_SAW_SPEED - g_aSaw[nCntSaw].turnSpeed) * 0.005f;
 				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
+
+				if (g_aSaw[nCntSaw].nCounterState > g_aSaw[nCntSaw].nMoveTime)
+				{
+					g_aSaw[nCntSaw].move *= -1;
+					g_aSaw[nCntSaw].nCounterState = 0;
+				}
 				
+				g_aSaw[nCntSaw].pos += g_aSaw[nCntSaw].move;
+
+				g_aSaw[nCntSaw].nCounterState++;
 			}
 			else
 			{//OFF
@@ -167,7 +171,7 @@ void DrawSaw(void)
 //	moveRange = posÇíÜêSÇ…+-Ç≈ìÆçÏ
 // 
 //==================================================
-void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange,bool startup)
+void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, int nMoveTime, bool startup)
 {
 	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
 	{
@@ -178,6 +182,9 @@ void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange,bo
 			g_aSaw[nCnt].poslocal = pos;
 			g_aSaw[nCnt].rot = rot;
 			g_aSaw[nCnt].moveRange = moveRange;
+			g_aSaw[nCnt].nMoveTime = nMoveTime;
+			g_aSaw[nCnt].nCounterState = 0;
+			g_aSaw[nCnt].move = ((pos + moveRange) - pos) / (float)nMoveTime;
 			g_aSaw[nCnt].bStartup = startup;
 			g_aSaw[nCnt].bUse = true;
 			break;
