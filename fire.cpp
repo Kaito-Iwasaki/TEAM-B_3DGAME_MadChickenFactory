@@ -262,7 +262,7 @@ void DrawFire(void)
 //=====================================================================
 // âŒâäï˙éÀäÌÇÃê›íË
 //=====================================================================
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, int nIdx)
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx)
 {
 	for (int nCntFlamethrower = 0; nCntFlamethrower < MAX_FIRE; nCntFlamethrower++)
 	{
@@ -279,7 +279,7 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, int
 			// âäÇÃê›íË
 			SetFire(SETFIREMODE_SETTING, nIdx,
 					D3DXVECTOR3(g_aflamethrower[nCntFlamethrower].pos.x, g_aflamethrower[nCntFlamethrower].pos.y + g_aFireModelData.vtxMax.y - 5.0f, g_aflamethrower[nCntFlamethrower].pos.z),
-					FIRESTATE_OFF, nCntFlamethrower);
+					firestate, nCntFlamethrower);
 			
 			break;
 		}

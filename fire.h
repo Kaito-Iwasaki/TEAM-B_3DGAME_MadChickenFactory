@@ -104,7 +104,7 @@ void InitFire(void);
 void UninitFire(void);
 void UpdateFire(void);
 void DrawFire(void);
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, int nIdx);
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx);
 void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state, int nCnt);
 void SetFlamethrowerWidthAndDepth(int nIdx);
 void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
