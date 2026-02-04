@@ -279,7 +279,6 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 				if (0.0f <= fRate && fRate <= 1.0f)
 				{
 					bChek = true;
-					PrintDebugProc("HIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					fNormal = -DotProduct(*move, g_aWall[nCnt].nor);
 					WallMove = *move + fNormal * g_aWall[nCnt].nor;
 					*pos = v0 + VecLine * fRate;
