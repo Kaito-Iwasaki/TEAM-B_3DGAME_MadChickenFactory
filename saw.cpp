@@ -237,6 +237,11 @@ bool CollisionSaw(void)
 					pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z;
 					bHitCheck = true;
 				}
+
+				if (bHitCheck == true && g_aSaw[nCntSaw].bStartup == false)
+				{//当たっても、スイッチが止まっていいれば死なない
+					bHitCheck = false;
+				}
 			}
 		}
 	}

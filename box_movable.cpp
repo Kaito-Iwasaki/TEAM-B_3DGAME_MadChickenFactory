@@ -41,28 +41,27 @@ MoveBox g_aMoveBox[MAX_MOVEBOX];
 
 //==================================================
 //
-//	回転ノコギリの初期化
+//	可動箱の初期化
 //
 //==================================================
 void InitMoveBox(void)
 {
 	for (int nCntMoveBox = 0; nCntMoveBox < MAX_MOVEBOX; nCntMoveBox++)
 	{
-		g_aMoveBox[nCntMoveBox].bStartup = false;
 		g_aMoveBox[nCntMoveBox].bUse = false;
 		g_aMoveBox[nCntMoveBox].pos = D3DXVECTOR3_ZERO;
 		g_aMoveBox[nCntMoveBox].rot = D3DXVECTOR3_ZERO;
-		g_aMoveBox[nCntMoveBox].turnSpeed = 0;
+
 	}
 
 	LoadModel(MOVEBOX_MODEL_PATH, &g_aMoveBoxModelData);
 
-	SetMoveBox(D3DXVECTOR3(200.0f, 30.0f, 500.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+	SetMoveBox(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
 }
 
 //==================================================
 //
-//	回転ノコギリの終了処理
+//	可動箱の終了処理
 //
 //==================================================
 void UninitMoveBox(void)
@@ -72,43 +71,17 @@ void UninitMoveBox(void)
 
 //==================================================
 //
-//	回転ノコギリの更新処理
+//	可動箱の更新処理
 //
 //==================================================
 void UpdateMoveBox(void)
 {
-	if (GetKeyboardTrigger(DIK_F3))
-	{
-		SwitchMoveBox(0);
-	}
-
-	for (int nCntMoveBox = 0; nCntMoveBox < MAX_MOVEBOX; nCntMoveBox++)
-	{
-		if (g_aMoveBox[nCntMoveBox].bUse == true)
-		{
-			if (g_aMoveBox[nCntMoveBox].bStartup == true)
-			{//起動スイッチがON
-				//MAX_MOVEBOX_SPEEDまで速度をあげながら回転
-				g_aMoveBox[nCntMoveBox].turnSpeed += (MAX_MOVEBOX_SPEED - g_aMoveBox[nCntMoveBox].turnSpeed) * 0.005f;
-				g_aMoveBox[nCntMoveBox].rot.z += g_aMoveBox[nCntMoveBox].turnSpeed;
-				
-			}
-			else
-			{//OFF
-				//0.0まで速度を徐々に落とす
-				g_aMoveBox[nCntMoveBox].turnSpeed += (0.0f - g_aMoveBox[nCntMoveBox].turnSpeed) * 0.02f;
-				g_aMoveBox[nCntMoveBox].rot.z += g_aMoveBox[nCntMoveBox].turnSpeed;
-
-			}
-		}
-	}
-
-	CollisionMoveBox();
+	
 }
 
 //==================================================
 //
-//	回転ノコギリの描画処理
+//	可動箱の描画処理
 //
 //==================================================
 void DrawMoveBox(void)
@@ -161,7 +134,7 @@ void DrawMoveBox(void)
 }
 //==================================================
 //
-//	回転ノコギリ設置処理
+//	可動箱設置処理
 //
 //==================================================
 void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
@@ -170,7 +143,6 @@ void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 	{
 		if (g_aMoveBox[nCnt].bUse == false)
 		{
-			g_aMoveBox[nCnt].bStartup = startup;
 			g_aMoveBox[nCnt].bUse = true;
 			g_aMoveBox[nCnt].pos = pos;
 			g_aMoveBox[nCnt].rot = rot;
@@ -180,7 +152,7 @@ void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 }
 //==================================================
 //
-//	回転ノコギリの当たり判定
+//	可動箱の当たり判定
 //
 //==================================================
 bool CollisionMoveBox(void)
@@ -241,13 +213,4 @@ bool CollisionMoveBox(void)
 	}
 
 	return bHitCheck;
-}
-//==================================================
-//
-//	回転ノコギリのスイッチを切り替え
-//
-//==================================================
-void SwitchMoveBox(int nIdx)
-{
-	g_aMoveBox[nIdx].bStartup ^= true;
 }

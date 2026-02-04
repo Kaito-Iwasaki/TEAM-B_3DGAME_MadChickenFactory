@@ -88,9 +88,6 @@ void InitWall(void)
 		pVtx += 4;
 	}
 
-	//SetWall(1, D3DXVECTOR3_ZERO, D3DXVECTOR3(500.0f, 500.0f, 0.0f), D3DXVECTOR3_ZERO);
-	SetWall(1, D3DXVECTOR3(500.5f,0.0f,0.0f), D3DXVECTOR3(5000.0f, 500.0f, 0.0f), D3DXVECTOR3(0.0f,3.14f,0.0f));
-
 	// 頂点バッファをアンロックする
 	g_pVtxBuffWall->Unlock();
 }
