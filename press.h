@@ -41,16 +41,18 @@ typedef enum
 //==================================================
 typedef struct
 {
-	D3DXVECTOR3 pos;	//位置
-	D3DXVECTOR3 Setpos;	//移動量
-	D3DXVECTOR3 rot;	//角度
-	int interval;		//下降のインターバル
-	int intervalCnt;	//インターバルのカウント
-	bool bStartup;		//起動のON/OFF
-	PressState PState;	//プレス機の状態
-	bool bUse;			// 使用 / 不使用
-	int nIdx;			//インデックス
-	D3DXMATRIX mtxWorld;
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 rot;		// 角度
+	float memheight;		// 動作前高度記憶用
+	float movewidth;		// 動作幅
+	int interval;			// 下降のインターバル
+	int intervalCnt;		// インターバルのカウント
+	bool bStartup;			// 起動のON/OFF
+	PressState PState;		// プレス機の状態
+	PressState bprevious;	// ひとつ前の状態
+	bool bUse;				// 使用 / 不使用
+	int nIdx;				// インデックス
+	D3DXMATRIX mtxWorld;	// ワールドマトリックス
 }Press;
 
 
@@ -63,7 +65,7 @@ void InitPress(void);
 void UninitPress(void);
 void UpdatePress(void);
 void DrawPress(void);
-void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval);
+void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, float movewidth, int interval, PressState state = PRESSSTATE_STAY);
 void PressMachineSwitch(int nIdx);
 
 #endif

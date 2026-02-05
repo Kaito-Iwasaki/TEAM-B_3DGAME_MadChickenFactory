@@ -151,7 +151,7 @@ void InitGame(void)
 	{
 		PRESSSETDATA* pPressData = &g_modelDataGame.aInfoPressSet[nCntPress];
 
-		SetPress(pPressData->nIdx, pPressData->pos, pPressData->rot, pPressData->interval);
+		SetPress(pPressData->nIdx, pPressData->pos, pPressData->rot,pPressData->width, pPressData->interval, pPressData->state);
 	}
 
 	// ‰Î‰Š•úËŠí‚Ìİ’è
@@ -363,7 +363,7 @@ void ReloadGame(void)
 	{
 		PRESSSETDATA* pPressData = &g_modelDataGame.aInfoPressSet[nCntPress];
 
-		SetPress(pPressData->nIdx, pPressData->pos, pPressData->rot, pPressData->interval);
+		SetPress(pPressData->nIdx, pPressData->pos, pPressData->rot, pPressData->width, pPressData->interval, pPressData->state);
 	}
 
 	// ‰Î‰Š•úËŠí‚Ìİ’è

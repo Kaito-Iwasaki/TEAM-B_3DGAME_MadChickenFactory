@@ -92,8 +92,10 @@ typedef struct
 	int nIdx;			// インデックス（番号）
 	D3DXVECTOR3 pos;	//位置
 	D3DXVECTOR3 rot;	//角度
+	float width;		//可動幅
 	int interval;		//下降のインターバル
 	bool bShadow;		// 影の有無
+	PressState state;	// 上下どちら配置するか
 }PRESSSETDATA;
 
 //*********************************************************************

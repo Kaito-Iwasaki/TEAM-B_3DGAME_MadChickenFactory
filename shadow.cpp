@@ -8,7 +8,7 @@
 #include"input.h"
 
 // マクロ定義
-#define MAX_SHADOW			(512)			// 影の最大数
+#define MAX_SHADOW			(1024)			// 影の最大数
 #define MAX_TEXTURE			(1)				// テクスチャ数
 #define MAX_PATTERN			(1)				// 全パターン
 #define MAX_PATTERN_X		(1)				// X軸パターン数
@@ -223,6 +223,7 @@ int SetShadow(D3DXVECTOR3 pos, float fWidth)
 	g_pVtxBuffShadow->Unlock();
 
 	return nShadowNumber;
+
 }
 
 //=======================================================
@@ -232,26 +233,29 @@ void SetPositionShadow(int nIdxShadow, D3DXVECTOR3 pos, float fAddWidth)
 {
 	VERTEX_3D* pVtx;				// 頂点情報へのポインタ
 
-	// 位置更新
-	g_aShadow[nIdxShadow].pos.x = pos.x;
-	g_aShadow[nIdxShadow].pos.z = pos.z;
+	if (nIdxShadow != -1)
+	{
+		// 位置更新
+		g_aShadow[nIdxShadow].pos.x = pos.x;
+		g_aShadow[nIdxShadow].pos.z = pos.z;
 
-	// 影の大きさ更新
-	g_aShadow[nIdxShadow].fWidth += fAddWidth;
+		// 影の大きさ更新
+		g_aShadow[nIdxShadow].fWidth += fAddWidth;
 
-	// 頂点バッファをロックし、頂点情報へのポインタ取得
-	g_pVtxBuffShadow->Lock(0, 0, (void**)&pVtx, 0);
+		// 頂点バッファをロックし、頂点情報へのポインタ取得
+		g_pVtxBuffShadow->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx += 4 * nIdxShadow;		// 頂点データのポインタを指定の位置に進める
+		pVtx += 4 * nIdxShadow;		// 頂点データのポインタを指定の位置に進める
 
-	// 頂点座標の設定
-	pVtx[0].pos = D3DXVECTOR3(-g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, g_aShadow[nIdxShadow].fWidth / 2.0f);
-	pVtx[1].pos = D3DXVECTOR3(g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, g_aShadow[nIdxShadow].fWidth / 2.0f);
-	pVtx[2].pos = D3DXVECTOR3(-g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, -g_aShadow[nIdxShadow].fWidth / 2.0f);
-	pVtx[3].pos = D3DXVECTOR3(g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, -g_aShadow[nIdxShadow].fWidth / 2.0f);
+		// 頂点座標の設定
+		pVtx[0].pos = D3DXVECTOR3(-g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, g_aShadow[nIdxShadow].fWidth / 2.0f);
+		pVtx[1].pos = D3DXVECTOR3(g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, g_aShadow[nIdxShadow].fWidth / 2.0f);
+		pVtx[2].pos = D3DXVECTOR3(-g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, -g_aShadow[nIdxShadow].fWidth / 2.0f);
+		pVtx[3].pos = D3DXVECTOR3(g_aShadow[nIdxShadow].fWidth / 2.0f, 0.0f, -g_aShadow[nIdxShadow].fWidth / 2.0f);
 
-	// 頂点バッファをアンロック
-	g_pVtxBuffShadow->Unlock();
+		// 頂点バッファをアンロック
+		g_pVtxBuffShadow->Unlock();
+	}
 }
 
 //=======================================================

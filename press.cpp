@@ -25,8 +25,8 @@
 // 
 //*********************************************************************
 #define PRESS_MODEL_PATH	"data\\MODEL\\chicken.x"	//プレス機のモデルへのパス
-#define DESCENTSPEED	(10.0f)		//プレス機の下降速度
-#define DESCENT_LIMIT	(150.0f)	//プレス機の下降限界
+#define PRESS_UP_SPEED		(7.0f)			//プレス機の上昇速度
+#define PRESS_DOWN_SPEED	(30.0f)			//プレス機の下降速度
 
 //*********************************************************************
 // 
@@ -67,13 +67,15 @@ void InitPress(void)
 		g_aPress[nCntPress].bStartup = false;
 		g_aPress[nCntPress].bUse = false;
 		g_aPress[nCntPress].pos = D3DXVECTOR3_ZERO;
-		g_aPress[nCntPress].Setpos = D3DXVECTOR3_ZERO;
+		g_aPress[nCntPress].movewidth = 0.0f;
 		g_aPress[nCntPress].interval = 0;
 		g_aPress[nCntPress].rot = D3DXVECTOR3_ZERO;
 		g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+		g_aPress[nCntPress].bprevious = PRESSSTATE_STAY;
 	}
 
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
+	SetPress(0, D3DXVECTOR3(-200.0f,0.0f,0.0f), D3DXVECTOR3_ZERO, 500.0f, 60, PRESSSTATE_UP);
 }
 
 //=====================================================================
@@ -93,65 +95,74 @@ void UpdatePress(void)
 
 	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
 	{
-		if (g_aPress[nCntPress].bUse == true)
-		{//使用時
-			if (g_aPress[nCntPress].interval > 0)
-			{//自動操縦
-				if (g_aPress[nCntPress].bStartup == true)
-				{//起動時
+		if (g_aPress[nCntPress].bUse == true && g_aPress[nCntPress].bStartup == true)
+		{//使用時&&起動時
 
-					if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
-					{//下降
-						g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
-						if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
-						{//一定範囲まで落下しきったら切り替え
+			if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
+			{//下降
+				g_aPress[nCntPress].pos.y -= PRESS_DOWN_SPEED;
+				if (g_aPress[nCntPress].pos.y <= g_aPress[nCntPress].memheight - g_aPress[nCntPress].movewidth)
+				{//下降前の座標よりも設定値分下
+					//pos矯正
+					g_aPress[nCntPress].pos.y = g_aPress[nCntPress].memheight - g_aPress[nCntPress].movewidth;
+
+					//stateの書き換えと、保存
+					g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+					g_aPress[nCntPress].bprevious = PRESSSTATE_DOWN;
+
+					//現在の座標を保存
+					g_aPress[nCntPress].memheight = g_aPress[nCntPress].pos.y;
+
+				}
+			}
+			else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
+			{//上昇
+				g_aPress[nCntPress].pos.y += PRESS_UP_SPEED;
+				if (g_aPress[nCntPress].pos.y >= g_aPress[nCntPress].memheight + g_aPress[nCntPress].movewidth)
+				{//上昇前の座標よりも上
+					//pos矯正
+					g_aPress[nCntPress].pos.y = g_aPress[nCntPress].memheight + g_aPress[nCntPress].movewidth;
+
+					//stateの書き換えと、保存
+					g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+					g_aPress[nCntPress].bprevious = PRESSSTATE_UP;
+
+					//現在の座標を保存
+					g_aPress[nCntPress].memheight = g_aPress[nCntPress].pos.y;
+
+				}
+			}
+			else if (g_aPress[nCntPress].PState == PRESSSTATE_STAY)
+			{//待機
+
+				if (g_aPress[nCntPress].interval >= 0)
+				{//自動操縦
+					//インターバルカウンタ進
+					g_aPress[nCntPress].intervalCnt++;
+
+					if (g_aPress[nCntPress].interval <= g_aPress[nCntPress].intervalCnt)
+					{
+						if (g_aPress[nCntPress].bprevious == PRESSSTATE_DOWN)
+						{//前回下降していたら、上昇
 							g_aPress[nCntPress].PState = PRESSSTATE_UP;
 						}
-					}
-					else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
-					{//上昇
-						g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
-						if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
-						{//一定範囲まで上昇しきったら切り替え
-							g_aPress[nCntPress].PState = PRESSSTATE_STAY;
-						}
-					}
-					else if (g_aPress[nCntPress].PState == PRESSSTATE_STAY)
-					{//待機
-						g_aPress[nCntPress].intervalCnt++;
-						if ((g_aPress[nCntPress].intervalCnt >= g_aPress[nCntPress].interval) == true)
-						{//設定間隔が経過
+						else if (g_aPress[nCntPress].bprevious == PRESSSTATE_UP)
+						{//前回上昇していたら、下降
 							g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
-							g_aPress[nCntPress].intervalCnt = 0;
 						}
+						//インターバルカウンタを０に
+						g_aPress[nCntPress].intervalCnt = 0;
 					}
 				}
-
-			}
-			else
-			{//手動操縦
-				if (GetPromptTrigger(nCntPress))
-				{
-					PressMachineSwitch(nCntPress);
-				}
-
-				if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
-				{//下降
-					g_aPress[nCntPress].pos.y += ((g_aPress[nCntPress].Setpos.y - DESCENT_LIMIT) - g_aPress[nCntPress].pos.y) * 0.1f;
-					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) > (DESCENT_LIMIT - 0.5f)) == true)
-					{//一定範囲まで落下しきったら切り替え
-						g_aPress[nCntPress].PState = PRESSSTATE_STAY;
-					}
-				}
-				else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
-				{//上昇
-					g_aPress[nCntPress].pos.y += (g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) * 0.05f;
-					if (((g_aPress[nCntPress].Setpos.y - g_aPress[nCntPress].pos.y) < 0.5f) == true)
-					{//一定範囲まで上昇しきったら切り替え
-						g_aPress[nCntPress].PState = PRESSSTATE_STAY;
+				else if(g_aPress[nCntPress].interval < 0)
+				{//手動操縦
+					if (GetKeyboardTrigger(DIK_F3) || GetPromptTrigger(nCntPress))
+					{
+						PressMachineSwitch(0);
 					}
 				}
 			}
+
 			//************************************
 			// プレイヤーとの当たり判定
 			//************************************
@@ -226,7 +237,7 @@ void DrawPress(void)
 //	プレス機設置処理
 //
 //==================================================
-void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval)
+void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, float movewidth, int interval, PressState state)
 {//IDX,位置、角度、インターバルの設定
 	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
 	{
@@ -236,9 +247,11 @@ void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, int interval)
 			g_aPress[nCntPress].bUse = true;
 			g_aPress[nCntPress].bStartup = true;
 			g_aPress[nCntPress].pos = pos;
-			g_aPress[nCntPress].Setpos = pos;
+			g_aPress[nCntPress].memheight = pos.y;
+			g_aPress[nCntPress].movewidth = movewidth;
 			g_aPress[nCntPress].interval = interval;
 			g_aPress[nCntPress].rot = rot;
+			g_aPress[nCntPress].PState = state;
 			break;
 		}
 	}
@@ -256,12 +269,12 @@ void PressMachineSwitch(int nIdx)
 	{
 		if ((g_aPress[nCntPress].bUse == true) && (g_aPress[nCntPress].nIdx == nIdx))
 		{
-			if ((g_aPress[nCntPress].Setpos.y - g_aPress[nIdx].pos.y) >= (DESCENT_LIMIT - 0.5f) == true)
-			{//落下しきっていたら
+			if (g_aPress[nCntPress].bprevious == PRESSSTATE_DOWN)
+			{//前回下降していたら、上昇
 				g_aPress[nCntPress].PState = PRESSSTATE_UP;
 			}
-			else if (((g_aPress[nCntPress].Setpos.y - g_aPress[nIdx].pos.y) < 0.5f) == true)
-			{//上昇しきっていたら切り替え
+			else if (g_aPress[nCntPress].PState == PRESSSTATE_UP)
+			{//前回上昇していたら、下降
 				g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
 			}
 		}

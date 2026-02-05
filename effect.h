@@ -25,7 +25,6 @@ typedef struct
 	int nLife;							//エフェクトの描画時間
 	bool bUse;							//エフェクトを使用しているかどうか
 	D3DXCOLOR col;						//エフェクトのカラー
-	int Frame;							//エフェクトの制限
 	D3DXVECTOR3 size;					//エフェクトのサイズ
 }Effect;
 //=================

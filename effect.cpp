@@ -18,6 +18,7 @@
 #define MAX_EFFECT (2048)			//エフェクトの最大数
 #define EFFECTSIZE_DASH (60)		//ダッシュエフェクトのサイズ
 #define EFFECTSIZE_LANDINGE	(80)		//着地エフェクトのサイズ
+#define MAX_FREAM (60.0f)			//最大フレーム
 //==============
 //グローバル変数
 //==============
@@ -46,8 +47,8 @@ void InitEffect(void)
 		g_aEffect[nCntEffect].type = EFFECTTYPE_NOMALE;							//エフェクトの種類
 		g_aEffect[nCntEffect].bUse = false;										//使用しているかどうか
 		g_aEffect[nCntEffect].nLife = 100;										//エフェクトの描画時間
-		g_aEffect[nCntEffect].col = (0.0f, 0.0f, 0.0f, 0.0f);					//エフェクトのカラー
-		g_aEffect[nCntEffect].Frame = 10;										//エフェクトの制限
+		g_aEffect[nCntEffect].col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);					//エフェクトのカラー
+
 		g_aEffect[nCntEffect].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//エフェクトのサイズ
 
 	}
@@ -58,10 +59,10 @@ void InitEffect(void)
 	for (int  nCntEffect = 0;  nCntEffect < MAX_EFFECT;  nCntEffect++)
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3( -60.0f, 120.0f, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(60.0f, 120.0f, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(-60.0f, 0.0f, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(60.0f, 0.0f, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
+		pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
+		pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
+		pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
 
 		//法線ベクトル
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -132,51 +133,37 @@ void UpdateEffect(void)
 		if (g_aEffect[nCntEffect].bUse == true)
 		{
 		
-				//サイズの反映
-				pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
-				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
-				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
-				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
+				// 色の反映
+				pVtx[0].col = g_aEffect[nCntEffect].col;
+				pVtx[1].col = g_aEffect[nCntEffect].col;
+				pVtx[2].col = g_aEffect[nCntEffect].col;
+				pVtx[3].col = g_aEffect[nCntEffect].col;
 				//エフェクトの移動
 				g_aEffect[nCntEffect].pos.x += g_aEffect[nCntEffect].move.x;
 				g_aEffect[nCntEffect].pos.y += g_aEffect[nCntEffect].move.y;
 				g_aEffect[nCntEffect].pos.z += g_aEffect[nCntEffect].move.z;
 
-				//色の反映
-				pVtx[0].col = g_aEffect[nCntEffect].col;
-				pVtx[1].col = g_aEffect[nCntEffect].col;
-				pVtx[2].col = g_aEffect[nCntEffect].col;
-				pVtx[3].col = g_aEffect[nCntEffect].col;
-				//サイズの反映
-				pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);		
-				pVtx[1].pos = D3DXVECTOR3( g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
-				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f,0.0f, g_aEffect[nCntEffect].size.z);
-				pVtx[3].pos = D3DXVECTOR3( g_aEffect[nCntEffect].size.x * 0.5f,0.0f, g_aEffect[nCntEffect].size.z);
-				
 				//透明度減少
 				if (g_aEffect[nCntEffect].col.a > 0.0f)
 				{
-						g_aEffect[nCntEffect].col.a-=0.01f;
-				}
-				
-				//static int dashCool = 0;
+					float lifeNorm = (float)g_aEffect[nCntEffect].nLife / MAX_FREAM;
+					if (lifeNorm < 0.0f) lifeNorm = 0.0f;
+					if (lifeNorm > 1.0f) lifeNorm = 1.0f;
 
-				//if (dashCool > 0) dashCool--;
-				//if (dashCool == 0)
-				//{
-				//	Player* pPlayer = GetPlayer();
-				//	SetEffect(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y, pPlayer->pos.z), D3DXVECTOR3(0.0f, 0.0f, 0.0f), EFFECTTYPE_DASH, 100, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(80.0f, 80.0f, 0.0f));
-				//	dashCool = 20; // 10フレーム間隔
-				//}
+					// 透明度（アルファ）を線形に減少
+					g_aEffect[nCntEffect].col.a = lifeNorm;
 
-				g_aEffect[nCntEffect].nLife--;
-				//寿命のカウントダウン
-				if (g_aEffect[nCntEffect].nLife < 1)
-				{
+					//寿命減少
+					g_aEffect[nCntEffect].nLife--;
+					if (g_aEffect[nCntEffect].nLife <= 0)
+					{
 				
 					g_aEffect[nCntEffect].bUse = false;
 
+					}
 				}
+				
+				
 			
 			
 					switch (g_aEffect[nCntEffect].type)
@@ -196,7 +183,15 @@ void UpdateEffect(void)
 						break;
 					}
 				
-			
+				//static int dashCool = 0;
+
+				//if (dashCool > 0) dashCool--;
+				//if (dashCool == 0)
+				//{
+				//	Player* pPlayer = GetPlayer();
+				//	SetEffect(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y, pPlayer->pos.z), D3DXVECTOR3(0.0f, 0.0f, 0.0f), EFFECTTYPE_DASH, 100, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(80.0f, 80.0f, 0.0f));
+				//	dashCool = 20; // 10フレーム間隔
+				//}
 		}
 		pVtx += 4;
 	}
@@ -298,6 +293,13 @@ void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, EFFECTTYPE type, int nLife , D
 				g_aEffect[nCntEffect].col = col;
 
 				g_aEffect[nCntEffect].size = size;
+				//頂点座標の設定
+				pVtx[0].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
+				pVtx[1].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, g_aEffect[nCntEffect].size.y, g_aEffect[nCntEffect].size.z);
+				pVtx[2].pos = D3DXVECTOR3(-g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
+				pVtx[3].pos = D3DXVECTOR3(g_aEffect[nCntEffect].size.x * 0.5f, 0.0f, g_aEffect[nCntEffect].size.z);
+
+				
 
 				g_aEffect[nCntEffect].bUse = true;
 
