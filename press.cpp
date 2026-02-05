@@ -26,7 +26,7 @@
 //*********************************************************************
 #define PRESS_MODEL_PATH	"data\\MODEL\\chicken.x"	//プレス機のモデルへのパス
 #define PRESS_UP_SPEED		(7.0f)			//プレス機の上昇速度
-#define PRESS_DOWN_SPEED	(30.0f)			//プレス機の下降速度
+#define PRESS_DOWN_SPEED	(50.0f)			//プレス機の下降速度
 
 //*********************************************************************
 // 
@@ -70,8 +70,8 @@ void InitPress(void)
 		g_aPress[nCntPress].movewidth = 0.0f;
 		g_aPress[nCntPress].interval = 0;
 		g_aPress[nCntPress].rot = D3DXVECTOR3_ZERO;
-		g_aPress[nCntPress].PState = PRESSSTATE_STAY;
-		g_aPress[nCntPress].bprevious = PRESSSTATE_STAY;
+		g_aPress[nCntPress].PState = PRESSSTATE_DOWN;
+		g_aPress[nCntPress].bprevious = PRESSSTATE_DOWN;
 	}
 
 	LoadModel(PRESS_MODEL_PATH, &g_aPressModelData);
