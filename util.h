@@ -47,6 +47,17 @@ typedef enum
 	AXIS_MAX,
 }AXIS;
 
+typedef enum
+{
+	DIRECTION_FORWARD = 0,
+	DIRECTION_BACKWARD,
+	DIRECTION_LEFTWARD,
+	DIRECTION_RIGHTWARD,
+	DIRECTION_UPWARD,
+	DIRECTION_DOWNWARD,
+	DIRECTION_MAX,
+}DIRECTION;
+
 //*********************************************************************
 // 
 // ***** ç\ë¢ëÃ *****
