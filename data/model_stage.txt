@@ -24,35 +24,29 @@ TEXTURE_FILENAME = data/TEXTURE/metal_floor.jpg		# [6]鉄地面テクスチャ
 TEXTURE_FILENAME = data/TEXTURE/wiremesh.png		# [7]ワイヤーテクスチャ
 
 #------------------------------------------------------------------------------
-# モデル数d
+# モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 22
+NUM_MODEL = 16
 
 #------------------------------------------------------------------------------
 # モデルファイル名
 #------------------------------------------------------------------------------
-MODEL_FILENAME = data/MODEL/Factory/bloodknife.x				# [0]血の付いたナイフ
-MODEL_FILENAME = data/MODEL/Factory/comber.x					# [1]コンベア
-MODEL_FILENAME = data/MODEL/Factory/drone.x						# [2]ドローン
-MODEL_FILENAME = data/MODEL/Factory/friedchicken.x				# [3]チキン
-MODEL_FILENAME = data/MODEL/Factory/r_fryer.x					# [4]フライヤー
-MODEL_FILENAME = data/MODEL/Factory/gasburner00.x				# [5]ガスバーナー
-MODEL_FILENAME = data/MODEL/Factory/grinder000.x				# [6]ミンチ機
-MODEL_FILENAME = data/MODEL/Factory/lift.x						# [7]リフト
-MODEL_FILENAME = data/MODEL/Factory/meat00.x					# [8]肉
-MODEL_FILENAME = data/MODEL/Factory/press.x						# [9]張りぼてプレス機
-MODEL_FILENAME = data/MODEL/Factory/press00.x					# [10]プレス機
-MODEL_FILENAME = data/MODEL/Factory/press01.x					# [11]プレス機の中身
-MODEL_FILENAME = data/MODEL/Factory/r_comber.x					# [12]模型のコンベア
-MODEL_FILENAME = data/MODEL/Factory/fryer.x						# [13]模型のフライヤー
-MODEL_FILENAME = data/MODEL/Factory/r_grinder.x					# [14]模型のミンチ機
-MODEL_FILENAME = data/MODEL/Factory/r_gasburner.x				# [15]模型のガスバーナー
-MODEL_FILENAME = data/MODEL/Factory/r_humannurture.x			# [16]模型のカプセル
-MODEL_FILENAME = data/MODEL/Factory/rawchicken.x				# [17]揚げた肉
-MODEL_FILENAME = data/MODEL/Factory/saw000.x					# [18]のこぎり
-MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [19]換気扇
-MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [20]換気扇のプロペラ
-MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [21]木箱
+MODEL_FILENAME = data/MODEL/Factory/bloodknife.x				# [0]血の付いたナイフ	モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/comber.x					# [1]コンベア			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/drone.x						# [2]ドローン			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/friedchicken.x				# [3]チキン				モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/r_fryer.x					# [4]フライヤー			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/gasburner00.x				# [5]ガスバーナー		〇
+MODEL_FILENAME = data/MODEL/Factory/grinder000.x				# [6]ミンチ機			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/lift.x						# [7]リフト				後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/meat00.x					# [8]肉					モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/press00.x					# [9]プレス機			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/press01.x					# [10]プレス機の中身	〇
+MODEL_FILENAME = data/MODEL/Factory/rawchicken.x				# [11]揚げた肉			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/saw000.x					# [12]のこぎり			〇
+MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [13]換気扇			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [14]換気扇のプロペラ	後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [15]木箱				モデルとして使用
 
 #------------------------------------------------------------------------------
 # 地面情報
@@ -81,6 +75,39 @@ FIELDSET
 	BLOCK = 12 2
 	SIZE = 500 500
 END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 6500 0 0
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 1000 1000
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 1
+	POS = 6500 50 0
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 100 100
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 1
+	POS = 6750 100 0
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 100 100
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 5
+	POS = 7000 150 0
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 100 100
+END_FIELDSET
+
 
 #------------------------------------------------------------------------------
 # 壁情報
@@ -122,8 +149,48 @@ WALLSET
 	TEXTYPE = 3
 	POS = 1500 0 -500
 	ROT = 0 180 0
-	BLOCK = 1 1
+	BLOCK = 1 2
 	SIZE = 8000 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 6500 0 1000
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 2000 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 5500 0 750
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 5500 0 -750
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 6500 0 -1000
+	ROT = 0 180 0
+	BLOCK = 2 1
+	SIZE = 1000 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 7500 0 0
+	ROT = 0 90 0
+	BLOCK = 4 2
+	SIZE = 500 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -202,7 +269,7 @@ FIRESET
 	POS = 2500 0 -450
 	ROT = 0 0 0
 	INTERVAL = 30
-	STATE = 1
+	STATE = 2
 	SHADOW = 1
 END_FIRESET
 FIRESET
@@ -287,5 +354,55 @@ PROMPTSET
 	SIZE = 100 100 100
 END_PROMPTSET
 
+#----------------------------------------
+# モデル情報(モデル番号順に記載)
+#----------------------------------------
+#----------------------------------------
+# 血の付いたナイフ
+#----------------------------------------
+MODELSET
+	TYPE = 0
+	POS = 1000 0 50
+	ROT = 0 0 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+#  チキン
+#----------------------------------------
+MODELSET
+	TYPE = 3
+	POS = 500 0 50
+	ROT = 0 0 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+#----------------------------------------
+# 木箱
+#----------------------------------------
+MODELSET
+	TYPE = 15
+	POS = 3500 0 450
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 15
+	POS = 3200 0 450
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 15
+	POS = 3350 180 450
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
 
 END_SCRIPT		# この行は絶対消さないこと！
