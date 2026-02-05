@@ -444,6 +444,14 @@ void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %d", &pBuffer->interval);
 		}
+		else if (strcmp(&aStrLine[0], "WIDTH") == 0)
+		{
+			fscanf(pFile, " = %f", &pBuffer->width);
+		}
+		else if (strcmp(&aStrLine[0], "STATE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->state);
+		}
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->bShadow);
