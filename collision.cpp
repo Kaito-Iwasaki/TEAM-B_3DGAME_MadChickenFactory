@@ -115,7 +115,7 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 		&& posA.z < posB.z + boxMax.z
 		&& posA.z > posB.z + boxMin.z
 		&& posA.y < posB.y + boxMax.y
-		&& posA.y + posB.y + boxMin.y
+		&& posA.y >= posB.y + boxMin.y
 		)
 	{// ç∂
 		byHit |= COLLISION_LEFT;
