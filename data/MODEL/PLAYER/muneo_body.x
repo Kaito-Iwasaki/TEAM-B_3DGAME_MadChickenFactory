@@ -177,7 +177,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\TEAM-B_3D_KOC\\data\\TEXTURE\\muneo_body1.png";
+    "data\\TEXTURE\\muneo_body1.png";
    }
   }
   Material {
@@ -186,7 +186,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\TEAM-B_3D_KOC\\data\\TEXTURE\\muneo_body.png";
+    "data\\TEXTURE\\muneo_body.png";
    }
   }
   Material {

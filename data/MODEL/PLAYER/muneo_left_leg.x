@@ -177,7 +177,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\TEAM-B_3D_KOC\\data\\TEXTURE\\muneo_foot.png";
+    "data\\TEXTURE\\muneo_foot.png";
    }
   }
   Material {
