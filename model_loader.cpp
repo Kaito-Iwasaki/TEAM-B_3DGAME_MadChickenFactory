@@ -362,6 +362,9 @@ void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer)
 {
 	char aStrLine[MAX_READABLE_CHAR] = {};
 
+	// ‰Šú’l‘ã“ü
+	pBuffer->nIdx = -1;
+
 	while (true)
 	{
 		// ˆês“Ç‚Ýž‚Þ
@@ -503,6 +506,10 @@ void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer)
 		else if (strcmp(&aStrLine[0], "STATE") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->state);
+		}
+		else if (strcmp(&aStrLine[0], "FIRESTATE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->firestate);
 		}
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{
