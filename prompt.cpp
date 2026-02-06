@@ -315,5 +315,6 @@ void SetPromptUse(int nIdx, bool bUse)
 
 bool GetPromptTrigger(int nIdx)
 {
+	if (nIdx < 0 || nIdx >= MAX_PROMPT) return;
 	return g_aPromptTrigger[nIdx];
 }
