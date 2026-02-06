@@ -262,6 +262,30 @@ D3DXVECTOR3 Vector2To3(D3DXVECTOR2 source, float fValueZ)
 }
 
 //=====================================================================
+// 回転、位置からのマトリックス設定処理
+//=====================================================================
+void MatrixRotationPosition(D3DXMATRIX* pOut, D3DXVECTOR3 rot, D3DXVECTOR3 pos)
+{
+	MatrixRotationPosition(pOut, rot.x, rot.y, rot.z, pos.x, pos.y, pos.z);
+}
+
+void MatrixRotationPosition(D3DXMATRIX* pOut, float fRotX, float fRotY, float fRotZ, float fPosX, float fPosY, float fPosZ)
+{
+	D3DXMATRIX mtxRot, mtxTrans;
+
+	// 出力用のマトリックスを初期化
+	D3DXMatrixIdentity(pOut);
+
+	// 回転を適用
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, fRotY, fRotX, fRotZ);
+	D3DXMatrixMultiply(pOut, pOut, &mtxRot);
+
+	// 位置を適用
+	D3DXMatrixTranslation(&mtxTrans, fPosX, fPosY, fPosZ);
+	D3DXMatrixMultiply(pOut, pOut, &mtxTrans);
+}
+
+//=====================================================================
 // ベクトルとベクトルの交差判定
 //=====================================================================
 bool IsCrossingVector(
