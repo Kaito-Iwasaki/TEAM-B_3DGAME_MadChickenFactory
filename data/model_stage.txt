@@ -92,6 +92,13 @@ FIELDSET
 	SIZE = 1000 1000
 END_FIELDSET
 
+FIELDSET
+	TEXTYPE = 6
+	POS = 7300 400 800
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 200 200
+END_FIELDSET
 
 #------------------------------------------------------------------------------
 # ï«èÓïÒ
@@ -171,21 +178,35 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 7500 0 0
+	POS = 7500 0 -200
 	ROT = 0 90 0
 	BLOCK = 4 2
-	SIZE = 500 500
+	SIZE = 400 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 7000 0 800
+	POS = 7300 0 600
 	ROT = 0 0 0
-	BLOCK = 1 2
-	SIZE = 400 200
+	BLOCK = 2 2
+	SIZE = 200 200
 END_WALLSET
 
+WALLSET
+	TEXTYPE = 3
+	POS = 7100 0 800
+	ROT = 0 90 0
+	BLOCK = 2 2
+	SIZE = 200 200
+END_WALLSET
 
+WALLSET
+	TEXTYPE = 3
+	POS = 7500 400 800
+	ROT = 0 90 0
+	BLOCK = 6 6
+	SIZE = 70 100
+END_WALLSET
 
 #------------------------------------------------------------------------------
 # ÉMÉ~ÉbÉNèÓïÒ
