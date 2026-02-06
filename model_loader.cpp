@@ -396,6 +396,14 @@ void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %d", &pBuffer->bStartup);
 		}
+		else if (strcmp(&aStrLine[0], "TIME") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nTimeMove);
+		}
+		else if (strcmp(&aStrLine[0], "RANGE") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->moveRange.x, &pBuffer->moveRange.y, &pBuffer->moveRange.z);
+		}
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->bShadow);
