@@ -33,8 +33,6 @@
 //===============
 //グローバル変数
 //===============
-//LPDIRECT3DTEXTURE9 g_pTextureTitle[MAX_TITLE] = {};		//テクスチャへのポインタ
-//LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTitle = NULL;	//頂点バッファのポインタ
 TITLE g_aTitle[MAX_TITLE];
 //===========
 //初期化処理

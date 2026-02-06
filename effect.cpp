@@ -252,7 +252,7 @@ void DrawEffect(void)
 			pDevice->SetTexture(0, g_pTextureEffect[g_aEffect[nCntEffect].type]);
 
 			//ƒ|ƒŠƒSƒ“‚Ì•`‰æ
-			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntEffect * 4, 2);		//TRIANGLELIST,1 TRIANGLESTRIP,2‚ÍŽlŠpŒ`
+			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntEffect * 4, 2);		
 
 
 		}
