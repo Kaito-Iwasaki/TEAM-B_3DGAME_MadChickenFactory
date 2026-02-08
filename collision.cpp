@@ -46,6 +46,7 @@
 // 
 //*********************************************************************
 
+
 //=====================================================================
 // 衝突判定処理（点と立方体）
 // 点posAがposBとsizeBで作られる立方体の内にあるか判定します。
@@ -111,10 +112,10 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 	// モデルの衝突判定処理
 	if (
 		posAOld.x <= posB.x + boxMin.x
-		&& posA.x > posB.x + boxMin.x
-		&& posA.z < posB.z + boxMax.z
-		&& posA.z > posB.z + boxMin.z
-		&& posA.y < posB.y + boxMax.y
+		&& posA.x >= posB.x + boxMin.x
+		&& posA.z <= posB.z + boxMax.z
+		&& posA.z >= posB.z + boxMin.z
+		&& posA.y <= posB.y + boxMax.y
 		&& posA.y >= posB.y + boxMin.y
 		)
 	{// 左
@@ -122,10 +123,10 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 	}
 	if (
 		posAOld.x >= posB.x + boxMax.x
-		&& posA.x < posB.x + boxMax.x
-		&& posA.z < posB.z + boxMax.z
-		&& posA.z > posB.z + boxMin.z
-		&& posA.y < posB.y + boxMax.y
+		&& posA.x <= posB.x + boxMax.x
+		&& posA.z <= posB.z + boxMax.z
+		&& posA.z >= posB.z + boxMin.z
+		&& posA.y <= posB.y + boxMax.y
 		&& posA.y >= posB.y + boxMin.y
 		)
 	{// 右
@@ -134,10 +135,10 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 
 	if (
 		posAOld.z <= posB.z + boxMin.z
-		&& posA.z > posB.z + boxMin.z
-		&& posA.x > posB.x + boxMin.x
-		&& posA.x < posB.x + boxMax.x
-		&& posA.y < posB.y + boxMax.y
+		&& posA.z >= posB.z + boxMin.z
+		&& posA.x >= posB.x + boxMin.x
+		&& posA.x <= posB.x + boxMax.x
+		&& posA.y <= posB.y + boxMax.y
 		&& posA.y >= posB.y + boxMin.y
 		)
 	{// 前
@@ -145,10 +146,10 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 	}
 	if (
 		posAOld.z >= posB.z + boxMax.z
-		&& posA.z < posB.z + boxMax.z
-		&& posA.x > posB.x + boxMin.x
-		&& posA.x < posB.x + boxMax.x
-		&& posA.y < posB.y + boxMax.y
+		&& posA.z <= posB.z + boxMax.z
+		&& posA.x >= posB.x + boxMin.x
+		&& posA.x <= posB.x + boxMax.x
+		&& posA.y <= posB.y + boxMax.y
 		&& posA.y >= posB.y + boxMin.y
 		)
 	{// 後ろ
@@ -158,10 +159,10 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 	if (
 		posAOld.y >= posB.y + boxMax.y
 		&& posA.y <= posB.y + boxMax.y
-		&& posA.x > posB.x + boxMin.x
-		&& posA.x < posB.x + boxMax.x
-		&& posA.z > posB.z + boxMin.z
-		&& posA.z < posB.z + boxMax.z
+		&& posA.x >= posB.x + boxMin.x
+		&& posA.x <= posB.x + boxMax.x
+		&& posA.z >= posB.z + boxMin.z
+		&& posA.z <= posB.z + boxMax.z
 		)
 	{// 上
 		byHit |= COLLISION_UP;
@@ -169,11 +170,11 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 
 	if (
 		posAOld.y <= posB.y + boxMin.y
-		&& posA.y > posB.y + boxMin.y
-		&& posA.x > posB.x + boxMin.x
-		&& posA.x < posB.x + boxMax.x
-		&& posA.z > posB.z + boxMin.z
-		&& posA.z < posB.z + boxMax.z
+		&& posA.y >= posB.y + boxMin.y
+		&& posA.x >= posB.x + boxMin.x
+		&& posA.x <= posB.x + boxMax.x
+		&& posA.z >= posB.z + boxMin.z
+		&& posA.z <= posB.z + boxMax.z
 		)
 	{// 下
 		byHit |= COLLISION_DOWN;
