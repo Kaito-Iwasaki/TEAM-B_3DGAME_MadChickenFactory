@@ -443,7 +443,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "data\\TEXTURE\\WireMesh.png";
+    "data\\TEXTURE\\wiremesh.png";
    }
   }
   Material {
