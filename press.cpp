@@ -27,6 +27,7 @@
 #define PRESS_MODEL_PATH	"data\\MODEL\\chicken.x"	//プレス機のモデルへのパス
 #define PRESS_UP_SPEED		(7.0f)			//プレス機の上昇速度
 #define PRESS_DOWN_SPEED	(50.0f)			//プレス機の下降速度
+#define PLAYER_HEIGHT_DEMO	(150.0f)		//プレイヤーの高さ
 
 //*********************************************************************
 // 
@@ -168,13 +169,15 @@ void UpdatePress(void)
 			//************************************
 			if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
 			{
-				if (CollisionPointBox(pPlayer->pos, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
-				{
-					if (g_aPress[nCntPress].pos.y >= pPlayer->pos.y)
-					{
+				if (CollisionPointBox(D3DXVECTOR3(pPlayer->pos.x,pPlayer->pos.y + PLAYER_HEIGHT_DEMO,pPlayer->pos.z)
+					, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
+				{	
 						SetFade(MODE_GAME);
-					}
 				}
+			}
+			else if(CollisionPointBox(pPlayer->pos, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
+			{
+				pPlayer->pos = pPlayer->posOld;
 			}
 
 		}
