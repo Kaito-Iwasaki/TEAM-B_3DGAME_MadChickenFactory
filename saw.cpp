@@ -57,7 +57,7 @@ void InitSaw(void)
 	}
 
 	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
-	SetSaw(0, D3DXVECTOR3(-200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 1.0f,0.0f), D3DXVECTOR3_ZERO, 1, true);
+
 }
 
 //==================================================
@@ -119,10 +119,18 @@ void UpdateSaw(void)
 				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
 
 			}
+
+			//XŽ²‚ð‰ñ‚µ‚Ä‚¢‚½‚ç‹éŒ`
+			if (g_aSaw[nCntSaw].rot.x > 0.0f)
+			{
+				CollisionSawRotX();
+			}
+			else
+			{
+				CollisionSawRotY();
+			}
 		}
 	}
-
-	CollisionSawRotY();
 }
 
 //==================================================
@@ -209,8 +217,8 @@ void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, i
 //	‰ñ“]ƒmƒRƒMƒŠ‚Ì“–‚½‚è”»’è
 //
 //==================================================
-#if 0
-bool CollisionSaw(void)
+#if 1
+bool CollisionSawRotX(void)
 {
 	Player* pPlayer = GetPlayer();
 	bool bHitCheck = false;
@@ -223,39 +231,39 @@ bool CollisionSaw(void)
 				(pPlayer->pos.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x) &&
 				(pPlayer->pos.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y) &&
 				(pPlayer->pos.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y) &&
-				(pPlayer->pos.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z) &&
-				(pPlayer->pos.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z))
+				(pPlayer->pos.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.x) &&
+				(pPlayer->pos.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.x))
 			{
 				if (pPlayer->posOld.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x)
 				{//‰E‚©‚ç
-					pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x;
+					/*pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x;*/
 					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x)
 				{//¶‚©‚ç
-					pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x;
+					/*pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x;*/
 					bHitCheck = true;
 				}
 
 				if (pPlayer->posOld.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y)
 				{//ã‚©‚ç
-					pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y;
+					/*pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y;*/
 					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y)
 				{//‰º‚©‚ç
-					pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y;
+					/*pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y;*/
 					bHitCheck = true;
 				}
 
 				if (pPlayer->posOld.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z)
 				{//‰œ‚©‚ç
-					pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z;
+					/*pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z;*/
 					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z)
 				{//Žè‘O‚©‚ç
-					pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z;
+					/*pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z;*/
 					bHitCheck = true;
 				}
 
