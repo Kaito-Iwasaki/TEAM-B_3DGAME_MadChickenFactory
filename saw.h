@@ -56,7 +56,6 @@ void UpdateSaw(void);
 void DrawSaw(void);
 void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, int nMoveTime, bool startup);
 void SwitchSaw(int nIdx);
-bool CollisionSaw(void);
+bool CollisionSawRotY(void);
 
 #endif
-

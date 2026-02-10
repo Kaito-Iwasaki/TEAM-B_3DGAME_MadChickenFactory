@@ -22,7 +22,9 @@
 //
 //==================================================
 #define SAW_MODEL_PATH	"data\\MODEL\\saw000.x"	//saw000.xへのパス
-#define MAX_SAW_SPEED	(0.15f)				//ノコギリの回転速度のMAX
+#define MAX_SAW_SPEED		(0.15f)					//ノコギリの回転速度のMAX
+#define SAW_FACE			(4)						//ノコギリの判定する面の数
+#define MARGIN_RANGE_SAW	(0.5f)					//当たり判定有効範囲のゆとり
 
 //==================================================
 //
@@ -55,6 +57,7 @@ void InitSaw(void)
 	}
 
 	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
+	SetSaw(0, D3DXVECTOR3(-200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 1.0f,0.0f), D3DXVECTOR3_ZERO, 1, true);
 }
 
 //==================================================
@@ -78,6 +81,16 @@ void UpdateSaw(void)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
 		{
+			if (GetKeyboardPress(DIK_Q))
+			{
+				g_aSaw[nCntSaw].rot.y += 0.05;
+			}
+			else if (GetKeyboardPress(DIK_E))
+			{
+				g_aSaw[nCntSaw].rot.y -= 0.05;
+			}
+			PrintDebugProc("%f\n", g_aSaw[nCntSaw].rot.y);
+
 			if (GetPromptTrigger(g_aSaw[nCntSaw].nIdx))
 			{
 				SwitchSaw(nCntSaw);
@@ -109,7 +122,7 @@ void UpdateSaw(void)
 		}
 	}
 
-	CollisionSaw();
+	CollisionSawRotY();
 }
 
 //==================================================
@@ -196,6 +209,7 @@ void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, i
 //	回転ノコギリの当たり判定
 //
 //==================================================
+#if 0
 bool CollisionSaw(void)
 {
 	Player* pPlayer = GetPlayer();
@@ -260,6 +274,118 @@ bool CollisionSaw(void)
 
 	return bHitCheck;
 }
+#endif
+#if 1
+bool CollisionSawRotY(void)
+{
+	Player* pPlayer = GetPlayer();
+	bool bHitCheck = false;
+
+	bool check = false, checkold = false;
+	bool bChek = false, bcheckold = false;
+
+
+	D3DXVECTOR3 VecLine, VecToPos, VecMove, VecToPosOld;
+	D3DXVECTOR3 v[SAW_FACE];		//壁の端to端ベクトル
+	D3DXVECTOR3 WallMove, Reflection;	//壁ずりベクトル,反射ベクトル
+
+	float fNormal;	//正規化法線ベクトル
+	float fRate, fAll, fIntersect;
+
+	VecMove = pPlayer->pos - pPlayer->posOld;
+
+	for (int nCnt = 0; nCnt < MAX_WALL; nCnt++)
+	{
+		if (g_aSaw[nCnt].bUse == true)
+		{
+			//Y軸回転時
+			v[0].x = g_aSaw[nCnt].pos.x 
+				+ (g_aSawModelData.vtxMax.z * sinf(g_aSaw[nCnt].rot.y))		//厚み
+				+ (g_aSawModelData.vtxMin.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+			v[0].y = 0.0f;
+			v[0].z = g_aSaw[nCnt].pos.z 
+				+ (g_aSawModelData.vtxMax.z * cosf(g_aSaw[nCnt].rot.y))		//厚み
+				+ (g_aSawModelData.vtxMax.x * sinf(g_aSaw[nCnt].rot.y));	//幅
+
+			v[1].x = g_aSaw[nCnt].pos.x 
+				+ (g_aSawModelData.vtxMax.z * sinf(g_aSaw[nCnt].rot.y))		//厚み
+				+ (g_aSawModelData.vtxMax.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+			v[1].y = 0.0f;
+			v[1].z = g_aSaw[nCnt].pos.z 
+				+ (g_aSawModelData.vtxMax.z * cosf(g_aSaw[nCnt].rot.y))		//厚み
+				+ (g_aSawModelData.vtxMax.x * -sinf(g_aSaw[nCnt].rot.y));	//幅
+
+			v[2].x = g_aSaw[nCnt].pos.x
+				+ (g_aSawModelData.vtxMin.z * sinf(g_aSaw[nCnt].rot.y))	//厚み
+				+ (g_aSawModelData.vtxMax.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+			v[2].y = 0.0f;
+			v[2].z = g_aSaw[nCnt].pos.z 
+				+ (g_aSawModelData.vtxMin.z * cosf(g_aSaw[nCnt].rot.y))	//厚み
+				+ (g_aSawModelData.vtxMax.x * -sinf(g_aSaw[nCnt].rot.y));	//幅
+
+			v[3].x = g_aSaw[nCnt].pos.x 
+				+ (g_aSawModelData.vtxMin.z * sinf(g_aSaw[nCnt].rot.y))	//厚み
+				+ (g_aSawModelData.vtxMin.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+			v[3].y = 0.0f;
+			v[3].z = g_aSaw[nCnt].pos.z 
+				+ (g_aSawModelData.vtxMin.z * cosf(g_aSaw[nCnt].rot.y))	//厚み
+				+ (g_aSawModelData.vtxMax.x * sinf(g_aSaw[nCnt].rot.y));	//幅
+			//0┌--┐1
+			//	 ・
+			//3└--┘2
+			//x -150
+			//z 250
+			for (int nCntColl = 0; nCntColl < SAW_FACE; nCntColl++)
+			{//各面の外積判定を行う
+				if (nCntColl == 3)
+				{
+					VecLine = v[0] - v[nCntColl];
+					VecToPos = pPlayer->pos - v[nCntColl];
+					VecToPosOld = pPlayer->posOld - v[nCntColl];
+				}
+				else
+				{
+					VecLine = v[nCntColl + 1] - v[nCntColl];
+					VecToPos = pPlayer->pos - v[nCntColl];
+					VecToPosOld = pPlayer->posOld - v[nCntColl];
+				}
+
+				if ((VecLine.z * VecToPos.x) - (VecLine.x * VecToPos.z) > MARGIN_RANGE_SAW)
+				{//posが右にいる
+					check = true;
+				}
+				else
+				{//posが左にいる
+					check = false;
+					break;
+				}
+
+				if ((VecLine.z * VecToPosOld.x) - (VecLine.x * VecToPosOld.z) < -MARGIN_RANGE_SAW)
+				{//posoldが左にいる
+					checkold = true;
+				}
+				else
+				{//posoldが右にいる
+					checkold = false;
+				}
+
+				if (check == true)
+				{
+					PrintDebugProc("%d : HIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",nCntColl);
+				}
+			}
+
+			if (check == true)
+			{
+				SetFade(MODE_GAME);
+			}
+		}
+
+	}
+
+	return bChek;
+}
+#endif
 //==================================================
 //
 //	回転ノコギリのスイッチを切り替え
