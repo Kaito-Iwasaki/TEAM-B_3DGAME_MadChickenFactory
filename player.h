@@ -8,7 +8,7 @@
 #define _PLAYER_H_		// 2重インクルード防止のマクロを定義する
 
 #include"main.h"
-//#include"model.h"
+#include"motion_loader.h"
 
 // マクロ定義
 #define MAX_PLAYERMODEL			(10)		// モデルの総数
@@ -33,10 +33,9 @@ typedef struct
 	LPD3DXBUFFER BuffMat;									// マテリアルへのポインタ
 	LPDIRECT3DTEXTURE9 Texture[MAX_PLAYERTEXTURE];			// テクスチャへのポインタ
 	DWORD dwNumMat;											// マテリアルの数
+	MOTION PlayerMotion;									// モーション
+
 #if 0
-	Model aModel[MAX_PLAYERMODEL];							// モデル(パーツ)
-	int nNumModelParts;										// モデル(パーツ)の総数
-	int nNumModel;											// モデルの総数
 	MOTION_INFO aMotionInfo[MAX_PLAYERMOTION];				// モーション情報
 	int nNumMotion;											// モーションの総数
 	MOTIONTYPE motionType;									// 現在のモーションの種類
