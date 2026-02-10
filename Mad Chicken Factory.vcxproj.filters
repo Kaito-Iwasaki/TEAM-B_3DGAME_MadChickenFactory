@@ -165,6 +165,9 @@
     <ClCompile Include="conveyer.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sound.h">
@@ -285,6 +288,9 @@
       <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
     <ClInclude Include="conveyer.h">
+      <Filter>ヘッダー ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
       <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
   </ItemGroup>
