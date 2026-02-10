@@ -98,7 +98,7 @@ void InitConveyer(void)
 	// 頂点バッファをアンロック
 	g_pVtxBuffConveyer->Unlock();
 
-	SetConveyer(D3DXVECTOR3(500.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 1.0f), 100.0f, 300.0f);
+	SetConveyer(D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 1.0f), 100.0f, 300.0f);
 }
 
 //=======================================================
@@ -219,4 +219,37 @@ void SetConveyer(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidt
 
 	// 頂点バッファをアンロック
 	g_pVtxBuffConveyer->Unlock();
+}
+//=======================================================
+// コンベアとの当たり判定処理
+//=======================================================
+bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove)
+{
+	Conveyer* pConveyer = &g_aConveyer[0];					// コンベア情報へのポインタ
+	bool bLand = false;										// 着地したかどうか
+
+	for (int nCntComveyer = 0; nCntComveyer < MAX_CONVEYER; nCntComveyer++, pConveyer++)
+	{
+		if (pConveyer->bUse == true)
+		{// 使用している
+
+			if (pPos->x >= pConveyer->pos.x - pConveyer->fWidth * 0.5f
+				&& pPos->x <= pConveyer->pos.x + pConveyer->fWidth * 0.5f
+				&& pPos->z >= pConveyer->pos.z - pConveyer->fDepth * 0.5f
+				&& pPos->z <= pConveyer->pos.z + pConveyer->fDepth * 0.5f)
+			{// 範囲内
+
+				if (pPosOld->y >= pConveyer->pos.y && pPos->y < pConveyer->pos.y)
+				{// 地面にめり込んだ
+
+					bLand = true;
+					*pPos += pConveyer->move;
+					pPos->y = pConveyer->pos.y;
+					pMove->y = 0.0f;
+				}
+			}
+		}
+	}
+
+	return bLand;
 }

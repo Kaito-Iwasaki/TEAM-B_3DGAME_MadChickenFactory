@@ -29,6 +29,7 @@ void UninitConveyer(void);
 void UpdateConveyer(void);
 void DrawConveyer(void);
 void SetConveyer(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidth, float fDepth);
+bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove);
 
 
 #endif
