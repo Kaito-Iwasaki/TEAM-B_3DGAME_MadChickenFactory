@@ -26,7 +26,7 @@ TEXTURE_FILENAME = data/TEXTURE/wiremesh.png		# [7]ワイヤーテクスチャ
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 17
+NUM_MODEL = 18
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -48,82 +48,32 @@ MODEL_FILENAME = data/MODEL/Factory/saw000.x					# [13]のこぎり			〇
 MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [14]換気扇			後々ギミックとして使用
 MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [15]換気扇のプロペラ	後々ギミックとして使用
 MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [16]木箱				モデルとして使用
-
+MODEL_FILENAME = data/MODEL/Factory/gate.x						# [17]ゲート			モデルとして使用
 #------------------------------------------------------------------------------
-# 地面情報
+# ステージ1
 #------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 6
-	POS = -1500 0 0
-	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 1000 500
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = -1500 0 1000
-	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 1000 500
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = 2500 0 0
-	ROT = 0 0 0
-	BLOCK = 12 2
-	SIZE = 500 500
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = 6500 0 0
-	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 1000 1000
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = 6500 0 0
-	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 1000 1000
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = 7300 400 800
-	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 200 200
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = 8500 400 800
-	ROT = 0 0 0
-	BLOCK = 10 2
-	SIZE = 200 200
-END_FIELDSET
-
 #------------------------------------------------------------------------------
-# 壁情報
+# スタート地点	壁
 #------------------------------------------------------------------------------
-
 WALLSET
 	TEXTYPE = 3
-	POS = -1500 0 1500
+	POS = -2000 0 1500
 	ROT = 0 0 0
-	BLOCK = 4 2
+	BLOCK = 2 2
 	SIZE = 500 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = -500 0 1000
+	POS = -2000 0 -500
+	ROT = 0 180 0
+	BLOCK = 2 2
+	SIZE = 500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = -1500 0 1000
 	ROT = 0 90 0
 	BLOCK = 2 2
 	SIZE = 500 500
@@ -136,50 +86,137 @@ WALLSET
 	BLOCK = 4 2
 	SIZE = 500 500
 END_WALLSET
+#------------------------------------------------------------------------------
+# スタート地点	床
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 6
+	POS = -2000 0 0
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 1000 500
+END_FIELDSET
 
+FIELDSET
+	TEXTYPE = 6
+	POS = -2000 0 1000
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 1000 500
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# 廊下	壁
+#------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 2500 0 500
+	POS = -700 0 500
 	ROT = 0 0 0
-	BLOCK = 12 2
-	SIZE = 500 500
+	BLOCK = 5 2
+	SIZE = 320 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 1500 0 -500
+	POS = -700 0 -500
 	ROT = 0 180 0
-	BLOCK = 1 2
-	SIZE = 8000 500
+	BLOCK = 5 2
+	SIZE = 320 500
 END_WALLSET
 
-WALLSET
-	TEXTYPE = 3
-	POS = 6500 0 1000
+#------------------------------------------------------------------------------
+# 廊下	床
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 6
+	POS = -800 0 0
 	ROT = 0 0 0
-	BLOCK = 1 1
-	SIZE = 2000 1000
-END_WALLSET
+	BLOCK = 8 2
+	SIZE = 250 500
+END_FIELDSET
 
+#------------------------------------------------------------------------------
+# ステージ	壁
+#------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 5500 0 750
+	POS = 100 0 2000
 	ROT = 0 -90 0
 	BLOCK = 1 2
-	SIZE = 500 500
+	SIZE = 3000 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 5500 0 -750
-	ROT = 0 -90 0
+	POS = 2850 0 3500
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 2750 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 2850 0 -500
+	ROT = 0 180 0
+	BLOCK = 2 2
+	SIZE = 2750 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 5600 0 2000
+	ROT = 0 90 0
 	BLOCK = 1 2
-	SIZE = 500 500
+	SIZE = 3000 500
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# ステージ	床
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 6
+	POS = 2850 0 1500
+	ROT = 0 0 0
+	BLOCK = 5 4 
+	SIZE = 1100 1000
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# 廊下	壁
+#------------------------------------------------------------------------------
+WALLSET
+	TEXTYPE = 3
+	POS = 6475 0 500
+	ROT = 0 0 0
+	BLOCK = 5 2
+	SIZE = 350 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 6500 0 -1000
+	POS = 6475 0 -500
+	ROT = 0 180 0
+	BLOCK = 5 2
+	SIZE = 350 500
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# 廊下	床
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 6
+	POS = 6475 0 0
+	ROT = 0 0 0
+	BLOCK = 7 2
+	SIZE = 250 500
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ゴール地点	壁
+#------------------------------------------------------------------------------
+WALLSET
+	TEXTYPE = 3
+	POS = 8350 0 -500
 	ROT = 0 180 0
 	BLOCK = 2 1
 	SIZE = 1000 1000
@@ -187,7 +224,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 7500 0 -200
+	POS = 9350 0 300
 	ROT = 0 90 0
 	BLOCK = 4 2
 	SIZE = 400 500
@@ -195,7 +232,15 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 7300 0 600
+	POS = 7350 0 1000
+	ROT = 0 -90 0
+	BLOCK = 4 2
+	SIZE = 250 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9150 0 1100
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -203,7 +248,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 7100 0 800
+	POS = 8950 0 1300
 	ROT = 0 90 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -211,11 +256,78 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 7500 400 800
+	POS = 9350 400 1300
 	ROT = 0 90 0
 	BLOCK = 6 6
 	SIZE = 70 100
 END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 8350 0 1500
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 2000 1000
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# ゴール地点	床
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 6
+	POS = 8350 0 500
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 1000 1000
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 9150 400 1300
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 200 200
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# 連絡通路	床
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 6
+	POS = 9500 400 1300
+	ROT = 0 0 0
+	BLOCK = 2 2
+	SIZE = 200 200
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# 連絡通路	壁
+#------------------------------------------------------------------------------
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9700 400 1300
+	ROT = 0 -90 0
+	BLOCK = 6 6
+	SIZE = 70 100
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9700 0 300
+	ROT = 0 -90 0
+	BLOCK = 4 2
+	SIZE = 400 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9700 0 1300
+	ROT = 0 -90 0
+	BLOCK = 2 2
+	SIZE = 200 200
+END_WALLSET
+
 
 #------------------------------------------------------------------------------
 # ギミック情報
@@ -435,7 +547,7 @@ END_PROMPTSET
 #----------------------------------------
 MODELSET
 	TYPE = 1
-	POS = 1500 0 50
+	POS = 1500 0 90
 	ROT = 0 90 0
 	COLLISION = 0
 	SHADOW = 0
@@ -443,7 +555,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 1
-	POS = 2600 0 0
+	POS = 2600 0 90
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -451,8 +563,8 @@ END_MODELSET
 
 MODELSET
 	TYPE = 1
-	POS = 3500 50 0
-	ROT = 0 0 10
+	POS = 4500 50 1000
+	ROT = 0 90 10
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
@@ -512,13 +624,25 @@ END_MODELSET
 #----------------------------------------
 # 換気扇
 #----------------------------------------
-MODELSET
+#MODELSET
 	TYPE = 14
 	POS = -1000 0 450
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
-END_MODELSET
+#END_MODELSET
+
+#----------------------------------------
+# ゲート
+#----------------------------------------
+
+#MODELSET
+	TYPE = 17
+	POS = -1500 0 450
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+#END_MODELSET
 
 #----------------------------------------
 # 木箱
@@ -579,29 +703,29 @@ MODELSET
 	SHADOW = 0
 END_MODELSET
 
-MODELSET
+#MODELSET
 	TYPE = 16
 	POS = -1400 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
-END_MODELSET
+#END_MODELSET
 
-MODELSET
+#MODELSET
 	TYPE = 16
 	POS = -1100 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
-END_MODELSET
+#END_MODELSET
 
-MODELSET
+#MODELSET
 	TYPE = 16
 	POS = -1250 180 1400
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
-END_MODELSET
+#END_MODELSET
 
 
 MODELSET

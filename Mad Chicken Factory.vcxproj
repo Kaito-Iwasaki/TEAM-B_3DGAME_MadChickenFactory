@@ -144,6 +144,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="conveyer.h" />
     <ClInclude Include="DebugProc.h" />
     <ClInclude Include="Editor.h">
       <SubType>
@@ -209,6 +210,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="conveyer.cpp" />
     <ClCompile Include="DebugProc.cpp" />
     <ClCompile Include="Editor.cpp">
       <SubType>
