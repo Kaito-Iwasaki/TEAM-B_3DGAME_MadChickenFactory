@@ -231,12 +231,14 @@ void UpdatePlayer(void)
 			g_Player[nCntPlayer].bJump = false;
 		}
 		else if (g_Player[nCntPlayer].ModelHit != MODEL_HIT_NONE)
-		{// 落下中
+		{// 何かに当たった
+
 			// プレイヤーの移動量の設定
 			SetMove(&g_Player[nCntPlayer].move, g_Player[nCntPlayer].ModelHit, &g_Player[nCntPlayer].bJump);
 		}
 		else
-		{
+		{// 落下中
+
 			if (g_Player[nCntPlayer].bJump == false)
 			{// ジャンプ状態にする
 
