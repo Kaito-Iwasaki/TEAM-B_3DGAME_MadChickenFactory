@@ -21,6 +21,7 @@
 #include"effect.h"
 #include"field.h"
 #include"motion_loader.h"
+#include"conveyer.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -254,6 +255,16 @@ void UpdatePlayer(void)
 
 		// 火炎放射器との当たり判定
 		CollisionFlamethrower(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
+
+		// コンベアとの当たり判定
+		if (CollisioncConveyer(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move))
+		{
+			if (g_Player[nCntPlayer].bJump == true)
+			{// ジャンプ中の場合ジャンプ状態を解除する
+
+				g_Player[nCntPlayer].bJump = false;
+			}
+		}
 
 		// 目標の移動方向までの差分算出
 		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;

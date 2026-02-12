@@ -9,6 +9,14 @@
 
 #include"main.h"
 
+// コンベア状態の列挙型
+typedef enum
+{
+	CONVEYERSTATE_MOVE = 0,		// 稼働状態
+	CONVEYERSTATE_STOP,			// 停止状態
+	CONVEYERSTATE_MAX
+}CONVEYERSTATE;
+
 // コンベアの構造体
 typedef struct
 {
@@ -18,7 +26,9 @@ typedef struct
 	D3DXMATRIX mtxWorld;	// ワールドマトリックス
 	float fWidth;			// 幅
 	float fDepth;			// 奥行
+	float movetex;			// コンベアの移動量
 	int nIdx;				// インデックス
+	CONVEYERSTATE state;	// 状態
 	bool bUse;				// 使用しているかどうか
 
 }Conveyer;
@@ -28,7 +38,9 @@ void InitConveyer(void);
 void UninitConveyer(void);
 void UpdateConveyer(void);
 void DrawConveyer(void);
-void SetConveyer(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidth, float fDepth);
+void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidth, float fDepth, CONVEYERSTATE state);
+bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove);
+
 
 
 #endif

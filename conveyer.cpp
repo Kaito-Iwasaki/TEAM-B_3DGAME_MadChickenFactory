@@ -6,6 +6,7 @@
 //=======================================================
 #include"conveyer.h"
 #include"input.h"
+#include"prompt.h"
 
 // マクロ定義
 #define MAX_CONVEYER		(128)			// ベルトコンベアの最大数
@@ -52,11 +53,13 @@ void InitConveyer(void)
 
 	for (int nCntConveyer = 0; nCntConveyer < MAX_CONVEYER; nCntConveyer++)
 	{
+		g_aConveyer[nCntConveyer].nIdx = -1;								// インデックス初期化
 		g_aConveyer[nCntConveyer].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置初期化
 		g_aConveyer[nCntConveyer].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 角度初期化
 		g_aConveyer[nCntConveyer].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 移動量初期化
 		g_aConveyer[nCntConveyer].fWidth = 0.0f;							// 幅初期化
 		g_aConveyer[nCntConveyer].fDepth = 0.0f;							// 奥行初期化
+		g_aConveyer[nCntConveyer].movetex = 0.0f;							// テクスチャ移動量初期化
 		g_aConveyer[nCntConveyer].nIdx = -1;								// インデックス初期化
 		g_aConveyer[nCntConveyer].bUse = false;								// 使用していない状態にする
 	}
@@ -98,7 +101,7 @@ void InitConveyer(void)
 	// 頂点バッファをアンロック
 	g_pVtxBuffConveyer->Unlock();
 
-	SetConveyer(D3DXVECTOR3(500.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 1.0f), 100.0f, 300.0f);
+	SetConveyer(0, D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), 100.0f, 500.0f, CONVEYERSTATE_MOVE);
 }
 
 //=======================================================
@@ -129,7 +132,56 @@ void UninitConveyer(void)
 //=======================================================
 void UpdateConveyer(void)
 {
+	VERTEX_3D* pVtx;				// 頂点情報へのポインタ
 
+	// 頂点バッファをロックし、頂点情報へのポインタ取得
+	g_pVtxBuffConveyer->Lock(0, 0, (void**)&pVtx, 0);
+
+	for (int nCntConveyer = 0; nCntConveyer < MAX_CONVEYER; nCntConveyer++)
+	{
+		if (g_aConveyer[nCntConveyer].bUse == true)
+		{// 使用している
+
+			switch (g_aConveyer[nCntConveyer].state)
+			{
+			case CONVEYERSTATE_MOVE:		// 稼働状態
+
+				// テクスチャを移動させる
+				g_aConveyer[nCntConveyer].movetex += (g_aConveyer[nCntConveyer].move.x + g_aConveyer[nCntConveyer].move.z) * 0.002f;
+
+				// テクスチャ座標の指定
+				pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
+				pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
+				pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
+				pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
+
+				if (GetPromptTrigger(g_aConveyer[nCntConveyer].nIdx) == true)
+				{// 指定のインデックスのプロンプトに反応があった
+
+					// 稼働停止
+					g_aConveyer[nCntConveyer].state = CONVEYERSTATE_STOP;
+				}
+
+				break;
+
+			case CONVEYERSTATE_STOP:		// 停止状態
+
+				if (GetPromptTrigger(g_aConveyer[nCntConveyer].nIdx) == true)
+				{// 指定のインデックスのプロンプトに反応があった
+
+					// 稼働再開
+					g_aConveyer[nCntConveyer].state = CONVEYERSTATE_MOVE;
+				}
+
+				break;
+			}
+		}
+
+		pVtx += 4;		// 頂点データのポインタを4つ進める
+	}
+
+	// 頂点バッファをアンロック
+	g_pVtxBuffConveyer->Unlock();
 
 }
 
@@ -185,7 +237,7 @@ void DrawConveyer(void)
 //=======================================================
 // コンベアの設定処理
 //=======================================================
-void SetConveyer(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidth, float fDepth)
+void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidth, float fDepth, CONVEYERSTATE state)
 {
 	VERTEX_3D* pVtx;				// 頂点情報へのポインタ
 
@@ -195,14 +247,15 @@ void SetConveyer(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidt
 	for (int nCntConveyer = 0; nCntConveyer < MAX_CONVEYER; nCntConveyer++)
 	{
 		if (g_aConveyer[nCntConveyer].bUse == false)
-		{// 壁の設置
+		{// コンベアの設置
 
+			g_aConveyer[nCntConveyer].nIdx = nIdx;			// インデックス
 			g_aConveyer[nCntConveyer].pos = pos;			// 位置
 			g_aConveyer[nCntConveyer].rot = rot;			// 向き
 			g_aConveyer[nCntConveyer].move = move;			// 移動量
 			g_aConveyer[nCntConveyer].fWidth = fWidth;		// 幅
 			g_aConveyer[nCntConveyer].fDepth = fDepth;		// 奥行
-			g_aConveyer[nCntConveyer].nIdx = nCntConveyer;	// インデックス
+			g_aConveyer[nCntConveyer].state = state;		// 状態
 			g_aConveyer[nCntConveyer].bUse = true;			// 使用している状態にする
 
 			// 頂点座標の設定
@@ -219,4 +272,37 @@ void SetConveyer(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidt
 
 	// 頂点バッファをアンロック
 	g_pVtxBuffConveyer->Unlock();
+}
+//=======================================================
+// コンベアとの当たり判定処理
+//=======================================================
+bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove)
+{
+	Conveyer* pConveyer = &g_aConveyer[0];					// コンベア情報へのポインタ
+	bool bLand = false;										// 着地したかどうか
+
+	for (int nCntComveyer = 0; nCntComveyer < MAX_CONVEYER; nCntComveyer++, pConveyer++)
+	{
+		if (pConveyer->bUse == true)
+		{// 使用している
+
+			if (pPos->x >= pConveyer->pos.x - pConveyer->fWidth * 0.5f
+				&& pPos->x <= pConveyer->pos.x + pConveyer->fWidth * 0.5f
+				&& pPos->z >= pConveyer->pos.z - pConveyer->fDepth * 0.5f
+				&& pPos->z <= pConveyer->pos.z + pConveyer->fDepth * 0.5f)
+			{// 範囲内
+
+				if (pPosOld->y >= pConveyer->pos.y && pPos->y < pConveyer->pos.y)
+				{// 地面にめり込んだ
+
+					bLand = true;
+					*pPos += pConveyer->move;
+					pPos->y = pConveyer->pos.y;
+					pMove->y = 0.0f;
+				}
+			}
+		}
+	}
+
+	return bLand;
 }
