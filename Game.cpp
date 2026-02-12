@@ -318,13 +318,15 @@ void DrawGame(void)
 void ReloadGame(void)
 {
 	UninitField();			// フィールド
-	UninitWall();
+	UninitWall();			// 壁
 	UninitModel();			// モデル
 	UninitSaw();			// 回転ノコギリ
 	UninitGoal();			// ゴール
 	UninitPress();			// プレス機
 	UninitPrompt();			// プロンプト
 	UninitFire();			// 火炎放射器
+	UninitMoveBox();		// 可動箱
+	UninitConveyer();		// コンベア
 
 	InitField();			// フィールド
 	InitWall();				// 壁
@@ -335,6 +337,7 @@ void ReloadGame(void)
 	InitPrompt();			// プロンプト
 	InitFire();				// 火炎放射器
 	InitMoveBox();			// 動かせる箱
+	InitConveyer();			// コンベア
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
