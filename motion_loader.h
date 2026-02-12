@@ -93,12 +93,28 @@ typedef struct
 // [モーション構造体]
 // パーツとして読み込むモデルやモーションの情報を含みます。
 //*********************************************************************
-typedef struct {
+typedef struct
+{
+	PART aPart[MOTION_MAX_PART];						// パーツ情報構造体
+	MOTION_INFO aMotionInfo[MOTION_MAX_MOTION_INFO];	// モーション情報構造体
+
 	int nNumPart;										// 合計パーツ数
 	int nNumMotion;										// 合計モーション数
 	char aPartFilename[MOTION_MAX_PART][MAX_PATH];		// パーツのモデルのファイル名
-	PART aPart[MOTION_MAX_PART];						// パーツ情報構造体
-	MOTION_INFO aMotionInfo[MOTION_MAX_MOTION_INFO];
+
+	bool bFinishMotion;									// モーションが終了しているか
+	bool bLoopMotion;									// モーションをループするか
+	int nIdxMotion;										// 現在再生しているモーションの番号
+	int nCounterMotion;									// 現在のモーションの再生カウント
+	int nKeyMotion;										// 現在のモーションキー
+
+	bool bBlendMotion;									// モーションブレンドするか
+	bool bLoopMotionBlend;								// モーションをループするか
+	int nIdxMotionBlend;								// 現在再生しているブレンドモーションの番号
+	int nCounterMotionBlend;							// 現在のブレンドモーションの再生カウント
+	int nKeyMotionBlend;								// 現在のブレンドモーションキー
+	int nCounterBlend;									// 現在のブレンド状態の再生カウント
+	int nFrameBlend;									// ブレンド状態の全体フレーム
 }MOTION;
 
 //*********************************************************************
