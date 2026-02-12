@@ -13,6 +13,7 @@
 // 
 //*********************************************************************
 #include "main.h"
+#include "motion_loader.h"
 
 //*********************************************************************
 // 
@@ -39,6 +40,23 @@
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
+void InitMotion(MOTION* pMotion, const char* pFilename);
+void UninitMotion(MOTION* pMotion);
+void UpdateMotion(MOTION* pMotion);
 
+// pMotionに読み込んだモーション情報のファイル名からパーツ（モデル）を読み込みます。
+void LoadParts(MOTION* pMotion);
+
+// pMotionの現在のモーション番号をnIdxMotionに設定します。
+void SetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend);
+
+// pMotionのパーツにそれぞれの位置・回転オフセットを適用します。
+void SetPartOffset(MOTION* pMotion);
+
+// pMotionのパーツにそれぞれの位置・回転オフセットを加算します。
+void AddPartOffset(MOTION* pMotion);
+
+int GetNextKeyIndex(MOTION* pMotion);
+int GetNextBlendKeyIndex(MOTION* pMotion);
 
 #endif
