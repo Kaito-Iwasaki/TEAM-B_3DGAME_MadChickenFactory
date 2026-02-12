@@ -181,6 +181,14 @@ void InitGame(void)
 
 	SetGoal(pGoalData->pos, pGoalData->rot);
 
+	// コンベアの設定
+	for (int nCntConveyer = 0; nCntConveyer < g_modelDataGame.nCountConveyerSet; nCntConveyer++)
+	{
+		CONVEYERSETDATA* pConveyerData = &g_modelDataGame.aInfoConveyerSet[nCntConveyer];
+
+		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
+	}
+
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
 	GetCamera(0)->mode = CAMERAMODE_FREE;
@@ -403,4 +411,11 @@ void ReloadGame(void)
 
 	SetGoal(pGoalData->pos, pGoalData->rot);
 
+	// コンベアの設定
+	for (int nCntConveyer = 0; nCntConveyer < g_modelDataGame.nCountConveyerSet; nCntConveyer++)
+	{
+		CONVEYERSETDATA* pConveyerData = &g_modelDataGame.aInfoConveyerSet[nCntConveyer];
+
+		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
+	}
 }
