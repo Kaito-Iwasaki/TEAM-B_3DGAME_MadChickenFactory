@@ -40,6 +40,7 @@
 #include "fire.h"
 #include"particle.h"
 #include"gate.h"
+#include "box_movable.h"
 
 //*********************************************************************
 // 
@@ -99,8 +100,9 @@ void InitGame(void)
 	InitPress();			// プレス機
 	InitPrompt();			// プロンプト
 	InitFire();				// 火炎放射器
-	InitParticle();			//パーティクル
-	InitGate();				//ゲート
+	InitParticle();			// パーティクル
+	InitGate();				// ゲート
+	InitMoveBox();			// 動かせる箱
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -206,7 +208,8 @@ void UninitGame(void)
 	UninitPress();			// プレス機
 	UninitPrompt();			// プロンプト
 	UninitFire();			// 火炎放射器
-	UninitGate();			//ゲート
+	UninitGate();			// ゲート
+	UninitMoveBox();		// 動かせる箱
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -243,8 +246,9 @@ void UpdateGame(void)
 		UpdatePress();			// プレス機
 		UpdatePrompt();			// プロンプト
 		UpdateFire();			// 火炎放射器
-		UpdateParticle();		//パーティクル
-		UpdateGate();			//ゲート
+		UpdateParticle();		// パーティクル
+		UpdateGate();			// ゲート
+		UpdateMoveBox();		// 動かせる箱
 
 #ifdef  _DEBUG
 		// デバッグ表示
@@ -289,7 +293,8 @@ void DrawGame(void)
 	DrawGoal();				// ゴール
 	DrawPress();			// プレス機
 	DrawFire();				// 火炎放射器
-	DrawGate();				//ゲート
+	DrawGate();				// ゲート
+	DrawMoveBox();			// 動かせる箱
 
 	// [2D]
 	DrawEffect();			// エフェクト
@@ -309,13 +314,14 @@ void ReloadGame(void)
 	UninitFire();			// 火炎放射器
 
 	InitField();			// フィールド
-	InitWall();
+	InitWall();				// 壁
 	InitModel();			// モデル
-	InitSaw();			// 回転ノコギリ
-	InitGoal();			// ゴール
+	InitSaw();				// 回転ノコギリ
+	InitGoal();				// ゴール
 	InitPress();			// プレス機
 	InitPrompt();			// プロンプト
-	InitFire();			// 火炎放射器
+	InitFire();				// 火炎放射器
+	InitMoveBox();			// 動かせる箱
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);

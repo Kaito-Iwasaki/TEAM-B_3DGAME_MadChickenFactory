@@ -22,7 +22,7 @@
 //
 //==================================================
 #define MAX_MOVEBOX		(128)					//モデルの最大数
-#define MOVEBOX_MODEL_PATH	"data\\MODEL\\movebox000.x"	//movebox000.xへのパス
+#define MOVEBOX_MODEL_PATH	"data\\MODEL\\movebox.x"	//movebox000.xへのパス
 #define MAX_MOVEBOX_SPEED	(0.15f)				//ノコギリの回転速度のMAX
 
 //==================================================
