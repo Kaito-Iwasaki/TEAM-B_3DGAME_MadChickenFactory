@@ -296,9 +296,15 @@ bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pM
 				{// 地面にめり込んだ
 
 					bLand = true;
-					*pPos += pConveyer->move;
-					pPos->y = pConveyer->pos.y;
-					pMove->y = 0.0f;
+					pPos->y = pConveyer->pos.y;		// y軸の位置修正
+					pMove->y = 0.0f;				// y軸の移動量初期化
+
+					if (pConveyer->state == CONVEYERSTATE_MOVE)
+					{// コンベア稼働中
+
+						// 移動量分移動させる
+						*pPos += pConveyer->move;
+					}
 				}
 			}
 		}
