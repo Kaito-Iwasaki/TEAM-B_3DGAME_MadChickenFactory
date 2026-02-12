@@ -20,7 +20,7 @@
 //*******************************
 #define WALL_TEXTURE_SIZE_X (300.0f)
 #define WALL_TEXTURE_SIZE_Y (300.0f)
-#define MARGIN_RANGE		(0.1f)		//ìñÇΩÇËîªíËÇÃÇ‰Ç∆ÇË
+#define MARGIN_RANGE		(0.000001f)		//ìñÇΩÇËîªíËÇÃÇ‰Ç∆ÇË
 
 //*******************************
 // 
@@ -246,7 +246,7 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 
 			VecToPosOld = posold - v0;
 
-			if ((VecLine.z * VecToPos.x) - (VecLine.x * VecToPos.z) < MARGIN_RANGE)
+			if ((Normalize(VecLine).z * Normalize(VecToPos).x) - (Normalize(VecLine).x * Normalize(VecToPos).z) < MARGIN_RANGE)
 			{//posÇ™âEÇ…Ç¢ÇÈ
 				check = true;
 
@@ -257,7 +257,7 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 
 			}
 
-			if ((VecLine.z * VecToPosOld.x) - (VecLine.x * VecToPosOld.z) > -MARGIN_RANGE)
+			if ((Normalize(VecLine).z * Normalize(VecToPosOld).x) - (Normalize(VecLine).x * Normalize(VecToPosOld).z) > -MARGIN_RANGE)
 			{//posoldÇ™ç∂Ç…Ç¢ÇÈ
 				checkold = true;
 
@@ -270,10 +270,15 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 
 			if (check == true && checkold == true)
 			{//îÕàÕåüèÿ
+				//ê≥ãKâª
+				Normalize(VecLine);
+				Normalize(VecToPos);
+				Normalize(VecMove);
+
 				fIntersect = (VecToPos.z * VecMove.x) - (VecToPos.x * VecMove.z);
 				fAll = (VecLine.z * VecMove.x) - (VecLine.x * VecMove.z);
 				fRate = fIntersect / fAll;
-
+				
 				if (0.0f <= fRate && fRate <= 1.0f)
 				{
 					bChek = true;

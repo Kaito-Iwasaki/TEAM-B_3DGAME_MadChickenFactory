@@ -847,7 +847,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "chickenbody.jpg";
+    "data\\TEXTURE\\chickenbody.jpg";
    }
   }
   Material {
@@ -856,7 +856,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "chickenleg.jpg";
+    "data\\TEXTURE\\chickenleg.jpg";
    }
   }
  }
