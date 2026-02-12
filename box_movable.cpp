@@ -23,7 +23,6 @@
 //==================================================
 #define MAX_MOVEBOX		(128)					//モデルの最大数
 #define MOVEBOX_MODEL_PATH	"data\\MODEL\\movebox.x"	//movebox000.xへのパス
-#define MAX_MOVEBOX_SPEED	(0.15f)				//ノコギリの回転速度のMAX
 
 //==================================================
 //
@@ -51,12 +50,13 @@ void InitMoveBox(void)
 		g_aMoveBox[nCntMoveBox].bUse = false;
 		g_aMoveBox[nCntMoveBox].pos = D3DXVECTOR3_ZERO;
 		g_aMoveBox[nCntMoveBox].rot = D3DXVECTOR3_ZERO;
+		g_aMoveBox[nCntMoveBox].state = STATE_NORMAL;
 
 	}
 
 	LoadModel(MOVEBOX_MODEL_PATH, &g_aMoveBoxModelData);
 
-	SetMoveBox(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+	SetMoveBox(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 }
 
 //==================================================
@@ -76,7 +76,19 @@ void UninitMoveBox(void)
 //==================================================
 void UpdateMoveBox(void)
 {
-	
+	CollisionMoveBox();
+
+	for (int nCntMBox = 0; nCntMBox < MAX_MOVEBOX; nCntMBox++)
+	{
+		if (g_aMoveBox[nCntMBox].bUse == true)
+		{
+			if (g_aMoveBox[nCntMBox].state == STATE_RIGHT)
+			{
+
+			}
+		}
+
+	}
 }
 
 //==================================================
@@ -137,7 +149,7 @@ void DrawMoveBox(void)
 //	可動箱設置処理
 //
 //==================================================
-void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
+void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range)
 {
 	for (int nCnt = 0; nCnt < MAX_MOVEBOX; nCnt++)
 	{
@@ -145,6 +157,8 @@ void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, bool startup)
 		{
 			g_aMoveBox[nCnt].bUse = true;
 			g_aMoveBox[nCnt].pos = pos;
+			g_aMoveBox[nCnt].SavePos = pos;
+			g_aMoveBox[nCnt].MotionRange = pos + range;
 			g_aMoveBox[nCnt].rot = rot;
 			break;
 		}
@@ -167,18 +181,20 @@ bool CollisionMoveBox(void)
 			if ((pPlayer->pos.x <= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMax.x) &&
 				(pPlayer->pos.x >= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMin.x) &&
 				(pPlayer->pos.y <= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMax.y) &&
-				(pPlayer->pos.y >= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y) &&
+				(pPlayer->pos.y >= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y - 10.0f) &&
 				(pPlayer->pos.z <= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMax.z) &&
 				(pPlayer->pos.z >= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMin.z))
 			{
 				if (pPlayer->posOld.x >= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMax.x)
 				{//右から
 					pPlayer->pos.x = g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMax.x;
+					g_aMoveBox[nCntMoveBox].state = STATE_RIGHT;
 					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.x <= g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMin.x)
 				{//左から
 					pPlayer->pos.x = g_aMoveBox[nCntMoveBox].pos.x + g_aMoveBoxModelData.vtxMin.x;
+					g_aMoveBox[nCntMoveBox].state = STATE_LEFT;
 					bHitCheck = true;
 				}
 
@@ -186,6 +202,8 @@ bool CollisionMoveBox(void)
 				{//上から
 					pPlayer->pos.y = g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMax.y;
 					bHitCheck = true;
+					pPlayer->move.y = 0;
+					pPlayer->bJump = false;
 				}
 				else if (pPlayer->posOld.y <= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y)
 				{//下から
@@ -196,20 +214,23 @@ bool CollisionMoveBox(void)
 				if (pPlayer->posOld.z >= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMax.z)
 				{//奥から
 					pPlayer->pos.z = g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMax.z;
+					g_aMoveBox[nCntMoveBox].state = STATE_REAR;
 					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.z <= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMin.z)
 				{//手前から
 					pPlayer->pos.z = g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMin.z;
+					g_aMoveBox[nCntMoveBox].state = STATE_FRONT;
 					bHitCheck = true;
 				}
 			}
-		}
-	}
 
-	if (bHitCheck == true)
-	{
-		SetFade(MODE_GAME);
+			if (bHitCheck == false)
+			{//触られていないので、修正
+				g_aMoveBox[nCntMoveBox].state = STATE_NORMAL;
+			}
+
+		}
 	}
 
 	return bHitCheck;
