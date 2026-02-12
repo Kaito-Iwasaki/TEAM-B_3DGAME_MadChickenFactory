@@ -226,6 +226,9 @@ void UpdatePlayer(void)
 		// 壁との当たり判定
 		CollisionWall(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, D3DXVECTOR3_ZERO);
 
+		// モデルとの当たり判定
+		g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
+
 		//床との当たり判定
 		if (CollisionField(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld))
 		{
@@ -246,9 +249,6 @@ void UpdatePlayer(void)
 				g_Player[nCntPlayer].bJump = true;		// ジャンプ中にする
 			}
 		}
-
-		// モデルとの当たり判定
-		g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
 
 		// ゴールとの当たり判定
 		CollisionGoal(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
