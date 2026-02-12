@@ -256,6 +256,7 @@ void UpdatePlayer(void)
 		// ‰Î‰Š•úŽËŠí‚Æ‚Ì“–‚½‚è”»’è
 		CollisionFlamethrower(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
 
+		// ƒRƒ“ƒxƒA‚Æ‚Ì“–‚½‚è”»’è
 		if (CollisioncConveyer(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move))
 		{
 			if (g_Player[nCntPlayer].bJump == true)
