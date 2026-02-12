@@ -22,7 +22,8 @@ typedef struct
 {
 	D3DXVECTOR3 pos;		// 位置
 	D3DXVECTOR3 rot;		// 向き
-	D3DXVECTOR3 move;		// 移動量
+	D3DXVECTOR3 Onmove;		// ON状態の移動量
+	D3DXVECTOR3 Offmove;	// OFF状態の移動量
 	D3DXMATRIX mtxWorld;	// ワールドマトリックス
 	float fWidth;			// 幅
 	float fDepth;			// 奥行
@@ -38,7 +39,7 @@ void InitConveyer(void);
 void UninitConveyer(void);
 void UpdateConveyer(void);
 void DrawConveyer(void);
-void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidth, float fDepth, CONVEYERSTATE state);
+void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove, D3DXVECTOR3 Offmove, float fWidth, float fDepth, CONVEYERSTATE state);
 bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove);
 
 
