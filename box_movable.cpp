@@ -23,6 +23,8 @@
 //==================================================
 #define MAX_MOVEBOX		(128)					//モデルの最大数
 #define MOVEBOX_MODEL_PATH	"data\\MODEL\\movebox.x"	//movebox000.xへのパス
+#define ENABLE_MOVE		(5.0f)					//箱を押せる強さ
+#define MOVE_SPEED		(3.5f)					//箱を押す際の移動量
 
 //==================================================
 //
@@ -76,15 +78,44 @@ void UninitMoveBox(void)
 //==================================================
 void UpdateMoveBox(void)
 {
+	Player* pPlayer = GetPlayer();
+
 	CollisionMoveBox();
+
+	PrintDebugProc("%f\n", pPlayer->move.x);
 
 	for (int nCntMBox = 0; nCntMBox < MAX_MOVEBOX; nCntMBox++)
 	{
 		if (g_aMoveBox[nCntMBox].bUse == true)
 		{
 			if (g_aMoveBox[nCntMBox].state == STATE_RIGHT)
-			{
-
+			{//右から
+				if (pPlayer->move.x <= -ENABLE_MOVE)
+				{
+					g_aMoveBox[nCntMBox].pos.x -= MOVE_SPEED;
+				}
+				
+			}
+			else if (g_aMoveBox[nCntMBox].state == STATE_LEFT)
+			{//左から
+				if (pPlayer->move.x >= ENABLE_MOVE)
+				{
+					g_aMoveBox[nCntMBox].pos.x += MOVE_SPEED;
+				}
+			}
+			else if (g_aMoveBox[nCntMBox].state == STATE_REAR)
+			{//奥から
+				if (pPlayer->move.z <= -ENABLE_MOVE)
+				{
+					g_aMoveBox[nCntMBox].pos.z -= MOVE_SPEED;
+				}
+			}
+			else if (g_aMoveBox[nCntMBox].state == STATE_FRONT)
+			{//手前から
+				if (pPlayer->move.z >= ENABLE_MOVE)
+				{
+					g_aMoveBox[nCntMBox].pos.z += MOVE_SPEED;
+				}
 			}
 		}
 
