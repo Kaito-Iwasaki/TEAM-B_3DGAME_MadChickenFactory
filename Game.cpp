@@ -41,6 +41,7 @@
 #include"particle.h"
 #include"gate.h"
 #include "box_movable.h"
+#include "conveyer.h"
 
 //*********************************************************************
 // 
@@ -103,6 +104,7 @@ void InitGame(void)
 	InitParticle();			// パーティクル
 	InitGate();				// ゲート
 	InitMoveBox();			// 動かせる箱
+	InitConveyer();			// コンベア
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -210,6 +212,7 @@ void UninitGame(void)
 	UninitFire();			// 火炎放射器
 	UninitGate();			// ゲート
 	UninitMoveBox();		// 動かせる箱
+	UninitConveyer();		// コンベア
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -249,6 +252,7 @@ void UpdateGame(void)
 		UpdateParticle();		// パーティクル
 		UpdateGate();			// ゲート
 		UpdateMoveBox();		// 動かせる箱
+		UpdateConveyer();		// コンベア
 
 #ifdef  _DEBUG
 		// デバッグ表示
@@ -295,6 +299,7 @@ void DrawGame(void)
 	DrawFire();				// 火炎放射器
 	DrawGate();				// ゲート
 	DrawMoveBox();			// 動かせる箱
+	DrawConveyer();
 
 	// [2D]
 	DrawEffect();			// エフェクト
