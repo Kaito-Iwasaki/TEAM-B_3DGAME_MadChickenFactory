@@ -39,6 +39,7 @@
 #include "prompt.h"
 #include "fire.h"
 #include"particle.h"
+#include"gate.h"
 
 //*********************************************************************
 // 
@@ -98,7 +99,8 @@ void InitGame(void)
 	InitPress();			// プレス機
 	InitPrompt();			// プロンプト
 	InitFire();				// 火炎放射器
-	InitParticle();
+	InitParticle();			//パーティクル
+	InitGate();				//ゲート
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -204,6 +206,7 @@ void UninitGame(void)
 	UninitPress();			// プレス機
 	UninitPrompt();			// プロンプト
 	UninitFire();			// 火炎放射器
+	UninitGate();			//ゲート
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -240,7 +243,8 @@ void UpdateGame(void)
 		UpdatePress();			// プレス機
 		UpdatePrompt();			// プロンプト
 		UpdateFire();			// 火炎放射器
-		UpdateParticle();
+		UpdateParticle();		//パーティクル
+		UpdateGate();			//ゲート
 
 #ifdef  _DEBUG
 		// デバッグ表示
@@ -285,6 +289,7 @@ void DrawGame(void)
 	DrawGoal();				// ゴール
 	DrawPress();			// プレス機
 	DrawFire();				// 火炎放射器
+	DrawGate();				//ゲート
 
 	// [2D]
 	DrawEffect();			// エフェクト
