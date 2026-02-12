@@ -56,7 +56,8 @@ void InitConveyer(void)
 		g_aConveyer[nCntConveyer].nIdx = -1;								// インデックス初期化
 		g_aConveyer[nCntConveyer].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置初期化
 		g_aConveyer[nCntConveyer].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 角度初期化
-		g_aConveyer[nCntConveyer].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 移動量初期化
+		g_aConveyer[nCntConveyer].Onmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 移動量初期化
+		g_aConveyer[nCntConveyer].Offmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 移動量初期化
 		g_aConveyer[nCntConveyer].fWidth = 0.0f;							// 幅初期化
 		g_aConveyer[nCntConveyer].fDepth = 0.0f;							// 奥行初期化
 		g_aConveyer[nCntConveyer].movetex = 0.0f;							// テクスチャ移動量初期化
@@ -101,7 +102,7 @@ void InitConveyer(void)
 	// 頂点バッファをアンロック
 	g_pVtxBuffConveyer->Unlock();
 
-	SetConveyer(0, D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), 100.0f, 500.0f, CONVEYERSTATE_MOVE);
+	SetConveyer(0, D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), 100.0f, 500.0f, CONVEYERSTATE_MOVE);
 }
 
 //=======================================================
@@ -147,13 +148,7 @@ void UpdateConveyer(void)
 			case CONVEYERSTATE_MOVE:		// 稼働状態
 
 				// テクスチャを移動させる
-				g_aConveyer[nCntConveyer].movetex += (g_aConveyer[nCntConveyer].move.x + g_aConveyer[nCntConveyer].move.z) * 0.002f;
-
-				// テクスチャ座標の指定
-				pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
-				pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
-				pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
-				pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
+				g_aConveyer[nCntConveyer].movetex += (g_aConveyer[nCntConveyer].Onmove.x + g_aConveyer[nCntConveyer].Onmove.z) * 0.002f;
 
 				if (GetPromptTrigger(g_aConveyer[nCntConveyer].nIdx) == true)
 				{// 指定のインデックスのプロンプトに反応があった
@@ -166,6 +161,9 @@ void UpdateConveyer(void)
 
 			case CONVEYERSTATE_STOP:		// 停止状態
 
+				// テクスチャを移動させる
+				g_aConveyer[nCntConveyer].movetex += (g_aConveyer[nCntConveyer].Offmove.x + g_aConveyer[nCntConveyer].Offmove.z) * 0.002f;
+
 				if (GetPromptTrigger(g_aConveyer[nCntConveyer].nIdx) == true)
 				{// 指定のインデックスのプロンプトに反応があった
 
@@ -175,6 +173,12 @@ void UpdateConveyer(void)
 
 				break;
 			}
+
+			// テクスチャ座標の指定
+			pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
+			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
+			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
+			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
 		}
 
 		pVtx += 4;		// 頂点データのポインタを4つ進める
@@ -237,7 +241,7 @@ void DrawConveyer(void)
 //=======================================================
 // コンベアの設定処理
 //=======================================================
-void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, float fWidth, float fDepth, CONVEYERSTATE state)
+void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove, D3DXVECTOR3 Offmove, float fWidth, float fDepth, CONVEYERSTATE state)
 {
 	VERTEX_3D* pVtx;				// 頂点情報へのポインタ
 
@@ -252,7 +256,8 @@ void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 move, f
 			g_aConveyer[nCntConveyer].nIdx = nIdx;			// インデックス
 			g_aConveyer[nCntConveyer].pos = pos;			// 位置
 			g_aConveyer[nCntConveyer].rot = rot;			// 向き
-			g_aConveyer[nCntConveyer].move = move;			// 移動量
+			g_aConveyer[nCntConveyer].Onmove = Onmove;		// On状態の移動量
+			g_aConveyer[nCntConveyer].Offmove = Offmove;	// Off状態の移動量
 			g_aConveyer[nCntConveyer].fWidth = fWidth;		// 幅
 			g_aConveyer[nCntConveyer].fDepth = fDepth;		// 奥行
 			g_aConveyer[nCntConveyer].state = state;		// 状態
@@ -303,7 +308,13 @@ bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pM
 					{// コンベア稼働中
 
 						// 移動量分移動させる
-						*pPos += pConveyer->move;
+						*pPos += pConveyer->Onmove;
+					}
+					else
+					{// コンベア停止中
+
+						// 移動量分移動させる
+						*pPos += pConveyer->Offmove;
 					}
 				}
 			}
