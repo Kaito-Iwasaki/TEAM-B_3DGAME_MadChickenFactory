@@ -66,7 +66,7 @@ void InitLift(void);
 void UninitLift(void);
 void UpdateLift(void);
 void DrawLift(void);
-void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range);
+void SetLift(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range, float speed);
 bool CollisionLift(void);
 
 #endif // !_STAGELIGHT_H_

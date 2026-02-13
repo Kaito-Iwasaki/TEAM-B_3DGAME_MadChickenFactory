@@ -149,6 +149,7 @@ void UpdatePrompt(void)
 				if (g_aPrompt[nCountPrompt].bDisp == true && (((nCountPlayer == 0) && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))|| ((nCountPlayer == 1) && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A)))))
 				{
 					g_aPromptTrigger[nCountPrompt] = true;
+					break;
 				}
 				else
 				{

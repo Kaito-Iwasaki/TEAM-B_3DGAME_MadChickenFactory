@@ -24,6 +24,7 @@
 //==================================================
 #define MAX_LIFT		(128)					// モデルの最大数
 #define LIFT_MODEL_PATH "data\\MODEL\\Factory\\lift.x"	// モデルファイルパス
+#define EFFECTIVE_RANGE_LIFT	(10.0f)			// 有効範囲
 
 //==================================================
 //
@@ -63,7 +64,8 @@ void InitLift(void)
 
 	LoadModel(LIFT_MODEL_PATH, &g_aLiftModelData);
 
-	SetLift(D3DXVECTOR3(-300.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 1000.0f));
+	SetLift(0, D3DXVECTOR3(-300.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
+	SetPrompt(D3DXVECTOR3_ZERO, D3DXVECTOR3(100.0f,100.0f,0.0f), 0);
 }
 
 //==================================================
@@ -83,75 +85,69 @@ void UninitLift(void)
 //==================================================
 void UpdateLift(void)
 {
+	/*if (GetKeyboardTrigger(DIK_9))
+	{
+		GetPromptTrigger(0);
+	}*/
+
 	Player* pPlayer = GetPlayer();
 
 	for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++)
 	{
 		if (g_aLift[nCntLift].bUse == true)
 		{
-			if (g_aLift[nCntLift].interval >= 0)
+			if (g_aLift[nCntLift].NowState == LIFTSTATE_GO_POINT)
 			{
-				//===================
-				// --- 自動操縦 ---
-				//===================
-				if (g_aLift[nCntLift].bswitch == true)
-				{// 電源オン
-					if (g_aLift[nCntLift].NowState == LIFTSTATE_GO_POINT)
-					{
-						//==============================
-						// --- 初期位置から移動中 ---
-						//==============================
-
-					}
-					else if (g_aLift[nCntLift].NowState == LIFTSTATE_SV_POINT)
-					{
-						//==============================
-						// --- 設定位置から移動中 ---
-						//==============================
-					}
-					else if (g_aLift[nCntLift].NowState == LIFTSTATE_STAY)
-					{
-						//==========================
-						// --- インターバル中 ---
-						//==========================
-						g_aLift[nCntLift].nCounter++;		// カウンタを進める
-
-						if (g_aLift[nCntLift].nCounter >= g_aLift[nCntLift].interval)
-						{//インターバル消化
-							g_aLift[nCntLift].nCounter = 0;	// カウンタをリセット
-
-							if (g_aLift[nCntLift].PreviousState == LIFTSTATE_GO_POINT)
-							{// 前回、初期位置→設定位置
-								g_aLift[nCntLift].NowState = LIFTSTATE_SV_POINT;		// 初期位置へ移動する状態へ
-								g_aLift[nCntLift].PreviousState = LIFTSTATE_SV_POINT;	// 次の判定で前回の（になる）状態も更新
-							}
-							else if (g_aLift[nCntLift].PreviousState == LIFTSTATE_SV_POINT)
-							{// 前回、初期位置→設定位置
-								g_aLift[nCntLift].NowState = LIFTSTATE_GO_POINT;		// 設定位置へ移動する状態へ
-								g_aLift[nCntLift].PreviousState = LIFTSTATE_GO_POINT;
-							}
-						}
-					}
-
-					if (GetPromptTrigger(g_aLift[nCntLift].nIdx))
-					{// 電源をオフにする
-						g_aLift[nCntLift].bswitch = true;
-					}
-				}
-				else if (g_aLift[nCntLift].bswitch == false)
-				{// 電源オフ
-					if (GetPromptTrigger(g_aLift[nCntLift].nIdx))
-					{// 電源をオンにする
-						g_aLift[nCntLift].bswitch = true;
-					}
+				//==============================
+				// --- 初期位置から移動中 ---
+				//==============================
+				g_aLift[nCntLift].move = g_aLift[nCntLift].vec * g_aLift[nCntLift].speed;
+				g_aLift[nCntLift].pos += g_aLift[nCntLift].move;
+				if (g_aLift[nCntLift].pos.x <= g_aLift[nCntLift].GoPoint.x + EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.x >= g_aLift[nCntLift].GoPoint.x - EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.y <= g_aLift[nCntLift].GoPoint.y + EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.y >= g_aLift[nCntLift].GoPoint.y - EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.z <= g_aLift[nCntLift].GoPoint.z + EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.z >= g_aLift[nCntLift].GoPoint.z - EFFECTIVE_RANGE_LIFT)
+				{
+					g_aLift[nCntLift].NowState = LIFTSTATE_STAY;
 				}
 
 			}
-			else if (g_aLift[nCntLift].interval < 0)
+			else if (g_aLift[nCntLift].NowState == LIFTSTATE_SV_POINT)
 			{
-				//====================
-				// --- 手動操縦 ---
-				//====================
+				//==============================
+				// --- 設定位置から移動中 ---
+				//==============================
+				g_aLift[nCntLift].move = g_aLift[nCntLift].vec * g_aLift[nCntLift].speed;
+				g_aLift[nCntLift].pos -= g_aLift[nCntLift].move;
+				if (g_aLift[nCntLift].pos.x <= g_aLift[nCntLift].SavePos.x + EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.x >= g_aLift[nCntLift].SavePos.x - EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.y <= g_aLift[nCntLift].SavePos.y + EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.y >= g_aLift[nCntLift].SavePos.y - EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.z <= g_aLift[nCntLift].SavePos.z + EFFECTIVE_RANGE_LIFT &&
+					g_aLift[nCntLift].pos.z >= g_aLift[nCntLift].SavePos.z - EFFECTIVE_RANGE_LIFT)
+				{
+					g_aLift[nCntLift].NowState = LIFTSTATE_STAY;
+				}
+			}
+			else if (g_aLift[nCntLift].NowState == LIFTSTATE_STAY)
+			{
+				PrintDebugProc("%d\n", GetPromptTrigger(g_aLift[nCntLift].nIdx));
+
+				if (GetPromptTrigger(g_aLift[nCntLift].nIdx))
+				{
+					if (g_aLift[nCntLift].PreviousState == LIFTSTATE_SV_POINT)
+					{
+						g_aLift[nCntLift].NowState = LIFTSTATE_GO_POINT;
+						g_aLift[nCntLift].PreviousState = LIFTSTATE_GO_POINT;
+					}
+					else if (g_aLift[nCntLift].PreviousState == LIFTSTATE_GO_POINT)
+					{
+						g_aLift[nCntLift].NowState = LIFTSTATE_SV_POINT;
+						g_aLift[nCntLift].PreviousState = LIFTSTATE_SV_POINT;
+					}
+				}
 			}
 		}
 	}
@@ -217,7 +213,7 @@ void DrawLift(void)
 //	リフト設置処理
 //
 //==================================================
-void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range)
+void SetLift(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range,float speed)
 {
 	D3DXVECTOR3 Compornent;	// 成分
 	float Size;				// 大きさ
@@ -226,19 +222,22 @@ void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range)
 	{
 		if (g_aLift[nCnt].bUse == false)
 		{
+			g_aLift[nCnt].nIdx = nIdx;
 			g_aLift[nCnt].bUse = true;
 			g_aLift[nCnt].pos = pos;
 			g_aLift[nCnt].SavePos = pos;
 			g_aLift[nCnt].GoPoint = pos + range;
-
 			// ベクトル計算
 			Compornent = g_aLift[nCnt].GoPoint - g_aLift[nCnt].SavePos;
 			Size = sqrtf(powf(g_aLift[nCnt].GoPoint.x - g_aLift[nCnt].SavePos.x, 2.0f)
 				+ powf(g_aLift[nCnt].GoPoint.y - g_aLift[nCnt].SavePos.y, 2.0f)
 				+ powf(g_aLift[nCnt].GoPoint.z - g_aLift[nCnt].SavePos.z, 2.0f));
-
 			g_aLift[nCnt].vec = Compornent / Size;
+
 			g_aLift[nCnt].rot = rot;
+			g_aLift[nCnt].speed = speed;
+			g_aLift[nCnt].NowState = LIFTSTATE_STAY;
+			g_aLift[nCnt].PreviousState = LIFTSTATE_SV_POINT;
 			break;
 		}
 	}
@@ -279,7 +278,7 @@ bool CollisionLift(void)
 				{//上から
 					pPlayer->pos.y = g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMax.y;
 					bHitCheck = true;
-					pPlayer->move += g_aLift[nCntLift].move;
+					pPlayer->move.y = 0;
 					pPlayer->bJump = false;
 				}
 				else if (pPlayer->posOld.y <= g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMin.y)
@@ -301,9 +300,9 @@ bool CollisionLift(void)
 				}
 			}
 
-			if (bHitCheck == false)
-			{//触られていないので、修正
-				
+			if (bHitCheck == true)
+			{
+				pPlayer->pos += g_aLift[nCntLift].move;
 			}
 
 		}
