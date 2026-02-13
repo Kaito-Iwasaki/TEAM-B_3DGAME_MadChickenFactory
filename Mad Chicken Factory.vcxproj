@@ -162,6 +162,7 @@
     <ClInclude Include="gate.h" />
     <ClInclude Include="goal.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="lift.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="meshcylinder.h" />
     <ClInclude Include="mode.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="gate.cpp" />
     <ClCompile Include="goal.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="lift.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="meshcylinder.cpp" />
     <ClCompile Include="mode.cpp" />
