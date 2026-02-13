@@ -236,7 +236,7 @@ void UpdatePlayer(void)
 		g_Player[nCntPlayer].rot.y = GetFixedRotation(g_Player[nCntPlayer].rot.y);
 
 		// âeÇÃà íuÇê›íË(çXêV)
-		SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, (g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f);
+		SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f/*(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f*/);
 
 		for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
 		{

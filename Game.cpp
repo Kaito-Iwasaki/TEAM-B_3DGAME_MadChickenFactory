@@ -302,7 +302,7 @@ void DrawGame(void)
 	DrawField();			// フィールド
 	DrawShadow();			// 影
 	DrawWall();				// 壁
-	DrawMeshCylinder();		// メッシュシリンダー
+	//DrawMeshCylinder();		// メッシュシリンダー
 	DrawTimer();			// タイマー
 	DrawModel();			// モデル
 	DrawSaw();				// 回転ノコギリ
@@ -318,6 +318,8 @@ void DrawGame(void)
 	DrawEffect();			// エフェクト
 	DrawPrompt();			// プロンプト
 	DrawPause();			// ポーズ
+
+	SetTimer(D3DXVECTOR3(700.0f, 200.0f, 1500.0f), 300, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 void ReloadGame(void)
