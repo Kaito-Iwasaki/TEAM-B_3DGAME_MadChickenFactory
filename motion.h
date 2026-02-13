@@ -48,7 +48,7 @@ void UpdateMotion(MOTION* pMotion);
 void LoadParts(MOTION* pMotion);
 
 // pMotionの現在のモーション番号をnIdxMotionに設定します。
-void SetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend);
+void SetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend = 0);
 
 // pMotionのパーツにそれぞれの位置・回転オフセットを適用します。
 void SetPartOffset(MOTION* pMotion);
