@@ -193,7 +193,7 @@ void InitGame(void)
 
 	// ƒJƒƒ‰‚Ì‰ŠúÝ’è
 	SetCameraPosVFromAngle(0);
-	GetCamera(0)->mode = CAMERAMODE_FREE;
+	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
 
 	g_bLightGame = true;
 }
