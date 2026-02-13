@@ -58,7 +58,7 @@ void InitMoveBox(void)
 
 	LoadModel(MOVEBOX_MODEL_PATH, &g_aMoveBoxModelData);
 
-	SetMoveBox(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetMoveBox(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(100.0f, 0.0f, 0.0f));
 }
 
 //==================================================
@@ -91,8 +91,12 @@ void UpdateMoveBox(void)
 			if (g_aMoveBox[nCntMBox].state == STATE_RIGHT)
 			{//‰E‚©‚ç
 				if (pPlayer->move.x <= -ENABLE_MOVE)
-				{
-					g_aMoveBox[nCntMBox].pos.x -= MOVE_SPEED;
+				{//ENABLE_MOVEˆÈã‚Ì—Í‚Å‰Ÿ‚³‚ê‚Ä‚¢‚é
+					if (g_aMoveBox[nCntMBox].pos.x > g_aMoveBox[nCntMBox].SavePos.x || 
+						g_aMoveBox[nCntMBox].pos.x > g_aMoveBox[nCntMBox].MotionRange.x)
+					{//—LŒø”ÍˆÍ“à
+						g_aMoveBox[nCntMBox].pos.x -= MOVE_SPEED;
+					}
 				}
 				
 			}
@@ -100,21 +104,33 @@ void UpdateMoveBox(void)
 			{//¶‚©‚ç
 				if (pPlayer->move.x >= ENABLE_MOVE)
 				{
-					g_aMoveBox[nCntMBox].pos.x += MOVE_SPEED;
+					if (g_aMoveBox[nCntMBox].pos.x < g_aMoveBox[nCntMBox].SavePos.x ||
+						g_aMoveBox[nCntMBox].pos.x < g_aMoveBox[nCntMBox].MotionRange.x)
+					{
+						g_aMoveBox[nCntMBox].pos.x += MOVE_SPEED;
+					}
 				}
 			}
 			else if (g_aMoveBox[nCntMBox].state == STATE_REAR)
 			{//‰œ‚©‚ç
 				if (pPlayer->move.z <= -ENABLE_MOVE)
 				{
-					g_aMoveBox[nCntMBox].pos.z -= MOVE_SPEED;
+					if (g_aMoveBox[nCntMBox].pos.z > g_aMoveBox[nCntMBox].SavePos.z ||
+						g_aMoveBox[nCntMBox].pos.z > g_aMoveBox[nCntMBox].MotionRange.z)
+					{
+						g_aMoveBox[nCntMBox].pos.z -= MOVE_SPEED;
+					}
 				}
 			}
 			else if (g_aMoveBox[nCntMBox].state == STATE_FRONT)
 			{//Žè‘O‚©‚ç
 				if (pPlayer->move.z >= ENABLE_MOVE)
 				{
-					g_aMoveBox[nCntMBox].pos.z += MOVE_SPEED;
+					if (g_aMoveBox[nCntMBox].pos.z < g_aMoveBox[nCntMBox].SavePos.z ||
+						g_aMoveBox[nCntMBox].pos.z < g_aMoveBox[nCntMBox].MotionRange.z)
+					{
+						g_aMoveBox[nCntMBox].pos.z += MOVE_SPEED;
+					}
 				}
 			}
 		}
