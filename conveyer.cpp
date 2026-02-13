@@ -99,11 +99,6 @@ void InitConveyer(void)
 
 	// 頂点バッファをアンロック
 	g_pVtxBuffConveyer->Unlock();
-
-	SetConveyer(0, D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), D3DXVECTOR3(100.0f, 0.0f, 500.0f), CONVEYERSTATE_MOVE);
-
-	SetConveyer(0, D3DXVECTOR3(300.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), D3DXVECTOR3(100.0f, 0.0f, 300.0f), CONVEYERSTATE_MOVE);
-
 }
 
 //=======================================================
@@ -180,12 +175,6 @@ void UpdateConveyer(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
-
-			// 頂点座標の設定
-			pVtx[0].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
-			pVtx[1].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
-			pVtx[2].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
-			pVtx[3].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
 
 		}
 
