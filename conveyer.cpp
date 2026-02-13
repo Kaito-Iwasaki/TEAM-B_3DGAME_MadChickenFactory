@@ -101,6 +101,9 @@ void InitConveyer(void)
 	g_pVtxBuffConveyer->Unlock();
 
 	SetConveyer(0, D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), D3DXVECTOR3(100.0f, 0.0f, 500.0f), CONVEYERSTATE_MOVE);
+
+	SetConveyer(0, D3DXVECTOR3(300.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), D3DXVECTOR3(100.0f, 0.0f, 300.0f), CONVEYERSTATE_MOVE);
+
 }
 
 //=======================================================
@@ -177,6 +180,13 @@ void UpdateConveyer(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
+
+			// 頂点座標の設定
+			pVtx[0].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
+			pVtx[1].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
+			pVtx[2].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
+			pVtx[3].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
+
 		}
 
 		pVtx += 4;		// 頂点データのポインタを4つ進める
@@ -212,7 +222,7 @@ void DrawConveyer(void)
 		if (g_aConveyer[nCntConveyer].bUse == true)
 		{// 使用している
 
-				// ワールドマトリックスの初期化
+			// ワールドマトリックスの初期化
 			D3DXMatrixIdentity(&g_aConveyer[nCntConveyer].mtxWorld);
 
 			// 向きを反映
@@ -231,7 +241,7 @@ void DrawConveyer(void)
 			pDevice->SetTransform(D3DTS_WORLD, &g_aConveyer[nCntConveyer].mtxWorld);
 
 			// コンベアの描写
-			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 4 * nCntConveyer, 2);
 		}
 	}
 }
