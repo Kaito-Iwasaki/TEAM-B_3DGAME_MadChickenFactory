@@ -23,7 +23,7 @@
 //
 //==================================================
 #define MAX_LIFT		(128)					// モデルの最大数
-#define LIFT_MODEL_PATH "data\\MODEL\\lift.x"	// モデルファイルパス
+#define LIFT_MODEL_PATH "data\\MODEL\\Factory\\lift.x"	// モデルファイルパス
 
 //==================================================
 //
@@ -233,9 +233,9 @@ void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range)
 
 			// ベクトル計算
 			Compornent = g_aLift[nCnt].GoPoint - g_aLift[nCnt].SavePos;
-			Size = sqrt(pow(g_aLift[nCnt].GoPoint.x - g_aLift[nCnt].SavePos.x, 2.0f)
-				+ pow(g_aLift[nCnt].GoPoint.y - g_aLift[nCnt].SavePos.y, 2.0f)
-				+ pow(g_aLift[nCnt].GoPoint.z - g_aLift[nCnt].SavePos.z, 2.0f));
+			Size = sqrtf(powf(g_aLift[nCnt].GoPoint.x - g_aLift[nCnt].SavePos.x, 2.0f)
+				+ powf(g_aLift[nCnt].GoPoint.y - g_aLift[nCnt].SavePos.y, 2.0f)
+				+ powf(g_aLift[nCnt].GoPoint.z - g_aLift[nCnt].SavePos.z, 2.0f));
 
 			g_aLift[nCnt].vec = Compornent / Size;
 			g_aLift[nCnt].rot = rot;
