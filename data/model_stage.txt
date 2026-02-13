@@ -32,23 +32,24 @@ NUM_MODEL = 18
 # モデルファイル名
 #------------------------------------------------------------------------------
 MODEL_FILENAME = data/MODEL/Factory/bloodknife.x				# [0]血の付いたナイフ	モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/comber.x					# [1]コンベア			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/drone.x						# [2]ドローン			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/friedchicken.x				# [3]チキン				モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/fryer00.x					# [4]フライヤー			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/fryer01.x					# [5]フライヤー			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/gasburner00.x				# [6]ガスバーナー		〇
-MODEL_FILENAME = data/MODEL/Factory/grinder000.x				# [7]ミンチ機			後々ギミックとして使用?
-MODEL_FILENAME = data/MODEL/Factory/lift.x						# [8]リフト				後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/meat00.x					# [9]肉					モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/press00.x					# [10]プレス機			モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/press01.x					# [11]プレス機の中身	〇
-MODEL_FILENAME = data/MODEL/Factory/rawchicken.x				# [12]揚げた肉			モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/saw000.x					# [13]のこぎり			〇
-MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [14]換気扇			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [15]換気扇のプロペラ	後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [16]木箱				モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/gate.x						# [17]ゲート			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/comber.x					# [1]コンベア			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/comber00.x					# [2]コンベア			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/drone.x						# [3]ドローン			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/friedchicken.x				# [4]チキン				モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/fryer00.x					# [5]フライヤー			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/fryer01.x					# [6]フライヤー			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/gasburner00.x				# [7]ガスバーナー		〇
+MODEL_FILENAME = data/MODEL/Factory/grinder000.x				# [8]ミンチ機			後々ギミックとして使用?
+MODEL_FILENAME = data/MODEL/Factory/lift.x						# [9]リフト				後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/meat00.x					# [10]肉				モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/press00.x					# [11]プレス機			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/press01.x					# [12]プレス機の中身	〇
+MODEL_FILENAME = data/MODEL/Factory/rawchicken.x				# [13]揚げた肉			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/saw000.x					# [14]のこぎり			〇
+MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [15]換気扇			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [16]換気扇のプロペラ	後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [17]木箱				モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/gate.x						# [18]ゲート			モデルとして使用
 #------------------------------------------------------------------------------
 # ステージ1
 #------------------------------------------------------------------------------
@@ -140,15 +141,15 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 100 0 2000
+	POS = 100 0 1375
 	ROT = 0 -90 0
 	BLOCK = 1 2
-	SIZE = 3000 500
+	SIZE = 1750 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 2850 0 3500
+	POS = 2850 0 2250
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 2750 500
@@ -164,10 +165,10 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 5600 0 2000
+	POS = 5600 0 1375
 	ROT = 0 90 0
 	BLOCK = 1 2
-	SIZE = 3000 500
+	SIZE = 1750 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -175,10 +176,10 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 2850 0 1500
+	POS = 2850 0 900
 	ROT = 0 0 0
 	BLOCK = 5 4 
-	SIZE = 1100 1000
+	SIZE = 1100 700
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -851,16 +852,85 @@ GOALSET
 END_GOALSET
 
 #----------------------------------------
+# ベルトコンベア
+#----------------------------------------
+CONVEYERSET
+	POS = 1425 96.9 90
+	ROT = 0 0 0 
+	ONMOVE = 0 0 5
+	OFFMOVE = 0 0 0
+	SIZE = 200 1170
+	IDX = 0 
+	STATE = 0
+	SHADOW = 0
+END_CONVEYERSET
+
+CONVEYERSET
+	POS = 1425 96.9 1260
+	ROT = 0 0 0 
+	ONMOVE = 0 0 5
+	OFFMOVE = 0 0 0
+	SIZE = 200 1170
+	IDX = 0 
+	STATE = 0
+	SHADOW = 0
+END_CONVEYERSET
+
+CONVEYERSET
+	POS = 3350 96.9 2000
+	ROT = 0 0 0 
+	ONMOVE = 10 0 0
+	OFFMOVE = 0 0 5
+	SIZE = 1170 200
+	IDX = 0 
+	STATE = 0
+	SHADOW = 0
+END_CONVEYERSET
+
+CONVEYERSET
+	POS = 2200 96.9 2000
+	ROT = 0 0 0 
+	ONMOVE = 10 0 0
+	OFFMOVE = 0 0 5
+	SIZE = 1170 200
+	IDX = 0 
+	STATE = 0
+	SHADOW = 0
+END_CONVEYERSET
+
+CONVEYERSET
+	POS = 4500 96.9 2000
+	ROT = 0 0 0 
+	ONMOVE = 10 0 0
+	OFFMOVE = 0 0 5
+	SIZE = 1170 200
+	IDX = 0 
+	STATE = 0
+	SHADOW = 0
+END_CONVEYERSET
+
+CONVEYERSET
+	POS = 4920 96.9 1465
+	ROT = 0 0 0 
+	ONMOVE = 0 0 -10
+	OFFMOVE = 0 0 5
+	SIZE = 200 900
+	IDX = 0 
+	STATE = 0
+	SHADOW = 0
+END_CONVEYERSET
+
+#----------------------------------------
 # 回転ノコギリ
 #----------------------------------------
-#SAWSET
-	POS = 500 0 -250
+SAWSET
+	POS = 5600 0 2000
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 500
-	RANGE = -5000 0 0
+	RANGE = 0 0 0
 	SHADOW = 1
-#END_SAWSET
+END_SAWSET
 #SAWSET
 	POS = 500 0 250
 	ROT = 0 0 0
@@ -939,96 +1009,155 @@ END_GOALSET
 #----------------------------------------
 # 火炎放射器
 #----------------------------------------
-#FIRESET
+FIRESET
 	ID = 0
-	POS = 2500 0 -450
+	POS = 135 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 -350
+	POS = 210 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 -250
+	POS = 285 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 -150
+	POS = 360 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 -50
+	POS = 435 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 50
+	POS = 510 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 150
+	POS = 585 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 250
+	POS = 660 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 350
+	POS = 735 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
-#FIRESET
+END_FIRESET
+
+FIRESET
 	ID = 0
-	POS = 2500 0 450
+	POS = 810 0 1800
 	ROT = 0 0 0
 	INTERVAL = 30
 	STATE = 1
 	FIRESTATE = 2
 	SHADOW = 1
-#END_FIRESET
+END_FIRESET
+
+FIRESET
+	ID = 0
+	POS = 885 0 1800
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	FIRESTATE = 2
+	SHADOW = 1
+END_FIRESET
+
+FIRESET
+	ID = 0
+	POS = 960 0 1800
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	FIRESTATE = 2
+	SHADOW = 1
+END_FIRESET
+
+FIRESET
+	ID = 0
+	POS = 1035 0 1800
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	FIRESTATE = 2
+	SHADOW = 1
+END_FIRESET
+
+FIRESET
+	ID = 0
+	POS = 1110 0 1800
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	FIRESTATE = 2
+	SHADOW = 1
+END_FIRESET
+
+FIRESET
+	ID = 0
+	POS = 1185 0 1800
+	ROT = 0 0 0
+	INTERVAL = 30
+	STATE = 1
+	FIRESTATE = 2
+	SHADOW = 1
+END_FIRESET
 
 #----------------------------------------
 # プロンプト
@@ -1050,43 +1179,65 @@ END_PROMPTSET
 	POS = 1000 0 50
 	ROT = 0 0 0
 	COLLISION = 0
-	SHADOW = 0
 #END_MODELSET
 
 #----------------------------------------
 # コンベア
 #----------------------------------------
 MODELSET
+	TYPE = 2
+	POS = 1425 0 90
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 2
+	POS = 1425 0 1260
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
 	TYPE = 1
-	POS = 1500 0 90
-	ROT = 0 90 0
+	POS = 2200 0 2000
+	ROT = 0 0 0
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
 
 MODELSET
 	TYPE = 1
-	POS = 2600 0 90
-	ROT = 0 90 0
-	COLLISION = 1
+	POS = 3350 0 2000
+	ROT = 0 0 0
+	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
 
 MODELSET
 	TYPE = 1
-	POS = 4500 50 1000
-	ROT = 0 90 10
-	COLLISION = 1
+	POS = 4500 0 2000
+	ROT = 0 0 0
+	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
 
+MODELSET
+	TYPE = 2
+	POS = 4920 0 1600
+	ROT = 0 0 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
 
 #----------------------------------------
 # ドローン
 #----------------------------------------
 
 MODELSET
-	TYPE = 2
+	TYPE = 3
 	POS = 1500 500 300
 	ROT = 0 90 0
 	COLLISION = 0
@@ -1094,7 +1245,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 2
+	TYPE = 3
 	POS = 2600 500 -300
 	ROT = 0 90 0
 	COLLISION = 1
@@ -1105,7 +1256,7 @@ END_MODELSET
 #  チキン
 #----------------------------------------
 #MODELSET
-	TYPE = 3
+	TYPE = 4
 	POS = 500 0 50
 	ROT = 0 0 0
 	COLLISION = 0
@@ -1116,15 +1267,7 @@ END_MODELSET
 #  フライヤー
 #----------------------------------------
 
-MODELSET
-	TYPE = 4
-	POS = 4500 0 0
-	ROT = 0 90 0
-	COLLISION = 0
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
+1MODELSET
 	TYPE = 5
 	POS = 4500 0 0
 	ROT = 0 90 0
@@ -1132,11 +1275,65 @@ MODELSET
 	SHADOW = 0
 END_MODELSET
 
+1MODELSET
+	TYPE = 6
+	POS = 4500 0 0
+	ROT = 0 90 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+#  ミンチ機
+#----------------------------------------
+1MODELSET
+	TYPE = 8
+	POS = 4300 0 1000
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+
+#----------------------------------------
+#  リフト
+#----------------------------------------
+
+1MODELSET
+	TYPE = 9
+	POS = -100 0 0
+	ROT = 0 0 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+#  肉
+#----------------------------------------
+1MODELSET
+	TYPE = 10
+	POS = 4300 250 1000
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+#  プレス機
+#----------------------------------------
+1MODELSET
+	TYPE = 12
+	POS = 4300 0 1000
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
 #----------------------------------------
 # 換気扇
 #----------------------------------------
 #MODELSET
-	TYPE = 14
+	TYPE = 15
 	POS = -1000 0 450
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1148,7 +1345,7 @@ END_MODELSET
 #----------------------------------------
 
 #MODELSET
-	TYPE = 17
+	TYPE = 18
 	POS = -1500 0 450
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1159,31 +1356,7 @@ END_MODELSET
 # 木箱
 #----------------------------------------
 MODELSET
-	TYPE = 16
-	POS = 3500 0 450
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 16
-	POS = 3200 0 450
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 16
-	POS = 3350 180 450
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 16
+	TYPE = 17
 	POS = -2000 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1191,7 +1364,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 16
+	TYPE = 17
 	POS = -2000 180 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1199,7 +1372,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 16
+	TYPE = 17
 	POS = -1700 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1207,7 +1380,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 16
+	TYPE = 17
 	POS = -1700 180 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1215,7 +1388,7 @@ MODELSET
 END_MODELSET
 
 #MODELSET
-	TYPE = 16
+	TYPE = 17
 	POS = -1400 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1223,7 +1396,7 @@ END_MODELSET
 #END_MODELSET
 
 #MODELSET
-	TYPE = 16
+	TYPE = 17
 	POS = -1100 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1231,52 +1404,316 @@ END_MODELSET
 #END_MODELSET
 
 #MODELSET
-	TYPE = 16
+	TYPE = 17
 	POS = -1250 180 1400
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 #END_MODELSET
 
-
 MODELSET
-	TYPE = 16
-	POS = 3900 0 0
+	TYPE = 17
+	POS = 4900 0 600
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
 
 MODELSET
-	TYPE = 16
-	POS = 3900 0 400
+	TYPE = 17
+	POS = 5175 0 600
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
 
 MODELSET
-	TYPE = 16
-	POS = 3900 0 200
+	TYPE = 17
+	POS = 5450 0 600
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
 
 MODELSET
-	TYPE = 16
-	POS = 3900 0 -400
+	TYPE = 17
+	POS = 4900 0 400
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
 
 MODELSET
-	TYPE = 16
-	POS = 3900 0 -200
+	TYPE = 17
+	POS = 4900 0 200
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4900 0 0
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4900 0 -200
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4900 0 -400
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4300 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4300 0 1300
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4300 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4050 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3800 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3550 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3300 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3050 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2800 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2550 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2300 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2050 0 1500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3800 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3550 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3300 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3050 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2800 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2550 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2300 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2050 0 1100
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4650 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 4050 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3800 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3550 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3300 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 3050 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2800 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2550 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2300 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 2050 0 600
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
 
 END_SCRIPT		# この行は絶対消さないこと！
