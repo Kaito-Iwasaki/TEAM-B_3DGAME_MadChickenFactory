@@ -13,13 +13,14 @@
 // 
 //*********************************************************************
 #include "main.h"
+#include "motion_loader.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_ENEMY	(128)		// 敵最大数
+#define MAX_ENEMY	(4)		// 敵最大数
 
 //*********************************************************************
 // 
@@ -28,13 +29,17 @@
 //*********************************************************************
 typedef struct
 {
-	D3DXVECTOR3 pos;			//位置
-	D3DXVECTOR3 watchPoint;		//監視位置
-	D3DXVECTOR3 TargetPoint;	//追跡位置
-	D3DXVECTOR3 rot;			//角度
+	bool bUse;					// 使用中か
+	D3DXVECTOR3 pos;			// 位置
+	D3DXVECTOR3 rot;			// 角度
+	D3DXMATRIX mtxWorld;		// ワールドマトリックス
+	MOTION motion;				// モーション
+	int nIdxShadow;				// 影のインデックス
 
+	D3DXVECTOR3 watchPoint;		// 監視位置
+	D3DXVECTOR3 TargetPoint;	// 追跡位置
 
-}Enemy;
+}ENEMY;
 
 //*********************************************************************
 // 
@@ -52,5 +57,6 @@ void InitEnemy(void);
 void UninitEnemy(void);
 void UpdateEnemy(void);
 void DrawEnemy(void);
+void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 #endif
