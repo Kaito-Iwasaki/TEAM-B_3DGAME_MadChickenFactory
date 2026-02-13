@@ -1,6 +1,6 @@
 //==================================================
 //
-//	可動箱[box_movable.cpp]
+//	リフト[box_movable.cpp]
 //
 //==================================================
 //==================================================
@@ -15,14 +15,15 @@
 #include "debugproc.h"
 #include "player.h"
 #include "fade.h"
+#include "prompt.h"
 
 //==================================================
 //
 //	マクロ定義
 //
 //==================================================
-#define MAX_LIFT		(128)					//モデルの最大数
-#define LIFT_MODEL_PATH "q"
+#define MAX_LIFT		(128)					// モデルの最大数
+#define LIFT_MODEL_PATH "data\\MODEL\\lift.x"	// モデルファイルパス
 
 //==================================================
 //
@@ -40,17 +41,24 @@ Lift g_aLift[MAX_LIFT];
 
 //==================================================
 //
-//	可動箱の初期化
+//	リフトの初期化
 //
 //==================================================
 void InitLift(void)
 {
 	for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++)
 	{
+		g_aLift[nCntLift].nIdx = -1;
 		g_aLift[nCntLift].bUse = false;
 		g_aLift[nCntLift].pos = D3DXVECTOR3_ZERO;
 		g_aLift[nCntLift].rot = D3DXVECTOR3_ZERO;
-
+		g_aLift[nCntLift].move = D3DXVECTOR3_ZERO;
+		g_aLift[nCntLift].SavePos = D3DXVECTOR3_ZERO;
+		g_aLift[nCntLift].GoPoint = D3DXVECTOR3_ZERO;
+		g_aLift[nCntLift].bswitch = false;
+		g_aLift[nCntLift].interval = 0;
+		g_aLift[nCntLift].speed = 0.0f;
+		g_aLift[nCntLift].nCounter = 0;
 	}
 
 	LoadModel(LIFT_MODEL_PATH, &g_aLiftModelData);
@@ -60,7 +68,7 @@ void InitLift(void)
 
 //==================================================
 //
-//	可動箱の終了処理
+//	リフトの終了処理
 //
 //==================================================
 void UninitLift(void)
@@ -70,25 +78,90 @@ void UninitLift(void)
 
 //==================================================
 //
-//	可動箱の更新処理
+//	リフトの更新処理
 //
 //==================================================
 void UpdateLift(void)
 {
 	Player* pPlayer = GetPlayer();
 
-	CollisionLift();
-
-	PrintDebugProc("%f\n", pPlayer->move.x);
-
-	for (int nCntMBox = 0; nCntMBox < MAX_LIFT; nCntMBox++)
+	for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++)
 	{
+		if (g_aLift[nCntLift].bUse == true)
+		{
+			if (g_aLift[nCntLift].interval >= 0)
+			{
+				//===================
+				// --- 自動操縦 ---
+				//===================
+				if (g_aLift[nCntLift].bswitch == true)
+				{// 電源オン
+					if (g_aLift[nCntLift].NowState == LIFTSTATE_GO_POINT)
+					{
+						//==============================
+						// --- 初期位置から移動中 ---
+						//==============================
+
+					}
+					else if (g_aLift[nCntLift].NowState == LIFTSTATE_SV_POINT)
+					{
+						//==============================
+						// --- 設定位置から移動中 ---
+						//==============================
+					}
+					else if (g_aLift[nCntLift].NowState == LIFTSTATE_STAY)
+					{
+						//==========================
+						// --- インターバル中 ---
+						//==========================
+						g_aLift[nCntLift].nCounter++;		// カウンタを進める
+
+						if (g_aLift[nCntLift].nCounter >= g_aLift[nCntLift].interval)
+						{//インターバル消化
+							g_aLift[nCntLift].nCounter = 0;	// カウンタをリセット
+
+							if (g_aLift[nCntLift].PreviousState == LIFTSTATE_GO_POINT)
+							{// 前回、初期位置→設定位置
+								g_aLift[nCntLift].NowState = LIFTSTATE_SV_POINT;		// 初期位置へ移動する状態へ
+								g_aLift[nCntLift].PreviousState = LIFTSTATE_SV_POINT;	// 次の判定で前回の（になる）状態も更新
+							}
+							else if (g_aLift[nCntLift].PreviousState == LIFTSTATE_SV_POINT)
+							{// 前回、初期位置→設定位置
+								g_aLift[nCntLift].NowState = LIFTSTATE_GO_POINT;		// 設定位置へ移動する状態へ
+								g_aLift[nCntLift].PreviousState = LIFTSTATE_GO_POINT;
+							}
+						}
+					}
+
+					if (GetPromptTrigger(g_aLift[nCntLift].nIdx))
+					{// 電源をオフにする
+						g_aLift[nCntLift].bswitch = true;
+					}
+				}
+				else if (g_aLift[nCntLift].bswitch == false)
+				{// 電源オフ
+					if (GetPromptTrigger(g_aLift[nCntLift].nIdx))
+					{// 電源をオンにする
+						g_aLift[nCntLift].bswitch = true;
+					}
+				}
+
+			}
+			else if (g_aLift[nCntLift].interval < 0)
+			{
+				//====================
+				// --- 手動操縦 ---
+				//====================
+			}
+		}
 	}
+
+	CollisionLift();
 }
 
 //==================================================
 //
-//	可動箱の描画処理
+//	リフトの描画処理
 //
 //==================================================
 void DrawLift(void)
@@ -141,11 +214,14 @@ void DrawLift(void)
 }
 //==================================================
 //
-//	可動箱設置処理
+//	リフト設置処理
 //
 //==================================================
 void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range)
 {
+	D3DXVECTOR3 Compornent;	// 成分
+	float Size;				// 大きさ
+
 	for (int nCnt = 0; nCnt < MAX_LIFT; nCnt++)
 	{
 		if (g_aLift[nCnt].bUse == false)
@@ -153,7 +229,15 @@ void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range)
 			g_aLift[nCnt].bUse = true;
 			g_aLift[nCnt].pos = pos;
 			g_aLift[nCnt].SavePos = pos;
-			g_aLift[nCnt].MotionRange = pos + range;
+			g_aLift[nCnt].GoPoint = pos + range;
+
+			// ベクトル計算
+			Compornent = g_aLift[nCnt].GoPoint - g_aLift[nCnt].SavePos;
+			Size = sqrt(pow(g_aLift[nCnt].GoPoint.x - g_aLift[nCnt].SavePos.x, 2.0f)
+				+ pow(g_aLift[nCnt].GoPoint.y - g_aLift[nCnt].SavePos.y, 2.0f)
+				+ pow(g_aLift[nCnt].GoPoint.z - g_aLift[nCnt].SavePos.z, 2.0f));
+
+			g_aLift[nCnt].vec = Compornent / Size;
 			g_aLift[nCnt].rot = rot;
 			break;
 		}
@@ -161,7 +245,7 @@ void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range)
 }
 //==================================================
 //
-//	可動箱の当たり判定
+//	リフトの当たり判定
 //
 //==================================================
 bool CollisionLift(void)
@@ -183,13 +267,11 @@ bool CollisionLift(void)
 				if (pPlayer->posOld.x >= g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMax.x)
 				{//右から
 					pPlayer->pos.x = g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMax.x;
-					
 					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.x <= g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMin.x)
 				{//左から
 					pPlayer->pos.x = g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMin.x;
-				
 					bHitCheck = true;
 				}
 
@@ -197,7 +279,7 @@ bool CollisionLift(void)
 				{//上から
 					pPlayer->pos.y = g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMax.y;
 					bHitCheck = true;
-					pPlayer->move.y = 0;
+					pPlayer->move += g_aLift[nCntLift].move;
 					pPlayer->bJump = false;
 				}
 				else if (pPlayer->posOld.y <= g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMin.y)
@@ -209,7 +291,6 @@ bool CollisionLift(void)
 				if (pPlayer->posOld.z >= g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMax.z)
 				{//奥から
 					pPlayer->pos.z = g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMax.z;
-					
 					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.z <= g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMin.z)

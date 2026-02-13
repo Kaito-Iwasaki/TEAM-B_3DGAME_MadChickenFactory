@@ -42,6 +42,7 @@
 #include"gate.h"
 #include "box_movable.h"
 #include "conveyer.h"
+#include "lift.h"
 
 //*********************************************************************
 // 
@@ -105,6 +106,7 @@ void InitGame(void)
 	InitGate();				// ゲート
 	InitMoveBox();			// 動かせる箱
 	InitConveyer();			// コンベア
+	InitLift();				// リフト
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -221,6 +223,7 @@ void UninitGame(void)
 	UninitGate();			// ゲート
 	UninitMoveBox();		// 動かせる箱
 	UninitConveyer();		// コンベア
+	UninitLift();			// リフト
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -261,6 +264,7 @@ void UpdateGame(void)
 		UpdateGate();			// ゲート
 		UpdateMoveBox();		// 動かせる箱
 		UpdateConveyer();		// コンベア
+		UpdateLift();			// リフト
 
 #ifdef  _DEBUG
 		// デバッグ表示
@@ -307,7 +311,8 @@ void DrawGame(void)
 	DrawFire();				// 火炎放射器
 	DrawGate();				// ゲート
 	DrawMoveBox();			// 動かせる箱
-	DrawConveyer();
+	DrawConveyer();			// コンベア
+	DrawLift();				// リフト
 
 	// [2D]
 	DrawEffect();			// エフェクト
@@ -327,6 +332,7 @@ void ReloadGame(void)
 	UninitFire();			// 火炎放射器
 	UninitMoveBox();		// 可動箱
 	UninitConveyer();		// コンベア
+	UninitLift();			// リフト
 	ReleaseLoadedTexture();
 
 	InitField();			// フィールド
@@ -339,6 +345,7 @@ void ReloadGame(void)
 	InitFire();				// 火炎放射器
 	InitMoveBox();			// 動かせる箱
 	InitConveyer();			// コンベア
+	InitLift();				// リフト
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
