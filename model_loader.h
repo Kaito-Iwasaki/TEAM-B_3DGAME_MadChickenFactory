@@ -19,6 +19,7 @@
 #include "press.h"
 #include "fire.h"
 #include "prompt.h"
+#include "conveyer.h"
 
 //*********************************************************************
 // 
@@ -132,6 +133,21 @@ typedef struct
 }GOALSETDATA;
 
 //*********************************************************************
+// ギミック配置情報構造体（コンベア）
+//*********************************************************************
+typedef struct
+{
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 rot;		// 向き
+	D3DXVECTOR3 Onmove;		// ON状態の移動量
+	D3DXVECTOR3 Offmove;	// OFF状態の移動量
+	D3DXVECTOR3 size;		// サイズ
+	int nIdx;				// インデックス
+	CONVEYERSTATE state;	// 状態
+	bool bShadow;			// 影の有無
+}CONVEYERSETDATA;
+
+//*********************************************************************
 // モデル配置情報構造体
 //*********************************************************************
 typedef struct
@@ -164,6 +180,10 @@ typedef struct
 	PROMPTSETDATA aInfoPromptSet[MAX_PROMPT];
 
 	GOALSETDATA InfoGoalSet;
+
+	int nCountConveyerSet;
+	CONVEYERSETDATA aInfoConveyerSet[MAX_CONVEYER];
+
 }MODELDATA;
 
 //*********************************************************************

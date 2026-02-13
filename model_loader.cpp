@@ -51,6 +51,7 @@ void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer);
 void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer);
 void _Read_PROMPTSET(FILE* pFile, PROMPTSETDATA* pBuffer);
 void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer);
+void _Read_CONVEYERSET(FILE* pFile, CONVEYERSETDATA* pBuffer);
 
 //=====================================================================
 // スクリプト読み込み処理
@@ -199,7 +200,15 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 			_Read_GOALSET(pFile, pData);
 		}
+		else if (strcmp(&aStrLine[0], "CONVEYERSET") == 0)
+		{// コンベアセット情報読み取り
 
+			CONVEYERSETDATA* pData = &pBuffer->aInfoConveyerSet[pBuffer->nCountConveyerSet];
+
+			_Read_CONVEYERSET(pFile, pData);
+
+			pBuffer->nCountConveyerSet++;
+		}
 	}
 }
 
@@ -584,6 +593,66 @@ void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer)
 			pBuffer->rot.x = D3DXToRadian(fRotX);
 			pBuffer->rot.y = D3DXToRadian(fRotY);
 			pBuffer->rot.z = D3DXToRadian(fRotZ);
+		}
+		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->bShadow);
+		}
+	}
+}
+
+//=====================================================================
+// [CONVEYERSET]読み込み処理
+//=====================================================================
+void _Read_CONVEYERSET(FILE* pFile, CONVEYERSETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_CONVEYERSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
+		}
+		else if (strcmp(&aStrLine[0], "ONMOVE") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->Onmove.x, &pBuffer->Onmove.y, &pBuffer->Onmove.z);
+		}
+		else if (strcmp(&aStrLine[0], "OFFMOVE") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->Offmove.x, &pBuffer->Offmove.y, &pBuffer->Offmove.z);
+		}
+		else if (strcmp(&aStrLine[0], "SIZE") == 0)
+		{
+			fscanf(pFile, " = %f %f", &pBuffer->size.x, &pBuffer->size.z);
+		}
+		else if (strcmp(&aStrLine[0], "IDX") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nIdx);
+		}
+		else if (strcmp(&aStrLine[0], "STATE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->state);
 		}
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{

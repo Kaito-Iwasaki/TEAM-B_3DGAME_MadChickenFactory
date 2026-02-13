@@ -9,6 +9,9 @@
 
 #include"main.h"
 
+// マクロ定義
+#define MAX_CONVEYER		(128)			// ベルトコンベアの最大数
+
 // コンベア状態の列挙型
 typedef enum
 {
@@ -24,9 +27,8 @@ typedef struct
 	D3DXVECTOR3 rot;		// 向き
 	D3DXVECTOR3 Onmove;		// ON状態の移動量
 	D3DXVECTOR3 Offmove;	// OFF状態の移動量
+	D3DXVECTOR3 size;		// サイズ
 	D3DXMATRIX mtxWorld;	// ワールドマトリックス
-	float fWidth;			// 幅
-	float fDepth;			// 奥行
 	float movetex;			// コンベアの移動量
 	int nIdx;				// インデックス
 	CONVEYERSTATE state;	// 状態
@@ -39,7 +41,7 @@ void InitConveyer(void);
 void UninitConveyer(void);
 void UpdateConveyer(void);
 void DrawConveyer(void);
-void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove, D3DXVECTOR3 Offmove, float fWidth, float fDepth, CONVEYERSTATE state);
+void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove, D3DXVECTOR3 Offmove, D3DXVECTOR3 size, CONVEYERSTATE state);
 bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove);
 
 

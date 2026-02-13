@@ -181,6 +181,14 @@ void InitGame(void)
 
 	SetGoal(pGoalData->pos, pGoalData->rot);
 
+	// コンベアの設定
+	for (int nCntConveyer = 0; nCntConveyer < g_modelDataGame.nCountConveyerSet; nCntConveyer++)
+	{
+		CONVEYERSETDATA* pConveyerData = &g_modelDataGame.aInfoConveyerSet[nCntConveyer];
+
+		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
+	}
+
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
 	GetCamera(0)->mode = CAMERAMODE_FREE;
@@ -310,13 +318,15 @@ void DrawGame(void)
 void ReloadGame(void)
 {
 	UninitField();			// フィールド
-	UninitWall();
+	UninitWall();			// 壁
 	UninitModel();			// モデル
 	UninitSaw();			// 回転ノコギリ
 	UninitGoal();			// ゴール
 	UninitPress();			// プレス機
 	UninitPrompt();			// プロンプト
 	UninitFire();			// 火炎放射器
+	UninitMoveBox();		// 可動箱
+	UninitConveyer();		// コンベア
 
 	InitField();			// フィールド
 	InitWall();				// 壁
@@ -327,6 +337,7 @@ void ReloadGame(void)
 	InitPrompt();			// プロンプト
 	InitFire();				// 火炎放射器
 	InitMoveBox();			// 動かせる箱
+	InitConveyer();			// コンベア
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -403,4 +414,11 @@ void ReloadGame(void)
 
 	SetGoal(pGoalData->pos, pGoalData->rot);
 
+	// コンベアの設定
+	for (int nCntConveyer = 0; nCntConveyer < g_modelDataGame.nCountConveyerSet; nCntConveyer++)
+	{
+		CONVEYERSETDATA* pConveyerData = &g_modelDataGame.aInfoConveyerSet[nCntConveyer];
+
+		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
+	}
 }

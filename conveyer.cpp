@@ -9,7 +9,6 @@
 #include"prompt.h"
 
 // マクロ定義
-#define MAX_CONVEYER		(128)			// ベルトコンベアの最大数
 #define MAX_TEXTURE			(1)				// テクスチャ数
 #define MAX_PATTERN			(1)				// 全パターン
 #define MAX_PATTERN_X		(1)				// X軸パターン数
@@ -58,8 +57,7 @@ void InitConveyer(void)
 		g_aConveyer[nCntConveyer].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 角度初期化
 		g_aConveyer[nCntConveyer].Onmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 移動量初期化
 		g_aConveyer[nCntConveyer].Offmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 移動量初期化
-		g_aConveyer[nCntConveyer].fWidth = 0.0f;							// 幅初期化
-		g_aConveyer[nCntConveyer].fDepth = 0.0f;							// 奥行初期化
+		g_aConveyer[nCntConveyer].size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// サイズ初期化
 		g_aConveyer[nCntConveyer].movetex = 0.0f;							// テクスチャ移動量初期化
 		g_aConveyer[nCntConveyer].nIdx = -1;								// インデックス初期化
 		g_aConveyer[nCntConveyer].bUse = false;								// 使用していない状態にする
@@ -73,10 +71,10 @@ void InitConveyer(void)
 	{
 
 		// 頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, g_aConveyer[nCntConveyer].fDepth * 0.5f);
-		pVtx[1].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, g_aConveyer[nCntConveyer].fDepth * 0.5f);
-		pVtx[2].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].fDepth * 0.5f);
-		pVtx[3].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].fDepth * 0.5f);
+		pVtx[0].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
+		pVtx[1].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
+		pVtx[2].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
+		pVtx[3].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
 
 		// 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -102,7 +100,7 @@ void InitConveyer(void)
 	// 頂点バッファをアンロック
 	g_pVtxBuffConveyer->Unlock();
 
-	SetConveyer(0, D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), 100.0f, 500.0f, CONVEYERSTATE_MOVE);
+	SetConveyer(0, D3DXVECTOR3(500.0f, 10.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 3.0f), D3DXVECTOR3(100.0f, 0.0f, 500.0f), CONVEYERSTATE_MOVE);
 }
 
 //=======================================================
@@ -241,7 +239,7 @@ void DrawConveyer(void)
 //=======================================================
 // コンベアの設定処理
 //=======================================================
-void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove, D3DXVECTOR3 Offmove, float fWidth, float fDepth, CONVEYERSTATE state)
+void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove, D3DXVECTOR3 Offmove, D3DXVECTOR3 size, CONVEYERSTATE state)
 {
 	VERTEX_3D* pVtx;				// 頂点情報へのポインタ
 
@@ -258,16 +256,15 @@ void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove,
 			g_aConveyer[nCntConveyer].rot = rot;			// 向き
 			g_aConveyer[nCntConveyer].Onmove = Onmove;		// On状態の移動量
 			g_aConveyer[nCntConveyer].Offmove = Offmove;	// Off状態の移動量
-			g_aConveyer[nCntConveyer].fWidth = fWidth;		// 幅
-			g_aConveyer[nCntConveyer].fDepth = fDepth;		// 奥行
+			g_aConveyer[nCntConveyer].size = size;			// サイズ
 			g_aConveyer[nCntConveyer].state = state;		// 状態
 			g_aConveyer[nCntConveyer].bUse = true;			// 使用している状態にする
 
 			// 頂点座標の設定
-			pVtx[0].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, g_aConveyer[nCntConveyer].fDepth * 0.5f);
-			pVtx[1].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, g_aConveyer[nCntConveyer].fDepth * 0.5f);
-			pVtx[2].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].fDepth * 0.5f);
-			pVtx[3].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].fWidth * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].fDepth * 0.5f);
+			pVtx[0].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
+			pVtx[1].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, g_aConveyer[nCntConveyer].size.z * 0.5f);
+			pVtx[2].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
+			pVtx[3].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
 
 			break;
 		}
@@ -291,10 +288,10 @@ bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pM
 		if (pConveyer->bUse == true)
 		{// 使用している
 
-			if (pPos->x >= pConveyer->pos.x - pConveyer->fWidth * 0.5f
-				&& pPos->x <= pConveyer->pos.x + pConveyer->fWidth * 0.5f
-				&& pPos->z >= pConveyer->pos.z - pConveyer->fDepth * 0.5f
-				&& pPos->z <= pConveyer->pos.z + pConveyer->fDepth * 0.5f)
+			if (pPos->x >= pConveyer->pos.x - pConveyer->size.x * 0.5f
+				&& pPos->x <= pConveyer->pos.x + pConveyer->size.x * 0.5f
+				&& pPos->z >= pConveyer->pos.z - pConveyer->size.z * 0.5f
+				&& pPos->z <= pConveyer->pos.z + pConveyer->size.z * 0.5f)
 			{// 範囲内
 
 				if (pPosOld->y >= pConveyer->pos.y && pPos->y < pConveyer->pos.y)
