@@ -22,6 +22,7 @@
 #include"field.h"
 #include"motion_loader.h"
 #include"conveyer.h"
+#include"motion.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -77,40 +78,16 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].fRadius = 40;									// 半径初期化
 	}
 
-	// スクリプト読み取り
-	LoadMotionScript(ONEPLAYER_MODELPAS, &g_Player[0].PlayerMotion);
-	LoadMotionScript(TWOPLAYER_MODELPAS, &g_Player[1].PlayerMotion);
+	// モーションの初期化
+	InitMotion(&g_Player[0].PlayerMotion, ONEPLAYER_MODELPAS);
+	InitMotion(&g_Player[1].PlayerMotion, TWOPLAYER_MODELPAS);
 
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
-		{
-			// Xファイルの読み込み
-			D3DXLoadMeshFromX(&g_Player[nCntPlayer].PlayerMotion.aPartFilename[nCntPart][0],
-				D3DXMESH_SYSTEMMEM,
-				pDevice,
-				NULL,
-				&g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pBuffMat,
-				NULL,
-				&g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].dwNumMat,
-				&g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pMesh);
-
-			// マテリアルデータへのポインタを取得
-			pMat = (D3DXMATERIAL*)g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pBuffMat->GetBufferPointer();
-
-			for (int nCntMat = 0; nCntMat < (int)g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].dwNumMat; nCntMat++)
-			{
-				if (pMat[nCntMat].pTextureFilename != NULL)
-				{
-					// テクスチャの読み込み
-					D3DXCreateTextureFromFile(pDevice,
-						pMat[nCntMat].pTextureFilename,
-						&g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].apTexture[nCntMat]);
-				}
-			}
-		}
 		// 影のインデックス設定
 		g_Player[nCntPlayer].nIdxShadow = SetShadow(D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].pos.y + 1.0f, g_Player[nCntPlayer].pos.z), 50.0f);
+
+		SetMotion(&g_Player[nCntPlayer].PlayerMotion, 0, 0);
 	}
 }
 
@@ -121,32 +98,8 @@ void UninitPlayer(void)
 {
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
-		{
-			// メッシュの破棄
-			if (g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pMesh != NULL)
-			{
-				g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pMesh->Release();
-				g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pMesh = NULL;
-			}
+		UninitMotion(&g_Player[nCntPlayer].PlayerMotion);
 
-			// マテリアルの破棄
-			if (g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pBuffMat != NULL)
-			{
-				g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pBuffMat->Release();
-				g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].pBuffMat = NULL;
-			}
-
-			// テクスチャの破棄
-			for (int nCntMat = 0; nCntMat < (int)g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].dwNumMat; nCntMat++)
-			{
-				if (g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].apTexture[nCntMat] != NULL)
-				{
-					g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].apTexture[nCntMat]->Release();
-					g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart].apTexture[nCntMat] = NULL;
-				}
-			}
-		}
 	}
 }
 
@@ -205,6 +158,9 @@ void UpdatePlayer(void)
 
 				g_Player[nCntPlayer].bJump = true;		// ジャンプ中にする
 				g_Player[nCntPlayer].move.y = MAX_JUMP;	// ジャンプ量
+
+				// ジャンプモーションに変更
+				SetMotion(&g_Player[nCntPlayer].PlayerMotion, 3, 20);
 			}
 		}
 
@@ -232,7 +188,8 @@ void UpdatePlayer(void)
 		//床との当たり判定
 		if (CollisionField(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld))
 		{
-			g_Player[nCntPlayer].bJump = false;
+			g_Player[nCntPlayer].bJump = false;		// ジャンプ状態解除
+			g_Player[nCntPlayer].move.y = 0.0f;		// 重力リセット
 		}
 		else if (g_Player[nCntPlayer].ModelHit != MODEL_HIT_NONE)
 		{// 何かに当たった
@@ -287,6 +244,38 @@ void UpdatePlayer(void)
 			pPart->pos = pPart->posOffset;
 			pPart->rot = pPart->rotOffset;
 		}
+
+		if (g_Player[nCntPlayer].move.x >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3
+			||g_Player[nCntPlayer].move.x <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3
+			|| g_Player[nCntPlayer].move.z >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3
+			|| g_Player[nCntPlayer].move.z <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3)
+		{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中モーション以外の時)
+
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, 1, 30);
+		}
+
+		if (g_Player[nCntPlayer].move.x < 0.3f && g_Player[nCntPlayer].move.x > -0.3f 
+			&& g_Player[nCntPlayer].move.z < 0.3f && g_Player[nCntPlayer].move.z > -0.3f
+			&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 0 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3)
+		{// 待機モーションに変更(移動していない&ジャンプモーション以外の時)
+
+			if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == 4
+				&& g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true
+				|| g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 4)
+			{// 着地モーション終了時or着地モーション以外
+
+				SetMotion(&g_Player[nCntPlayer].PlayerMotion, 0, 30);
+			}
+		}
+
+		if (g_Player[nCntPlayer].posOld.y >= g_Player[nCntPlayer].pos.y && g_Player[nCntPlayer].move.y <= 0.0f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == 3)
+		{// 着地モーション(posがposOldよりも低い位置&move.yが0&ジャンプ状態)
+
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, 4, 30);
+		}
+
+		// モーションの更新処理
+		UpdateMotion(&g_Player[nCntPlayer].PlayerMotion);
 	}
 }
 
@@ -422,311 +411,6 @@ Player* GetPlayer(void)
 {
 	return &g_Player[0];
 }
-
-//=======================================================
-// モーションの更新処理
-//=======================================================
-#if 0
-void UpdateMotion(void)
-{
-	float fDiffKey = 0.0f;			// 差分
-	float fDiffKeyBlend = 0.0f;		// ブレンドキーの差分
-	float fDiffBlend = 0.0f;		// ブレンドの差分
-	float fPosXCurrent, fPosYCurrent, fPosZCurrent, fRotXCurrent, fRotYCurrent, fRotZCurrent;		// 現在のモーションの値
-	float fPosXBlend, fPosYBlend, fPosZBlend, fRotXBlend, fRotYBlend, fRotZBlend;					// ブレンドモーションの値
-	float fPosX, fPosY, fPosZ, fRotX, fRotY, fRotZ;													// 求める値
-	KEY* pKey = &g_Player.aMotionInfo[(int)g_Player.motionType].aKeyInfo[g_Player.nKey].aKey[0];																	// 現在のモーションのキーのポインタ
-	KEY* pKeyNext = &g_Player.aMotionInfo[(int)g_Player.motionType].aKeyInfo[(g_Player.nKey + 1) % g_Player.nNumKey].aKey[0];										// 現在のモーションのキーのポインタ
-	float fRateKey = (float)g_Player.nCounterMotion / (float)g_Player.aMotionInfo[(int)g_Player.motionType].aKeyInfo[g_Player.nKey].nFrame;							// 現在のモーションの相対値
-	Model* pMode = &g_Player.aModel[0];																																// モデル情報へのポインタ
-	KEY* pKeyBlend = &g_Player.aMotionInfo[(int)g_Player.motionTypeBlend].aKeyInfo[g_Player.nKeyBlend].aKey[0];														// ブレンドモーションの現在キー
-	KEY* pKeyNextBlend = &g_Player.aMotionInfo[(int)g_Player.motionTypeBlend].aKeyInfo[(g_Player.nKeyBlend + 1) % g_Player.nNumKeyBlend].aKey[0];					// ブレンドモーションの次のキー
-	float fRateKeyBlend = (float)g_Player.nCounterMotionBlend / (float)g_Player.aMotionInfo[(int)g_Player.motionTypeBlend].aKeyInfo[g_Player.nKeyBlend].nFrame;		// ブレンドモーションの相対値
-	float fRateBlend = (float)g_Player.nCounterBlend / (float)g_Player.nFrameBlend;																					// ブレンド状態の相対値
-
-	for (int nCntModel = 0; nCntModel < g_Player.nNumModelParts; nCntModel++, pKey++, pKeyNext++)
-	{
-		if (g_Player.bBlendMotion == true)
-		{// ブレンドあり
-
-			// X座標の差分算出
-			fDiffKey = pKeyNext->fPosX - pKey->fPosX;
-
-			// X座標算出
-			fPosXCurrent = pKey->fPosX + (fDiffKey * fRateKey);
-
-			// ブレンドのX座標差分算出
-			fDiffKeyBlend = pKeyNextBlend->fPosX - pKeyBlend->fPosX;
-
-			// ブレンドのX座標算出
-			fPosXBlend = pKeyBlend->fPosX + (fDiffKeyBlend * fRateKeyBlend);
-
-			// 現在モーションとブレンドモーションの差分算出
-			fDiffBlend = fPosXBlend - fPosXCurrent;
-
-			// X座標の求める値算出
-			fPosX = fPosXCurrent + (fDiffBlend * fRateBlend);
-
-			// Y座標の差分算出
-			fDiffKey = pKeyNext->fPosY - pKey->fPosY;
-
-			// Y座標算出
-			fPosYCurrent = pKey->fPosY + (fDiffKey * fRateKey);
-
-			// ブレンドのY座標差分算出
-			fDiffKeyBlend = pKeyNextBlend->fPosY - pKeyBlend->fPosY;
-
-			// ブレンドのY座標算出
-			fPosYBlend = pKeyBlend->fPosY + (fDiffKeyBlend * fRateKeyBlend);
-
-			// 現在モーションとブレンドモーションの差分算出
-			fDiffBlend = fPosYBlend - fPosYCurrent;
-
-			// Y座標の求める値算出
-			fPosY = fPosYCurrent + (fDiffBlend * fRateBlend);
-
-			// Z座標の差分算出
-			fDiffKey = pKeyNext->fPosZ - pKey->fPosZ;
-
-			// Z座標算出
-			fPosZCurrent = pKey->fPosZ + (fDiffKey * fRateKey);
-
-			// ブレンドのZ座標差分算出
-			fDiffKeyBlend = pKeyNextBlend->fPosZ - pKeyBlend->fPosZ;
-
-			// ブレンドのZ座標算出
-			fPosZBlend = pKeyBlend->fPosZ + (fDiffKeyBlend * fRateKeyBlend);
-
-			// 現在モーションとブレンドモーションの差分算出
-			fDiffBlend = fPosZBlend - fPosZCurrent;
-
-			// Z座標の求める値算出
-			fPosZ = fPosZCurrent + (fDiffBlend * fRateBlend);
-
-			// X軸方向の向き差分算出
-			fDiffKey = pKeyNext->fRotX - pKey->fRotX;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffKey);
-
-			// X軸方向の向き算出
-			fRotXCurrent = pKey->fRotX + (fDiffKey * fRateKey);
-
-			// 角度の値補正
-			AngleCorrection(&fRotXCurrent);
-
-			// ブレンドのX軸方向の向き差分算出
-			fDiffKeyBlend = pKeyNextBlend->fRotX - pKeyBlend->fRotX;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffKeyBlend);
-
-			// ブレンドのX軸方向の向き算出
-			fRotXBlend = pKeyBlend->fRotX + (fDiffKeyBlend * fRateKeyBlend);
-
-			// 角度の値補正
-			AngleCorrection(&fRotXBlend);
-
-			// 現在モーションとブレンドモーションの差分算出
-			fDiffBlend = fRotXBlend - fRotXCurrent;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffBlend);
-
-			// X軸方向の向きの求める値算出
-			fRotX = fRotXCurrent + (fDiffBlend * fRateBlend);
-
-			// 角度の値補正
-			AngleCorrection(&fRotX);
-
-			// Y軸方向の向き差分算出
-			fDiffKey = pKeyNext->fRotY - pKey->fRotY;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffKey);
-
-			// Y軸方向の向き算出
-			fRotYCurrent = pKey->fRotY + (fDiffKey * fRateKey);
-
-			// 角度の値補正
-			AngleCorrection(&fRotYCurrent);
-
-			// ブレンドのY軸方向の向き差分算出
-			fDiffKeyBlend = pKeyNextBlend->fRotY - pKeyBlend->fRotY;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffKeyBlend);
-
-			// ブレンドのY軸方向の向き算出
-			fRotYBlend = pKeyBlend->fRotY + (fDiffKeyBlend * fRateKeyBlend);
-
-			// 角度の値補正
-			AngleCorrection(&fRotYBlend);
-
-			// 現在モーションとブレンドモーションの差分算出
-			fDiffBlend = fRotYBlend - fRotYCurrent;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffBlend);
-
-			// Y軸方向の向きの求める値算出
-			fRotY = fRotYCurrent + (fDiffBlend * fRateBlend);
-
-			// 角度の値補正
-			AngleCorrection(&fRotY);
-
-			// Z軸方向の向き差分算出
-			fDiffKey = pKeyNext->fRotZ - pKey->fRotZ;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffKey);
-
-			// Z軸方向の向き算出
-			fRotZCurrent = pKey->fRotZ + (fDiffKey * fRateKey);
-
-			// 角度の値補正
-			AngleCorrection(&fRotZCurrent);
-
-			// ブレンドのZ軸方向の向き差分算出
-			fDiffKeyBlend = pKeyNextBlend->fRotZ - pKeyBlend->fRotZ;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffKeyBlend);
-
-			// ブレンドのZ軸方向の向き算出
-			fRotZBlend = pKeyBlend->fRotZ + (fDiffKeyBlend * fRateKeyBlend);
-
-			// 角度の値補正
-			AngleCorrection(&fRotZBlend);
-
-			// 現在モーションとブレンドモーションの差分算出
-			fDiffBlend = fRotZBlend - fRotZCurrent;
-
-			// 角度の値補正
-			AngleCorrection(&fDiffBlend);
-
-			// Z軸方向の向きの求める値算出
-			fRotZ = fRotZCurrent + (fDiffBlend * fRateBlend);
-
-			// 角度の値補正
-			AngleCorrection(&fRotZ);
-
-			pKeyBlend++;			// ブレンドモーションの現在キーポインタを進める
-			pKeyNextBlend++;		// ブレンドモーションの次キーポインタを進める
-		}
-		else
-		{
-			// 差分算出
-			fDiffKey = pKeyNext->fPosX - pKey->fPosX;
-
-			// X座標算出
-			fPosXCurrent = pKey->fPosX + (fDiffKey * fRateKey);
-
-			// 差分算出
-			fDiffKey = pKeyNext->fPosY - pKey->fPosY;
-
-			// Y座標算出
-			fPosYCurrent = pKey->fPosY + (fDiffKey * fRateKey);
-
-			// 差分算出
-			fDiffKey = pKeyNext->fPosZ - pKey->fPosZ;
-
-			// Z座標算出
-			fPosZCurrent = pKey->fPosZ + (fDiffKey * fRateKey);
-
-			// 差分算出
-			fDiffKey = pKeyNext->fRotX - pKey->fRotX;
-
-			// X方向の向き算出
-			fRotXCurrent = pKey->fRotX + (fDiffKey * fRateKey);
-
-			// 角度の値補正
-			AngleCorrection(&fRotXCurrent);
-
-			// 差分算出
-			fDiffKey = pKeyNext->fRotY - pKey->fRotY;
-
-			// Y方向の向き算出
-			fRotYCurrent = pKey->fRotY + (fDiffKey * fRateKey);
-
-			// 角度の値補正
-			AngleCorrection(&fRotYCurrent);
-
-			// 差分算出
-			fDiffKey = pKeyNext->fRotZ - pKey->fRotZ;
-
-			// Z方向の向き算出
-			fRotZCurrent = pKey->fRotZ + (fDiffKey * fRateKey);
-
-			// 角度の値補正
-			AngleCorrection(&fRotZCurrent);
-
-			// 座標・向きの設定
-			fPosX = fPosXCurrent;
-			fPosY = fPosYCurrent;
-			fPosZ = fPosZCurrent;
-			fRotX = fRotXCurrent;
-			fRotY = fRotYCurrent;
-			fRotZ = fRotZCurrent;
-
-		}
-
-		// パーツの位置・向きを設定
-		g_Player.aModel[nCntModel].pos = D3DXVECTOR3(g_Player.aModel[nCntModel].posRecord.x + fPosXCurrent, g_Player.aModel[nCntModel].posRecord.y + fPosYCurrent, g_Player.aModel[nCntModel].posRecord.z + fPosZCurrent);
-		g_Player.aModel[nCntModel].rot = D3DXVECTOR3(g_Player.aModel[nCntModel].rotRecord.x + fRotX, g_Player.aModel[nCntModel].rotRecord.y + fRotY, g_Player.aModel[nCntModel].rotRecord.z + fRotZ);
-
-	}
-
-	if (g_Player.bBlendMotion == true)
-	{// ブレンドあり
-
-		g_Player.nCounterMotionBlend++;		// モーションブレンドカウンター加算
-
-		if (g_Player.nCounterMotionBlend >= g_Player.aMotionInfo[(int)g_Player.motionTypeBlend].aKeyInfo[g_Player.nKeyBlend].nFrame)
-		{// キー切り替え
-
-			g_Player.nCounterMotionBlend = 0;											// カウンター初期化
-			g_Player.nKeyBlend = (g_Player.nKeyBlend + 1) % g_Player.nNumKeyBlend;		// キーを進める
-		}
-
-		g_Player.nCounterBlend++;		// ブレンドカウンター加算
-
-		if (g_Player.nCounterBlend >= g_Player.nFrameBlend)
-		{// ブレンドフレームに到達
-
-			g_Player.motionType = g_Player.motionTypeBlend;				// モーション設定
-			g_Player.bLoopMotion = g_Player.bLoopMotionBlend;			// ループ状態設定
-			g_Player.nNumKey = g_Player.nNumKeyBlend;					// 最大キー設定
-			g_Player.nCounterMotion = g_Player.nCounterMotionBlend;		// モーションカウンター設定
-			g_Player.nKey = g_Player.nKeyBlend;							// 現在キー設定
-			g_Player.bBlendMotion = false;								// ブレンド無効化
-		}
-	}
-	else
-	{// ブレンド無し
-		g_Player.nCounterMotion++;		// カウンター加算
-
-		if (g_Player.nCounterMotion >= g_Player.aMotionInfo[(int)g_Player.motionType].aKeyInfo[g_Player.nKey].nFrame)
-		{// キー切り替え
-
-			if (g_Player.bLoopMotion == false && g_Player.nKey == (g_Player.nNumKey - 2))
-			{// 最終キーに到達 & ループしない
-
-				if (g_Player.motionType != MOTIONTYPE_JUMP)
-				{
-					g_Player.bFinishMotion = true;			// 現在のモーション終了
-				}
-			}
-			else
-			{
-				g_Player.nCounterMotion = 0;								// カウンター初期化
-				g_Player.nKey = (g_Player.nKey + 1) % g_Player.nNumKey;		// キーを進める
-			}
-		}
-	}
-}
-
-#endif
 
 //=======================================================
 // モーションの設定処理
