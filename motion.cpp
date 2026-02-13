@@ -195,7 +195,7 @@ void UpdateMotion(MOTION* pMotion)
 			{// フレームが現在のキーの最大フレームに達したら次のキーへ
 				int nNextBlendKeyIndex = GetNextBlendKeyIndex(pMotion);
 
-				if (nNextBlendKeyIndex == 0 && pMotion->bLoopMotionBlend == false)
+				if (nNextBlendKeyIndex == 0 && pCurrentBlendMotion->bLoop == false)
 				{// 次のキーが0かつループしないなら、ブレンドモーションを初期モーションに設定
 					pMotion->nIdxMotion = 0;
 					pMotion->nKeyMotionBlend = 0;
@@ -229,7 +229,7 @@ void UpdateMotion(MOTION* pMotion)
 			{// フレームが現在のキーの最大フレームに達したら次のキーへ
 				int nNextKeyIndex = GetNextKeyIndex(pMotion);
 
-				if (nNextKeyIndex == 0 && pMotion->bLoopMotion == false)
+				if (nNextKeyIndex == 0 && pCurrentMotion->bLoop == false)
 				{// 次のキーが0かつループしないなら、モーションの再生を終了する
 					pMotion->bFinishMotion = true;
 				}
