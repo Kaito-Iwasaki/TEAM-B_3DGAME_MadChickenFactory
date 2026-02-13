@@ -33,7 +33,16 @@
 // ***** 構造体 *****
 // 
 //*********************************************************************
-
+typedef struct
+{
+	D3DXVECTOR3 pos;			//タイマーの位置
+	D3DXCOLOR col;				//タイマーの色
+	int Fream;				//タイマーのフレーム
+	int CountTimer;				//タイマーが1秒減る
+	D3DXVECTOR3 size;			//タイマー数字のサイズ
+	D3DXMATRIX mtxWorld;		// ワールドマトリックス
+	bool bUse;					//使用されているかどうか
+}Timer;
 
 //*********************************************************************
 // 
@@ -44,5 +53,8 @@ void InitTimer(void);
 void UninitTimer(void);
 void UpdateTimer(void);
 void DrawTimer(void);
+void SetTimer(D3DXVECTOR3 pos , int CountTimer , D3DXCOLOR col);
+void AddTimer(int nValue);
+void DownTimer(int nDown);
 int GetTimer (void);
 #endif
