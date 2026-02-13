@@ -26,15 +26,6 @@
 //	列挙型
 //
 //==================================================
-typedef enum
-{
-	STATE_NORMAL = 0,	// 触れられていない
-	STATE_RIGHT,		// 右から
-	STATE_LEFT,			// 左から
-	STATE_REAR,			// 奥から
-	STATE_FRONT,		// 前から
-	STATE_MAX
-}BoxState;
 
 //==================================================
 //
@@ -48,22 +39,21 @@ typedef struct
 	D3DXVECTOR3 MotionRange;	// 可動域
 	bool bChatch;				// 掴まれているか
 	bool bUse;					// 使用 /不使用
-	BoxState state;				// どちらから触れられているか
 	D3DXVECTOR3 SavePos;		// 初期配置
 	D3DXMATRIX mtxWorld;
-}MoveBox;
+}Lift;
 
 //==================================================
 //
 //	プロトタイプ宣言
 //
 //==================================================
-void InitMoveBox(void);
-void UninitMoveBox(void);
-void UpdateMoveBox(void);
-void DrawMoveBox(void);
-void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range);
-bool CollisionMoveBox(void);
+void InitLift(void);
+void UninitLift(void);
+void UpdateLift(void);
+void DrawLift(void);
+void SetLift(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range);
+bool CollisionLift(void);
 
 #endif // !_STAGELIGHT_H_
 
