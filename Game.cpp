@@ -302,7 +302,7 @@ void DrawGame(void)
 	DrawField();			// フィールド
 	DrawShadow();			// 影
 	DrawWall();				// 壁
-	DrawMeshCylinder();		// メッシュシリンダー
+	//DrawMeshCylinder();		// メッシュシリンダー
 	DrawTimer();			// タイマー
 	DrawModel();			// モデル
 	DrawSaw();				// 回転ノコギリ
