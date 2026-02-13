@@ -265,6 +265,9 @@ void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove,
 			pVtx[2].pos = D3DXVECTOR3(-g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
 			pVtx[3].pos = D3DXVECTOR3(g_aConveyer[nCntConveyer].size.x * 0.5f, 0.0f, -g_aConveyer[nCntConveyer].size.z * 0.5f);
 
+			// サイズの設定処理
+			SetSizeConveyer(g_aConveyer[nCntConveyer].rot, &g_aConveyer[nCntConveyer].size);
+
 			break;
 		}
 
@@ -318,4 +321,25 @@ bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pM
 	}
 
 	return bLand;
+}
+
+//=======================================================
+// サイズの設定処理
+//=======================================================
+void SetSizeConveyer(D3DXVECTOR3 rot, D3DXVECTOR3 *size)
+{
+	D3DXVECTOR3 OffsetSize = *size;		// サイズのオフセット
+
+	if (rot.y == 0.0f || rot.y <= D3DX_PI && rot.y > D3DX_PI / 2.0f)
+	{// 回転無しor180度回転
+
+		size->x = OffsetSize.x;		// 幅設定
+		size->z = OffsetSize.z;		// 奥行設定
+	}
+	else if (rot.y <= D3DX_PI / 2.0f && rot.y > 0 || rot.y >= D3DX_PI / -2.0f && rot.y < 0)
+	{// 90度回転or-90度回転
+
+		size->x = OffsetSize.z;		// 幅設定
+		size->z = OffsetSize.x;		// 奥行設定
+	}
 }
