@@ -327,6 +327,7 @@ void ReloadGame(void)
 	UninitFire();			// 火炎放射器
 	UninitMoveBox();		// 可動箱
 	UninitConveyer();		// コンベア
+	ReleaseLoadedTexture();
 
 	InitField();			// フィールド
 	InitWall();				// 壁
