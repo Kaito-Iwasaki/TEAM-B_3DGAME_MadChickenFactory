@@ -35,7 +35,7 @@ D3DXCOLOR g_GraColTage,g_GraCol;					// 変更する色の情報
 void InitVignette(void)
 {
 	g_Vignettepos = D3DXVECTOR3(640.0f,360.0f,0.0f);
-	g_VignetteCol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+	g_VignetteCol = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 	g_bGradientVig = false;
 	g_GraCol = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 	g_GraColTage = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
@@ -119,15 +119,6 @@ void UpdateVignette(void)
 
 	//頂点情報をロックし、頂点情報へのポインタを取得
 	g_pVtxBuffVignette->Lock(0, 0, (void**)&pVtx, 0);
-
-	if (GetKeyboardTrigger(DIK_Q) && g_VignetteCol.a <= 1.0f)
-	{
-		VignetteColChange(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	}
-	if (GetKeyboardTrigger(DIK_E) && g_VignetteCol.a >= 0.0f)
-	{
-		VignetteColGradient(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-	}
 
 	if (g_bGradientVig == true)
 	{// グラデーションで色変更

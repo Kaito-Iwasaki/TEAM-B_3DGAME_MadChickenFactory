@@ -81,16 +81,6 @@ void UpdateSaw(void)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
 		{
-			if (GetKeyboardPress(DIK_Q))
-			{
-				g_aSaw[nCntSaw].rot.y += 0.05;
-			}
-			else if (GetKeyboardPress(DIK_E))
-			{
-				g_aSaw[nCntSaw].rot.y -= 0.05;
-			}
-			PrintDebugProc("%f\n", g_aSaw[nCntSaw].rot.y);
-
 			if (GetPromptTrigger(g_aSaw[nCntSaw].nIdx))
 			{
 				SwitchSaw(nCntSaw);
