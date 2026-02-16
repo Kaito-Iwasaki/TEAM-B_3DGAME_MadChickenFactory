@@ -403,34 +403,34 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 11950 0 2000
+	POS = 11950 0 1000
 	ROT = 0 -90 0
 	BLOCK = 1 2
-	SIZE = 3000 500
+	SIZE = 1000 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 14700 0 3500
+	POS = 13050 0 1500
 	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 2750 500
+	BLOCK = 1 2
+	SIZE = 2200 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 14700 0 -500
+	POS = 13050 0 -500
 	ROT = 0 180 0
-	BLOCK = 2 2
-	SIZE = 2750 500
+	BLOCK = 1 2
+	SIZE = 2200 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 17450 0 2000
+	POS = 14150 0 1000
 	ROT = 0 90 0
 	BLOCK = 1 2
-	SIZE = 3000 500
+	SIZE = 1000 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -438,10 +438,18 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 14700 0 1500
+	POS = 13050 0 500
 	ROT = 0 0 0
-	BLOCK = 5 4 
+	BLOCK = 2 2 
 	SIZE = 1100 1000
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 5
+	POS = 13050 400 200
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 1300 50
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -449,7 +457,7 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 18325 0 500
+	POS = 15025 0 500
 	ROT = 0 0 0
 	BLOCK = 5 2
 	SIZE = 350 500
@@ -457,7 +465,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 18325 0 -500
+	POS = 15025 0 -500
 	ROT = 0 180 0
 	BLOCK = 5 2
 	SIZE = 350 500
@@ -468,7 +476,7 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 18325 0 0
+	POS = 15025 0 0
 	ROT = 0 0 0
 	BLOCK = 7 2
 	SIZE = 250 500
@@ -479,7 +487,7 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 20200 0 -500
+	POS = 16900 0 -500
 	ROT = 0 180 0
 	BLOCK = 2 1
 	SIZE = 1000 1000
@@ -487,7 +495,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 21200 0 300
+	POS = 17900 0 300
 	ROT = 0 90 0
 	BLOCK = 4 2
 	SIZE = 400 500
@@ -495,7 +503,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 19200 0 1000
+	POS = 15900 0 1000
 	ROT = 0 -90 0
 	BLOCK = 4 2
 	SIZE = 250 500
@@ -503,7 +511,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 21000 0 1100
+	POS = 17700 0 1100
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -511,7 +519,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 20800 0 1300
+	POS = 17500 0 1300
 	ROT = 0 90 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -519,7 +527,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 21200 400 1300
+	POS = 17900 400 1300
 	ROT = 0 90 0
 	BLOCK = 6 6
 	SIZE = 70 100
@@ -527,7 +535,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 20200 0 1500
+	POS = 16900 0 1500
 	ROT = 0 0 0
 	BLOCK = 1 1
 	SIZE = 2000 1000
@@ -538,15 +546,24 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 20200 0 500
+	POS = 16900 0 300
 	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 1000 1000
+	BLOCK = 2 1
+	SIZE = 1000 1600
 END_FIELDSET
 
 FIELDSET
 	TEXTYPE = 6
-	POS = 21000 400 1300
+	POS = 16700 0 1300
+	ROT = 0 0 0
+	BLOCK = 2 1
+	SIZE = 800 400
+END_FIELDSET
+
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 17700 400 1300
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -558,7 +575,7 @@ END_FIELDSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 21200 400 1300
+	POS = 17900 400 1300
 	ROT = 0 -90 0
 	BLOCK = 6 6
 	SIZE = 70 100
@@ -566,7 +583,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 21200 0 300
+	POS = 17900 0 300
 	ROT = 0 -90 0
 	BLOCK = 4 2
 	SIZE = 400 500
@@ -574,7 +591,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 21200 0 1300
+	POS = 17900 0 1300
 	ROT = 0 -90 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -588,7 +605,7 @@ END_WALLSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 21700 0 1500
+	POS = 18400 0 1500
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 500 500
@@ -596,7 +613,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 21700 0 -500
+	POS = 18400 0 -500
 	ROT = 0 180 0
 	BLOCK = 2 2
 	SIZE = 500 500
@@ -604,7 +621,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 22200 0 1000
+	POS = 18900 0 1000
 	ROT = 0 90 0
 	BLOCK = 2 2
 	SIZE = 500 500
@@ -615,7 +632,7 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 21700 0 0
+	POS = 18400 0 0
 	ROT = 0 0 0
 	BLOCK = 1 2
 	SIZE = 1000 500
@@ -623,7 +640,7 @@ END_FIELDSET
 
 FIELDSET
 	TEXTYPE = 6
-	POS = 21700 0 1000
+	POS = 18400 0 1000
 	ROT = 0 0 0
 	BLOCK = 1 2
 	SIZE = 1000 500
@@ -634,7 +651,7 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 23000 0 500
+	POS = 19700 0 500
 	ROT = 0 0 0
 	BLOCK = 5 2
 	SIZE = 320 500
@@ -642,7 +659,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 23000 0 -500
+	POS = 19700 0 -500
 	ROT = 0 180 0
 	BLOCK = 5 2
 	SIZE = 320 500
@@ -653,7 +670,7 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 23000 0 0
+	POS = 19700 0 0
 	ROT = 0 0 0
 	BLOCK = 4 2
 	SIZE = 400 500
@@ -664,34 +681,34 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 23800 0 2000
+	POS = 20500 0 1000
 	ROT = 0 -90 0
 	BLOCK = 1 2
-	SIZE = 3000 500
+	SIZE = 1000 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 26550 0 3500
+	POS = 21600 0 1500
 	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 2750 500
+	BLOCK = 1 2
+	SIZE = 2200 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 26550 0 -500
+	POS = 21600 0 -500
 	ROT = 0 180 0
-	BLOCK = 2 2
-	SIZE = 2750 500
+	BLOCK = 1 2
+	SIZE = 2200 500
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 29300 0 2000
+	POS = 22700 0 1000
 	ROT = 0 90 0
 	BLOCK = 1 2
-	SIZE = 3000 500
+	SIZE = 1000 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -699,9 +716,9 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 26550 0 1500
+	POS = 21600 0 500
 	ROT = 0 0 0
-	BLOCK = 5 4 
+	BLOCK = 2 2 
 	SIZE = 1100 1000
 END_FIELDSET
 
@@ -710,7 +727,7 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 30175 0 500
+	POS = 23550 0 500
 	ROT = 0 0 0
 	BLOCK = 5 2
 	SIZE = 350 500
@@ -718,7 +735,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 30175 0 -500
+	POS = 23550 0 -500
 	ROT = 0 180 0
 	BLOCK = 5 2
 	SIZE = 350 500
@@ -729,7 +746,7 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 30175 0 0
+	POS = 23550 0 0
 	ROT = 0 0 0
 	BLOCK = 7 2
 	SIZE = 250 500
@@ -740,7 +757,7 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 32050 0 -500
+	POS = 25425 0 -500
 	ROT = 0 180 0
 	BLOCK = 2 1
 	SIZE = 1000 1000
@@ -748,7 +765,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 33050 0 300
+	POS = 26425 0 300
 	ROT = 0 90 0
 	BLOCK = 4 2
 	SIZE = 400 500
@@ -756,7 +773,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 31050 0 1000
+	POS = 24425 0 1000
 	ROT = 0 -90 0
 	BLOCK = 4 2
 	SIZE = 250 500
@@ -764,7 +781,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 32850 0 1100
+	POS = 26225 0 1100
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -772,7 +789,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 32650 0 1300
+	POS = 26025 0 1300
 	ROT = 0 90 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -780,7 +797,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 33050 400 1300
+	POS = 26425 400 1300
 	ROT = 0 90 0
 	BLOCK = 6 6
 	SIZE = 70 100
@@ -788,7 +805,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 32050 0 1500
+	POS = 25425 0 1500
 	ROT = 0 0 0
 	BLOCK = 1 1
 	SIZE = 2000 1000
@@ -799,15 +816,23 @@ END_WALLSET
 #------------------------------------------------------------------------------
 FIELDSET
 	TEXTYPE = 6
-	POS = 32050 0 500
+	POS = 25425 0 300
 	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 1000 1000
+	BLOCK = 2 1
+	SIZE = 1000 1600
 END_FIELDSET
 
 FIELDSET
 	TEXTYPE = 6
-	POS = 32850 400 1300
+	POS = 25225 0 1300
+	ROT = 0 0 0
+	BLOCK = 2 1
+	SIZE = 800 400
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 26225 400 1300
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -923,57 +948,41 @@ END_CONVEYERSET
 #----------------------------------------
 # âÒì]ÉmÉRÉMÉä
 #----------------------------------------
-SAWSET
-	POS = 5600 0 2000
-	ROT = 0 0 0
-	STARTUP = 1
-	TIME = 500
-	RANGE = 0 0 0
-	SHADOW = 1
-END_SAWSET
-#SAWSET
-	POS = 500 0 250
+1SAWSET
+	POS = 13050 0 750
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 250
-	RANGE = -5000 0 0
+	RANGE = -1000 0 0
 	SHADOW = 1
-#END_SAWSET
+END_SAWSET
 
-#SAWSET
-	POS = 4700 100 500
+1SAWSET
+	POS = 13050 0 750
 	ROT = 0 90 0
 	STARTUP = 1
-	TIME = 100
+	TIME = 250
 	RANGE = 0 0 -1000
 	SHADOW = 1
-#END_SAWSET
-#SAWSET
-	POS = 4250 0 -150
-	ROT = 90 0 0
-	STARTUP = 1
-	TIME = 300
-	RANGE = 0 0 180
-	SHADOW = 1
-#END_SAWSET
+END_SAWSET
 
-#SAWSET
-	POS = 6000 0 1500
-	ROT = 90 0 0
+1SAWSET
+	POS = 13050 0 750
+	ROT = 0 180 0
 	STARTUP = 1
-	TIME = 150
-	RANGE = 0 0 -2500
+	TIME = 250
+	RANGE = 1000 0 0
 	SHADOW = 1
-#END_SAWSET
+END_SAWSET
 
-#SAWSET
-	POS = 6750 0 -1500
-	ROT = 90 0 0
+1SAWSET
+	POS = 13050 0 750
+	ROT = 0 -90 0
 	STARTUP = 1
-	TIME = 150
-	RANGE = 0 0 2500
+	TIME = 250
+	RANGE = 0 0 1000
 	SHADOW = 1
-#END_SAWSET
+END_SAWSET
 
 #----------------------------------------
 # ÉvÉåÉXã@
@@ -987,6 +996,7 @@ END_SAWSET
 	STATE = 0
 	SHADOW = 1
 #END_PRESSSET
+
 #PRESSSET
 	ID = 0
 	POS = 1500 200 0
@@ -996,6 +1006,7 @@ END_SAWSET
 	STATE = 0
 	SHADOW = 1
 #END_PRESSSET
+
 #PRESSSET
 	ID = 0
 	POS = 1500 200 300
@@ -1870,5 +1881,150 @@ MODELSET
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12100 0 0
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12100 0 200
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12100 0 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12300 0 0
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12300 0 200
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12300 0 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12300 200 0
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12300 200 200
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 12300 200 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 0 0
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 0 200
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 0 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 14000 0 0
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 14000 0 200
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 14000 0 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 14000 200 0
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 14000 200 200
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 14000 200 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
 
 END_SCRIPT		# Ç±ÇÃçsÇÕê‚ëŒè¡Ç≥Ç»Ç¢Ç±Ç∆ÅI
