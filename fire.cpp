@@ -181,17 +181,17 @@ void UpdateFire(void)
 
 			case OPERATIONSTATE_MANUAL:		// Ž©“®‘€ì
 
-				if (GetPromptTrigger(0) == true)
+				if (GetPromptTrigger(pFire->nIdx) == true)
 				{
 					if (pFire->state == FIRESTATE_ON)
 					{// ‰Š‚ðOFF‚É‚·‚é
 
-						SetFire(SETFIREMODE_SWICHING, 0, pFire->pos, FIRESTATE_OFF, nCntFire);
+						SetFire(SETFIREMODE_SWICHING, pFire->nIdx, pFire->pos, FIRESTATE_OFF, nCntFire);
 					}
 					else
 					{// ‰Š‚ðON‚É‚·‚é
 
-						SetFire(SETFIREMODE_SWICHING, 0, pFire->pos, FIRESTATE_ON, nCntFire);
+						SetFire(SETFIREMODE_SWICHING, pFire->nIdx, pFire->pos, FIRESTATE_ON, nCntFire);
 					}
 				}
 
