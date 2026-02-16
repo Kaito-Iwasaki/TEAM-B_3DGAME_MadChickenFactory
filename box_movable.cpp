@@ -21,7 +21,6 @@
 //	マクロ定義
 //
 //==================================================
-#define MAX_MOVEBOX		(128)					//モデルの最大数
 #define MOVEBOX_MODEL_PATH	"data\\MODEL\\movebox.x"	//movebox000.xへのパス
 #define ENABLE_MOVE		(5.0f)					//箱を押せる強さ
 #define MOVE_SPEED		(3.5f)					//箱を押す際の移動量

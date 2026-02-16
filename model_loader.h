@@ -20,6 +20,7 @@
 #include "fire.h"
 #include "prompt.h"
 #include "conveyer.h"
+#include "box_movable.h"
 
 //*********************************************************************
 // 
@@ -148,6 +149,16 @@ typedef struct
 }CONVEYERSETDATA;
 
 //*********************************************************************
+// ギミック配置情報構造体（動く箱）
+//*********************************************************************
+typedef struct
+{
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 rot;		// 向き
+	D3DXVECTOR3 range;		// うごかす範囲
+}MOVEBOXSETDATA;
+
+//*********************************************************************
 // モデル配置情報構造体
 //*********************************************************************
 typedef struct
@@ -183,6 +194,9 @@ typedef struct
 
 	int nCountConveyerSet;
 	CONVEYERSETDATA aInfoConveyerSet[MAX_CONVEYER];
+
+	int nCountMoveBoxSet;
+	MOVEBOXSETDATA aInfoMoveBoxSet[MAX_MOVEBOX];
 
 }MODELDATA;
 

@@ -52,6 +52,7 @@ void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer);
 void _Read_PROMPTSET(FILE* pFile, PROMPTSETDATA* pBuffer);
 void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer);
 void _Read_CONVEYERSET(FILE* pFile, CONVEYERSETDATA* pBuffer);
+void _Read_MOVEBOXSET(FILE* pFile, MOVEBOXSETDATA* pBuffer);
 
 //=====================================================================
 // スクリプト読み込み処理
@@ -208,6 +209,15 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			_Read_CONVEYERSET(pFile, pData);
 
 			pBuffer->nCountConveyerSet++;
+		}
+		else if (strcmp(&aStrLine[0], "MOVEBOXSET") == 0)
+		{// 動く箱セット情報読み取り
+
+			MOVEBOXSETDATA* pData = &pBuffer->aInfoMoveBoxSet[pBuffer->nCountMoveBoxSet];
+
+			_Read_MOVEBOXSET(pFile, pData);
+
+			pBuffer->nCountMoveBoxSet++;
 		}
 	}
 }
@@ -657,6 +667,46 @@ void _Read_CONVEYERSET(FILE* pFile, CONVEYERSETDATA* pBuffer)
 		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->bShadow);
+		}
+	}
+}
+
+//=====================================================================
+// [MOVEBOXSET]読み込み処理
+//=====================================================================
+void _Read_MOVEBOXSET(FILE* pFile, MOVEBOXSETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_MOVEBOXSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
+		}
+		else if (strcmp(&aStrLine[0], "RANGE") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->range.x, &pBuffer->range.y, &pBuffer->range.z);
 		}
 	}
 }
