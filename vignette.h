@@ -29,4 +29,6 @@ void UninitVignette(void);
 void UpdateVignette(void);
 void DrawVignette(void);
 
+void VignetteColChange(D3DXCOLOR col);
+void VignetteColGradient(D3DXCOLOR col);
 #endif // !1

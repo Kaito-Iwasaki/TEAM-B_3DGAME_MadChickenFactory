@@ -43,6 +43,7 @@
 #include "box_movable.h"
 #include "conveyer.h"
 #include "lift.h"
+#include "vignette.h"
 
 //*********************************************************************
 // 
@@ -107,6 +108,7 @@ void InitGame(void)
 	InitMoveBox();			// 動かせる箱
 	InitConveyer();			// コンベア
 	InitLift();				// リフト
+	InitVignette();			// ビネット
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -193,7 +195,7 @@ void InitGame(void)
 
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
-	GetCamera(0)->mode = CAMERAMODE_FREE;
+	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
 
 	g_bLightGame = true;
 }
@@ -224,6 +226,7 @@ void UninitGame(void)
 	UninitMoveBox();		// 動かせる箱
 	UninitConveyer();		// コンベア
 	UninitLift();			// リフト
+	UninitVignette();		// ビネット
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -265,6 +268,7 @@ void UpdateGame(void)
 		UpdateMoveBox();		// 動かせる箱
 		UpdateConveyer();		// コンベア
 		UpdateLift();			// リフト
+		UpdateVignette();		// ビネット
 
 #ifdef  _DEBUG
 		// デバッグ表示
@@ -313,6 +317,7 @@ void DrawGame(void)
 	DrawMoveBox();			// 動かせる箱
 	DrawConveyer();			// コンベア
 	DrawLift();				// リフト
+	DrawVignette();			// ビネット
 
 	// [2D]
 	DrawEffect();			// エフェクト
@@ -335,6 +340,7 @@ void ReloadGame(void)
 	UninitMoveBox();		// 可動箱
 	UninitConveyer();		// コンベア
 	UninitLift();			// リフト
+	UninitVignette();		// ビネット
 	ReleaseLoadedTexture();
 
 	InitField();			// フィールド
@@ -348,6 +354,7 @@ void ReloadGame(void)
 	InitMoveBox();			// 動かせる箱
 	InitConveyer();			// コンベア
 	InitLift();				// リフト
+	InitVignette();			// ビネット
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);

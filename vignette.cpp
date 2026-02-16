@@ -6,33 +6,39 @@
 //===========================================================
 #include "main.h"
 #include "vignette.h"
+#include "input.h"
 
 //===========================================================
 // 
 // マクロ定義
 // 
 //===========================================================
-#define VIGNETTE_WIDTH		(270.0f)	//ビネットの幅
-#define VIGNETTE_HEIGHT	(170.0f)	//高さ
+#define VIGNETTE_WIDTH		(640.0f)				//ビネットの幅
+#define VIGNETTE_HEIGHT		(360.0f)				//高さ
+#define VIGNETTE_FILEPATH	"data\\TEXTURE\\Vignette.png"	// テクスチャファイルパス	
 
 //===========================================================
 // 
 //グローバル変数
 // 
 //===========================================================
-LPDIRECT3DTEXTURE9 g_pTextureVignette = NULL;		//テクスチャのポインタ
+LPDIRECT3DTEXTURE9 g_pTextureVignette = NULL;	//テクスチャのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffVignette;		//頂点バッファへのポインタ
-D3DXVECTOR3 g_Vignettepos;								//ビネットの位置
+D3DXVECTOR3 g_Vignettepos;						//ビネットの位置
 D3DXCOLOR g_VignetteCol;
+bool g_bGradientVig;								// グラデーションカラーチェンジ
+D3DXCOLOR g_GraColTage,g_GraCol;					// 変更する色の情報
 
 //===========================================================
 // ビネットの初期化処理
 //===========================================================
 void InitVignette(void)
 {
-	g_Vignettepos = D3DXVECTOR3(640.0f,-600.0f,0.0f);
-	g_VignetteCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	
+	g_Vignettepos = D3DXVECTOR3(640.0f,360.0f,0.0f);
+	g_VignetteCol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+	g_bGradientVig = false;
+	g_GraCol = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+	g_GraColTage = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 
 	LPDIRECT3DDEVICE9 pDevice;
 
@@ -40,7 +46,7 @@ void InitVignette(void)
 	pDevice = GetDevice();
 
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\vignette.png", &g_pTextureVignette);
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\Vignette.png", &g_pTextureVignette);
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4,
@@ -114,6 +120,27 @@ void UpdateVignette(void)
 	//頂点情報をロックし、頂点情報へのポインタを取得
 	g_pVtxBuffVignette->Lock(0, 0, (void**)&pVtx, 0);
 
+	if (GetKeyboardTrigger(DIK_Q) && g_VignetteCol.a <= 1.0f)
+	{
+		VignetteColChange(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+	if (GetKeyboardTrigger(DIK_E) && g_VignetteCol.a >= 0.0f)
+	{
+		VignetteColGradient(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+	if (g_bGradientVig == true)
+	{// グラデーションで色変更
+		g_VignetteCol += g_GraCol * 0.01f;
+		if (fabs((double)g_GraColTage.r - g_VignetteCol.r) <= 0.01f &&
+			fabs((double)g_GraColTage.g - g_VignetteCol.g) <= 0.01f &&
+			fabs((double)g_GraColTage.b - g_VignetteCol.b) <= 0.01f &&
+			fabs((double)g_GraColTage.a - g_VignetteCol.a) <= 0.01f)
+		{
+			g_bGradientVig = false;
+			g_VignetteCol = g_GraColTage;
+		}
+	}
 
 	//頂点座標の設定
 	pVtx[0].pos = D3DXVECTOR3(g_Vignettepos.x - VIGNETTE_WIDTH, g_Vignettepos.y - VIGNETTE_HEIGHT, 0.0f);//右回りで！
@@ -152,4 +179,49 @@ void DrawVignette(void)
 
 	//ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+}
+//===========================================================
+// ビネットの色変更（即時）
+//===========================================================
+void VignetteColChange(D3DXCOLOR col)
+{
+	VERTEX_2D* pVtx;	//頂点情報へのポインタ
+
+	//頂点情報をロックし、頂点情報へのポインタを取得
+	g_pVtxBuffVignette->Lock(0, 0, (void**)&pVtx, 0);
+
+	g_bGradientVig = false;
+	g_VignetteCol = col;
+
+	//頂点カラーの設定
+	pVtx[0].col = g_VignetteCol;
+	pVtx[1].col = g_VignetteCol;
+	pVtx[2].col = g_VignetteCol;
+	pVtx[3].col = g_VignetteCol;
+
+	//頂点バッファをアンロックする
+	g_pVtxBuffVignette->Unlock();
+}
+//===========================================================
+// ビネットの色変更（グラデーション）
+//===========================================================
+void VignetteColGradient(D3DXCOLOR col)
+{
+	VERTEX_2D* pVtx;	//頂点情報へのポインタ
+
+	//頂点情報をロックし、頂点情報へのポインタを取得
+	g_pVtxBuffVignette->Lock(0, 0, (void**)&pVtx, 0);
+
+	g_bGradientVig = true;
+	g_GraColTage = col;
+	g_GraCol = col - g_VignetteCol;
+
+	//頂点カラーの設定
+	pVtx[0].col = g_VignetteCol;
+	pVtx[1].col = g_VignetteCol;
+	pVtx[2].col = g_VignetteCol;
+	pVtx[3].col = g_VignetteCol;
+
+	//頂点バッファをアンロックする
+	g_pVtxBuffVignette->Unlock();
 }
