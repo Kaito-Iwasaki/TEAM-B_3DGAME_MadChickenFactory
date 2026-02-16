@@ -140,9 +140,10 @@ void UpdateFire(void)
 				// ‰Š‚Æ‚Ì“–‚½‚è”»’è
 				for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 				{
-					if (CollisionPointBox(pPlayer[nCntPlayer].pos,
-						D3DXVECTOR3(pFlamethrower->pos.x, pFlamethrower->pos.y + g_aFireModelData.vtxMax.y, pFlamethrower->pos.z),
-						D3DXVECTOR3(pFlamethrower->fWidMax + pFlamethrower->fWidMin, 300.0f, pFlamethrower->fDepMax + pFlamethrower->fDepMin)) == true
+					if (CollisionFire(pPlayer[nCntPlayer].pos,
+						D3DXVECTOR3(pPlayer[nCntPlayer].fRadius * 0.5f, pPlayer[nCntPlayer].fHeight, pPlayer[nCntPlayer].fRadius * 0.5f),
+						pFire->pos,
+						D3DXVECTOR3((pFlamethrower->fWidMax + pFlamethrower->fWidMin) * 0.5f, 300.0f, (pFlamethrower->fDepMax + pFlamethrower->fDepMin) * 0.5f)) == true
 						&& pFade.state == FADESTATE_NONE)
 					{// ‰Š‚É“–‚½‚Á‚½
 
@@ -179,7 +180,7 @@ void UpdateFire(void)
 
 				break;
 
-			case OPERATIONSTATE_MANUAL:		// Ž©“®‘€ì
+			case OPERATIONSTATE_MANUAL:		// Žè“®‘€ì
 
 				if (GetPromptTrigger(pFire->nIdx) == true)
 				{
@@ -506,4 +507,25 @@ void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3*
 		pPos->y = g_aflamethrower[nCount].pos.y - fRadius + g_aFireModelData.vtxMin.y;	// ƒuƒƒbƒN‚Ì‰º‚É—§‚½‚¹‚é
 		pMove->y = 0.0f;																	// ˆÚ“®—Ê‚ð0‚É‚·‚é
 	}
+}
+
+//=======================================================
+// ‰Š‚Ì“–‚½‚è”»’èˆ—
+//=======================================================
+bool CollisionFire(D3DXVECTOR3 pPlayerPos, D3DXVECTOR3 PlayerSize, D3DXVECTOR3 pFirePos, D3DXVECTOR3 FireSize)
+{
+	bool bHit = false;		// ‰Š‚É“–‚½‚Á‚½‚©”»’è
+
+	if (pPlayerPos.x + PlayerSize.x >= pFirePos.x - FireSize.x
+		&& pPlayerPos.x - PlayerSize.x <= pFirePos.x + FireSize.x
+		&& pPlayerPos.y + PlayerSize.y > pFirePos.y
+		&& pPlayerPos.y < pFirePos.y + FireSize.y
+		&& pPlayerPos.z + PlayerSize.z >= pFirePos.z - FireSize.z
+		&& pPlayerPos.z - PlayerSize.z <= pFirePos.z + FireSize.z)
+	{// ‰Š‚É“–‚½‚Á‚½
+
+		bHit = true;
+	}
+
+	return bHit;
 }
