@@ -75,7 +75,8 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].nIdxShadow = -1;								// 対象の影のインデックス(番号)初期化
 		g_Player[nCntPlayer].bJump = false;									// ジャンプ状態初期化
 		g_Player[nCntPlayer].ModelHit = MODEL_HIT_NONE;						// 当たっていない状態にする
-		g_Player[nCntPlayer].fRadius = 40;									// 半径初期化
+		g_Player[nCntPlayer].fRadius = 40.0f;								// 半径初期化
+		g_Player[nCntPlayer].fHeight = 100.0f;								// 高さ初期化
 	}
 
 	// モーションの初期化
@@ -183,7 +184,7 @@ void UpdatePlayer(void)
 		CollisionWall(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, D3DXVECTOR3_ZERO);
 
 		// モデルとの当たり判定
-		g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(200.0f, 200.0f, 500.0f));
+		g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(g_Player[nCntPlayer].fRadius, g_Player[nCntPlayer].fHeight, g_Player[nCntPlayer].fRadius));
 
 		//床との当たり判定
 		if (CollisionField(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld))
