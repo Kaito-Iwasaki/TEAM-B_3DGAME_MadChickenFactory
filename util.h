@@ -28,6 +28,10 @@
 #define D3DXCOLOR_WHITE		D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)
 #define D3DXCOLOR_BLACK		D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f)
 
+#define PI					D3DX_PI
+#define RAD(degree)			D3DXToRadian(degree)
+#define DEGREE(rad)			D3DXToRadian(rad)
+
 #define BIT_CHECK(a,b)   (a >> b) & 1
 #define BIT_SET(a,b)     a |= (1 << b)
 #define BIT_UNSET(a,b)   a &= ~(1 << b)
