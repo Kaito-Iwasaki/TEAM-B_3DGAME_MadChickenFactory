@@ -189,6 +189,7 @@
     <ClInclude Include="result.h" />
     <ClInclude Include="saw.h" />
     <ClInclude Include="script.h" />
+    <ClInclude Include="SE_controller.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="team_logo.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="result.cpp" />
     <ClCompile Include="saw.cpp" />
     <ClCompile Include="script.cpp" />
+    <ClCompile Include="SE_controller.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="team_logo.cpp" />
