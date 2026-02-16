@@ -24,9 +24,6 @@ LPDIRECT3DTEXTURE9 g_pTextureVignette = NULL;		//テクスチャのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffVignette;		//頂点バッファへのポインタ
 D3DXVECTOR3 g_Vignettepos;								//ビネットの位置
 D3DXCOLOR g_VignetteCol;
-int g_nCounter;
-bool ba;											//アルファ値のON/OFF
-bool bEnter;										//エンターを押したか
 
 //===========================================================
 // ビネットの初期化処理
@@ -34,10 +31,8 @@ bool bEnter;										//エンターを押したか
 void InitVignette(void)
 {
 	g_Vignettepos = D3DXVECTOR3(640.0f,-600.0f,0.0f);
-	g_nCounter = 1;
 	g_VignetteCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	bEnter = false;
-	ba = true;
+	
 
 	LPDIRECT3DDEVICE9 pDevice;
 
@@ -119,41 +114,6 @@ void UpdateVignette(void)
 	//頂点情報をロックし、頂点情報へのポインタを取得
 	g_pVtxBuffVignette->Lock(0, 0, (void**)&pVtx, 0);
 
-	if (g_Vignettepos.y < 250.0f)
-	{
-		g_Vignettepos.y += 5.0f;
-	}
-	else
-	{
-		g_nCounter++;
-	}
-
-	if (((g_nCounter % 60) == 0) && bEnter == false)
-	{
-		if (ba == true)
-		{
-			g_VignetteCol.a = 0.5f;
-			ba = false;
-		}
-		else
-		{
-			g_VignetteCol.a = 1.0f;
-			ba = true;
-		}
-	}
-	else if (bEnter == true && (g_nCounter % 10) == 0)
-	{
-		if (ba == true)
-		{
-			g_VignetteCol.a = 0.5f;
-			ba = false;
-		}
-		else
-		{
-			g_VignetteCol.a = 1.0f;
-			ba = true;
-		}
-	}
 
 	//頂点座標の設定
 	pVtx[0].pos = D3DXVECTOR3(g_Vignettepos.x - VIGNETTE_WIDTH, g_Vignettepos.y - VIGNETTE_HEIGHT, 0.0f);//右回りで！
