@@ -23,7 +23,7 @@
 #include"motion_loader.h"
 #include"conveyer.h"
 #include"motion.h"
-
+#include"gate.h"
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
 #define MOVE_POS				(3.0f)						// 位置移動量
@@ -213,6 +213,9 @@ void UpdatePlayer(void)
 
 		// 火炎放射器との当たり判定
 		CollisionFlamethrower(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
+
+		// 火炎放射器との当たり判定
+		CollisionGate(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
 
 		// コンベアとの当たり判定
 		if (CollisioncConveyer(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move))
