@@ -192,6 +192,12 @@ void InitGame(void)
 
 		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
 	}
+	for (int nCntGate = 0; nCntGate < g_modelDataGame.nCountGateSet; nCntGate++)
+	{
+		GATESETDATA* pGateData = &g_modelDataGame.aInfoGateSet[nCntGate];
+
+		SetGate(pGateData->pos, pGateData->rot, pGateData->nIdx, pGateData->movewidth, pGateData->Goup, pGateData->state);
+	}
 
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
@@ -324,7 +330,7 @@ void DrawGame(void)
 	DrawPrompt();			// プロンプト
 	DrawPause();			// ポーズ
 
-	SetTimer(D3DXVECTOR3(700.0f, 200.0f, 1500.0f), 300, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+	SetTimer(D3DXVECTOR3(700.0f, 200.0f, 400.0f), 300, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 void ReloadGame(void)
@@ -446,4 +452,12 @@ void ReloadGame(void)
 
 		SetMoveBox(pMoveBoxData->pos, pMoveBoxData->rot, pMoveBoxData->range);
 	}
+
+	for (int nCntGate = 0; nCntGate < g_modelDataGame.nCountGateSet; nCntGate++)
+	{
+		GATESETDATA* pGateData = &g_modelDataGame.aInfoGateSet[nCntGate];
+
+		SetGate(pGateData->pos, pGateData->rot, pGateData->nIdx, pGateData->movewidth, pGateData->Goup, pGateData->state);
+	}
+
 }

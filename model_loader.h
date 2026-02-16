@@ -21,7 +21,7 @@
 #include "prompt.h"
 #include "conveyer.h"
 #include "box_movable.h"
-
+#include "gate.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -157,6 +157,19 @@ typedef struct
 	D3DXVECTOR3 rot;		// 向き
 	D3DXVECTOR3 range;		// うごかす範囲
 }MOVEBOXSETDATA;
+//*********************************************************************
+// ギミック配置情報構造体（ゲート）
+//*********************************************************************
+typedef struct
+{
+	D3DXVECTOR3 pos;		// 位置
+	D3DXVECTOR3 rot;		// 向き
+	int nIdx;				// インデックス
+	GateState state;		// 状態
+	float movewidth;		// 動作幅
+	bool Goup;				// 起動のON/OFF
+	bool bShadow;			// 影の有無
+}GATESETDATA;
 
 //*********************************************************************
 // モデル配置情報構造体
@@ -198,6 +211,8 @@ typedef struct
 	int nCountMoveBoxSet;
 	MOVEBOXSETDATA aInfoMoveBoxSet[MAX_MOVEBOX];
 
+	int nCountGateSet;
+	GATESETDATA aInfoGateSet[MAX_GATE];
 }MODELDATA;
 
 //*********************************************************************

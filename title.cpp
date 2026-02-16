@@ -24,6 +24,7 @@
 #include"meshcylinder.h"
 #include"team_logo.h"
 #include"DebugProc.h"
+#include"player.h"
 //*********************************************************************
 // 
 // ***** É}ÉNÉçíËã` *****

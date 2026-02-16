@@ -70,7 +70,7 @@ void InitGate(void)
 	
 
 	LoadModel(GATE_MODELPATH, &g_aGateModelData);
-	//SetGate(0, D3DXVECTOR3(300.0f, -1.0f, 0.0f), D3DXVECTOR3_ZERO, 300.0f, false ,GATESTATE_UP);
+	/*SetGate( D3DXVECTOR3_ZERO, D3DXVECTOR3(300.0f, -1.0f, 0.0f),0, 300.0f, false ,GATESTATE_UP);*/
 
 }
 
@@ -207,7 +207,7 @@ void DrawGate(void)
 //	ÉQÅ[Égê›íuèàóù
 // 
 //==================================================
-void SetGate(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, float movewidth, bool Goup, GateState state )
+void SetGate(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nIdx, float movewidth, bool Goup, GateState state )
 {
 	for (int nCntGate = 0; nCntGate < MAX_GATE; nCntGate++)
 	{

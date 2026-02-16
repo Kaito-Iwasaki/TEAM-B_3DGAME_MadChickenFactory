@@ -53,7 +53,7 @@ void _Read_PROMPTSET(FILE* pFile, PROMPTSETDATA* pBuffer);
 void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer);
 void _Read_CONVEYERSET(FILE* pFile, CONVEYERSETDATA* pBuffer);
 void _Read_MOVEBOXSET(FILE* pFile, MOVEBOXSETDATA* pBuffer);
-
+void _Read_GATESET(FILE* pFile,GATESETDATA* pBuffer);
 //=====================================================================
 // スクリプト読み込み処理
 //=====================================================================
@@ -219,6 +219,15 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 			pBuffer->nCountMoveBoxSet++;
 		}
+		else if (strcmp(&aStrLine[0], "GATESET") == 0)
+		{
+			GATESETDATA* pData = &pBuffer->aInfoGateSet[pBuffer->nCountGateSet];
+
+			_Read_GATESET(pFile, pData);
+
+			pBuffer->nCountGateSet++;
+		}
+
 	}
 }
 
@@ -708,5 +717,61 @@ void _Read_MOVEBOXSET(FILE* pFile, MOVEBOXSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %f %f %f", &pBuffer->range.x, &pBuffer->range.y, &pBuffer->range.z);
 		}
+	}
+}
+//=====================================================================
+// [GATESET]読み込み処理
+//=====================================================================
+void _Read_GATESET(FILE* pFile, GATESETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_GATESET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
+		}
+		else if (strcmp(&aStrLine[0], "IDX") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nIdx);
+		}
+		else if (strcmp(&aStrLine[0], "STATE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->state);
+		}
+		else if (strcmp(&aStrLine[0], "MOVEWIDTH") == 0)
+		{
+			fscanf(pFile, " = %f", &pBuffer->movewidth);
+		}
+		else if (strcmp(&aStrLine[0], "GOUP") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->Goup);
+		}
+		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->bShadow);
+		}
+
 	}
 }

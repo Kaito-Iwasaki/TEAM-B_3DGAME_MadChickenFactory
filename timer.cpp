@@ -63,8 +63,10 @@ void InitTimer(void)
 	LPDIRECT3DDEVICE9 pDevice;				// デバイスへのポインタ
 
 	// デバイスの取得
-	pDevice = GetDevice();
-
+	pDevice = GetDevice();	
+	
+	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\number000.png", &g_pTextureTimer);
+	
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4 * MAX_TIMER,
 		D3DUSAGE_WRITEONLY,
@@ -74,7 +76,7 @@ void InitTimer(void)
 		NULL);
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 		//テクスチャ4枚分
-	D3DXCreateTextureFromFile(pDevice, "data\\TEXTURE\\number000.png", &g_pTextureTimer);
+
 	// 頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffTimer->Lock(0, 0, (void**)&pVtx, 0);
 	for (int nCntTimer = 0; nCntTimer < MAX_TIMER; nCntTimer++)
@@ -172,18 +174,21 @@ void UpdateTimer(void)
 	{
 		if (g_nTimer[nCntTimer].bUse == true)
 		{
-
+			// 頂点カラーの設定
+		
+			//１フレーム増加
 			if (g_nTimer[1].Fream <= 179 && g_nTimer->CountTimer >= 1)
 			{
 				g_nTimer[1].Fream++;
 			}
+			//規定に来たら１秒減少
 			if (g_nTimer[1].Fream == 180)
 			{
 				DownTimer(1);
 
 				g_nTimer[1].Fream = 0;
 			}
-
+			//0秒でゲーム再び
 			if (g_nTimer->CountTimer <= 0)
 			{
 				SetFade(MODE_GAME);
@@ -224,22 +229,33 @@ void DrawTimer(void)
 		// 頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
 		//zテスト無効
+
 		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-		// 描画
-		
+		//アルファテスト無効
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 128);
+
+		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 		// テクスチャの設定
 		pDevice->SetTexture(0,g_pTextureTimer);
-
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
 			nCntTimer * 4,
 			2);
-		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW); // 元に戻す
+	
 		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	
+		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW); // 元に戻す
+
+		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+		//アルファテスト有効
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 256);
 
 	}
 }
@@ -272,12 +288,13 @@ void SetTimer(D3DXVECTOR3 pos, int CountTimer, D3DXCOLOR col)
 			g_nTimer[nCntTimer].CountTimer = CountTimer;			
 
 			g_nTimer[nCntTimer].col = col;
-
+			
+			//タイマーテクスチャ位置更新
 			pVtx[0].pos = D3DXVECTOR3(g_nTimer[nCntTimer].pos.x + (nCntTimer * 100.0f),         g_nTimer[nCntTimer].pos.y,  g_nTimer[nCntTimer].pos.z);
 			pVtx[1].pos = D3DXVECTOR3(g_nTimer[nCntTimer].pos.x + (nCntTimer * 100.0f + 100.0f), g_nTimer[nCntTimer].pos.y,  g_nTimer[nCntTimer].pos.z);
 			pVtx[2].pos = D3DXVECTOR3(g_nTimer[nCntTimer].pos.x + (nCntTimer * 100.0f),         g_nTimer[nCntTimer].pos.y + 200.0f, g_nTimer[nCntTimer].pos.z);
 			pVtx[3].pos = D3DXVECTOR3(g_nTimer[nCntTimer].pos.x + (nCntTimer * 100.0f + 100.0f), g_nTimer[nCntTimer].pos.y + 200.0f, g_nTimer[nCntTimer].pos.z);
-
+			//テクスチャ色
 			pVtx[0].col = g_nTimer[nCntTimer].col;
 			pVtx[1].col = g_nTimer[nCntTimer].col;
 			pVtx[2].col = g_nTimer[nCntTimer].col;

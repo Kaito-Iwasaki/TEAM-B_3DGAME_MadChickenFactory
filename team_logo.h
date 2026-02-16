@@ -49,4 +49,4 @@ void UninitTeamLogo(void);
 void UpdateTeamLogo(void);
 void DrawTeamLogo(void);
 
-#endif // !1
+#endif

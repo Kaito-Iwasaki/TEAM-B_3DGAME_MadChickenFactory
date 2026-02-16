@@ -1344,13 +1344,17 @@ END_MODELSET
 # ÉQÅ[Ég
 #----------------------------------------
 
-#MODELSET
+GATESET
 	TYPE = 18
-	POS = -1500 0 450
+	POS = -700 0 0
 	ROT = 0 0 0
 	COLLISION = 1
+	IDX = 0
+	GOUP = 0
+	MOVEWIDTH = 300
+	STATE = 1
 	SHADOW = 0
-#END_MODELSET
+END_GATESET
 
 #----------------------------------------
 # ñÿî†

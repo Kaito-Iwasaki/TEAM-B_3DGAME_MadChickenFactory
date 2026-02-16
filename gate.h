@@ -19,7 +19,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_GATE			(12)		//モデルの最大数
+#define MAX_GATE			(256)		//モデルの最大数
 
 //*********************************************************************
 // 
@@ -66,7 +66,7 @@ void InitGate(void);
 void UninitGate(void);
 void UpdateGate(void);
 void DrawGate(void);
-void SetGate(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, float movewidth, bool Goup , GateState state = GATESTATE_STAY);
+void SetGate(D3DXVECTOR3 pos, D3DXVECTOR3 rot,int nIdx, float movewidth, bool Goup , GateState state = GATESTATE_STAY);
 void SwitchGate(int nIdx);
 int GetGate (void);
 void CollisionGate(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
