@@ -181,9 +181,7 @@ float Magnitude(D3DXVECTOR3 vector)
 //=====================================================================
 float Magnitude(D3DXVECTOR3 from, D3DXVECTOR3 to)
 {
-	D3DXVECTOR3 fDistance = to - from;
-
-	return sqrtf(fDistance.x * fDistance.x + fDistance.y * fDistance.y);
+	return Magnitude(to - from);
 }
 
 //=====================================================================
