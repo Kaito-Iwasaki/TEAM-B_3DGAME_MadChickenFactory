@@ -367,10 +367,6 @@ bool CollisionSawRotY(void)
 					checkold = false;
 				}
 
-				if (check == true)
-				{
-					PrintDebugProc("%d : HIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",nCntColl);
-				}
 			}
 
 			if (check == true)
