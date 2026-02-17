@@ -44,6 +44,7 @@
 #include "conveyer.h"
 #include "lift.h"
 #include "vignette.h"
+#include "Enemy.h"
 
 //*********************************************************************
 // 
@@ -109,6 +110,13 @@ void InitGame(void)
 	InitConveyer();			// コンベア
 	InitLift();				// リフト
 	InitVignette();			// ビネット
+	InitEnemy();			// 敵
+
+	// フォグの初期設定
+	float FogStart = 1500.0f, FogEnd = 3000.0f;
+	GetDevice()->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR); // バーテックスフォグ
+	GetDevice()->SetRenderState(D3DRS_FOGSTART, *((DWORD*)(&FogStart))); // フォグ開始点
+	GetDevice()->SetRenderState(D3DRS_FOGEND, *((DWORD*)(&FogEnd))); // フォグ終了点
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -192,6 +200,8 @@ void InitGame(void)
 
 		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
 	}
+
+	// ゲートの設定
 	for (int nCntGate = 0; nCntGate < g_modelDataGame.nCountGateSet; nCntGate++)
 	{
 		GATESETDATA* pGateData = &g_modelDataGame.aInfoGateSet[nCntGate];
@@ -199,9 +209,17 @@ void InitGame(void)
 		SetGate(pGateData->pos, pGateData->rot, pGateData->nIdx, pGateData->movewidth, pGateData->Goup, pGateData->state);
 	}
 
+	// 敵の設定
+	for (int nCntEnemy = 0; nCntEnemy < g_modelDataGame.nCountEnemySet; nCntEnemy++)
+	{
+		ENEMYSETDATA* pEnemyData = &g_modelDataGame.aInfoEnemySet[nCntEnemy];
+
+		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
+	}
+
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
-	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
+	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW;
 
 	g_bLightGame = true;
 }
@@ -233,6 +251,7 @@ void UninitGame(void)
 	UninitConveyer();		// コンベア
 	UninitLift();			// リフト
 	UninitVignette();		// ビネット
+	UninitEnemy();			// 敵
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -255,6 +274,7 @@ void UpdateGame(void)
 			SwitchPause();
 		}
 
+		UpdateLight();
 		UpdateCamera();			// カメラ
 		UpdateShadow();			// 影
 		UpdatePlayer();			// プレイヤー
@@ -275,6 +295,7 @@ void UpdateGame(void)
 		UpdateConveyer();		// コンベア
 		UpdateLift();			// リフト
 		UpdateVignette();		// ビネット
+		UpdateEnemy();			// 敵
 
 #ifdef  _DEBUG
 		// デバッグ表示
@@ -308,6 +329,10 @@ void DrawGame(void)
 
 	// 各オブジェクトの描画処理
 	// [3D]
+
+	// フォグを有効化
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
 	DrawPlayer();			// プレイヤー
 	DrawField();			// フィールド
 	DrawShadow();			// 影
@@ -323,11 +348,15 @@ void DrawGame(void)
 	DrawMoveBox();			// 動かせる箱
 	DrawConveyer();			// コンベア
 	DrawLift();				// リフト
-	DrawVignette();			// ビネット
+	DrawEnemy();			// 敵
+	DrawEffect();			// エフェクト
+
+	// フォグを無効化
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 	// [2D]
-	DrawEffect();			// エフェクト
 	DrawPrompt();			// プロンプト
+	DrawVignette();			// ビネット
 	DrawPause();			// ポーズ
 
 	SetTimer(D3DXVECTOR3(700.0f, 200.0f, 400.0f), 300, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
@@ -346,7 +375,8 @@ void ReloadGame(void)
 	UninitMoveBox();		// 可動箱
 	UninitConveyer();		// コンベア
 	UninitLift();			// リフト
-	UninitVignette();		// ビネット
+	UninitEnemy();			// 敵
+	UninitShadow();			// 影
 	ReleaseLoadedTexture();
 
 	InitField();			// フィールド
@@ -360,7 +390,8 @@ void ReloadGame(void)
 	InitMoveBox();			// 動かせる箱
 	InitConveyer();			// コンベア
 	InitLift();				// リフト
-	InitVignette();			// ビネット
+	InitEnemy();			// 敵
+	InitShadow();			// 影
 
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
@@ -453,6 +484,7 @@ void ReloadGame(void)
 		SetMoveBox(pMoveBoxData->pos, pMoveBoxData->rot, pMoveBoxData->range);
 	}
 
+	// ゲート
 	for (int nCntGate = 0; nCntGate < g_modelDataGame.nCountGateSet; nCntGate++)
 	{
 		GATESETDATA* pGateData = &g_modelDataGame.aInfoGateSet[nCntGate];
@@ -460,4 +492,11 @@ void ReloadGame(void)
 		SetGate(pGateData->pos, pGateData->rot, pGateData->nIdx, pGateData->movewidth, pGateData->Goup, pGateData->state);
 	}
 
+	// 敵の設定
+	for (int nCntEnemy = 0; nCntEnemy < g_modelDataGame.nCountEnemySet; nCntEnemy++)
+	{
+		ENEMYSETDATA* pEnemyData = &g_modelDataGame.aInfoEnemySet[nCntEnemy];
+
+		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
+	}
 }
