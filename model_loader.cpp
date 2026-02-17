@@ -53,7 +53,10 @@ void _Read_PROMPTSET(FILE* pFile, PROMPTSETDATA* pBuffer);
 void _Read_GOALSET(FILE* pFile, GOALSETDATA* pBuffer);
 void _Read_CONVEYERSET(FILE* pFile, CONVEYERSETDATA* pBuffer);
 void _Read_MOVEBOXSET(FILE* pFile, MOVEBOXSETDATA* pBuffer);
-void _Read_GATESET(FILE* pFile,GATESETDATA* pBuffer);
+void _Read_GATESET(FILE* pFile, GATESETDATA* pBuffer);
+void _Read_ENEMYSET(FILE* pFile, ENEMYSETDATA* pBuffer);
+void _Read_ROUTINESET(FILE* pFile, ENEMY_ROUTINE* pBuffer);
+
 //=====================================================================
 // スクリプト読み込み処理
 //=====================================================================
@@ -220,14 +223,21 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			pBuffer->nCountMoveBoxSet++;
 		}
 		else if (strcmp(&aStrLine[0], "GATESET") == 0)
-		{
+		{// ゲートセット情報読み取り
 			GATESETDATA* pData = &pBuffer->aInfoGateSet[pBuffer->nCountGateSet];
 
 			_Read_GATESET(pFile, pData);
 
 			pBuffer->nCountGateSet++;
 		}
+		else if (strcmp(&aStrLine[0], "ENEMYSET") == 0)
+		{// 敵セット情報読み取り
+			ENEMYSETDATA* pData = &pBuffer->aInfoEnemySet[pBuffer->nCountEnemySet];
 
+			_Read_ENEMYSET(pFile, pData);
+
+			pBuffer->nCountEnemySet++;
+		}
 	}
 }
 
@@ -719,6 +729,7 @@ void _Read_MOVEBOXSET(FILE* pFile, MOVEBOXSETDATA* pBuffer)
 		}
 	}
 }
+
 //=====================================================================
 // [GATESET]読み込み処理
 //=====================================================================
@@ -773,5 +784,77 @@ void _Read_GATESET(FILE* pFile, GATESETDATA* pBuffer)
 			fscanf(pFile, " = %d", &pBuffer->bShadow);
 		}
 
+	}
+}
+
+//=====================================================================
+// [ENEMYSET]読み込み処理
+//=====================================================================
+void _Read_ENEMYSET(FILE* pFile, ENEMYSETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+	int nCountRoutineSet = 0;
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_ENEMYSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "SPEED") == 0)
+		{
+			fscanf(pFile, " = %f", &pBuffer->fSpeed);
+		}
+		else if (strcmp(&aStrLine[0], "ROUTINESET") == 0)
+		{
+			_Read_ROUTINESET(pFile, &pBuffer->routine[nCountRoutineSet]);
+			nCountRoutineSet++;
+		}
+	}
+}
+
+//=====================================================================
+// [ROUTINESET]読み込み処理
+//=====================================================================
+void _Read_ROUTINESET(FILE* pFile, ENEMY_ROUTINE* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_ROUTINESET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
+		}
+		else if (strcmp(&aStrLine[0], "WAIT") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nWait);
+		}
 	}
 }

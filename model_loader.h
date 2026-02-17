@@ -22,6 +22,8 @@
 #include "conveyer.h"
 #include "box_movable.h"
 #include "gate.h"
+#include "Enemy.h"
+
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -172,6 +174,16 @@ typedef struct
 }GATESETDATA;
 
 //*********************************************************************
+// ギミック配置情報構造体（敵）
+//*********************************************************************
+typedef struct
+{
+	float fSpeed;							// 移動速度
+	ENEMY_ROUTINE routine[MAX_ROUTINE];		// 行動ルーチン
+	bool bShadow;							// 影の有無
+}ENEMYSETDATA;
+
+//*********************************************************************
 // モデル配置情報構造体
 //*********************************************************************
 typedef struct
@@ -213,6 +225,9 @@ typedef struct
 
 	int nCountGateSet;
 	GATESETDATA aInfoGateSet[MAX_GATE];
+
+	int nCountEnemySet;
+	ENEMYSETDATA aInfoEnemySet[MAX_ENEMY];
 }MODELDATA;
 
 //*********************************************************************
