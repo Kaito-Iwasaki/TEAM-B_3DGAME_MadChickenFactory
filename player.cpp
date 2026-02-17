@@ -24,6 +24,8 @@
 #include"conveyer.h"
 #include"motion.h"
 #include"gate.h"
+#include"lift.h"
+
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
 #define MOVE_POS				(3.0f)						// 位置移動量
@@ -227,6 +229,9 @@ void UpdatePlayer(void)
 			}
 		}
 
+		// リフトとの当たり判定
+		CollisionLift();
+
 		// 目標の移動方向までの差分算出
 		fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
 
@@ -243,14 +248,15 @@ void UpdatePlayer(void)
 		if (g_Player[nCntPlayer].move.y == 0.0f)
 		{// 現在の着地している高さに影を設定
 
-			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f/*(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f*/, true);
+			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f, true);
 
 		}
 		else
 		{// y座標変更無し
 
-			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f/*(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f*/, false);
+			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, (g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f, false);
 		}
+
 		for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
 		{
 			PART* pPart = &g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart];
