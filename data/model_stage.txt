@@ -26,7 +26,7 @@ TEXTURE_FILENAME = data/TEXTURE/wiremesh.png		# [7]ワイヤーテクスチャ
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 18
+NUM_MODEL = 20
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -50,6 +50,7 @@ MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [15]換気扇			後々ギミッ
 MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [16]換気扇のプロペラ	後々ギミックとして使用
 MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [17]木箱				モデルとして使用
 MODEL_FILENAME = data/MODEL/Factory/gate.x						# [18]ゲート			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/humannurture.x				# [19]培養ポッド		モデルとして使用
 #------------------------------------------------------------------------------
 # ステージ1
 #------------------------------------------------------------------------------
@@ -423,7 +424,7 @@ WALLSET
 	ROT = 0 180 0
 	BLOCK = 1 2
 	SIZE = 2200 500
-END_WALLSET
+END_WALLSETs
 
 WALLSET
 	TEXTYPE = 3
@@ -444,12 +445,241 @@ FIELDSET
 	SIZE = 1100 1000
 END_FIELDSET
 
+#------------------------------------------------------------------------------
+# ステージ	迷路
+#------------------------------------------------------------------------------
+
 FIELDSET
-	TEXTYPE = 5
-	POS = 13050 400 200
+	TEXTYPE = 2
+	POS = 12525 450 50
+	ROT = 0 0 0
+	BLOCK = 3 1 
+	SIZE = 100 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 第1区間
+#------------------------------------------------------------------------------
+
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 12700 450 50
+	ROT = 0 0 0
+	BLOCK = 1 2 
+	SIZE = 50 150
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 12800 450 175
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 1300 50
+	SIZE = 150 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 12800 450 -75
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 150 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 第2区間 上
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 12900 450 175
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 50 190
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13000 450 245
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 150 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13000 450 105
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 150 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 第2区間 下
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 12900 450 -80
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 50 190
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13000 450 -10
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 150 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13000 450 -150
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 150 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 第3区間
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13100 450 75
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 50 500
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13200 450 300
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 150 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13200 450 -150
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 150 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 第4区間 上
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13300 450 300
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 50 350
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13500 450 150
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 350 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13500 450 450
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 350 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 第4区間 下
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13300 450 -150
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 50 350
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13375 450 0
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 100 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13375 450 -300
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 100 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 第5区間 上
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13450 450 0
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 50 200
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13590 450 75
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 230 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13590 450 -75
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 230 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ステージ	迷路 下	第5区間 下
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13450 450 -300
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 50 200
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13590 450 -225
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 230 50
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 2
+	POS = 13590 450 -375
+	ROT = 0 0 0
+	BLOCK = 1 1 
+	SIZE = 230 50
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -1171,6 +1401,44 @@ FIRESET
 END_FIRESET
 
 #----------------------------------------
+# 動かせる箱
+#----------------------------------------
+
+MOVEBOXSET
+ 	POS = 4900 0 845
+ 	ROT = 0 0 0
+ 	RANGE = -600 0 0
+ END_MOVEBOXSET
+
+MOVEBOXSET
+ 	POS = 8800 0 560
+ 	ROT = 0 0 0
+ 	RANGE = 0 0 740
+ END_MOVEBOXSET
+
+MOVEBOXSET
+ 	POS = 16100 0 1300
+ 	ROT = 0 0 0
+ 	RANGE = 1200 0 740
+ END_MOVEBOXSET
+
+#----------------------------------------
+# ゲート
+#----------------------------------------
+
+GATESET
+	POS = -700 0 0
+	ROT = 0 0 0
+	COLLISION = 1
+	IDX = 0
+	GOUP = 0
+	MOVEWIDTH = 300
+	STATE = 1
+	SHADOW = 0
+END_GATESET
+
+
+#----------------------------------------
 # プロンプト
 #----------------------------------------
 PROMPTSET
@@ -1185,12 +1453,12 @@ END_PROMPTSET
 #----------------------------------------
 # 血の付いたナイフ
 #----------------------------------------
-#MODELSET
+1MODELSET
 	TYPE = 0
-	POS = 1000 0 50
+	POS = 11900 0 50
 	ROT = 0 0 0
 	COLLISION = 0
-#END_MODELSET
+END_MODELSET
 
 #----------------------------------------
 # コンベア
@@ -1300,7 +1568,7 @@ END_MODELSET
 1MODELSET
 	TYPE = 8
 	POS = 4300 0 1000
-	ROT = 0 0 0
+	ROT = 0 0 0a
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
@@ -1352,23 +1620,7 @@ END_MODELSET
 #END_MODELSET
 
 #----------------------------------------
-# ゲート
-#----------------------------------------
-
-GATESET
-	TYPE = 18
-	POS = -700 0 0
-	ROT = 0 0 0
-	COLLISION = 1
-	IDX = 0
-	GOUP = 0
-	MOVEWIDTH = 300
-	STATE = 1
-	SHADOW = 0
-END_GATESET
-
-#----------------------------------------
-# 木箱
+# ステージ1の木箱
 #----------------------------------------
 MODELSET
 	TYPE = 17
@@ -1882,9 +2134,13 @@ MODELSET
 	SHADOW = 0
 END_MODELSET
 
+#----------------------------------------
+# ステージ2の木箱
+#----------------------------------------
+
 MODELSET
 	TYPE = 17
-	POS = 12100 0 0
+	POS = 12050 0 -355
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1892,7 +2148,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12100 0 200
+	POS = 12050 0 -85
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1900,7 +2156,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12100 0 400
+	POS = 12050 0 190
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1908,7 +2164,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12300 0 0
+	POS = 12050 0 400
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1916,7 +2172,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12300 0 200
+	POS = 12250 0 -355
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1924,7 +2180,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12300 0 400
+	POS = 12250 0 -85
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1932,7 +2188,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12300 200 0
+	POS = 12250 0 190
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1940,7 +2196,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12300 200 200
+	POS = 12250 0 400
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1948,7 +2204,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 12300 200 400
+	POS = 12250 200 -355
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1956,7 +2212,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 13800 0 0
+	POS = 12250 200 -85
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1964,7 +2220,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 13800 0 200
+	POS = 12250 200 190
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1972,7 +2228,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 13800 0 400
+	POS = 12250 200 400
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1980,7 +2236,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 14000 0 0
+	POS = 14000 0 -355
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1988,7 +2244,15 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 14000 0 200
+	POS = 14000 0 -85
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 14000 0 190
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -2004,7 +2268,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 14000 200 0
+	POS = 13800 0 -355
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -2012,7 +2276,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 14000 200 200
+	POS = 13800 0 -85
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
@@ -2020,33 +2284,152 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
-	POS = 14000 200 400
+	POS = 13800 0 190
 	ROT = 0 90 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 0 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 200 -355
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 200 -85
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 200 190
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 17
+	POS = 13800 200 400
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+# 培養ポッド
+#----------------------------------------
+
+MODELSET
+	TYPE = 19
+	POS = 12200 0 750
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 19
+	POS = 12600 0 750
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 19
+	POS = 13000 0 750
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 19
+	POS = 13400 0 750
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 19
+	POS = 13800 0 750
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+# ドナルド配置
+#----------------------------------------
+
+ENEMYSET
+	SPEED = 50.0
+	
+	ROUTINESET
+		POS = 100 0 500
+		ROT = 0 0 0
+		WAIT = 6
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 1000 0 500
+		ROT = 0 180 0
+		WAIT = 6
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 750 0 750
+		ROT = 0 180 0
+		WAIT = 6
+	END_ROUTINESET
+END_ENEMYSET
+
 
 ENEMYSET
 	SPEED = 10.0
 	
 	ROUTINESET
-		POS = 500 0 500
+		POS = 12425 0 500
 		ROT = 0 0 0
 		WAIT = 60
 	END_ROUTINESET
-	
+
 	ROUTINESET
-		POS = 500 0 1000
+		POS = 12425 0 -500
+		ROT = 0 0 0
+		WAIT = 60
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 13650 0 -500
 		ROT = 0 180 0
 		WAIT = 60
 	END_ROUTINESET
+
 	
 	ROUTINESET
-		POS = 750 0 750
+		POS = 13650 0 500
 		ROT = 0 180 0
 		WAIT = 60
 	END_ROUTINESET
 END_ENEMYSET
+
 
 
 END_SCRIPT		# この行は絶対消さないこと！
