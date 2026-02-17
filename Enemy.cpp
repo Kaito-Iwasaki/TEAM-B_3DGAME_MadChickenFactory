@@ -1,7 +1,7 @@
 //=====================================================================
 //
 // Enemy [Enemy.cpp]
-// Author : 
+// Author : Kaito Iwasaki
 // 
 //=====================================================================
 
@@ -113,7 +113,6 @@ void UpdateEnemy(void)
 		if (pEnemy->bUse == false) continue;
 
 		Player* pPlayer = GetPlayer();
-		Player* pTarget = NULL;
 
 		pEnemy->previousState = pEnemy->currentState;
 
@@ -136,7 +135,7 @@ void UpdateEnemy(void)
 				_SetEnemyState(nCountEnemy, ENEMYSTATE_FOUND);
 
 				// ゲームオーバー処理
-				SetFade(MODE_GAME);
+				//SetFade(MODE_GAME);
 			}
 		}
 
@@ -321,7 +320,7 @@ void _OnEnemyState(int nIdx)
 	{
 		// プレイヤーの向きを指定方向へ向ける
 		float fRotDiff = GetFixedRotation(pEnemy->rotMove.y - pEnemy->rot.y);
-		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.1f);
+		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.035f);
 
 		if (pEnemy->nCounterState > pRoutine->nWait)
 		{// 待機時間終了→
@@ -345,7 +344,7 @@ void _OnEnemyState(int nIdx)
 
 		// 敵の向きを移動方向へ向ける
 		float fRotDiff = GetFixedRotation(pEnemy->rotMove.y - pEnemy->rot.y);
-		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.025f);
+		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.035f);
 
 		if (Magnitude(pEnemy->pos, pEnemy->destination) < pEnemy->fSpeed)
 		{// 目的地との距離が一定以下になったら
@@ -367,8 +366,10 @@ void _OnEnemyState(int nIdx)
 		pEnemy->pos += Normalize(vToPlr) * pEnemy->fSpeed;
 
 		// 敵をターゲットの方向に向ける
+		pEnemy->rotMove.y = GetFixedRotation(atan2f(vToPlr.x, vToPlr.z) + D3DX_PI);
+
 		float fRotDiff = GetFixedRotation(pEnemy->rotMove.y - pEnemy->rot.y);
-		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.025f);
+		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.035f);
 
 		break;
 	}
@@ -412,10 +413,6 @@ void _OnEnemyStateChanged(int nIdx)
 	case ENEMYSTATE_FOUND:
 		// モーション設定（移動）
 		SetMotion(&pEnemy->motion, ENEMY_MOTIONTYPE_MOVE, 10);
-		
-		// 方向をプレイヤーの位置へ向ける
-		D3DXVECTOR3 vToPlr = pTarget->pos - pEnemy->pos;
-		pEnemy->rotMove.y = GetFixedRotation(atan2f(vToPlr.x, vToPlr.z) + D3DX_PI);
 		break;
 	}
 }
