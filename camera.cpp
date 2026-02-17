@@ -1,7 +1,7 @@
 //=====================================================================
 //
 // Camera [Camera.cpp]
-// Author : 
+// Author : Kaito Iwasaki
 // 
 //=====================================================================
 
@@ -81,6 +81,7 @@ void InitCamera(void)
 	g_camera[CAMERATYPE_GAME].viewport.MinZ = 0.0f;
 	g_camera[CAMERATYPE_GAME].viewport.MaxZ = 1.0f;
 	g_camera[CAMERATYPE_GAME].mode = CAMERAMODE_NONE;
+	g_camera[CAMERATYPE_GAME].nCountState = 0;
 }
 
 //=====================================================================
@@ -105,6 +106,7 @@ void UpdateCamera(void)
 		break;
 
 	case CAMERAMODE_SIDEVIEW:	// サイドビュー
+	{
 		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
 		SetCameraPosR(0, pPlayer->pos);
 
@@ -114,7 +116,16 @@ void UpdateCamera(void)
 		// カメラをオフセット分ずらす
 		MoveCamera(0, pCamera->offset);
 
+		// カメラの手振れ効果
+		D3DXVECTOR3 vShakeOffset = D3DXVECTOR3(
+			sinf((float)(pCamera->nCountState * 0.005f * 1.0f)) * 10.0f,
+			cosf((float)(pCamera->nCountState * 0.005f * 3.0f)) * 10.0f,
+			0
+		);
+		MoveCamera(0, vShakeOffset);
+
 		break;
+	}
 
 	case CAMERAMODE_SIDEVIEW2P:	// サイドビュー（2P）
 	{
@@ -173,6 +184,8 @@ void UpdateCamera(void)
 	}
 		break;
 	}
+
+	pCamera->nCountState++;
 }
 
 //=====================================================================

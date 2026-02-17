@@ -1,7 +1,7 @@
 //=====================================================================
 //
 // Camera.cppのヘッダファイル [Camera.h]
-// Author : 
+// Author : Kaito Iwasaki
 // 
 //=====================================================================
 #ifndef _Camera_H_
@@ -65,6 +65,7 @@ typedef struct CAMERA
 	D3DXMATRIX mtxProjection;	// プロジェクションマトリックス（投影行列）
 	D3DXMATRIX mtxView;			// ビューマトリックス
 	D3DVIEWPORT9 viewport;
+	int nCountState;
 };
 
 //*********************************************************************
