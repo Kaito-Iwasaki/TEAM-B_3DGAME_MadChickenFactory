@@ -25,9 +25,10 @@
 // 
 //*********************************************************************
 #define ENEMY_MOTION_FILENAME			"data\\motion_donald.txt"
-#define ENEMY_MAX_SIGHT_DISTANCE		(400)								// “G‚ÌŽ‹ŠE‹——£
+#define ENEMY_MAX_SIGHT_DISTANCE		(600)								// “G‚ÌŽ‹ŠE‹——£
 #define ENEMY_MAX_SIGHT_DISTANCE_Y		(150)								// “G‚ÌŽ‹ŠE‹——£icj
-#define ENEMY_MAX_SIGHT_ANGLE			(0.3f)								// “G‚ÌŽ‹–ìŠp
+#define ENEMY_MAX_SIGHT_ANGLE			(90.0f)								// “G‚ÌŽ‹–ìŠp
+#define ENEMY_SIGHT_NUM_SEGMENT			(16)								// “G‚ÌŽ‹–ìŠp•\Ž¦‚ÌÚ×“xi’¸“_‚Ì•ªŠ„”j
 
 //*********************************************************************
 // 
@@ -58,6 +59,7 @@ void _OnEnemyStateChanged(int nIdx);
 // 
 //*********************************************************************
 ENEMY g_aEnemy[MAX_ENEMY];
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffEnemySight = NULL;
 
 //=====================================================================
 // ‰Šú‰»ˆ—
@@ -71,6 +73,15 @@ void InitEnemy(void)
 		ZeroMemory(pEnemy, sizeof(ENEMY));
 		InitMotion(&pEnemy->motion, ENEMY_MOTION_FILENAME);
 	}
+
+	GetDevice()->CreateVertexBuffer(
+		sizeof(VERTEX_3D) * MAX_ENEMY * (ENEMY_SIGHT_NUM_SEGMENT + 1),
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffEnemySight,
+		NULL
+	);
 }
 
 //=====================================================================
@@ -85,6 +96,8 @@ void UninitEnemy(void)
 		UninitMotion(&pEnemy->motion);
 		pEnemy->nIdxShadow = -1;
 	}
+
+	RELEASE(g_pVtxBuffEnemySight);
 }
 
 //=====================================================================
@@ -93,6 +106,7 @@ void UninitEnemy(void)
 void UpdateEnemy(void)
 {
 	ENEMY* pEnemy = &g_aEnemy[0];
+	int Enemy;
 
 	for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++, pEnemy++)
 	{
@@ -103,6 +117,7 @@ void UpdateEnemy(void)
 
 		pEnemy->previousState = pEnemy->currentState;
 
+
 		for (int nCountPlayer = 0; nCountPlayer < MAX_PLAYER; nCountPlayer++, pPlayer++)
 		{
 			D3DXVECTOR3 vSight = D3DXVECTOR3(sinf(pEnemy->rot.y + D3DX_PI), 0, cosf(pEnemy->rot.y + D3DX_PI));
@@ -111,7 +126,7 @@ void UpdateEnemy(void)
 			if (
 				Magnitude(vToPlr) < ENEMY_MAX_SIGHT_DISTANCE		// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ª”ÍˆÍ“à‚©‚Â
 				&& fabsf(vToPlr.y) < ENEMY_MAX_SIGHT_DISTANCE_Y		// Ž‹–ìŠp‚Ì“à‘¤‚É‚¢‚é
-				&& DotProduct(vSight, Normalize(vToPlr)) >= 1.0f - ENEMY_MAX_SIGHT_ANGLE
+				&& acosf(DotProduct(vSight, Normalize(vToPlr))) <= RAD(ENEMY_MAX_SIGHT_ANGLE) * 0.5f
 				)
 			{
 				// ƒ^[ƒQƒbƒg‚ðƒvƒŒƒCƒ„[‚ÉÝ’è
@@ -150,13 +165,50 @@ void DrawEnemy(void)
 	ENEMY* pEnemy = &g_aEnemy[0];
 	D3DXMATRIX mtxRot, mtxTrans;
 	D3DMATERIAL9 matDef;
+	D3DXMATRIX mtxWorldSight;
 
 	// Œ»Ý‚Ìƒ}ƒeƒŠƒAƒ‹ƒf[ƒ^‚ðŽæ“¾
 	pDevice->GetMaterial(&matDef);
 
+	VERTEX_3D* pVtx;
+
+	D3DXMATERIAL pMatSight;
+	
+	g_pVtxBuffEnemySight->Lock(0, 0, (void**)&pVtx, 0);
+
+	float fAngleStart = -RAD(ENEMY_MAX_SIGHT_ANGLE) * 0.5f;
+	float fAngleGap = RAD(ENEMY_MAX_SIGHT_ANGLE) / (float)(ENEMY_SIGHT_NUM_SEGMENT - 1);
+
+	for (int nCountVtx = 0; nCountVtx < ENEMY_SIGHT_NUM_SEGMENT + 1; nCountVtx++, pVtx++)
+	{
+		if (nCountVtx == 0)
+		{
+			pVtx->pos = D3DXVECTOR3_ZERO;
+		}
+		else
+		{
+			pVtx->pos = D3DXVECTOR3(-sinf(fAngleStart + fAngleGap * (nCountVtx - 1)), 0.001f, -cosf(fAngleStart + fAngleGap * (nCountVtx - 1))) * ENEMY_MAX_SIGHT_DISTANCE;
+		}
+
+		pVtx->nor = D3DXVECTOR3_UP;
+		pVtx->col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.35f);
+	}
+
+	g_pVtxBuffEnemySight->Unlock();
+
 	for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++, pEnemy++)
 	{
 		if (pEnemy->bUse == false) continue;
+
+		pDevice->SetStreamSource(0, g_pVtxBuffEnemySight, 0, sizeof(VERTEX_3D));
+		pDevice->SetFVF(FVF_VERTEX_3D);
+
+		MatrixRotationPosition(&mtxWorldSight, pEnemy->rot, pEnemy->pos);
+		pDevice->SetTransform(D3DTS_WORLD, &mtxWorldSight);
+
+		//pDevice->SetMaterial(&pMatSight.MatD3D);
+		pDevice->SetTexture(0, NULL);
+		pDevice->DrawPrimitive(D3DPT_TRIANGLEFAN, nCountEnemy * (ENEMY_SIGHT_NUM_SEGMENT + 1), ENEMY_SIGHT_NUM_SEGMENT - 1);
 
 		// ƒvƒŒƒCƒ„[‚Ìƒ}ƒgƒŠƒbƒNƒX‚ðÝ’è
 		MatrixRotationPosition(&pEnemy->mtxWorld, pEnemy->rot, pEnemy->pos);
