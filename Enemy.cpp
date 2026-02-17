@@ -16,6 +16,7 @@
 #include "player.h"
 #include "DebugProc.h"
 #include "shadow.h"
+#include "fade.h"
 
 //*********************************************************************
 // 
@@ -46,7 +47,9 @@
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-
+void _SetEnemyState(int nIdx, ENEMYSTATE newState);
+void _OnEnemyState(int nIdx);
+void _OnEnemyStateChanged(int nIdx);
 
 //*********************************************************************
 // 
@@ -67,7 +70,6 @@ void InitEnemy(void)
 		ZeroMemory(pEnemy, sizeof(ENEMY));
 		InitMotion(&pEnemy->motion, ENEMY_MOTION_FILENAME);
 	}
-	
 }
 
 //=====================================================================
@@ -96,6 +98,9 @@ void UpdateEnemy(void)
 		if (pEnemy->bUse == false) continue;
 
 		Player* pPlayer = GetPlayer();
+		Player* pTarget = NULL;
+
+		pEnemy->previousState = pEnemy->currentState;
 
 		for (int nCountPlayer = 0; nCountPlayer < MAX_PLAYER; nCountPlayer++, pPlayer++)
 		{
@@ -108,11 +113,22 @@ void UpdateEnemy(void)
 				&& DotProduct(vSight, Normalize(vToPlr)) >= 1.0f - ENEMY_MAX_SIGHT_ANGLE
 				)
 			{
-				PrintDebugProc("プレイヤー[%d]がサンダーズ(%d)の視界内に入っています！\n", nCountPlayer, nCountEnemy	);
+				PrintDebugProc("プレイヤー[%d]がサンダーズ(%d)の視界内に入っています！\n", nCountPlayer, nCountEnemy);
+				pEnemy->nTarget = nCountPlayer;
+				_SetEnemyState(nCountEnemy, ENEMYSTATE_FOUND);
+				SetFade(MODE_GAME);
 			}
 		}
 
+		_OnEnemyState(nCountEnemy);
+
+		if (pEnemy->currentState != pEnemy->previousState)
+		{// 状態遷移処理
+			_OnEnemyStateChanged(nCountEnemy);
+		}
+
 		UpdateMotion(&pEnemy->motion);
+		SetPositionShadow(pEnemy->nIdxShadow, pEnemy->pos, 0);
 	}
 }
 
@@ -189,7 +205,7 @@ void DrawEnemy(void)
 //=====================================================================
 // 敵設定処理
 //=====================================================================
-void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRoutine)
 {
 	ENEMY* pEnemy = &g_aEnemy[0];
 
@@ -200,7 +216,146 @@ void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		pEnemy->bUse = true;
 		pEnemy->pos = pos;
 		pEnemy->rot = rot;
+		pEnemy->fSpeed = fSpeed;
 		pEnemy->nIdxShadow = SetShadow(pEnemy->pos, 50);
+
+		if (pRoutine != NULL)
+		{
+			memcpy(&pEnemy->routine[0], pRoutine, sizeof(pEnemy->routine));
+
+			for (int i = 0; i < MAX_ROUTINE; i++, pRoutine++)
+			{
+				if (pRoutine->nWait <= 0)
+				{
+					break;
+				}
+				pEnemy->nMaxRoutine++;
+			}
+		}
+
+		break;
+	}
+}
+
+void _SetEnemyState(int nIdx, ENEMYSTATE newState)
+{
+	ENEMY* pEnemy = &g_aEnemy[nIdx];
+
+	pEnemy->currentState = newState;
+	pEnemy->nCounterState = 0;
+}
+
+void _OnEnemyState(int nIdx)
+{
+	ENEMY* pEnemy = &g_aEnemy[nIdx];
+	Player* pPlayer = GetPlayer();
+	Player* pTarget = &pPlayer[pEnemy->nTarget];
+	ENEMY_ROUTINE* pRoutine = &pEnemy->routine[pEnemy->nCurrentRoutine];
+
+	PrintDebugProc("%f\n", pEnemy->rot.y);
+
+	// 状態別の処理
+	switch (pEnemy->currentState)
+	{
+	case ENEMYSTATE_WAIT:		// 待機状態
+	{
+		// プレイヤーの向きを指定方向へ向ける
+		float fRotDiff = GetFixedRotation(pEnemy->rotMove.y - pEnemy->rot.y);
+		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.1f);
+
+		if (pEnemy->nCounterState > pRoutine->nWait)
+		{// 待機時間終了→
+			// 次のルーチンを設定
+			pEnemy->nCurrentRoutine = (pEnemy->nCurrentRoutine + 1) % pEnemy->nMaxRoutine;
+			pRoutine = &pEnemy->routine[pEnemy->nCurrentRoutine];
+
+			// 移動先の設定
+			pEnemy->destination = pRoutine->pos;
+
+			// 移動状態へ遷移
+			_SetEnemyState(nIdx, ENEMYSTATE_MOVE);
+		}
+		break;
+	}
+
+	case ENEMYSTATE_MOVE:		// 移動状態
+	{
+		// 敵を目的地に近づける
+		pEnemy->pos += Direction(pEnemy->pos, pEnemy->destination) * pEnemy->fSpeed;
+
+		// 敵の向きを移動方向へ向ける
+		float fRotDiff = GetFixedRotation(pEnemy->rotMove.y - pEnemy->rot.y);
+		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.025f);
+
+		if (Magnitude(pEnemy->pos, pEnemy->destination) < pEnemy->fSpeed)
+		{// 目的地との距離が一定以下になったら
+			// 敵の位置を目的地に設定
+			pEnemy->pos = pEnemy->destination;
+
+			// 待機状態へ遷移
+			_SetEnemyState(nIdx, ENEMYSTATE_WAIT);
+		}
+		break;
+	}
+
+	case ENEMYSTATE_TURNING:	// 回転状態
+		break;
+
+	case ENEMYSTATE_FOUND:		// 発見状態
+		// 敵をターゲット（発見したプレイヤー）の位置へ近づける
+		D3DXVECTOR3 vToPlr = pTarget->pos - pEnemy->pos;
+		pEnemy->pos += Normalize(vToPlr) * pEnemy->fSpeed;
+
+		// 敵をターゲットの方向に向ける
+		pEnemy->rot += (pEnemy->rotMove - pEnemy->rot) * 0.1f;
+		pEnemy->rot = GetFixedRotation(pEnemy->rot);
+
+		break;
+	}
+
+	pEnemy->nCounterState++;
+}
+
+void _OnEnemyStateChanged(int nIdx)
+{
+	ENEMY* pEnemy = &g_aEnemy[nIdx];
+	Player* pTarget = &GetPlayer()[pEnemy->nTarget];
+
+	// 状態遷移時の処理
+	switch (pEnemy->currentState)
+	{
+	case ENEMYSTATE_WAIT:
+		// モーション設定（待機）
+		SetMotion(&pEnemy->motion, ENEMY_MOTIONTYPE_IDLE, 10);
+
+		// 方向を指定された向きに設定
+  		pEnemy->rotMove.y = pEnemy->routine[pEnemy->nCurrentRoutine].rot.y;
+
+		break;
+
+	case ENEMYSTATE_MOVE:
+	{
+		// モーション設定（移動）
+		SetMotion(&pEnemy->motion, ENEMY_MOTIONTYPE_MOVE, 10);
+
+		// 方向を移動先に向ける
+		D3DXVECTOR3 vecMove = pEnemy->destination - pEnemy->pos;
+		pEnemy->rotMove.y = GetFixedRotation(atan2f(vecMove.x, vecMove.z) + D3DX_PI);
+	}
+		break;
+
+	case ENEMYSTATE_TURNING:
+		//SetMotion(&pEnemy->motion, ENEMY_MOTIONTYPE_IDLE, 10);
+		//pEnemy->rotMove.y = GetFixedRotation(pEnemy->rotMove.y - pEnemy[pEnemy->nCurrentRoutine].rot.y);
+		break;
+
+	case ENEMYSTATE_FOUND:
+		// モーション設定（移動）
+		SetMotion(&pEnemy->motion, ENEMY_MOTIONTYPE_MOVE, 10);
+		
+		// 方向をプレイヤーの位置へ向ける
+		D3DXVECTOR3 vToPlr = pTarget->pos - pEnemy->pos;
+		pEnemy->rotMove.y = GetFixedRotation(atan2f(vToPlr.x, vToPlr.z) + D3DX_PI);
 		break;
 	}
 }
