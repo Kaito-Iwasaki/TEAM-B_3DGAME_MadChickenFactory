@@ -196,7 +196,7 @@ HRESULT InitSound(HWND hWnd)
 		buffer.LoopCount  = g_aSoundInfo[nCntSound].nCntLoop;
 
 		// オーディオバッファの登録
-		g_apSourceVoice[nCntSound]->SubmitSourceBuffer(&buffer);
+		//g_apSourceVoice[nCntSound]->SubmitSourceBuffer(&buffer);
 
 		// ファイルをクローズ
 		CloseHandle(hFile);
