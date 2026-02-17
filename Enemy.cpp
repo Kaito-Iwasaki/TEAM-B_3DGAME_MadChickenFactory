@@ -367,8 +367,8 @@ void _OnEnemyState(int nIdx)
 		pEnemy->pos += Normalize(vToPlr) * pEnemy->fSpeed;
 
 		// “G‚ðƒ^[ƒQƒbƒg‚Ì•ûŒü‚ÉŒü‚¯‚é
-		pEnemy->rot += (pEnemy->rotMove - pEnemy->rot) * 0.1f;
-		pEnemy->rot = GetFixedRotation(pEnemy->rot);
+		float fRotDiff = GetFixedRotation(pEnemy->rotMove.y - pEnemy->rot.y);
+		pEnemy->rot.y = GetFixedRotation(pEnemy->rot.y + fRotDiff * 0.025f);
 
 		break;
 	}
