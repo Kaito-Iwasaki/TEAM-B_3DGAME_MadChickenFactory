@@ -199,7 +199,7 @@ void DrawField(void)
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
 		// テクスチャの設定
-		pDevice->SetTexture(0, pTexture[g_aField->nTxtype]);
+		pDevice->SetTexture(0, pTexture[g_aField[nCountField].nTxtype]);
 
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
