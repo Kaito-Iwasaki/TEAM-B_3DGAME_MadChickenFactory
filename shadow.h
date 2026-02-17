@@ -16,6 +16,7 @@ typedef struct
 	D3DXVECTOR3 rot;		// 角度
 	D3DXMATRIX mtxWorld;	// ワールドマトリックス
 	float fWidth;			// 幅
+	float fOffsetWidth;		// 初期幅
 	bool bUse;				// 使用しているかどうか
 
 }Shadow;

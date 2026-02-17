@@ -328,7 +328,6 @@ void DrawGame(void)
 
 	DrawPlayer();			// プレイヤー
 	DrawField();			// フィールド
-	DrawShadow();			// 影
 	DrawWall();				// 壁
 	//DrawMeshCylinder();		// メッシュシリンダー
 	DrawTimer();			// タイマー
@@ -343,6 +342,7 @@ void DrawGame(void)
 	DrawLift();				// リフト
 	DrawEnemy();			// 敵
 	DrawEffect();			// エフェクト
+	DrawShadow();			// 影
 
 	// フォグを無効化
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, bLastFogState);

@@ -56,6 +56,7 @@ void InitShadow(void)
 		g_aShadow[nCntShadow].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 位置初期化
 		g_aShadow[nCntShadow].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き初期化
 		g_aShadow[nCntShadow].fWidth = 0.0f;							// 幅初期化
+		g_aShadow[nCntShadow].fOffsetWidth = 0.0f;						// 初期幅初期化
 		g_aShadow[nCntShadow].bUse = false;								// 使用していない状態にする
 	}
 
@@ -219,10 +220,11 @@ int SetShadow(D3DXVECTOR3 pos, float fWidth)
 		if (g_aShadow[nCntShadow].bUse == false)
 		{// 使用していない
 
-			g_aShadow[nCntShadow].pos = pos;		// 位置
-			g_aShadow[nCntShadow].fWidth = fWidth;	// 幅
-			nShadowNumber = nCntShadow;				// 番号取得
-			g_aShadow[nCntShadow].bUse = true;		// 使用している状態にする
+			g_aShadow[nCntShadow].pos = pos;					// 位置
+			g_aShadow[nCntShadow].fWidth = fWidth;				// 幅
+			g_aShadow[nCntShadow].fOffsetWidth = fWidth;		// 初期幅
+			nShadowNumber = nCntShadow;							// 番号取得
+			g_aShadow[nCntShadow].bUse = true;					// 使用している状態にする
 		
 			// 頂点座標の設定
 			pVtx[0].pos = D3DXVECTOR3(-g_aShadow[nShadowNumber].fWidth / 2.0f, 0.0f, g_aShadow[nShadowNumber].fWidth / 2.0f);
@@ -257,14 +259,15 @@ void SetPositionShadow(int nIdxShadow, D3DXVECTOR3 pos, float fAddWidth, bool bC
 		g_aShadow[nIdxShadow].pos.x = pos.x;
 		g_aShadow[nIdxShadow].pos.z = pos.z;
 
-		if (bChange == true)
-		{// 高さ変更
-
-			g_aShadow[nIdxShadow].pos.y = pos.y + 5.0f;
-		}
-
 		// 影の大きさ更新
 		g_aShadow[nIdxShadow].fWidth += fAddWidth;
+
+		if (bChange == true)
+		{// 高さ、幅変更
+
+			g_aShadow[nIdxShadow].pos.y = pos.y + 5.0f;								// 高さ設定
+			g_aShadow[nIdxShadow].fWidth = g_aShadow[nIdxShadow].fOffsetWidth;		// 幅設定
+		}
 
 		// 頂点バッファをロックし、頂点情報へのポインタ取得
 		g_pVtxBuffShadow->Lock(0, 0, (void**)&pVtx, 0);
