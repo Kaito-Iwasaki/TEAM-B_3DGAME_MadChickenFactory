@@ -229,7 +229,7 @@ int SetShadow(D3DXVECTOR3 pos, float fWidth)
 //=======================================================
 // 影の位置設定処理
 //=======================================================
-void SetPositionShadow(int nIdxShadow, D3DXVECTOR3 pos, float fAddWidth)
+void SetPositionShadow(int nIdxShadow, D3DXVECTOR3 pos, float fAddWidth, bool bChange)
 {
 	VERTEX_3D* pVtx;				// 頂点情報へのポインタ
 
@@ -238,6 +238,12 @@ void SetPositionShadow(int nIdxShadow, D3DXVECTOR3 pos, float fAddWidth)
 		// 位置更新
 		g_aShadow[nIdxShadow].pos.x = pos.x;
 		g_aShadow[nIdxShadow].pos.z = pos.z;
+
+		if (bChange == true)
+		{// 高さ変更
+
+			g_aShadow[nIdxShadow].pos.y = pos.y + 5.0f;
+		}
 
 		// 影の大きさ更新
 		g_aShadow[nIdxShadow].fWidth += fAddWidth;

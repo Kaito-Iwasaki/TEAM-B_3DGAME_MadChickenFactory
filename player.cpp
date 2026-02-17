@@ -240,8 +240,17 @@ void UpdatePlayer(void)
 		g_Player[nCntPlayer].rot.y = GetFixedRotation(g_Player[nCntPlayer].rot.y);
 
 		// 影の位置を設定(更新)
-		SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f/*(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f*/);
+		if (g_Player[nCntPlayer].move.y == 0.0f)
+		{// 現在の着地している高さに影を設定
 
+			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f/*(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f*/, true);
+
+		}
+		else
+		{// y座標変更無し
+
+			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f/*(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f*/, false);
+		}
 		for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
 		{
 			PART* pPart = &g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart];
