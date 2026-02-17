@@ -352,7 +352,9 @@ void DrawGame(void)
 	DrawVignette();			// ビネット
 	DrawPause();			// ポーズ
 
-	SetTimer(D3DXVECTOR3(700.0f, 200.0f, 400.0f), 300, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+	SetTimer(D3DXVECTOR3(1700.0f, 600.0f, 2240.0f),  D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+
+	SetTimerCount(20);
 }
 
 void ReloadGame(void)

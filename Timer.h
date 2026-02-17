@@ -39,9 +39,9 @@ typedef struct
 	D3DXCOLOR col;				//タイマーの色
 	int Fream;				//タイマーのフレーム
 	int CountTimer;				//タイマーが1秒減る
-	D3DXVECTOR3 size;			//タイマー数字のサイズ
 	D3DXMATRIX mtxWorld;		// ワールドマトリックス
 	bool bUse;					//使用されているかどうか
+	bool bTimer;				//時間設定したかどうか
 }Timer;
 
 //*********************************************************************
@@ -53,8 +53,9 @@ void InitTimer(void);
 void UninitTimer(void);
 void UpdateTimer(void);
 void DrawTimer(void);
-void SetTimer(D3DXVECTOR3 pos , int CountTimer , D3DXCOLOR col);
+void SetTimer(D3DXVECTOR3 pos ,D3DXCOLOR col );
 void AddTimer(int nValue);
 void DownTimer(int nDown);
+void SetTimerCount(int nTimer);
 int GetTimer (void);
 #endif
