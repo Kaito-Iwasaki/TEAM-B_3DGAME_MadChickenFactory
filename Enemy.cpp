@@ -113,13 +113,18 @@ void UpdateEnemy(void)
 				&& DotProduct(vSight, Normalize(vToPlr)) >= 1.0f - ENEMY_MAX_SIGHT_ANGLE
 				)
 			{
-				PrintDebugProc("プレイヤー[%d]がサンダーズ(%d)の視界内に入っています！\n", nCountPlayer, nCountEnemy);
+				// ターゲットをプレイヤーに設定
 				pEnemy->nTarget = nCountPlayer;
+
+				// 発見状態に遷移
 				_SetEnemyState(nCountEnemy, ENEMYSTATE_FOUND);
+
+				// ゲームオーバー処理
 				SetFade(MODE_GAME);
 			}
 		}
 
+		// 状態別処理
 		_OnEnemyState(nCountEnemy);
 
 		if (pEnemy->currentState != pEnemy->previousState)
@@ -127,8 +132,11 @@ void UpdateEnemy(void)
 			_OnEnemyStateChanged(nCountEnemy);
 		}
 
+		// モーション更新
 		UpdateMotion(&pEnemy->motion);
-		SetPositionShadow(pEnemy->nIdxShadow, pEnemy->pos, 0);
+
+		// 影位置の更新
+		SetPositionShadow(pEnemy->nIdxShadow, pEnemy->pos, 0, true);
 	}
 }
 
@@ -217,7 +225,7 @@ void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRo
 		pEnemy->pos = pos;
 		pEnemy->rot = rot;
 		pEnemy->fSpeed = fSpeed;
-		pEnemy->nIdxShadow = SetShadow(pEnemy->pos, 50);
+		pEnemy->nIdxShadow = SetShadow(pEnemy->pos, 100);
 
 		if (pRoutine != NULL)
 		{
@@ -251,8 +259,6 @@ void _OnEnemyState(int nIdx)
 	Player* pPlayer = GetPlayer();
 	Player* pTarget = &pPlayer[pEnemy->nTarget];
 	ENEMY_ROUTINE* pRoutine = &pEnemy->routine[pEnemy->nCurrentRoutine];
-
-	PrintDebugProc("%f\n", pEnemy->rot.y);
 
 	// 状態別の処理
 	switch (pEnemy->currentState)
