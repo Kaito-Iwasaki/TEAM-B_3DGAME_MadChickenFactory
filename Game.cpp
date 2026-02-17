@@ -72,7 +72,7 @@
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-
+void _DebugDisplay();
 
 //*********************************************************************
 // 
@@ -81,6 +81,7 @@
 //*********************************************************************
 MODELDATA g_modelDataGame;
 bool g_bLightGame = false;
+bool g_bFogGame = false;
 
 //=====================================================================
 // 初期化処理
@@ -219,9 +220,10 @@ void InitGame(void)
 
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
-	GetCamera(0)->mode = CAMERAMODE_SIDEVIEW;
+	GetCamera(0)->mode = CAMERAMODE_FREE;
 
 	g_bLightGame = true;
+	g_bFogGame = true;
 }
 
 //=====================================================================
@@ -262,9 +264,6 @@ void UninitGame(void)
 //=====================================================================
 void UpdateGame(void)
 {
-	// デバッグ表示
-	PrintDebugProc("ゲーム画面\n");
-
 	// 各オブジェクトの更新処理
 	if (GetPause() == false)
 	{//ポーズでない
@@ -297,21 +296,8 @@ void UpdateGame(void)
 		UpdateVignette();		// ビネット
 		UpdateEnemy();			// 敵
 
-#ifdef  _DEBUG
 		// デバッグ表示
-		Player* pPlayer = GetPlayer();
-
-		PrintDebugProc("ライト切り替え:[F1]\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
-		if (GetKeyboardTrigger(DIK_F1))
-		{
-			g_bLightGame = !g_bLightGame;
-			GetDevice()->SetRenderState(D3DRS_LIGHTING, (DWORD)g_bLightGame);
-		}
-
-		PrintDebugProc("位置[0]：%f, %f, %f\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
-		PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[1].pos.x, pPlayer[1].pos.y, pPlayer[1].pos.z);
-#endif //  _DEBUG
-
+		_DebugDisplay();
 	}
 	else
 	{//ポーズ中
@@ -324,6 +310,8 @@ void UpdateGame(void)
 //=====================================================================
 void DrawGame(void)
 {
+	bool bLastFogState = g_bFogGame;
+
 	// ゲームカメラの設定
 	SetCamera(CAMERATYPE_GAME);
 
@@ -331,7 +319,7 @@ void DrawGame(void)
 	// [3D]
 
 	// フォグを有効化
-	GetDevice()->SetRenderState(D3DRS_FOGENABLE, TRUE);
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, g_bFogGame);
 
 	DrawPlayer();			// プレイヤー
 	DrawField();			// フィールド
@@ -352,7 +340,7 @@ void DrawGame(void)
 	DrawEffect();			// エフェクト
 
 	// フォグを無効化
-	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, bLastFogState);
 
 	// [2D]
 	DrawPrompt();			// プロンプト
@@ -499,4 +487,29 @@ void ReloadGame(void)
 
 		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
 	}
+}
+
+void _DebugDisplay(void)
+{
+#ifdef  _DEBUG
+	// デバッグ表示
+	Player* pPlayer = GetPlayer();
+
+	PrintDebugProc("ゲーム画面\n");
+	PrintDebugProc("ライト切り替え:[F1]\n");
+	if (GetKeyboardTrigger(DIK_F1))
+	{
+		g_bLightGame = !g_bLightGame;
+		GetDevice()->SetRenderState(D3DRS_LIGHTING, (DWORD)g_bLightGame);
+	}
+
+	PrintDebugProc("フォグ切り替え:[F2]\n");
+	if (GetKeyboardTrigger(DIK_F2))
+	{
+		g_bFogGame = !g_bFogGame;
+	}
+
+	PrintDebugProc("位置[0]：%f, %f, %f\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
+	PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[1].pos.x, pPlayer[1].pos.y, pPlayer[1].pos.z);
+#endif //  _DEBUG
 }
