@@ -454,7 +454,7 @@ FIELDSET
 	POS = 12525 450 50
 	ROT = 0 0 0
 	BLOCK = 3 1 
-	SIZE = 100 50
+	SIZE = 100 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -467,7 +467,7 @@ FIELDSET
 	POS = 12700 450 50
 	ROT = 0 0 0
 	BLOCK = 1 2 
-	SIZE = 50 150
+	SIZE = 100 150
 END_FIELDSET
 
 FIELDSET
@@ -475,7 +475,7 @@ FIELDSET
 	POS = 12800 450 175
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 FIELDSET
@@ -483,7 +483,7 @@ FIELDSET
 	POS = 12800 450 -75
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -495,7 +495,7 @@ FIELDSET
 	POS = 12900 450 175
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 50 190
+	SIZE = 100 190
 END_FIELDSET
 
 FIELDSET
@@ -503,7 +503,7 @@ FIELDSET
 	POS = 13000 450 245
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 FIELDSET
@@ -511,7 +511,7 @@ FIELDSET
 	POS = 13000 450 105
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -523,7 +523,7 @@ FIELDSET
 	POS = 12900 450 -80
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 50 190
+	SIZE = 100 190
 END_FIELDSET
 
 FIELDSET
@@ -531,7 +531,7 @@ FIELDSET
 	POS = 13000 450 -10
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 FIELDSET
@@ -539,7 +539,7 @@ FIELDSET
 	POS = 13000 450 -150
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -551,7 +551,7 @@ FIELDSET
 	POS = 13100 450 75
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 50 500
+	SIZE = 100 500
 END_FIELDSET
 
 FIELDSET
@@ -559,7 +559,7 @@ FIELDSET
 	POS = 13200 450 300
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 FIELDSET
@@ -567,7 +567,7 @@ FIELDSET
 	POS = 13200 450 -150
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 50
+	SIZE = 150 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -579,7 +579,7 @@ FIELDSET
 	POS = 13300 450 300
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 50 350
+	SIZE = 100 350
 END_FIELDSET
 
 FIELDSET
@@ -587,7 +587,7 @@ FIELDSET
 	POS = 13500 450 150
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 350 50
+	SIZE = 350 100
 END_FIELDSET
 
 FIELDSET
@@ -595,7 +595,7 @@ FIELDSET
 	POS = 13500 450 450
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 350 50
+	SIZE = 350 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -607,7 +607,7 @@ FIELDSET
 	POS = 13300 450 -150
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 50 350
+	SIZE = 100 350
 END_FIELDSET
 
 FIELDSET
@@ -615,7 +615,7 @@ FIELDSET
 	POS = 13375 450 0
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 100 50
+	SIZE = 100 100
 END_FIELDSET
 
 FIELDSET
@@ -623,7 +623,7 @@ FIELDSET
 	POS = 13375 450 -300
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 100 50
+	SIZE = 100 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -635,7 +635,7 @@ FIELDSET
 	POS = 13450 450 0
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 50 200
+	SIZE = 100 200
 END_FIELDSET
 
 FIELDSET
@@ -643,7 +643,7 @@ FIELDSET
 	POS = 13590 450 75
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 230 50
+	SIZE = 230 100
 END_FIELDSET
 
 FIELDSET
@@ -651,7 +651,7 @@ FIELDSET
 	POS = 13590 450 -75
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 230 50
+	SIZE = 230 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -663,7 +663,7 @@ FIELDSET
 	POS = 13450 450 -300
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 50 200
+	SIZE = 100 200
 END_FIELDSET
 
 FIELDSET
@@ -671,7 +671,7 @@ FIELDSET
 	POS = 13590 450 -225
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 230 50
+	SIZE = 230 100
 END_FIELDSET
 
 FIELDSET
@@ -679,7 +679,7 @@ FIELDSET
 	POS = 13590 450 -375
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 230 50
+	SIZE = 230 100
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -1426,7 +1426,7 @@ MOVEBOXSET
 # ゲート
 #----------------------------------------
 
-GATESET
+1GATESET
 	POS = -700 0 0
 	ROT = 0 0 0
 	COLLISION = 1
@@ -2135,7 +2135,7 @@ MODELSET
 END_MODELSET
 
 #----------------------------------------
-# ステージ2の木箱
+# ステージ2の木箱(手前)
 #----------------------------------------
 
 MODELSET
@@ -2204,6 +2204,15 @@ END_MODELSET
 
 MODELSET
 	TYPE = 17
+	POS = 12450 0 -355
+	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+
+MODELSET
+	TYPE = 17
 	POS = 12250 200 -355
 	ROT = 0 90 0
 	COLLISION = 1
@@ -2233,6 +2242,10 @@ MODELSET
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
+
+#----------------------------------------
+# ステージ2の木箱(奥)
+#----------------------------------------
 
 MODELSET
 	TYPE = 17
@@ -2378,7 +2391,7 @@ END_MODELSET
 # ドナルド配置
 #----------------------------------------
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 50.0
 	
 	ROUTINESET
@@ -2401,7 +2414,7 @@ ENEMYSET
 END_ENEMYSET
 
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 10.0
 	
 	ROUTINESET
