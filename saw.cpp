@@ -15,6 +15,7 @@
 #include "debugproc.h"
 #include "player.h"
 #include "fade.h"
+#include "SE_controller.h"
 
 //==================================================
 //
@@ -198,6 +199,7 @@ void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, i
 			g_aSaw[nCnt].move = ((pos + moveRange) - pos) / (float)nMoveTime;
 			g_aSaw[nCnt].bStartup = startup;
 			g_aSaw[nCnt].bUse = true;
+			SetSoundSpot(pos, SOUND_LABEL_SE_SAW);	// サウンドスポット設定
 			break;
 		}
 	}

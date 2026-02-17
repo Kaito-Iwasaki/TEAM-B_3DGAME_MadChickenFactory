@@ -17,6 +17,7 @@
 #include "DebugProc.h"
 #include "shadow.h"
 #include "fade.h"
+#include "SE_controller.h"
 
 //*********************************************************************
 // 
@@ -226,6 +227,7 @@ void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRo
 		pEnemy->rot = rot;
 		pEnemy->fSpeed = fSpeed;
 		pEnemy->nIdxShadow = SetShadow(pEnemy->pos, 100);
+		SetSoundSpot(pos, SOUND_LABEL_SE_ENEMY);	// サウンドスポット設定
 
 		if (pRoutine != NULL)
 		{

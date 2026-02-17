@@ -34,10 +34,10 @@ DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = 
 {
-	{"data/SOUND/BGM/bgm002.wav",0},						// SE 回転ノコギリ
-	//{"data/SOUND/SE/press000.wav",0},						// SE プレス機
-	//{"data/SOUND/SE/fire000.wav",0},						// SE バーナー
-	//{"data/SOUND/SE/enemy000.wav",0}						// SE エネミー
+	{"data/SOUND/SE/Select.wav",0},					// SE 回転ノコギリ(仮置き)
+	{"data/SOUND/SE/Select.wav",0},						// SE プレス機
+	{"data/SOUND/SE/Select.wav",0},						// SE バーナー
+	{"data/SOUND/SE/Select.wav",0},						// SE 敵
 };
 
 //=============================================================================

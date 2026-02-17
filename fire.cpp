@@ -18,6 +18,7 @@
 #include "input.h"
 #include "model.h"
 #include "prompt.h"
+#include "SE_controller.h"
 
 //*********************************************************************
 // 
@@ -300,6 +301,7 @@ void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state
 			g_aFire[nCnt].nIdx = nIdx;				// インデックス設定
 			g_aFire[nCnt].state = state;			// 炎状態設定
 			g_aFire[nCnt].bUse = true;				// 使用している状態にする
+			SetSoundSpot(pos, SOUND_LABEL_SE_FIRE);	// サウンドスポット設定
 		}
 	}
 	else if (setfiremode == SETFIREMODE_SWICHING)
