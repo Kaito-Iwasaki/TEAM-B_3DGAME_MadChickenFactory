@@ -32,7 +32,13 @@ BYTE *g_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
 DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 
 // サウンドの情報
-SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = {};
+SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = 
+{
+	{"data/SOUND/BGM/bgm002.wav",0},						// SE 回転ノコギリ
+	//{"data/SOUND/SE/press000.wav",0},						// SE プレス機
+	//{"data/SOUND/SE/fire000.wav",0},						// SE バーナー
+	//{"data/SOUND/SE/enemy000.wav",0}						// SE エネミー
+};
 
 //=============================================================================
 // 初期化処理
@@ -398,3 +404,21 @@ HRESULT ReadChunkData(HANDLE hFile, void *pBuffer, DWORD dwBuffersize, DWORD dwB
 	return S_OK;
 }
 
+//=============================================================================
+// 音量調整
+//=============================================================================
+void SetVolume(SOUND_LABEL sound, float Volume)
+{
+	g_apSourceVoice[sound]->SetVolume(Volume);
+}
+
+//=============================================================================
+// サウンド情報取得
+//=============================================================================
+XAUDIO2_VOICE_STATE* GetSoundState(SOUND_LABEL label)
+{
+	XAUDIO2_VOICE_STATE state;
+	g_apSourceVoice[label]->GetState(&state);
+
+	return &state;
+}

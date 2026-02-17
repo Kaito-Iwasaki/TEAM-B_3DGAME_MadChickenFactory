@@ -45,6 +45,7 @@
 #include "lift.h"
 #include "vignette.h"
 #include "Enemy.h"
+#include "SE_controller.h"
 
 //*********************************************************************
 // 
@@ -112,6 +113,9 @@ void InitGame(void)
 	InitLift();				// リフト
 	InitVignette();			// ビネット
 	InitEnemy();			// 敵
+	InitSEController();		// サウンドコントローラー
+	SetSoundSpot(D3DXVECTOR3(0.0f, 0.0f, 0.0f), SOUND_LABEL_SE_SAW);
+	SetSoundSpot(D3DXVECTOR3(3000.0f, 0.0f, 0.0f), SOUND_LABEL_SE_SAW);
 
 	// フォグの初期設定
 	float FogStart = 1500.0f, FogEnd = 3000.0f;
@@ -295,6 +299,7 @@ void UpdateGame(void)
 		UpdateLift();			// リフト
 		UpdateVignette();		// ビネット
 		UpdateEnemy();			// 敵
+		UpdateSEController();	// サウンドコントローラー
 
 		// デバッグ表示
 		_DebugDisplay();

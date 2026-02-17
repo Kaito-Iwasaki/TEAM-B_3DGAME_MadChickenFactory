@@ -258,7 +258,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	d3dpp.BackBufferCount = 1;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.EnableAutoDepthStencil = TRUE;
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24X8;
 	d3dpp.Windowed = bWindowed;
 	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
@@ -351,7 +351,7 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindowed)
 	}
 
 	// サウンドの初期化処理
-	//InitSound(hWnd);
+	InitSound(hWnd);
 
 	// モードの初期化処理
 	InitMode();
@@ -368,7 +368,7 @@ void Uninit(void)
 	UninitMode();
 
 	// サウンドの終了処理
-	//UninitSound();
+	UninitSound();
 
 	// キーボードの終了処理
 	UninitKeyboard();
