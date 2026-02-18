@@ -135,7 +135,7 @@ void UpdateEnemy(void)
 				_SetEnemyState(nCountEnemy, ENEMYSTATE_FOUND);
 
 				// ゲームオーバー処理
-				//SetFade(MODE_GAME);
+				SetFade(MODE_GAME);
 			}
 		}
 
