@@ -11,6 +11,11 @@
 #include "main.h"
 
 //*****************************************************************************
+// マクロ定義
+//*****************************************************************************
+#define MAX_SOUND	(20)		// 1ラベルに登録できるサウンドの最大数
+
+//*****************************************************************************
 // サウンド一覧
 //*****************************************************************************
 typedef enum
@@ -28,10 +33,11 @@ typedef enum
 HRESULT InitSound(HWND hWnd);
 void UninitSound(void);
 HRESULT PlaySound(SOUND_LABEL label);
-void StopSound(SOUND_LABEL label);
+void StopSound(int label);
 void StopSound(void);
+void UpdateSound(void);
 
-void SetVolume(SOUND_LABEL sound, float Volume);
-XAUDIO2_VOICE_STATE* GetSoundState(SOUND_LABEL label);
+void SetVolume(SOUND_LABEL sound, int nIdx, float Volume);
+XAUDIO2_VOICE_STATE* GetSoundState(SOUND_LABEL label, int nIdx);
 
 #endif
