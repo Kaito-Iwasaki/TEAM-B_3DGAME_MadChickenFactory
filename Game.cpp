@@ -97,7 +97,6 @@ void InitGame(void)
 	InitLight();			// ライト
 	InitWall();				// 壁
 	InitPause();			// ポーズ
-	InitMeshCylinder();		// メッシュシリンダー
 	InitTimer();			// タイマー
 	InitModel();			// モデル
 	InitSaw();				// 回転ノコギリ
@@ -260,7 +259,6 @@ void UninitGame(void)
 	UninitLight();			// ライト
 	UninitWall();			// 壁
 	UninitPause();			// ポーズ
-	UninitMeshCylinder();	// メッシュシリンダー
 	UninitTimer();			// タイマー
 	UninitModel();			// モデル
 	UninitSaw();			// 回転ノコギリ
@@ -278,6 +276,8 @@ void UninitGame(void)
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
+
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
 }
 
 //=====================================================================
@@ -300,7 +300,6 @@ void UpdateGame(void)
 		UpdatePlayer();			// プレイヤー
 		UpdateField();			// フィールド
 		UpdateLight();			// ライト
-		UpdateMeshCylinder();	// メッシュシリンダー
 		UpdateTimer();			// タイマー
 		UpdateModel();			// モデル
 		UpdateSaw();			// 回転ノコギリ
@@ -346,7 +345,6 @@ void DrawGame(void)
 	DrawPlayer();			// プレイヤー
 	DrawField();			// フィールド
 	DrawWall();				// 壁
-	//DrawMeshCylinder();		// メッシュシリンダー
 	DrawTimer();			// タイマー
 	DrawModel();			// モデル
 	DrawSaw();				// 回転ノコギリ
@@ -362,13 +360,15 @@ void DrawGame(void)
 	DrawShadow();			// 影
 
 	// フォグを無効化
-	GetDevice()->SetRenderState(D3DRS_FOGENABLE, bLastFogState);
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 	// [2D]
 	DrawPrompt();			// プロンプト
 	DrawVignette();			// ビネット
 	DrawPause();			// ポーズ
 
+	// フォグを元の状態に戻す
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, bLastFogState);
 }
 
 void ReloadGame(void)
