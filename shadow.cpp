@@ -257,15 +257,15 @@ void SetPositionShadow(int nIdxShadow, D3DXVECTOR3 pos, float fAddWidth, bool bC
 	{
 		// 位置更新
 		g_aShadow[nIdxShadow].pos.x = pos.x;
+		g_aShadow[nIdxShadow].pos.y = pos.y + 5.0f;	
 		g_aShadow[nIdxShadow].pos.z = pos.z;
 
 		// 影の大きさ更新
 		g_aShadow[nIdxShadow].fWidth += fAddWidth;
 
 		if (bChange == true)
-		{// 高さ、幅変更
+		{// 幅変更
 
-			g_aShadow[nIdxShadow].pos.y = pos.y + 5.0f;								// 高さ設定
 			g_aShadow[nIdxShadow].fWidth = g_aShadow[nIdxShadow].fOffsetWidth;		// 幅設定
 		}
 

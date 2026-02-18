@@ -7,6 +7,8 @@
 #include"conveyer.h"
 #include"input.h"
 #include"prompt.h"
+#include"collision.h"
+#include"player.h"
 
 // マクロ定義
 #define MAX_TEXTURE			(1)				// テクスチャ数
@@ -129,7 +131,8 @@ void UninitConveyer(void)
 //=======================================================
 void UpdateConveyer(void)
 {
-	VERTEX_3D* pVtx;				// 頂点情報へのポインタ
+	VERTEX_3D* pVtx;					// 頂点情報へのポインタ
+	Player* pPlayer = GetPlayer();		// プレイヤー情報取得
 
 	// 頂点バッファをロックし、頂点情報へのポインタ取得
 	g_pVtxBuffConveyer->Lock(0, 0, (void**)&pVtx, 0);
@@ -176,6 +179,15 @@ void UpdateConveyer(void)
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
 
+			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+			{
+				// オブジェクトの当たり判定処理
+				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos, 
+					g_aConveyer[nCntConveyer].pos, 
+					D3DXVECTOR3(g_aConveyer->size.x * 0.5f, 0.0f, g_aConveyer->size.z * 0.5f),
+					D3DXVECTOR3(g_aConveyer->size.x * 0.5f, 0.0f, g_aConveyer->size.z * 0.5f),
+					pPlayer[nCntPlayer].fStandPos);
+			}
 		}
 
 		pVtx += 4;		// 頂点データのポインタを4つ進める

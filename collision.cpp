@@ -182,3 +182,39 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 
 	return byHit;
 }
+
+//=====================================================================
+// オブジェクトの当たり判定処理（点と立方体）
+// プレイヤーがオブジェクトの範囲内
+// & オブジェクトののMax.Yより上にある場合その座標を返します。
+//=====================================================================
+float CollisionPointBoxObject(D3DXVECTOR3 pPlayerPos, D3DXVECTOR3 pObjectPos, D3DXVECTOR3 vtxMin, D3DXVECTOR3 vtxMax, float fStandPos)
+{
+	float fPosY = fStandPos;		// 立っている高さのy座標代入
+
+	// 正の値に変更する
+	if (vtxMin.x < 0.0f)
+	{
+		vtxMin.x *= -1;
+	}
+	if (vtxMin.z < 0.0f)
+	{
+		vtxMin.z *= -1;
+	}
+
+	if (pPlayerPos.x >= pObjectPos.x - vtxMin.x
+		&& pPlayerPos.x <= pObjectPos.x + vtxMax.x
+		&& pPlayerPos.y >= pObjectPos.y + vtxMax.y
+		&& pPlayerPos.z >= pObjectPos.z - vtxMin.z
+		&& pPlayerPos.z <= pObjectPos.z + vtxMax.z)
+	{// オブジェクトの範囲内にいる
+
+		if (pObjectPos.y + vtxMax.y >= fPosY)
+		{// 現在の立っている位置よりも高い位置にいる
+
+			fPosY = pObjectPos.y + vtxMax.y;		// 位置設定
+		}
+	}
+
+	return fPosY;
+}

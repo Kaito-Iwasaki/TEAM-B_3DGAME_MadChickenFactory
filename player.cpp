@@ -74,6 +74,7 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].rot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);		// 向き初期化
 		g_Player[nCntPlayer].rotmove = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);	// 向きの移動量初期化
 		g_Player[nCntPlayer].fAngle = 0.0f;									// キャラの進む方向初期化
+		g_Player[nCntPlayer].fStandPos = 0.0f;								// 現在の立つ位置初期化
 		g_Player[nCntPlayer].nIdxShadow = -1;								// 対象の影のインデックス(番号)初期化
 		g_Player[nCntPlayer].bJump = false;									// ジャンプ状態初期化
 		g_Player[nCntPlayer].ModelHit = MODEL_HIT_NONE;						// 当たっていない状態にする
@@ -248,14 +249,20 @@ void UpdatePlayer(void)
 		if (g_Player[nCntPlayer].move.y == 0.0f)
 		{// 現在の着地している高さに影を設定
 
-			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, 0.0f, true);
+			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, 
+				D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player->pos.z), 
+				0.0f, true);
 
 		}
 		else
 		{// y座標変更無し
 
-			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, g_Player[nCntPlayer].pos, (g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f, false);
+			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, 
+				D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player->pos.z),
+				(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f, false);
 		}
+
+		g_Player[nCntPlayer].fStandPos = 0.0f;		// 立っている位置を初期化する
 
 		for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
 		{
@@ -295,6 +302,7 @@ void UpdatePlayer(void)
 
 		// モーションの更新処理
 		UpdateMotion(&g_Player[nCntPlayer].PlayerMotion);
+
 	}
 }
 

@@ -75,4 +75,11 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 //=====================================================================
 BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTOR3 posB, D3DXVECTOR3 boxMin, D3DXVECTOR3 boxMax);
 
+//=====================================================================
+// オブジェクトの当たり判定処理（点と立方体）
+// プレイヤーがオブジェクトの範囲内
+// & オブジェクトののMax.Yより上にある場合その座標を返します。
+//=====================================================================
+float CollisionPointBoxObject(D3DXVECTOR3 pPlayerPos, D3DXVECTOR3 pObjectPos, D3DXVECTOR3 vtxMin, D3DXVECTOR3 vtxMax, float fStandPos);
+
 #endif
