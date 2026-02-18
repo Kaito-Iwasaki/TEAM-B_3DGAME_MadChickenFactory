@@ -215,6 +215,14 @@ void InitGame(void)
 		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
 	}
 
+	// “®‚­” ‚Ìİ’è
+	for (int nCntMoveBox = 0; nCntMoveBox < g_modelDataGame.nCountMoveBoxSet; nCntMoveBox++)
+	{
+		MOVEBOXSETDATA* pMoveBoxData = &g_modelDataGame.aInfoMoveBoxSet[nCntMoveBox];
+
+		SetMoveBox(pMoveBoxData->pos, pMoveBoxData->rot, pMoveBoxData->range);
+	}
+
 	// ƒQ[ƒg‚Ìİ’è
 	for (int nCntGate = 0; nCntGate < g_modelDataGame.nCountGateSet; nCntGate++)
 	{
