@@ -46,6 +46,7 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer);
 void _Read_MODELSET(FILE* pFile, MODELSETDATA* pBuffer);
 void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer);
 void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer);
+void _Read_TIMERSET(FILE* pFile, TIMERSETDATA* pBuffer);
 void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer);
 void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer);
 void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer);
@@ -164,6 +165,16 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			_Read_WALLSET(pFile, pData);
 
 			pBuffer->nCountWallSet++;
+		}
+		else if (strcmp(&aStrLine[0], "TIMERSET") == 0)
+		{// タイマーセット情報読み込み
+			
+			TIMERSETDATA* pData = &pBuffer->aInfoTimerSet[pBuffer->nCountTimerSet];
+
+			_Read_TIMERSET(pFile, pData);
+
+			pBuffer->nCountTimerSet++;
+			
 		}
 		else if (strcmp(&aStrLine[0], "SAWSET") == 0)
 		{// ソウセット情報読み込み
@@ -392,7 +403,45 @@ void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer)
 		}
 	}
 }
+//=====================================================================
+// [TIMERSET]読み込み処理
+//=====================================================================
+void _Read_TIMERSET(FILE* pFile, TIMERSETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
 
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_TIMERSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "TEXTYPE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nType);
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "COLOR") == 0)
+		{
+			float fR, fG, fB,fA;
+
+			fscanf(pFile, " = %f %f %f %f", &fR, &fG, &fB,&fA);
+
+			pBuffer->col = D3DXCOLOR(fR, fG, fB, fA);
+			
+		}
+	
+	}
+}
 //=====================================================================
 // [SAWSET]読み込み処理
 //=====================================================================
