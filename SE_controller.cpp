@@ -16,13 +16,14 @@
 #include "util.h"
 #include "math.h"
 #include "DebugProc.h"
+#include "input.h"
 
 //==================================================
 //
 //	マクロ定義
 //
 //==================================================
-#define MAX_SOUNDSPOT			(2056)		// SEの発生地点の最大個数
+#define MAX_SOUNDSPOT			(1024)		// SEの発生地点の最大個数
 #define AUDIBLE_DISTANCE		(1500.0f)	// SEが聞こえる距離
 
 //==================================================
@@ -55,7 +56,7 @@ void InitSEController(void)
 	{
 		g_aSoundSpot[nCntSEC].pos = D3DXVECTOR3_ZERO;
 		g_aSoundSpot[nCntSEC].Sound = SOUND_LABEL_MAX;
-		g_aSoundSpot[nCntSEC].bPlay = false;
+		g_aSoundSpot[nCntSEC].bwithin = false;
 		g_aSoundSpot[nCntSEC].bUse = false;
 	}
 }
@@ -67,49 +68,64 @@ void InitSEController(void)
 //==================================================
 void UpdateSEController(void)
 {
-	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
-	Player *pPlayer	= GetPlayer();
-	float fSoundLabelVolume[SOUND_LABEL_MAX] = {};	// ラベルごとの音量
-
-	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+	if (GetKeyboardTrigger(DIK_0))
 	{
-		for (int nCntSEC = 0; nCntSEC < MAX_SOUNDSPOT; nCntSEC++)
-		{
-			if (g_aSoundSpot[nCntSEC].bUse == true)
-			{
-				Distance = sqrtf(powf(g_aSoundSpot[nCntSEC].pos.x - pPlayer->pos.x, 2.0f) +
-					powf(g_aSoundSpot[nCntSEC].pos.y - pPlayer->pos.y, 2.0f) +
-					powf(g_aSoundSpot[nCntSEC].pos.z - pPlayer->pos.z, 2.0f));
-
-				if (Distance <= AUDIBLE_DISTANCE)
-				{// 範囲内
-					// 再生するボリュームを取得
-					g_aSoundSpot[nCntSEC].fVolume = 1.0f - (Distance / AUDIBLE_DISTANCE);
-
-					if (GetSoundState(g_aSoundSpot[nCntSEC].Sound) == NULL)
-					{// 情報を取得出来ない
-						PrintDebugProc("これ、ないです");
-					}
-					else if (GetSoundState(g_aSoundSpot[nCntSEC].Sound)->BuffersQueued == 0)
-					{// 再生したいサウンドが再生中でない
-						//取得したボリュームで再生
-						fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
-						PlaySound(g_aSoundSpot[nCntSEC].Sound);											// 再生
-						SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
-					}
-					else
-					{// 再生していた
-						if (g_aSoundSpot[nCntSEC].fVolume > fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound])
-						{// 先に再生していたものより近かった
-							fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume上書
-							SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
-						}
-					}
-				}
-			}
-		}
-		pPlayer++;
+		PlaySound(SOUND_LABEL_SE_PRESS);
 	}
+	if (GetKeyboardTrigger(DIK_9))
+	{
+		PlaySound(SOUND_LABEL_SE_SAW);
+	}
+	if (GetKeyboardTrigger(DIK_8))
+	{
+		StopSound(SOUND_LABEL_SE_SAW);
+	}
+
+	UpdateSound();
+
+//	float fSoundLabelVolume[SOUND_LABEL_MAX] = {};	// ラベルごとの音量
+//	Player* pPlayer = GetPlayer();
+//	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
+//
+//	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+//	{
+//		for (int nCntSEC = 0; nCntSEC < MAX_SOUNDSPOT; nCntSEC++)
+//		{
+//			if (g_aSoundSpot[nCntSEC].bUse == true)
+//			{
+//				Distance = sqrtf(powf(g_aSoundSpot[nCntSEC].pos.x - pPlayer->pos.x, 2.0f) +
+//					powf(g_aSoundSpot[nCntSEC].pos.y - pPlayer->pos.y, 2.0f) +
+//					powf(g_aSoundSpot[nCntSEC].pos.z - pPlayer->pos.z, 2.0f));
+//
+//				if (Distance <= AUDIBLE_DISTANCE)
+//				{// 範囲内
+//					// 再生するボリュームを取得
+//					g_aSoundSpot[nCntSEC].fVolume = 1.0f - (Distance / AUDIBLE_DISTANCE);
+//
+//					if (GetSoundState(g_aSoundSpot[nCntSEC].Sound) == NULL)
+//					{// 情報を取得出来ない
+//						PrintDebugProc("これ、ないです");
+//					}
+//					else if (GetSoundState(g_aSoundSpot[nCntSEC].Sound)->BuffersQueued == 0)
+//					{// 再生したいサウンドが再生中でない
+//						//取得したボリュームで再生
+//						fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
+//						/*PlaySound(g_aSoundSpot[nCntSEC].Sound);			*/								// 再生
+//						//SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
+//					}
+//					else
+//					{// 再生していた
+//						if (g_aSoundSpot[nCntSEC].fVolume > fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound])
+//						{// 先に再生していたものより近かった
+//							fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume上書
+//							//SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
+//						}
+//					}
+//				}
+//			}
+//		}
+//		pPlayer++;
+//	}
 }
 
 //==================================================
@@ -128,5 +144,35 @@ void SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label)
 			g_aSoundSpot[nCntSSpot].bUse = true;
 			break;
 		}
+	}
+}
+
+//==================================================
+//
+//	サウンドスポットの距離計算
+//
+//==================================================
+void SoundDistance(void)
+{
+	Player* pPlayer = GetPlayer();
+	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
+
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+	{
+		for (int nCntSEC = 0; nCntSEC < MAX_SOUNDSPOT; nCntSEC++)
+		{
+			if (g_aSoundSpot[nCntSEC].bUse == true)
+			{
+				Distance = sqrtf(powf(g_aSoundSpot[nCntSEC].pos.x - pPlayer->pos.x, 2.0f) +
+					powf(g_aSoundSpot[nCntSEC].pos.y - pPlayer->pos.y, 2.0f) +
+					powf(g_aSoundSpot[nCntSEC].pos.z - pPlayer->pos.z, 2.0f));
+
+				if (Distance <= AUDIBLE_DISTANCE)
+				{// 範囲内
+					g_aSoundSpot[nCntSEC].bwithin = true;
+				}
+			}
+		}
+		pPlayer++;
 	}
 }

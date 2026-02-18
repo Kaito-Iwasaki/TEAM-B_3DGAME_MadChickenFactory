@@ -37,7 +37,7 @@ typedef struct
 	D3DXVECTOR3 pos;		// 音の発生地点
 	SOUND_LABEL Sound;		// サウンドの種類
 	float fVolume;			// 音量
-	bool bPlay;				// 音が再生中かどうか
+	bool bwithin;			// 音の範囲内か
 	bool bUse;				// 使用/不使用
 }SoundSpot;
 
