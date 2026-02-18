@@ -155,10 +155,10 @@ void UpdateLift(void)
 			{
 				// オブジェクトの当たり判定処理
 				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos,
-					g_aLift[nCntLift].pos,
-					g_aLiftModelData.vtxMin,
-					g_aLiftModelData.vtxMax,
-					pPlayer[nCntPlayer].fStandPos);
+												g_aLift[nCntLift].pos,
+												g_aLiftModelData.vtxMin,
+												g_aLiftModelData.vtxMax,
+												pPlayer[nCntPlayer].fStandPos);
 			}
 		}
 	}

@@ -250,7 +250,7 @@ void UpdatePlayer(void)
 		{// Œ»Ý‚Ì’…’n‚µ‚Ä‚¢‚é‚‚³‚É‰e‚ðÝ’è
 
 			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, 
-				D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player->pos.z), 
+				D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player[nCntPlayer].pos.z), 
 				0.0f, true);
 
 		}
@@ -258,7 +258,7 @@ void UpdatePlayer(void)
 		{// yÀ•W•ÏX–³‚µ
 
 			SetPositionShadow(g_Player[nCntPlayer].nIdxShadow, 
-				D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player->pos.z),
+				D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player[nCntPlayer].pos.z),
 				(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f, false);
 		}
 
