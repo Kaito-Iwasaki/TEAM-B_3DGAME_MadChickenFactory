@@ -10,22 +10,20 @@
 // ***** インクルードファイル *****
 // 
 //*********************************************************************
-#include"result.h"
+#include "result.h"
 #include "input.h"
 #include "sound.h"
 #include "fade.h"
-//#include"score.h"
-#include <stdio.h>
-//#include"ranking.h"
-#include <stdlib.h>
 #include"DebugProc.h"
+
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
 #define MAX_RESULT (1)						//リザルトの最大数
-#define ZYUNI (80.0f)						//順位の大きさ
+#define BACKGROUND_TEXTURE_FILENAME			"data\\TEXTURE\\ResultTBA.jpg"
+
 //*********************************************************************
 // 
 // ***** グローバル変数 *****
@@ -34,14 +32,13 @@
 LPDIRECT3DTEXTURE9 g_pTextureResult[MAX_RESULT] = {};		//テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffResult = NULL;			//頂点バッファのポインタ
 Result g_aResult[MAX_RESULT];
+
 //======================
 //リザルトの初期化処理
 //======================
 void InitResult(void)
 {
-	LPDIRECT3DDEVICE9 pDevice;
-	//デバイスの取得
-	pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	
 	//リザルトの背景
 	g_aResult[0].g_posResult = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -52,12 +49,18 @@ void InitResult(void)
 	g_aResult[0].nType = 0;
 	g_aResult[0].bEnter = false;
 
-
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice,"data\\TEXTURE\\ResultTBA.jpg",&g_pTextureResult[0]);		//背景
+	D3DXCreateTextureFromFile(pDevice,BACKGROUND_TEXTURE_FILENAME, &g_pTextureResult[0]);		//背景
 
 	//頂点バッファの生成
-	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D)*4 * MAX_RESULT, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED,&g_pVtxBuffResult, NULL);		//sizeof(VERTEX)の後に*と頂点数を書く
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * MAX_RESULT,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffResult, NULL
+	);		//sizeof(VERTEX)の後に*と頂点数を書く
+	
+	
 	VERTEX_2D* pVtx;
 
 	//頂点バッファをロックし頂点情報へのポインタを取得
@@ -89,36 +92,26 @@ void InitResult(void)
 
 	//頂点バッファをアンロックする
 	g_pVtxBuffResult->Unlock();
-	
-	//ランキング
-	/*SetRanking(GetFileScore());
-
-	ResetRanking();
-
-	InitRanking();
-	
-	PlaySound(SOUND_LABEL_BGM002);*/
 }
 //=======================
 //リザルトの終了処理
 //=======================
 void UninitResult(void)
 {
+	// サウンドの停止
 	StopSound();
-	
-	//テクスチャの破棄
+
 	if (g_pTextureResult[0] != NULL)
-	{
+	{//テクスチャの破棄
 		g_pTextureResult[0]->Release();
 		g_pTextureResult[0] = NULL;
 	}
 
 	if (g_pVtxBuffResult != NULL)
-	{
+	{// 頂点バッファの破棄
 		g_pVtxBuffResult->Release();
 		g_pVtxBuffResult = NULL;
 	}
-	/*UninitRanking();*/
 }	
 //==================
 //リザルトの更新処理
@@ -127,33 +120,24 @@ void UpdateResult(void)
 {
 	PrintDebugProc("リザルト画面\n");
 	//エンターキーが押されて最初の時
-	if (GetKeyboardTrigger(DIK_RETURN) == true && g_aResult[0].bEnter == false)
-	{
-		/*g_aResult[0].bEnter = true;*/
-		//ENTERキーが押された
-		SetFade(MODE_TITLE);
+	if (GetKeyboardTrigger(DIK_RETURN) == true)
+	{//ENTERキーが押された
 		//タイトル画面に移行
+		SetFade(MODE_TITLE);
 	}
 	//スタートボタンが押されて再世の時
-	if (GetJoypadTrigger(JOYKEY_START) == true && g_aResult[0].bEnter == false)
-	{
-		/*g_aResult[0].bEnter = true;*/
-		//STARTが押された
-		SetFade(MODE_TITLE);
+	if (GetJoypadTrigger(JOYKEY_START) == true)
+	{//STARTが押された
 		//タイトル画面に移行
+		SetFade(MODE_TITLE);
 	}
-	/*UpdateRanking();*/
-	
 }
 //===================
 //リザルトの描画処理
 //===================
 void DrawResult(void)
 {
-	LPDIRECT3DDEVICE9 pDevice;
-
-	//デバイスの取得
-	pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0,g_pVtxBuffResult, 0, sizeof(VERTEX_2D));		//ここのsizeof(VERTEX)には*がいらない頂点バッファの時だけ
@@ -168,5 +152,4 @@ void DrawResult(void)
 		//ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nResult * 4, 2);		//TRIANGLELIST,1 TRIANGLESTRIP,2は四角形
 	}
-	/*DrawRanking();*/
 }
