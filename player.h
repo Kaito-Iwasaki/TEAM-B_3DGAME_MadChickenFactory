@@ -26,6 +26,7 @@ typedef struct
 	D3DXVECTOR3 rotmove;									// 向きの移動量
 	D3DXMATRIX mtxWorld;									// ワールドマトリックス
 	float fAngle;											// キャラの進む方向
+	float fStandPos;										// 現在立っている高さ
 	int nIdxShadow;											// 対象の影のインデックス(番号)
 	bool bJump;												// ジャンプ状態
 	byte ModelHit;											// モデルと当たった面

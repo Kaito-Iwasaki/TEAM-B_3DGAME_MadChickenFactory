@@ -19,10 +19,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define INIT_TIMER		(300)
-#define FRAME_TIMER		(60)		//時間が減るフレーム数
-#define MAX_TIMER		(3)			//表示される時間の数
-#define TIMER_SET_MAX   (3)			// タイマーの個数
+#define TIMERWIDTH (100.0f)
 //*********************************************************************
 // 
 // ***** 列挙型 *****
@@ -74,6 +71,7 @@ void InitTimer(void)
 		D3DPOOL_MANAGED,
 		&g_pVtxBuffTimer,
 		NULL);
+
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 		//テクスチャ4枚分
 
@@ -90,12 +88,13 @@ void InitTimer(void)
 			g_nTimer[ nSetTimer][nCntTimer].Fream = 0;
 			g_nTimer[nSetTimer][nCntTimer].bUse = false;
 			g_nTimer[nSetTimer][nCntTimer].bTimer = false;
+			g_nTimer[nSetTimer][nCntTimer].nTexType = 0;
 			//頂点座標の設定
 			//タイマーテクスチャ位置更新
-			pVtx[0].pos = D3DXVECTOR3((nCntTimer * 100.0f), -100.0f, 0.0f);
-			pVtx[1].pos = D3DXVECTOR3((nCntTimer * 100.0f + 100.0f), -100.0f, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3((nCntTimer * 100.0f), 100.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3((nCntTimer * 100.0f + 100.0f), 100.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3((nCntTimer * TIMERWIDTH), -TIMERWIDTH, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3((nCntTimer * TIMERWIDTH + TIMERWIDTH), -TIMERWIDTH, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3((nCntTimer * TIMERWIDTH), TIMERWIDTH, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3((nCntTimer * TIMERWIDTH + TIMERWIDTH), TIMERWIDTH, 0.0f);
 
 			//法線ベクトル
 			pVtx[0].nor = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
@@ -122,6 +121,7 @@ void InitTimer(void)
 	g_pVtxBuffTimer->Unlock();
 	g_aTimer = INIT_TIMER;
 	g_nFrame = FRAME_TIMER;
+	SetTimerCount(200);
 }
 
 //=====================================================================
@@ -266,7 +266,7 @@ void DrawTimer(void)
 //======================
 //タイマーセット処理
 //======================
-void SetTimer(D3DXVECTOR3 pos, D3DXCOLOR col)
+void SetTimer(int nTexType, D3DXVECTOR3 pos, D3DXCOLOR col)
 {
 	int aTexU[TIMER_SET_MAX][MAX_TIMER];
 	
@@ -291,16 +291,17 @@ void SetTimer(D3DXVECTOR3 pos, D3DXCOLOR col)
 				pVtx[2].tex.x = aTexU[nSetTimer][nCntTimer] * 0.1f;
 				pVtx[3].tex.x = aTexU[nSetTimer][nCntTimer] * 0.1f + 0.1f;
 
+				g_nTimer[nSetTimer][nCntTimer].nTexType = nTexType;
 
 				g_nTimer[nSetTimer][nCntTimer].pos = pos;
 
 				g_nTimer[nSetTimer][nCntTimer].col = col;
 
 				//タイマーテクスチャ位置更新
-				pVtx[0].pos = D3DXVECTOR3((nCntTimer * 100.0f), - 100.0f, 0.0f);
-				pVtx[1].pos = D3DXVECTOR3((nCntTimer * 100.0f + 100.0f),- 100.0f, 0.0f);
-				pVtx[2].pos = D3DXVECTOR3((nCntTimer * 100.0f), 100.0f, 0.0f);
-				pVtx[3].pos = D3DXVECTOR3((nCntTimer * 100.0f + 100.0f),100.0f, 0.0f);
+				pVtx[0].pos = D3DXVECTOR3((nCntTimer *TIMERWIDTH), -TIMERWIDTH, 0.0f);
+				pVtx[1].pos = D3DXVECTOR3((nCntTimer *TIMERWIDTH + TIMERWIDTH),-TIMERWIDTH, 0.0f);
+				pVtx[2].pos = D3DXVECTOR3((nCntTimer *TIMERWIDTH), TIMERWIDTH, 0.0f);
+				pVtx[3].pos = D3DXVECTOR3((nCntTimer *TIMERWIDTH + TIMERWIDTH),TIMERWIDTH, 0.0f);
 				//テクスチャ色
 				pVtx[0].col = g_nTimer[nSetTimer][nCntTimer].col;
 				pVtx[1].col = g_nTimer[nSetTimer][nCntTimer].col;

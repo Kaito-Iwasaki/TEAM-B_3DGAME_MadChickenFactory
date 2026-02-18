@@ -15,6 +15,7 @@
 #include "debugproc.h"
 #include "player.h"
 #include "fade.h"
+#include "collision.h"
 
 //==================================================
 //
@@ -131,6 +132,16 @@ void UpdateMoveBox(void)
 						g_aMoveBox[nCntMBox].pos.z += MOVE_SPEED;
 					}
 				}
+			}
+
+			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+			{
+				// オブジェクトの当たり判定処理
+				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos, 
+												g_aMoveBox[nCntMBox].pos, 
+												g_aMoveBoxModelData.vtxMin, 
+												g_aMoveBoxModelData.vtxMax, 
+												pPlayer[nCntPlayer].fStandPos);
 			}
 		}
 

@@ -23,7 +23,7 @@
 #include "box_movable.h"
 #include "gate.h"
 #include "Enemy.h"
-
+#include"Timer.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -73,7 +73,15 @@ typedef struct
 	D3DXVECTOR3 size;
 	int nBlockX, nBlockY;
 }WALLSETDATA;
-
+//*********************************************************************
+// 壁配置情報構造体
+//*********************************************************************
+typedef struct
+{
+	int nType;
+	D3DXVECTOR3 pos;
+	D3DXCOLOR col;
+}TIMERSETDATA;
 //*********************************************************************
 // ギミック配置情報構造体（ノコギリ）
 //*********************************************************************
@@ -202,6 +210,9 @@ typedef struct
 
 	int nCountWallSet;
 	WALLSETDATA aInfoWallSet[MAX_WALL];
+
+	int nCountTimerSet;
+	TIMERSETDATA aInfoTimerSet[TIMER_SET_MAX];
 
 	int nCountSawSet;
 	SAWSETDATA aInfoSawSet[MAX_SAW];

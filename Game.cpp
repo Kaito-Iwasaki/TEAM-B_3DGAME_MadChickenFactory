@@ -160,7 +160,16 @@ void InitGame(void)
 			pWallData->rot
 		);
 	}
-	
+	for (int nCountTIMER = 0; nCountTIMER < g_modelDataGame.nCountTimerSet; nCountTIMER++)
+	{
+		TIMERSETDATA* pTimerData = &g_modelDataGame.aInfoTimerSet[nCountTIMER];
+
+		SetTimer(
+			pTimerData->nType,
+			pTimerData->pos,
+			pTimerData->col
+		);
+	}
 	// 回転ノコギリの設定
 	for (int nCntSaw = 0; nCntSaw < g_modelDataGame.nCountSawSet; nCntSaw++)
 	{
@@ -352,9 +361,6 @@ void DrawGame(void)
 	DrawVignette();			// ビネット
 	DrawPause();			// ポーズ
 
-	SetTimer(D3DXVECTOR3(1700.0f, 600.0f, 2240.0f),  D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-
-	SetTimerCount(20);
 }
 
 void ReloadGame(void)
@@ -412,7 +418,16 @@ void ReloadGame(void)
 			pFieldData->nType
 		);
 	}
+	for (int nCountTIMER = 0; nCountTIMER < g_modelDataGame.nCountTimerSet; nCountTIMER++)
+	{
+		TIMERSETDATA* pTimerData = &g_modelDataGame.aInfoTimerSet[nCountTIMER];
 
+		SetTimer(
+			pTimerData->nType,
+			pTimerData->pos,
+			pTimerData->col
+		);
+	}
 	// ウォールの設定
 	for (int nCountWALL = 0; nCountWALL < g_modelDataGame.nCountWallSet; nCountWALL++)
 	{

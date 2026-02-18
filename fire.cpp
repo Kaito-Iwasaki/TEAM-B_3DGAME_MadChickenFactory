@@ -19,6 +19,7 @@
 #include "model.h"
 #include "prompt.h"
 #include "SE_controller.h"
+#include "collision.h"
 
 //*********************************************************************
 // 
@@ -198,6 +199,20 @@ void UpdateFire(void)
 				}
 
 				break;
+			}
+		}
+
+		if (pFlamethrower->bUse == true)
+		{// 設置している
+
+			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+			{
+				// オブジェクトの当たり判定処理
+				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos,
+												g_aflamethrower[nCntFire].pos,
+												g_aFireModelData.vtxMin,
+												g_aFireModelData.vtxMax,
+												pPlayer[nCntPlayer].fStandPos);
 			}
 		}
 	}

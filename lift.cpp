@@ -16,6 +16,7 @@
 #include "player.h"
 #include "fade.h"
 #include "prompt.h"
+#include "collision.h"
 
 //==================================================
 //
@@ -149,6 +150,16 @@ void UpdateLift(void)
 						g_aLift[nCntLift].PreviousState = LIFTSTATE_SV_POINT;
 					}
 				}
+			}
+
+			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+			{
+				// オブジェクトの当たり判定処理
+				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos,
+												g_aLift[nCntLift].pos,
+												g_aLiftModelData.vtxMin,
+												g_aLiftModelData.vtxMax,
+												pPlayer[nCntPlayer].fStandPos);
 			}
 		}
 	}
