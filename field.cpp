@@ -271,10 +271,10 @@ bool CollisionField(D3DXVECTOR3 *pos, D3DXVECTOR3 posold)
 	{
 		if (g_aField[nCntField].bUse == true)
 		{
-			if (pos->x >= g_aField[nCntField].pos.x - g_aField[nCntField].size.x &&
-				pos->x <= g_aField[nCntField].pos.x + g_aField[nCntField].size.x &&
-				pos->z >= g_aField[nCntField].pos.z - g_aField[nCntField].size.z &&
-				pos->z <= g_aField[nCntField].pos.z + g_aField[nCntField].size.z &&
+			if (pos->x >= g_aField[nCntField].pos.x - g_aField[nCntField].size.x * 0.5f &&
+				pos->x <= g_aField[nCntField].pos.x + g_aField[nCntField].size.x * 0.5f &&
+				pos->z >= g_aField[nCntField].pos.z - g_aField[nCntField].size.z * 0.5f &&
+				pos->z <= g_aField[nCntField].pos.z + g_aField[nCntField].size.z * 0.5f &&
 				pos->y <= g_aField[nCntField].pos.y)
 			{
 				if (posold.y >= g_aField[nCntField].pos.y)
