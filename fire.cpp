@@ -146,11 +146,12 @@ void UpdateFire(void)
 						D3DXVECTOR3(pPlayer[nCntPlayer].fRadius * 0.5f, pPlayer[nCntPlayer].fHeight, pPlayer[nCntPlayer].fRadius * 0.5f),
 						pFire->pos,
 						D3DXVECTOR3((pFlamethrower->fWidMax + pFlamethrower->fWidMin) * 0.5f, 300.0f, (pFlamethrower->fDepMax + pFlamethrower->fDepMin) * 0.5f)) == true
-						&& pFade.state == FADESTATE_NONE)
+						&& pFade.state == FADESTATE_NONE && pPlayer[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_ACTION)
 					{// ‰Š‚É“–‚½‚Á‚½
 
 						// ‰æ–Ê‘JˆÚ‚·‚é(GAME)
-						SetFade(MODE_GAME);
+						/*SetFade(MODE_GAME);*/
+						KillPlayer(&pPlayer[nCntPlayer]);
 					}
 				}
 
