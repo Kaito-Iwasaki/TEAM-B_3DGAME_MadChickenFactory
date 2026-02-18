@@ -10,6 +10,23 @@
 #include"main.h"
 #include"motion_loader.h"
 
+// プレイヤーモーション状態列挙型
+typedef enum
+{
+	MOTIONTYPE_NEUTRAL = 0,					// 待機
+	MOTIONTYPE_MOVE,						// 移動
+	MOTIONTYPE_ACTION,						// アクション
+	MOTIONTYPE_JUMP,						// ジャンプ
+	MOTIONTYPE_LANDING,						// 着地
+	MOTIONTYPE_SQUAT,						// しゃがみ
+	MOTIONTYPE_PREPARATIONFOREXTRUSION,		// 押し出し準備
+	MOTIONTYPE_EXTRUSION,					// 押し出し
+	MOTIONTYPE_CROUCHINGWALKING,			// しゃがみ歩き
+	MOTIONTYPE_WALK,						// 歩き
+	MOTIONTYPE_DIE,							// 死亡状態
+	MOTIONTYPE_MAX
+}MOTIONTYPE;
+
 // マクロ定義
 #define MAX_PLAYERMODEL			(10)		// モデルの総数
 #define MAX_PLAYERMOTION		(7)			// モーションの最大数
@@ -66,7 +83,6 @@ void DrawPlayer(void);
 void DrawPlayerShadow(int nCnt);
 Player* GetPlayer(void);
 void SetMove(D3DXVECTOR3* move, byte HitModel, bool *pbjump);
-//void UpdateMotion(void);
-//void SetMosion(MOTIONTYPE motiontype, bool bBlendMotion, int nFrameBlend);
+void killPlayer(void);
 
 #endif

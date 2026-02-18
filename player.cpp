@@ -91,7 +91,7 @@ void InitPlayer(void)
 		// 影のインデックス設定
 		g_Player[nCntPlayer].nIdxShadow = SetShadow(D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].pos.y + 1.0f, g_Player[nCntPlayer].pos.z), 50.0f);
 
-		SetMotion(&g_Player[nCntPlayer].PlayerMotion, 0, 0);
+		SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 0);
 	}
 }
 
@@ -164,7 +164,7 @@ void UpdatePlayer(void)
 				g_Player[nCntPlayer].move.y = MAX_JUMP;	// ジャンプ量
 
 				// ジャンプモーションに変更
-				SetMotion(&g_Player[nCntPlayer].PlayerMotion, 3, 20);
+				SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_JUMP, 20);
 			}
 		}
 
@@ -271,33 +271,33 @@ void UpdatePlayer(void)
 			pPart->rot = pPart->rotOffset;
 		}
 
-		if (g_Player[nCntPlayer].move.x >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3
-			||g_Player[nCntPlayer].move.x <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3
-			|| g_Player[nCntPlayer].move.z >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3
-			|| g_Player[nCntPlayer].move.z <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 1 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3)
+		if (g_Player[nCntPlayer].move.x >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+			||g_Player[nCntPlayer].move.x <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+			|| g_Player[nCntPlayer].move.z >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+			|| g_Player[nCntPlayer].move.z <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
 		{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中モーション以外の時)
 
-			SetMotion(&g_Player[nCntPlayer].PlayerMotion, 1, 30);
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 30);
 		}
 
 		if (g_Player[nCntPlayer].move.x < 0.3f && g_Player[nCntPlayer].move.x > -0.3f 
 			&& g_Player[nCntPlayer].move.z < 0.3f && g_Player[nCntPlayer].move.z > -0.3f
-			&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 0 && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 3)
+			&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_NEUTRAL && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
 		{// 待機モーションに変更(移動していない&ジャンプモーション以外の時)
 
-			if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == 4
+			if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_LANDING
 				&& g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true
-				|| g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != 4)
+				|| g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_LANDING)
 			{// 着地モーション終了時or着地モーション以外
 
-				SetMotion(&g_Player[nCntPlayer].PlayerMotion, 0, 30);
+				SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 30);
 			}
 		}
 
-		if (g_Player[nCntPlayer].posOld.y >= g_Player[nCntPlayer].pos.y && g_Player[nCntPlayer].move.y <= 0.0f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == 3)
+		if (g_Player[nCntPlayer].posOld.y >= g_Player[nCntPlayer].pos.y && g_Player[nCntPlayer].move.y <= 0.0f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_JUMP)
 		{// 着地モーション(posがposOldよりも低い位置&move.yが0&ジャンプ状態)
 
-			SetMotion(&g_Player[nCntPlayer].PlayerMotion, 4, 30);
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_LANDING, 30);
 		}
 
 		// モーションの更新処理
