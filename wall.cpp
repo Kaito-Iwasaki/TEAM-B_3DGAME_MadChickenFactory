@@ -64,8 +64,8 @@ void InitWall(void)
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 		pVtx[0].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
 		pVtx[1].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
-		pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
-		pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
+		pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, 0, 0);
+		pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, 0, 0);
 
 		// 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
@@ -190,8 +190,8 @@ void SetWall(int nTexType, D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
 			pVtx[0].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
 			pVtx[1].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].size.y, 0);
-			pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
-			pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, g_aWall[nCntWall].pos.y, 0);
+			pVtx[2].pos = D3DXVECTOR3(-g_aWall[nCntWall].size.x / 2.0f, 0, 0);
+			pVtx[3].pos = D3DXVECTOR3(+g_aWall[nCntWall].size.x / 2.0f, 0, 0);
 
 			fTexsizeX = g_aWall[nCntWall].size.x / WALL_TEXTURE_SIZE_X;
 			fTexsizeY = g_aWall[nCntWall].size.y / WALL_TEXTURE_SIZE_Y;
@@ -278,8 +278,9 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 				fIntersect = (VecToPos.z * VecMove.x) - (VecToPos.x * VecMove.z);
 				fAll = (VecLine.z * VecMove.x) - (VecLine.x * VecMove.z);
 				fRate = fIntersect / fAll;
+
 				
-				if (0.0f <= fRate && fRate <= 1.0f)
+				if (0.0f <= fRate && fRate <= 1.0f && posold.y >= g_aWall[nCnt].pos.y && posold.y < g_aWall[nCnt].pos.y + g_aWall[nCnt].size.y)
 				{
 					bChek = true;
 					fNormal = -DotProduct(*move, g_aWall[nCnt].nor);
