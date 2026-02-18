@@ -57,8 +57,6 @@ void InitMoveBox(void)
 	}
 
 	LoadModel(MOVEBOX_MODEL_PATH, &g_aMoveBoxModelData);
-
-	SetMoveBox(D3DXVECTOR3(4900.0f, 0.0f, 800.0f), D3DXVECTOR3_ZERO, D3DXVECTOR3(-600.0f, 0.0f, 0.0f));
 }
 
 //==================================================
