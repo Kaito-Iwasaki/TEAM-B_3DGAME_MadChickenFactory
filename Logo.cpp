@@ -13,6 +13,7 @@
 #include "Logo.h"
 #include"sound.h"
 #include"fade.h"
+#include"input.h"
 //*********************************************************************
 // 
 // ***** É}ÉNÉçíËã` *****
@@ -183,7 +184,7 @@ void UpdateLogo(void)
 			{
 				g_aLogo[nCntLogo].col.a += 0.01f;
 			}
-			if (g_aLogo[nCntLogo].nCountLogo == 0)
+			if (g_aLogo[nCntLogo].nCountLogo == 0 || GetKeyboardTrigger(DIK_P) || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 			{
 				SetFade(MODE_TITLE);
 			}
