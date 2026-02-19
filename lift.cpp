@@ -136,6 +136,7 @@ void UpdateLift(void)
 			else if (g_aLift[nCntLift].NowState == LIFTSTATE_STAY)
 			{
 				PrintDebugProc("%d\n", GetPromptTrigger(g_aLift[nCntLift].nIdx));
+				g_aLift[nCntLift].move = D3DXVECTOR3_ZERO;
 
 				if (GetPromptTrigger(g_aLift[nCntLift].nIdx))
 				{
@@ -309,10 +310,16 @@ bool CollisionLift(void)
 					bHitCheck = true;
 				}
 			}
+			else
+			{
+				int a = 0;
+			}
 
 			if (bHitCheck == true)
 			{
-				pPlayer->pos += g_aLift[nCntLift].move;
+				pPlayer->pos.x += g_aLift[nCntLift].move.x;
+				pPlayer->pos.y += g_aLift[nCntLift].move.y;
+				pPlayer->pos.z += g_aLift[nCntLift].move.z;
 			}
 
 		}
