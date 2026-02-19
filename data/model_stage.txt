@@ -174,6 +174,178 @@ WALLSET
 END_WALLSET
 
 #------------------------------------------------------------------------------
+# ステージ	大人の壁
+#------------------------------------------------------------------------------
+
+WALLSET
+	TEXTYPE = 8
+	POS = 1220 0 850
+	ROT = 0 90 0
+	BLOCK = 1 2
+	SIZE = 2700 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 3325 0 2200
+	ROT = 0 180 0
+	BLOCK = 1 2
+	SIZE = 4200 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 5430 0 1460
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 1460 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4780 0 1200
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 875 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 3325 0 1645
+	ROT = 0 180 0
+	BLOCK = 1 2
+	SIZE = 2925 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 1865 0 1200
+	ROT = 0 90 0
+	BLOCK = 1 2
+	SIZE = 900 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 3320 0 760
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 2925 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 3320 0 760
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 2925 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 5450 0 542
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 300 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 5160 0 542
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 300 250
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4620 0 542
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 300 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4880 0 542
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 300 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 5150 100 610
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 200 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 5360 100 610
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 200 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4720 0 -95
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 800 250
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4470 0 400
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 290 250
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4595 0 255
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 250 250
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 2925 0 550
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 2650 250
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4230 0 120
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 860 250
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 2925 0 -350
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 2650 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 1600 0 96
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 860 500
+END_WALLSET
+
+#------------------------------------------------------------------------------
 # ステージ	床
 #------------------------------------------------------------------------------
 FIELDSET
@@ -726,42 +898,10 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 17900 0 300
-	ROT = 0 90 0
-	BLOCK = 4 2
-	SIZE = 400 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
 	POS = 15900 0 1000
 	ROT = 0 -90 0
 	BLOCK = 4 2
 	SIZE = 250 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 17700 0 1100
-	ROT = 0 0 0
-	BLOCK = 2 2
-	SIZE = 200 200
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 17500 0 1300
-	ROT = 0 90 0
-	BLOCK = 2 2
-	SIZE = 200 200
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 17900 700 1300
-	ROT = 0 90 0
-	BLOCK = 6 3
-	SIZE = 70 100
 END_WALLSET
 
 WALLSET
@@ -776,7 +916,7 @@ END_WALLSET
 # ゴール地点	床
 #------------------------------------------------------------------------------
 FIELDSET
-	TEXTYPE = 6
+	TEXTYPE = 6a
 	POS = 16900 0 300
 	ROT = 0 0 0
 	BLOCK = 2 1
@@ -794,7 +934,7 @@ END_FIELDSET
 
 FIELDSET
 	TEXTYPE = 6
-	POS = 17700 400 1300
+	POS = 17700 0 1300
 	ROT = 0 0 0
 	BLOCK = 2 2
 	SIZE = 200 200
@@ -803,30 +943,6 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 # 連絡通路	壁
 #------------------------------------------------------------------------------
-
-WALLSET
-	TEXTYPE = 3
-	POS = 17900 700 1300
-	ROT = 0 -90 0
-	BLOCK = 6 3
-	SIZE = 70 100
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 17900 0 300
-	ROT = 0 -90 0
-	BLOCK = 4 2
-	SIZE = 400 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 17900 0 1300
-	ROT = 0 -90 0
-	BLOCK = 2 2
-	SIZE = 200 200
-END_WALLSET
 
 #------------------------------------------------------------------------------
 # ステージ3
@@ -1406,7 +1522,7 @@ END_FIRESET
 #----------------------------------------
 
 MOVEBOXSET
- 	POS = 5250 5 600
+ 	POS = 5250 5 610
  	ROT = 0 0 0
  	RANGE = -900 0 0
  END_MOVEBOXSET
@@ -2415,26 +2531,21 @@ END_MODELSET
 # ドナルド配置
 #----------------------------------------
 
-1ENEMYSET
-	SPEED = 50.0
+ENEMYSET
+	SPEED = 5.0
 	
 	ROUTINESET
-		POS = 100 0 500
-		ROT = 0 0 0
-		WAIT = 6
+		POS = 7750 0 1000
+		ROT = 0 180 0
+		WAIT = 120
 	END_ROUTINESET
 	
 	ROUTINESET
-		POS = 1000 0 500
-		ROT = 0 180 0
-		WAIT = 6
+		POS = 7750 0 250
+		ROT = 0 0 0
+		WAIT = 120
 	END_ROUTINESET
 
-	ROUTINESET
-		POS = 750 0 750
-		ROT = 0 180 0
-		WAIT = 6
-	END_ROUTINESET
 END_ENEMYSET
 
 
