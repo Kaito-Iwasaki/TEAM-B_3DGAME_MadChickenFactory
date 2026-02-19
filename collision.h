@@ -76,6 +76,36 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTOR3 posB, D3DXVECTOR3 boxMin, D3DXVECTOR3 boxMax);
 
 //=====================================================================
+// 衝突判定処理（立方体と立方体）
+// sizeAで作られる立方体AがsizeBで作られる立方体Bの内にあるか判定します。
+// 衝突判定があった場合にはBYTE型で衝突方向を返します。
+// 衝突判定がなかった場合にはCOLLSION_NONE(0x00)を返します。
+//=====================================================================
+BYTE CollisionBoxBoxDirection(
+	D3DXVECTOR3 posA,
+	D3DXVECTOR3 posAOld,
+	D3DXVECTOR3 sizeA,
+	D3DXVECTOR3 posB,
+	D3DXVECTOR3 sizeB
+);
+
+//=====================================================================
+// 衝突判定処理（立方体と立方体）
+// boxMinA、boxMaxAで作られる立方体AがboxMinB、boxMaxBで作られる立方体Bの内にあるか判定します。
+// 衝突判定があった場合にはBYTE型で衝突方向を返します。
+// 衝突判定がなかった場合にはCOLLSION_NONE(0x00)を返します。
+//=====================================================================
+BYTE CollisionBoxBoxDirection(
+	D3DXVECTOR3 posA,
+	D3DXVECTOR3 posAOld, 
+	D3DXVECTOR3 boxMinA, 
+	D3DXVECTOR3 boxMaxA,
+	D3DXVECTOR3 posB,
+	D3DXVECTOR3 boxMinB, 
+	D3DXVECTOR3 boxMaxB
+);
+
+//=====================================================================
 // オブジェクトの当たり判定処理（点と立方体）
 // プレイヤーがオブジェクトの範囲内
 // & オブジェクトののMax.Yより上にある場合その座標を返します。

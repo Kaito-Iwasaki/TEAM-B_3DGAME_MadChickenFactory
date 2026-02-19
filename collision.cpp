@@ -184,6 +184,154 @@ BYTE CollisionPointBoxDirection(D3DXVECTOR3 posA, D3DXVECTOR3 posAOld, D3DXVECTO
 }
 
 //=====================================================================
+// 衝突判定処理（立方体と立方体）
+// sizeAで作られる立方体AがsizeBで作られる立方体Bの内にあるか判定します。
+// 衝突判定があった場合にはBYTE型で衝突方向を返します。
+// 衝突判定がなかった場合にはCOLLSION_NONE(0x00)を返します。
+//=====================================================================
+BYTE CollisionBoxBoxDirection(
+	D3DXVECTOR3 posA,
+	D3DXVECTOR3 posAOld,
+	D3DXVECTOR3 sizeA,
+	D3DXVECTOR3 posB,
+	D3DXVECTOR3 sizeB
+)
+{
+	D3DXVECTOR3 boxMinA = D3DXVECTOR3(
+		-sizeA.x * 0.5f,
+		-sizeA.y * 0.5f,
+		-sizeA.z * 0.5f
+	);
+
+	D3DXVECTOR3 boxMaxA = D3DXVECTOR3(
+		sizeA.x * 0.5f,
+		sizeA.y * 0.5f,
+		sizeA.z * 0.5f
+	);
+
+	D3DXVECTOR3 boxMinB = D3DXVECTOR3(
+		-sizeB.x * 0.5f,
+		-sizeB.y * 0.5f,
+		-sizeB.z * 0.5f
+	);
+
+	D3DXVECTOR3 boxMaxB = D3DXVECTOR3(
+		sizeB.x * 0.5f,
+		sizeB.y * 0.5f,
+		sizeB.z * 0.5f
+	);
+
+	return CollisionBoxBoxDirection(
+		posA,
+		posAOld,
+		boxMinA,
+		boxMaxA,
+		posB,
+		boxMinB,
+		boxMaxB
+	);
+}
+
+//=====================================================================
+// 衝突判定処理（立方体と立方体）
+// boxMinA、boxMaxAで作られる立方体AとboxMinB、boxMaxBで作られる立方体Bの内にあるか判定します。
+// 衝突判定があった場合にはBYTE型で衝突方向を返します。
+// 衝突判定がなかった場合にはCOLLSION_NONE(0x00)を返します。
+//=====================================================================
+BYTE CollisionBoxBoxDirection(
+	D3DXVECTOR3 posA,
+	D3DXVECTOR3 posAOld,
+	D3DXVECTOR3 boxMinA,
+	D3DXVECTOR3 boxMaxA,
+	D3DXVECTOR3 posB,
+	D3DXVECTOR3 boxMinB,
+	D3DXVECTOR3 boxMaxB
+)
+{
+	BYTE byHit = 0;
+
+	// 左
+	if (
+		posAOld.x + boxMaxA.x <= posB.x + boxMinB.x
+		&& posA.x + boxMaxA.x >= posB.x + boxMinB.x
+		&& posA.y + boxMinA.y <= posB.y + boxMaxB.y
+		&& posA.y + boxMaxA.y >= posB.y + boxMinB.y
+		&& posA.z + boxMinA.z <= posB.z + boxMaxB.z
+		&& posA.z + boxMaxA.z >= posB.z + boxMinB.z
+		)
+	{
+		byHit |= COLLISION_LEFT;
+	}
+
+	// 右
+	if (
+		posAOld.x + boxMinA.x >= posB.x + boxMaxB.x
+		&& posA.x + boxMinA.x <= posB.x + boxMaxB.x
+		&& posA.y + boxMinA.y <= posB.y + boxMaxB.y
+		&& posA.y + boxMaxA.y >= posB.y + boxMinB.y
+		&& posA.z + boxMinA.z <= posB.z + boxMaxB.z
+		&& posA.z + boxMaxA.z >= posB.z + boxMinB.z
+		)
+	{
+		byHit |= COLLISION_RIGHT;
+	}
+
+	// 前
+	if (
+		posAOld.z + boxMaxA.z <= posB.z + boxMinB.z
+		&& posA.z + boxMaxA.z >= posB.z + boxMinB.z
+		&& posA.x + boxMinA.x <= posB.x + boxMaxB.x
+		&& posA.x + boxMaxA.x >= posB.x + boxMinB.x
+		&& posA.y + boxMinA.y <= posB.y + boxMaxB.y
+		&& posA.y + boxMaxA.y >= posB.y + boxMinB.y
+		)
+	{
+		byHit |= COLLISION_FRONT;
+	}
+
+	// 後ろ
+	if (
+		posAOld.z + boxMinA.z >= posB.z + boxMaxB.z
+		&& posA.z + boxMinA.z <= posB.z + boxMaxB.z
+		&& posA.x + boxMinA.x <= posB.x + boxMaxB.x
+		&& posA.x + boxMaxA.x >= posB.x + boxMinB.x
+		&& posA.y + boxMinA.y <= posB.y + boxMaxB.y
+		&& posA.y + boxMaxA.y >= posB.y + boxMinB.y
+		)
+	{
+		byHit |= COLLISION_BACK;
+	}
+
+	// 上
+	if (
+		posAOld.y + boxMinA.y >= posB.y + boxMaxB.y
+		&& posA.y + boxMinA.y <= posB.y + boxMaxB.y
+		&& posA.x + boxMinA.x <= posB.x + boxMaxB.x
+		&& posA.x + boxMaxA.x >= posB.x + boxMinB.x
+		&& posA.z + boxMinA.z <= posB.z + boxMaxB.z
+		&& posA.z + boxMaxA.z >= posB.z + boxMinB.z
+		)
+	{
+		byHit |= COLLISION_UP;
+	}
+
+	// 下
+	if (
+		posAOld.y + boxMaxA.y <= posB.y + boxMinB.y
+		&& posA.y + boxMaxA.y >= posB.y + boxMinB.y
+		&& posA.x + boxMinA.x <= posB.x + boxMaxB.x
+		&& posA.x + boxMaxA.x >= posB.x + boxMinB.x
+		&& posA.z + boxMinA.z <= posB.z + boxMaxB.z
+		&& posA.z + boxMaxA.z >= posB.z + boxMinB.z
+		)
+	{
+		byHit |= COLLISION_DOWN;
+	}
+
+	return byHit;
+}
+
+//=====================================================================
 // オブジェクトの当たり判定処理（点と立方体）
 // プレイヤーがオブジェクトの範囲内
 // & オブジェクトののMax.Yより上にある場合その座標を返します。
