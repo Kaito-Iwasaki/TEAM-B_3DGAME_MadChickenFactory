@@ -178,19 +178,23 @@ void DrawEnemy(void)
 	float fAngleStart = -RAD(ENEMY_MAX_SIGHT_ANGLE) * 0.5f;
 	float fAngleGap = RAD(ENEMY_MAX_SIGHT_ANGLE) / (float)(ENEMY_SIGHT_NUM_SEGMENT - 1);
 
-	for (int nCountVtx = 0; nCountVtx < ENEMY_SIGHT_NUM_SEGMENT + 1; nCountVtx++, pVtx++)
+	for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++)
 	{
-		if (nCountVtx == 0)
+		for (int nCountVtx = 0; nCountVtx < ENEMY_SIGHT_NUM_SEGMENT + 1; nCountVtx++, pVtx++)
 		{
-			pVtx->pos = D3DXVECTOR3_ZERO;
-		}
-		else
-		{
-			pVtx->pos = D3DXVECTOR3(-sinf(fAngleStart + fAngleGap * (nCountVtx - 1)), 0.001f, -cosf(fAngleStart + fAngleGap * (nCountVtx - 1))) * ENEMY_MAX_SIGHT_DISTANCE;
-		}
+			if (nCountVtx == 0)
+			{
+				pVtx->pos = D3DXVECTOR3_ZERO;
+			}
+			else
+			{
+				float fAngle = fAngleStart + fAngleGap * (nCountVtx - 1);
+				pVtx->pos = D3DXVECTOR3(-sinf(fAngle), 0, -cosf(fAngle)) * ENEMY_MAX_SIGHT_DISTANCE + D3DXVECTOR3(0, 0.1f, 0);
+			}
 
-		pVtx->nor = D3DXVECTOR3_UP;
-		pVtx->col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.35f);
+			pVtx->nor = D3DXVECTOR3_UP;
+			pVtx->col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.35f);
+		}
 	}
 
 	g_pVtxBuffEnemySight->Unlock();
