@@ -34,6 +34,7 @@
 //==================================================
 typedef struct
 {
+	int nIdx;
 	D3DXVECTOR3 pos;		// 音の発生地点
 	SOUND_LABEL Sound;		// サウンドの種類
 	float fVolume;			// 音量
@@ -48,6 +49,6 @@ typedef struct
 //*********************************************************************
 void InitSEController(void);
 void UpdateSEController(void);
-void SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label);
+int SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label);
 
 #endif

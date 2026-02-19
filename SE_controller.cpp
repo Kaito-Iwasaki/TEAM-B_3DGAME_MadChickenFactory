@@ -83,49 +83,47 @@ void UpdateSEController(void)
 
 	UpdateSound();
 
-//	float fSoundLabelVolume[SOUND_LABEL_MAX] = {};	// ラベルごとの音量
-//	Player* pPlayer = GetPlayer();
-//	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
-//
-//	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-//	{
-//		for (int nCntSEC = 0; nCntSEC < MAX_SOUNDSPOT; nCntSEC++)
-//		{
-//			if (g_aSoundSpot[nCntSEC].bUse == true)
-//			{
-//				Distance = sqrtf(powf(g_aSoundSpot[nCntSEC].pos.x - pPlayer->pos.x, 2.0f) +
-//					powf(g_aSoundSpot[nCntSEC].pos.y - pPlayer->pos.y, 2.0f) +
-//					powf(g_aSoundSpot[nCntSEC].pos.z - pPlayer->pos.z, 2.0f));
-//
-//				if (Distance <= AUDIBLE_DISTANCE)
-//				{// 範囲内
-//					// 再生するボリュームを取得
-//					g_aSoundSpot[nCntSEC].fVolume = 1.0f - (Distance / AUDIBLE_DISTANCE);
-//
-//					if (GetSoundState(g_aSoundSpot[nCntSEC].Sound) == NULL)
-//					{// 情報を取得出来ない
-//						PrintDebugProc("これ、ないです");
-//					}
-//					else if (GetSoundState(g_aSoundSpot[nCntSEC].Sound)->BuffersQueued == 0)
-//					{// 再生したいサウンドが再生中でない
-//						//取得したボリュームで再生
-//						fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
-//						/*PlaySound(g_aSoundSpot[nCntSEC].Sound);			*/								// 再生
-//						//SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
-//					}
-//					else
-//					{// 再生していた
-//						if (g_aSoundSpot[nCntSEC].fVolume > fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound])
-//						{// 先に再生していたものより近かった
-//							fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume上書
-//							//SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
-//						}
-//					}
-//				}
-//			}
-//		}
-//		pPlayer++;
-//	}
+	float fSoundLabelVolume[SOUND_LABEL_MAX] = {};	// ラベルごとの音量
+	Player* pPlayer = GetPlayer();
+	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
+
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+	{
+		for (int nCntSEC = 0; nCntSEC < MAX_SOUNDSPOT; nCntSEC++)
+		{
+			if (g_aSoundSpot[nCntSEC].bUse == true)
+			{
+				Distance = Magnitude(g_aSoundSpot[nCntSEC].pos, pPlayer->pos);
+
+				if (Distance <= AUDIBLE_DISTANCE)
+				{// 範囲内
+					// 再生するボリュームを取得
+					g_aSoundSpot[nCntSEC].fVolume = 1.0f - (Distance / AUDIBLE_DISTANCE);
+
+					if (GetSoundState(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx) == NULL)
+					{// 情報を取得出来ない
+						PrintDebugProc("これ、ないです");
+					}
+					else if (GetSoundState(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx)->BuffersQueued == 0)
+					{// 再生したいサウンドが再生中でない
+						//取得したボリュームで再生
+						fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
+						/*PlaySound(g_aSoundSpot[nCntSEC].Sound);			*/								// 再生
+						SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
+					}
+					else
+					{// 再生していた
+						if (g_aSoundSpot[nCntSEC].fVolume > fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound])
+						{// 先に再生していたものより近かった
+							fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume上書
+							SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
+						}
+					}
+				}
+			}
+		}
+		pPlayer++;
+	}
 }
 
 //==================================================
@@ -133,18 +131,23 @@ void UpdateSEController(void)
 //	サウンドスポット設定
 //
 //==================================================
-void SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label)
+int SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label)
 {
-	for (int nCntSSpot = 0; nCntSSpot < MAX_SOUNDSPOT; nCntSSpot++)
+	int nCntSSpot = 0;
+
+	for (nCntSSpot = 0; nCntSSpot < MAX_SOUNDSPOT; nCntSSpot++)
 	{
 		if (g_aSoundSpot[nCntSSpot].bUse == false)
 		{
+			g_aSoundSpot[nCntSSpot].nIdx  = nCntSSpot;
 			g_aSoundSpot[nCntSSpot].pos = pos;
 			g_aSoundSpot[nCntSSpot].Sound = label;
 			g_aSoundSpot[nCntSSpot].bUse = true;
-			break;
+			return nCntSSpot;
 		}
 	}
+
+	return nCntSSpot;
 }
 
 //==================================================
