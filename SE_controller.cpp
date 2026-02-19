@@ -24,7 +24,7 @@
 //
 //==================================================
 #define MAX_SOUNDSPOT			(1024)		// SEの発生地点の最大個数
-#define AUDIBLE_DISTANCE		(1500.0f)	// SEが聞こえる距離
+#define AUDIBLE_DISTANCE		(500.0f)	// SEが聞こえる距離
 
 //==================================================
 //
@@ -54,10 +54,14 @@ void InitSEController(void)
 {
 	for (int nCntSEC = 0; nCntSEC < MAX_SOUNDSPOT; nCntSEC++)
 	{
+		g_aSoundSpot[nCntSEC].nIdx = 0;
+		g_aSoundSpot[nCntSEC].nSoundIdx = 0;
+		g_aSoundSpot[nCntSEC].fVolume = 0.0f;
 		g_aSoundSpot[nCntSEC].pos = D3DXVECTOR3_ZERO;
-		g_aSoundSpot[nCntSEC].Sound = SOUND_LABEL_MAX;
+		g_aSoundSpot[nCntSEC].label = SOUND_LABEL_MAX;
 		g_aSoundSpot[nCntSEC].bwithin = false;
 		g_aSoundSpot[nCntSEC].bUse = false;
+		g_aSoundSpot[nCntSEC].bPlay = false;
 	}
 }
 
@@ -68,24 +72,12 @@ void InitSEController(void)
 //==================================================
 void UpdateSEController(void)
 {
-	if (GetKeyboardTrigger(DIK_0))
-	{
-		PlaySound(SOUND_LABEL_SE_PRESS);
-	}
-	if (GetKeyboardTrigger(DIK_9))
-	{
-		PlaySound(SOUND_LABEL_SE_SAW);
-	}
-	if (GetKeyboardTrigger(DIK_8))
-	{
-		StopSound(SOUND_LABEL_SE_SAW);
-	}
+	CheckSoundStop();
 
-	UpdateSound();
-
-	float fSoundLabelVolume[SOUND_LABEL_MAX] = {};	// ラベルごとの音量
+	float fSoundVolume[SOUND_LABEL_MAX][MAX_SOUND] = {};	// ラベルごとの音量
 	Player* pPlayer = GetPlayer();
 	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
+	bool bCheck[MAX_SOUNDSPOT] = {};
 
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
@@ -100,25 +92,23 @@ void UpdateSEController(void)
 					// 再生するボリュームを取得
 					g_aSoundSpot[nCntSEC].fVolume = 1.0f - (Distance / AUDIBLE_DISTANCE);
 
-					if (GetSoundState(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx) == NULL)
-					{// 情報を取得出来ない
-						PrintDebugProc("これ、ないです");
-					}
-					else if (GetSoundState(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx)->BuffersQueued == 0)
-					{// 再生したいサウンドが再生中でない
-						//取得したボリュームで再生
-						fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
-						/*PlaySound(g_aSoundSpot[nCntSEC].Sound);			*/								// 再生
-						SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
-					}
-					else
-					{// 再生していた
-						if (g_aSoundSpot[nCntSEC].fVolume > fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound])
-						{// 先に再生していたものより近かった
-							fSoundLabelVolume[g_aSoundSpot[nCntSEC].Sound] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume上書
-							SetVolume(g_aSoundSpot[nCntSEC].Sound, g_aSoundSpot[nCntSEC].nIdx, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
-						}
-					}
+					// CallPlaySound有効化
+					g_aSoundSpot[nCntSEC].bwithin = true;
+
+					//取得したボリュームを適応
+					fSoundVolume[g_aSoundSpot[nCntSEC].label][g_aSoundSpot[nCntSEC].nSoundIdx] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
+					SetVolume(g_aSoundSpot[nCntSEC].label, g_aSoundSpot[nCntSEC].nSoundIdx, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
+
+					//*******			!!!注意!!!			*******//
+					// サウンドの再生自体は、CallPlaySoundで行います！
+					//*******								*******//
+					
+				}
+				else if (Distance > AUDIBLE_DISTANCE)
+				{
+					// CallPlaySound無効化
+					g_aSoundSpot[nCntSEC].bwithin = false;
+					/*StopSound(g_aSoundSpot[nCntSEC].label, &g_aSoundSpot[nCntSEC].nSoundIdx);*/
 				}
 			}
 		}
@@ -139,9 +129,9 @@ int SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label)
 	{
 		if (g_aSoundSpot[nCntSSpot].bUse == false)
 		{
-			g_aSoundSpot[nCntSSpot].nIdx  = nCntSSpot;
+			g_aSoundSpot[nCntSSpot].nIdx = nCntSSpot;
+			g_aSoundSpot[nCntSSpot].label = label;
 			g_aSoundSpot[nCntSSpot].pos = pos;
-			g_aSoundSpot[nCntSSpot].Sound = label;
 			g_aSoundSpot[nCntSSpot].bUse = true;
 			return nCntSSpot;
 		}
@@ -177,5 +167,28 @@ void SoundDistance(void)
 			}
 		}
 		pPlayer++;
+	}
+}
+//==================================================
+//
+//	オブジェクト側からサウンドを鳴らす
+//
+//==================================================
+void CollPlaySound(int nSoundIdx, bool *play)
+{
+	if (g_aSoundSpot[nSoundIdx].bwithin == true && *play == false)
+	{
+		*play = true;
+		PlaySound(g_aSoundSpot[nSoundIdx].label,&g_aSoundSpot[nSoundIdx].nSoundIdx);
+	}
+	else if (g_aSoundSpot[nSoundIdx].bwithin == true && *play == true)
+	{
+		bool bCheck = false;
+		bCheck = GetPlaySound(g_aSoundSpot[nSoundIdx].label, g_aSoundSpot[nSoundIdx].nSoundIdx);
+
+		if (bCheck == false)
+		{
+			*play = false;
+		}
 	}
 }

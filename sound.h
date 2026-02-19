@@ -32,12 +32,13 @@ typedef enum
 //*****************************************************************************
 HRESULT InitSound(HWND hWnd);
 void UninitSound(void);
-HRESULT PlaySound(SOUND_LABEL label);
-void StopSound(int label);
+HRESULT PlaySound(SOUND_LABEL label, int* pOut);
+void StopSound(int label, int* pOut);
 void StopSound(void);
-void UpdateSound(void);
+void CheckSoundStop(void);
 
 void SetVolume(SOUND_LABEL sound, int nIdx, float Volume);
 XAUDIO2_VOICE_STATE* GetSoundState(SOUND_LABEL label, int nIdx);
+bool GetPlaySound(SOUND_LABEL label, int nIdx);
 
 #endif

@@ -34,11 +34,13 @@
 //==================================================
 typedef struct
 {
-	int nIdx;
+	int nIdx;				// SoundSpot使用者が、インデックスを指定するためのもの
+	int nSoundIdx;			// 使用するサウンドのインデックス20
 	D3DXVECTOR3 pos;		// 音の発生地点
-	SOUND_LABEL Sound;		// サウンドの種類
+	SOUND_LABEL label;		// 使用するサウンドのラベル
 	float fVolume;			// 音量
 	bool bwithin;			// 音の範囲内か
+	bool bPlay;				// すでに再生済み
 	bool bUse;				// 使用/不使用
 }SoundSpot;
 
@@ -50,5 +52,6 @@ typedef struct
 void InitSEController(void);
 void UpdateSEController(void);
 int SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label);
+void CollPlaySound(int nSoundIdx, bool* play);
 
 #endif

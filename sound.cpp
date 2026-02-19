@@ -3,6 +3,7 @@
 // サウンド処理 [sound.cpp]
 // Author : KAITO IWASAKI
 // Special Thanks : AKIRA TANAKA
+//				　: TENMA SAITO
 //
 //=============================================================================
 #include "sound.h"
@@ -158,7 +159,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 {
 	{"data/SOUND/SE/Select.wav",0},					// SE 回転ノコギリ(仮置き)
 	{"data/SOUND/SE/hit.wav",0},						// SE プレス機
-	{"data/SOUND/SE/Select.wav",0},						// SE バーナー
+	{"data/SOUND/BGM/bgm002.wav",0},						// SE バーナー
 	{"data/SOUND/SE/donald.wav",0},						// SE 敵
 };
 
@@ -380,7 +381,7 @@ void UninitSound(void)
 //=============================================================================
 // セグメント再生(再生中なら停止)
 //=============================================================================
-HRESULT PlaySound(SOUND_LABEL label)
+HRESULT PlaySound(SOUND_LABEL label, int* pOut)
 {
 	XAUDIO2_VOICE_STATE xa2state;
 	XAUDIO2_BUFFER buffer;
@@ -396,6 +397,7 @@ HRESULT PlaySound(SOUND_LABEL label)
 	{
 		if (g_aChecker[label][nCntSource].IsPlayingSound() == false && g_abPlay[label][nCntSource] == false)
 		{// 指定の配列番号目が不使用
+
 			// 再生中に変更
 			g_abPlay[label][nCntSource] = true;
 
@@ -404,6 +406,8 @@ HRESULT PlaySound(SOUND_LABEL label)
 
 			// 再生
 			g_apSourceVoice[label][nCntSource]->Start(0);
+
+			pOut = &nCntSource;
 
 			break;
 		}
@@ -415,26 +419,20 @@ HRESULT PlaySound(SOUND_LABEL label)
 //=============================================================================
 // セグメント停止(ラベル指定)
 //=============================================================================
-void StopSound(int label)
+void StopSound(int label, int* pOut)
 {
 	XAUDIO2_VOICE_STATE xa2state;
-
-	for (int nCntSource = 0; nCntSource < MAX_SOUND; nCntSource++)
+	if (g_abPlay[label][*pOut] == true)
 	{
-		if (g_aChecker[label][nCntSource].IsPlayingSound() == true && g_abPlay[label][nCntSource] == true)
-		{
-			// 一時停止
-			g_apSourceVoice[label][nCntSource]->Stop(0);
+		// 一時停止
+		g_apSourceVoice[label][*pOut]->Stop(0);
 
-			// オーディオバッファの削除
-			g_apSourceVoice[label][nCntSource]->FlushSourceBuffers();
+		// オーディオバッファの削除
+		g_apSourceVoice[label][*pOut]->FlushSourceBuffers();
 
-			g_aChecker[label][nCntSource].bEndReverse();
+		g_aChecker[label][*pOut].bEndReverse();
 
-			g_abPlay[label][nCntSource] = false;
-
-			break;
-		}
+		g_abPlay[label][*pOut] = false;
 	}
 }
 
@@ -565,9 +563,16 @@ XAUDIO2_VOICE_STATE* GetSoundState(SOUND_LABEL label, int nIdx)
 	return &state;
 }
 //=============================================================================
+// サウンド再生情報取得
+//=============================================================================
+bool GetPlaySound(SOUND_LABEL label, int nIdx)
+{
+	return g_abPlay[label][nIdx];
+}
+//=============================================================================
 // サウンド再生確認
 //=============================================================================
-void UpdateSound(void)
+void CheckSoundStop(void)
 {
 	bool bCheck = false;
 
@@ -579,7 +584,7 @@ void UpdateSound(void)
 
 			if (bCheck == true)
 			{
-				StopSound(nCntLabel);
+				StopSound(nCntLabel, &nCntSource);
 			}
 		}
 	}

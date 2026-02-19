@@ -82,6 +82,7 @@ typedef struct
 	D3DXVECTOR3 watchPoint;		// 監視位置
 	D3DXVECTOR3 TargetPoint;	// 追跡位置
 
+	int nSoundIdx;				// 使用するサウンドスポットのインデックス
 }ENEMY;
 
 //*********************************************************************
