@@ -17,8 +17,9 @@
 //*********************************************************************
 typedef enum
 {
-	TEAMLOGO_LOGO = 0,
-	TEAMLOGO_PUESS,
+
+	TEAMLOGO_1PLAYER = 0,
+	TEAMLOGO_2PLAYER,
 	TEAMLOGO_MAX
 }TEAMLOGO;
 
@@ -32,6 +33,7 @@ typedef struct
 	D3DXVECTOR3 pos;			//ロゴの位置
 	D3DXCOLOR col;				//ロゴの色
 	TEAMLOGO type;				//チームロゴのタイプ
+	bool bUse;					//どこを選択しているか
 }TeamLogo;
 //*********************************************************************
 // 
@@ -48,5 +50,5 @@ void InitTeamLogo(void);
 void UninitTeamLogo(void);
 void UpdateTeamLogo(void);
 void DrawTeamLogo(void);
-
+bool GetTitle(int nIdx);
 #endif

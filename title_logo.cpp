@@ -25,19 +25,17 @@ LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTitleLogo;		//頂点バッファへのポインタ
 D3DXVECTOR3 g_Titlepos;								//ロゴの位置
 D3DXCOLOR g_TitleLogoCol;
 int g_nCounter;
-bool ba;											//アルファ値のON/OFF
-bool bEnter;										//エンターを押したか
+
+
 
 //===========================================================
 // タイトルロゴの初期化処理
 //===========================================================
 void InitTitleLogo(void)
 {
-	g_Titlepos = D3DXVECTOR3(640.0f,-600.0f,0.0f);
+	g_Titlepos = D3DXVECTOR3(640.0f,250.0f,0.0f);
 	g_nCounter = 1;
 	g_TitleLogoCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	bEnter = false;
-	ba = true;
 
 	LPDIRECT3DDEVICE9 pDevice;
 
@@ -128,32 +126,8 @@ void UpdateTitleLogo(void)
 		g_nCounter++;
 	}
 
-	if (((g_nCounter % 60) == 0) && bEnter == false)
-	{
-		if (ba == true)
-		{
-			g_TitleLogoCol.a = 0.5f;
-			ba = false;
-		}
-		else
-		{
-			g_TitleLogoCol.a = 1.0f;
-			ba = true;
-		}
-	}
-	else if (bEnter == true && (g_nCounter % 10) == 0)
-	{
-		if (ba == true)
-		{
-			g_TitleLogoCol.a = 0.5f;
-			ba = false;
-		}
-		else
-		{
-			g_TitleLogoCol.a = 1.0f;
-			ba = true;
-		}
-	}
+	
+	
 
 	//頂点座標の設定
 	pVtx[0].pos = D3DXVECTOR3(g_Titlepos.x - TITLELOGO_WIDTH, g_Titlepos.y - TITLEROGO_HEIGHT, 0.0f);//右回りで！
@@ -187,9 +161,19 @@ void DrawTitleLogo(void)
 	//頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
+	//アルファテスト無効
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 128);
+	//アルファテスト有効
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 256);
 	//テクスチャの設定
 	pDevice->SetTexture(0, g_pTextureTitleLogo);
 
 	//ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+	
 }

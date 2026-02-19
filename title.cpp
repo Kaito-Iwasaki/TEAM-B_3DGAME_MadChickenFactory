@@ -25,6 +25,9 @@
 #include"team_logo.h"
 #include"DebugProc.h"
 #include"player.h"
+#include"model_loader.h"
+#include"texture.h"
+#include"meshcylinder.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -35,6 +38,7 @@
 //グローバル変数
 //===============
 TITLE g_aTitle[MAX_TITLE];
+MODELDATA g_modelDataTitle;
 //===========
 //初期化処理
 //===========
@@ -48,7 +52,46 @@ void InitTitle(void)
 	InitMeshCylinder();				//メッシュシリンダー
 	InitLight();					//ライト
 	InitTeamLogo();					//チームロゴ
+
+	// スクリプトの読み込み
+	LoadScript("data\\model_Land.txt", &g_modelDataTitle);
+	// テクスチャの読み込み
 	
+	// モデルの読み込み・配置
+	LoadAndSetModelFromData(&g_modelDataTitle);
+	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_TEXTURE; nCountTex++)
+	{
+		LoadTexture(&g_modelDataTitle.aFilenameTexture[nCountTex][0], nCountTex);
+	}
+
+	// フィールドの設定
+	for (int nCountField = 0; nCountField < g_modelDataTitle.nCountFieldSet; nCountField++)
+	{
+		FIELDSETDATA* pFieldData = &g_modelDataTitle.aInfoFieldSet[nCountField];
+
+		SetField(
+			pFieldData->pos,
+			D3DXVECTOR3(pFieldData->size.x * pFieldData->nBlockX, 0, pFieldData->size.z * pFieldData->nBlockZ),
+			pFieldData->rot,
+			pFieldData->nType
+		);
+	}
+
+	// ウォールの設定
+	for (int nCountWALL = 0; nCountWALL < g_modelDataTitle.nCountWallSet; nCountWALL++)
+	{
+		WALLSETDATA* pWallData = &g_modelDataTitle.aInfoWallSet[nCountWALL];
+
+		SetWall(
+			pWallData->nType,
+			pWallData->pos,
+			D3DXVECTOR3(pWallData->size.x * pWallData->nBlockX, pWallData->size.y * pWallData->nBlockY, 0),
+			pWallData->rot
+		);
+	}
+	// カメラの初期設定
+	SetCameraPosVFromAngle(0);
+	GetCamera(0)->mode = CAMERAMODE_FREE;
 }
 
 //=======================
@@ -64,7 +107,11 @@ void UninitTitle(void)
 	UninitMeshCylinder();			//メッシュシリンダー
 	UninitLight();					//ライト
 	UninitTeamLogo();				//チームロゴ
+	
+	// テクスチャの解放
+	ReleaseLoadedTexture();
 
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
 }
 //==================
 //タイトル画面の更新
@@ -80,22 +127,7 @@ void UpdateTitle(void)
 	UpdateLight();					//ライト
 	UpdateTeamLogo();				//チームロゴ
 
-	if (GetKeyboardTrigger(DIK_RETURN) == true && g_aTitle->bEnter == false)
-	{
-		g_aTitle->bEnter = true;
-		//ENTERが押された
-		SetFade(MODE_GAME);
-		//ゲーム画面に移行
-		g_aTitle->bEnter = false;
-	}
-	if (GetJoypadTrigger(JOYKEY_START) == true && g_aTitle->bEnter == false)
-	{
-		g_aTitle->bEnter = true;
-		//STARTが押された
-		SetFade(MODE_GAME);
-		//ゲーム画面に移行
-		g_aTitle->bEnter = false;
-	}
+	
 }
 //=========================
 //タイトル画面の描画処理

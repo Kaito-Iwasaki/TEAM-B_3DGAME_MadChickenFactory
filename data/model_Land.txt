@@ -1,0 +1,971 @@
+#==============================================================================
+#
+# 『モデルビューワ』スクリプトファイル [model.txt]
+# Author : AKIRA TANAKA
+#
+#==============================================================================
+SCRIPT			# この行は絶対消さないこと！
+
+#------------------------------------------------------------------------------
+# テクスチャ数
+#------------------------------------------------------------------------------
+NUM_TEXTURE = 8
+
+#------------------------------------------------------------------------------
+# テクスチャファイル名
+#------------------------------------------------------------------------------
+TEXTURE_FILENAME = data/TEXTURE/KOsky000.jpg		# [0]空テクスチャ
+TEXTURE_FILENAME = data/TEXTURE/mountain000.png		# [1]山テクスチャ
+TEXTURE_FILENAME = data/TEXTURE/Renga.jpg			# [2]地面テクスチャ
+TEXTURE_FILENAME = data/TEXTURE/wall100.jpg			# [3]壁テクスチャ
+TEXTURE_FILENAME = data/TEXTURE/tree000.png			# [4]木テクスチャ
+TEXTURE_FILENAME = data/TEXTURE/grass000.png		# [5]草テクスチャ
+TEXTURE_FILENAME = data/TEXTURE/concrete.jpg		# [6]駐車場concrete
+TEXTURE_FILENAME = data/TEXTURE/human000.png		# [7]岩崎
+
+#------------------------------------------------------------------------------
+# モデル数
+#------------------------------------------------------------------------------
+NUM_MODEL = 17
+
+#------------------------------------------------------------------------------
+# モデルファイル名
+#------------------------------------------------------------------------------
+MODEL_FILENAME = data/MODEL/Land/car.x				# [0]ゴーカート・車
+MODEL_FILENAME = data/MODEL/Land/chicken.x			# [1]観覧車・乗車部
+MODEL_FILENAME = data/MODEL/Land/chickenbucket.x	# [2]チキン入り容器
+MODEL_FILENAME = data/MODEL/Land/FaceinPanel.x		# [3]顔ハメパネル
+MODEL_FILENAME = data/MODEL/Land/foundation.x		# [4]観覧車・土台
+MODEL_FILENAME = data/MODEL/Land/gate.x				# [5]門
+MODEL_FILENAME = data/MODEL/Land/slide.x			# [6]滑り台
+MODEL_FILENAME = data/MODEL/Land/swing000.x			# [7]ブランコ
+MODEL_FILENAME = data/MODEL/Land/wheel.x			# [8]観覧車・車輪
+MODEL_FILENAME = data/MODEL/Land/car_field.x		# [9]ゴーカート・場
+MODEL_FILENAME = data/MODEL/Land/fence.x			# [10]柵
+MODEL_FILENAME = data/MODEL/Land/street_trees.x		# [11]街路樹
+MODEL_FILENAME = data/MODEL/Land/shop.x				# [12]店
+MODEL_FILENAME = data/MODEL/Land/Eating_Space_Set.x	# [13]食事スペースセット
+MODEL_FILENAME = data/MODEL/Land/seesaw.x			# [14]シーソー
+MODEL_FILENAME = data/MODEL/Land/curb.x				# [15]縁石
+MODEL_FILENAME = data/MODEL/Land/car_fake.x			# [16]駐車された車
+#------------------------------------------------------------------------------
+# カメラ情報
+#------------------------------------------------------------------------------
+CAMERASET
+	POS = 0.0 180.0 -720.0			# 視点
+	REF = 0.0 0.0 0.0				# 注視点
+END_CAMERASET
+
+#------------------------------------------------------------------------------
+# ライト情報
+#------------------------------------------------------------------------------
+LIGHTSET
+	DIRECTION = 0.22 -0.87 0.44		# 方向
+	DIFFUSE = 1.0 1.0 1.0			# 拡散光
+END_LIGHTSET
+
+LIGHTSET
+	DIRECTION = -0.18 0.88 -0.44	# 方向
+	DIFFUSE = 0.65 0.65 0.65		# 拡散光
+END_LIGHTSET
+
+LIGHTSET
+	DIRECTION = 0.89 -0.11 0.44		# 方向
+	DIFFUSE = 0.15 0.15 0.15		# 拡散光
+END_LIGHTSET
+
+#------------------------------------------------------------------------------
+# 空情報
+#------------------------------------------------------------------------------
+SKYSET
+	TEXTYPE = 0
+	MOVE = 0.00002
+END_SKYSET
+
+#------------------------------------------------------------------------------
+# 山情報
+#------------------------------------------------------------------------------
+MOUNTAINSET
+	TEXTYPE = 1
+END_MOUNTAINSET
+
+#------------------------------------------------------------------------------
+# 地面情報
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 2
+	POS = 0 0 600
+	ROT = 0 0 0
+	BLOCK = 16 16
+	SIZE = 150 120
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 0 0 -750
+	ROT = 0 0 0
+	BLOCK = 16 16
+	SIZE = 150 50
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# 壁情報
+#------------------------------------------------------------------------------
+WALLSET
+	TEXTYPE = 3
+	POS = 0 -80 640
+	ROT = 0 180 0
+	BLOCK = 16 1
+	SIZE = 80 80
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 640 -80 0
+	ROT = 0 270 0
+	BLOCK = 16 1
+	SIZE = 80 80
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 0 -80 -640
+	ROT = 0 0 0
+	BLOCK = 16 1
+	SIZE = 80 80
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = -640 -80 0
+	ROT = 0 90 0
+	BLOCK = 16 1
+	SIZE = 80 80
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# モデル配置情報
+#------------------------------------------------------------------------------
+#入口
+MODELSET
+	TYPE = 5
+	POS = 0 0 -1000
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+
+#街路樹
+#1
+MODELSET
+	TYPE = 11
+	POS = 400 0 -1000
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 11
+	POS = 900 0 -1000
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#3
+MODELSET
+	TYPE = 11
+	POS = 1050 0 -850
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+
+#4
+MODELSET
+	TYPE = 11
+	POS = 1050 0 -350
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+
+#5
+MODELSET
+	TYPE = 11
+	POS = 1050 0 150
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#6
+MODELSET
+	TYPE = 11
+	POS = 1050 0 650
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#7
+MODELSET
+	TYPE = 11
+	POS = 1050 0 1150
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+
+#8逆サイ
+MODELSET
+	TYPE = 11
+	POS = -400 0 -1000
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#9
+MODELSET
+	TYPE = 11
+	POS = -900 0 -1000
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#10
+MODELSET
+	TYPE = 11
+	POS = -1050 0 -850
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+
+#11
+MODELSET
+	TYPE = 11
+	POS = -1050 0 -350
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+
+#12
+MODELSET
+	TYPE = 11
+	POS = -1050 0 150
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#13
+MODELSET
+	TYPE = 11
+	POS = -1050 0 650
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#14
+MODELSET
+	TYPE = 11
+	POS = -1050 0 1150
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#店
+MODELSET
+	TYPE = 12
+	POS = -300 0 1300
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#観覧車
+#土台
+MODELSET
+	TYPE = 4
+	POS = 650 0 400
+	ROT = 0 40 0
+	SHADOW = 0
+END_MODELSET
+#車輪
+MODELSET
+	TYPE = 8
+	POS = 650 82 400
+	ROT = 0 40 0
+	SHADOW = 0
+END_MODELSET
+#鶏乗車部1
+MODELSET
+	TYPE = 1
+	POS = 650 40 400
+	ROT = 0 40 0
+	SHADOW = 0
+END_MODELSET
+#鶏乗車部2
+MODELSET
+	TYPE = 1
+	POS = 720 120 345
+	ROT = 0 40 0
+	SHADOW = 0
+END_MODELSET
+#鶏乗車部3
+MODELSET
+	TYPE = 1
+	POS = 580 120 460
+	ROT = 0 40 0
+	SHADOW = 0
+END_MODELSET
+#鶏乗車部4
+MODELSET
+	TYPE = 1
+	POS = 650 220 400
+	ROT = 0 40 0
+	SHADOW = 0
+END_MODELSET
+#イーティングスペースセット
+#1
+MODELSET
+	TYPE = 13
+	POS = -300 0 650
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 13
+	POS = -600 0 650
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#3
+MODELSET
+	TYPE = 13
+	POS = -300 0 350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#4
+MODELSET
+	TYPE = 13
+	POS = -600 0 350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#ゴーカート（場）
+MODELSET
+	TYPE = 9
+	POS = -600 0 -50
+	ROT = 0 -25 0
+	SHADOW = 0
+END_MODELSET
+#ゴーカート(車)
+#1
+MODELSET
+	TYPE = 0
+	POS = -660 0 -150
+	ROT = 0 -25 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 0
+	POS = -600 0 0
+	ROT = 0 180 0
+	SHADOW = 0
+END_MODELSET
+#顔ハメパネル
+MODELSET
+	TYPE = 3
+	POS = 80 0 1040
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+MODELSET
+	TYPE = 3
+	POS = -40 0 1040
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#滑り台
+MODELSET
+	TYPE = 6
+	POS = 680 0 950
+	ROT = 0 130 0
+	SHADOW = 0
+END_MODELSET
+#ブランコ
+#1
+MODELSET
+	TYPE = 7
+	POS = 600 0 1180
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 7
+	POS = 500 0 1180
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#シーソー
+MODELSET
+	TYPE = 14
+	POS = 450 0 980
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#柵===================================================
+#ゴーカート柵
+#1
+MODELSET
+	TYPE = 10
+	POS = -840 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 10
+	POS = -775 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#3
+MODELSET
+	TYPE = 10
+	POS = -710 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#4
+MODELSET
+	TYPE = 10
+	POS = -645 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#5
+MODELSET
+	TYPE = 10
+	POS = -580 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#6
+MODELSET
+	TYPE = 10
+	POS = -515 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#7
+MODELSET
+	TYPE = 10
+	POS = -450 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#8
+MODELSET
+	TYPE = 10
+	POS = -385 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#9
+MODELSET
+	TYPE = 10
+	POS = -320 0 150
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#10
+MODELSET
+	TYPE = 10
+	POS = -840 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#11
+MODELSET
+	TYPE = 10
+	POS = -775 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#12
+MODELSET
+	TYPE = 10
+	POS = -710 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#13
+MODELSET
+	TYPE = 10
+	POS = -645 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#14
+MODELSET
+	TYPE = 10
+	POS = -580 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#15
+MODELSET
+	TYPE = 10
+	POS = -515 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#16
+MODELSET
+	TYPE = 10
+	POS = -450 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#17
+MODELSET
+	TYPE = 10
+	POS = -385 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#18
+MODELSET
+	TYPE = 10
+	POS = -320 0 -280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#19
+MODELSET
+	TYPE = 10
+	POS = -875 0 -210
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#19'
+MODELSET
+	TYPE = 10
+	POS = -875 0 -250
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#19
+MODELSET
+	TYPE = 10
+	POS = -875 0 -145
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#20
+MODELSET
+	TYPE = 10
+	POS = -875 0 -80
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#21
+MODELSET
+	TYPE = 10
+	POS = -875 0 -15
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#22
+MODELSET
+	TYPE = 10
+	POS = -875 0 50
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#23
+MODELSET
+	TYPE = 10
+	POS = -875 0 115
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#24
+MODELSET
+	TYPE = 10
+	POS = -290 0 115
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#25
+MODELSET
+	TYPE = 10
+	POS = -290 0 50
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#26
+MODELSET
+	TYPE = 10
+	POS = -290 0 -245
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#27
+MODELSET
+	TYPE = 10
+	POS = -290 0 -180
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#観覧車柵ーーーーーーーーーーーーーーーーーー
+#1
+MODELSET
+	TYPE = 10
+	POS = 760 0 200
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 10
+	POS = 695 0 200
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#3
+MODELSET
+	TYPE = 10
+	POS = 630 0 200
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#4
+MODELSET
+	TYPE = 10
+	POS = 565 0 200
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#5
+MODELSET
+	TYPE = 10
+	POS = 795 0 235
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#6
+MODELSET
+	TYPE = 10
+	POS = 795 0 300
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#7
+MODELSET
+	TYPE = 10
+	POS = 795 0 365
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#8
+MODELSET
+	TYPE = 10
+	POS = 795 0 430
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#9
+MODELSET
+	TYPE = 10
+	POS = 795 0 495
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#10
+MODELSET
+	TYPE = 10
+	POS = 760 0 530
+	ROT = 0 180 0
+	SHADOW = 0
+END_MODELSET
+#11
+MODELSET
+	TYPE = 10
+	POS = 695 0 530
+	ROT = 0 180 0
+	SHADOW = 0
+END_MODELSET
+#12
+MODELSET
+	TYPE = 10
+	POS = 630 0 530
+	ROT = 0 180 0
+	SHADOW = 0
+END_MODELSET
+#13
+MODELSET
+	TYPE = 10
+	POS = 565 0 530
+	ROT = 0 180 0
+	SHADOW = 0
+END_MODELSET
+#14
+MODELSET
+	TYPE = 10
+	POS = 500 0 530
+	ROT = 0 180 0
+	SHADOW = 0
+END_MODELSET
+#15
+MODELSET
+	TYPE = 10
+	POS = 465 0 495
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#15
+MODELSET
+	TYPE = 10
+	POS = 465 0 430
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#16
+MODELSET
+	TYPE = 10
+	POS = 465 0 365
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#17
+MODELSET
+	TYPE = 10
+	POS = 465 0 300
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#遊具用柵ーーーーーーーーーーーーーーーーーー
+#1
+MODELSET
+	TYPE = 10
+	POS = 660 0 1280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 10
+	POS = 595 0 1280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+
+#3
+MODELSET
+	TYPE = 10
+	POS = 465 0 1280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#4
+MODELSET
+	TYPE = 10
+	POS = 400 0 1280
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#5
+MODELSET
+	TYPE = 10
+	POS = 365 0 1245
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#6
+MODELSET
+	TYPE = 10
+	POS = 365 0 1115
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#7
+MODELSET
+	TYPE = 10
+	POS = 400 0 1080
+	ROT = 0 -180 0
+	SHADOW = 0
+END_MODELSET
+#8
+MODELSET
+	TYPE = 10
+	POS = 465 0 1080
+	ROT = 0 -180 0
+	SHADOW = 0
+END_MODELSET
+#9
+MODELSET
+	TYPE = 10
+	POS = 595 0 1080
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#10
+MODELSET
+	TYPE = 10
+	POS = 660 0 1080
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#11
+MODELSET
+	TYPE = 10
+	POS = 695 0 1115
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#12
+MODELSET
+	TYPE = 10
+	POS = 695 0 1245
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#縁石
+#1
+MODELSET
+	TYPE = 15
+	POS = 800 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 15
+	POS = 568 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#3
+MODELSET
+	TYPE = 15
+	POS = 336 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#4
+MODELSET
+	TYPE = 15
+	POS = 104 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#5
+MODELSET
+	TYPE = 15
+	POS = -128 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#6
+MODELSET
+	TYPE = 15
+	POS = -360 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#7
+MODELSET
+	TYPE = 15
+	POS = -592 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#8
+MODELSET
+	TYPE = 15
+	POS = -824 -10 -350
+	ROT = 0 0 0
+	SHADOW = 0
+END_MODELSET
+#車（駐車）＝＝＝＝＝＝＝＝＝
+#1
+MODELSET
+	TYPE = 16
+	POS = -800 0 -750
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#2
+MODELSET
+	TYPE = 16
+	POS = -650 0 -450
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#3
+MODELSET
+	TYPE = 16
+	POS = -300 0 -750
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#4
+MODELSET
+	TYPE = 16
+	POS = 300 0 -750
+	ROT = 0 -90 0
+	SHADOW = 0
+END_MODELSET
+#5
+MODELSET
+	TYPE = 16
+	POS = 800 0 -450
+	ROT = 0 90 0
+	SHADOW = 0
+END_MODELSET
+#------------------------------------------------------------------------------
+# ビルボード配置情報
+#------------------------------------------------------------------------------
+
+BILLBOARDSET
+	TEXTYPE = 7
+	POS = -820 50 -70
+	ROT = 0 0 0
+	SIZE = 50 100
+END_BILLBOARDSET
+
+BILLBOARDSET
+	TEXTYPE = 7
+	POS = 90 25 1035
+	ROT = 0 0 0
+	SIZE = 25 50
+END_BILLBOARDSET
+
+BILLBOARDSET
+	TEXTYPE = 7
+	POS = 640 250 390
+	ROT = 0 0 0
+	SIZE = 25 50
+END_BILLBOARDSET
+
+BILLBOARDSET
+	TEXTYPE = 7
+	POS = -600 25 25
+	ROT = 0 0 0
+	SIZE = 25 50
+END_BILLBOARDSET
+
+BILLBOARDSET
+	TEXTYPE = 7
+	POS = -290 25 400
+	ROT = 0 0 0
+	SIZE = 25 50
+END_BILLBOARDSET
+BILLBOARDSET
+	TEXTYPE = 7
+	POS = -310 50 400
+	ROT = 0 0 0
+	SIZE = 50 100
+END_BILLBOARDSET
+
+#------------------------------------------------------------------------------
+# 草配置情報
+#------------------------------------------------------------------------------
+
+
+#------------------------------------------------------------------------------
+# プレイヤー情報
+#------------------------------------------------------------------------------
+
+
+
+END_SCRIPT		# この行は絶対消さないこと！

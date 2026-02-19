@@ -55,7 +55,7 @@ void InitMeshCylinder(void)
 	}
 
 	// メッシュシリンダーの設定
-	SetMeshCylinder(D3DXVECTOR3(0.0f, -200.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1500.0f, 400.0f, 32, 1);
+	SetMeshCylinder(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 1500.0f, 1500.0f, 16, 1);
 
 }
 

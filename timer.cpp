@@ -84,7 +84,7 @@ void InitTimer(void)
 
 			g_nTimer[ nSetTimer][nCntTimer].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			g_nTimer[ nSetTimer][nCntTimer].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
-			g_nTimer[ nSetTimer][nCntTimer].CountTimer = 300;
+			g_nTimer[ nSetTimer][nCntTimer].CountTimer = 0;
 			g_nTimer[ nSetTimer][nCntTimer].Fream = 0;
 			g_nTimer[nSetTimer][nCntTimer].bUse = false;
 			g_nTimer[nSetTimer][nCntTimer].bTimer = false;
@@ -121,7 +121,7 @@ void InitTimer(void)
 	g_pVtxBuffTimer->Unlock();
 	g_aTimer = INIT_TIMER;
 	g_nFrame = FRAME_TIMER;
-	SetTimerCount(200);
+	SetTimerCount(300);
 }
 
 //=====================================================================
@@ -189,6 +189,12 @@ void UpdateTimer(void)
 				pVtx[1].pos = D3DXVECTOR3((nCntTimer * 100.0f + 100.0f), -100.0f, 0.0f);
 				pVtx[2].pos = D3DXVECTOR3((nCntTimer * 100.0f), 100.0f, 0.0f);
 				pVtx[3].pos = D3DXVECTOR3((nCntTimer * 100.0f + 100.0f), 100.0f, 0.0f);
+
+				//テクスチャ色
+				pVtx[0].col = g_nTimer[nSetTimer][nCntTimer].col;
+				pVtx[1].col = g_nTimer[nSetTimer][nCntTimer].col;
+				pVtx[2].col = g_nTimer[nSetTimer][nCntTimer].col;
+				pVtx[3].col = g_nTimer[nSetTimer][nCntTimer].col;
 				
 				//0秒でゲーム再び
 				if (g_nTimer[nSetTimer][nCntTimer].CountTimer <= 0)
