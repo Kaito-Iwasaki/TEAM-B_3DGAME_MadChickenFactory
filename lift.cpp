@@ -66,8 +66,8 @@ void InitLift(void)
 	LoadModel(LIFT_MODEL_PATH, &g_aLiftModelData);
 
 	SetLift(1, D3DXVECTOR3(1803.0f, 0.0f, -400.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
-	SetLift(1, D3DXVECTOR3(1430.0f, 0.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
-	SetLift(1, D3DXVECTOR3(5250.0f, 0.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
+	SetLift(2, D3DXVECTOR3(1430.0f, 200.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
+	SetLift(2, D3DXVECTOR3(5250.0f, 200.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
 }
 
 //==================================================
@@ -104,6 +104,12 @@ void UpdateLift(void)
 				// --- 初期位置から移動中 ---
 				//==============================
 				g_aLift[nCntLift].move = g_aLift[nCntLift].vec * g_aLift[nCntLift].speed;
+
+				if (CollisionPointBoxDirection(pPlayer->pos, pPlayer->posOld, g_aLift[nCntLift].pos, g_aLiftModelData.vtxMin, g_aLiftModelData.vtxMax))
+				{
+					pPlayer->pos += g_aLift[nCntLift].move;
+				}
+
 				g_aLift[nCntLift].pos += g_aLift[nCntLift].move;
 				if (g_aLift[nCntLift].pos.x <= g_aLift[nCntLift].GoPoint.x + EFFECTIVE_RANGE_LIFT &&
 					g_aLift[nCntLift].pos.x >= g_aLift[nCntLift].GoPoint.x - EFFECTIVE_RANGE_LIFT &&
@@ -122,6 +128,12 @@ void UpdateLift(void)
 				// --- 設定位置から移動中 ---
 				//==============================
 				g_aLift[nCntLift].move = g_aLift[nCntLift].vec * g_aLift[nCntLift].speed;
+				
+				if (CollisionPointBoxDirection(pPlayer->pos, pPlayer->posOld, g_aLift[nCntLift].pos, g_aLiftModelData.vtxMin, g_aLiftModelData.vtxMax))
+				{
+					pPlayer->pos += g_aLift[nCntLift].move;
+				}
+
 				g_aLift[nCntLift].pos -= g_aLift[nCntLift].move;
 				if (g_aLift[nCntLift].pos.x <= g_aLift[nCntLift].SavePos.x + EFFECTIVE_RANGE_LIFT &&
 					g_aLift[nCntLift].pos.x >= g_aLift[nCntLift].SavePos.x - EFFECTIVE_RANGE_LIFT &&
@@ -262,66 +274,51 @@ bool CollisionLift(void)
 {
 	Player* pPlayer = GetPlayer();
 	bool bHitCheck = false;
+	Lift* pLift = &g_aLift[0];
 
-	for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++)
+	for (int nPlayer = 0; nPlayer < MAX_PLAYER; nPlayer++, pPlayer++)
 	{
-		if (g_aLift[nCntLift].bUse == true)
+		for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++, pLift++)
 		{
-			if ((pPlayer->pos.x <= g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMax.x) &&
-				(pPlayer->pos.x >= g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMin.x) &&
-				(pPlayer->pos.y <= g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMax.y) &&
-				(pPlayer->pos.y >= g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMin.y - 10.0f) &&
-				(pPlayer->pos.z <= g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMax.z) &&
-				(pPlayer->pos.z >= g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMin.z))
+			D3DXVECTOR3 vecHeight = D3DXVECTOR3(0, pPlayer->fHeight, 0);
+			BYTE byHit = CollisionBoxBoxDirection(
+				pPlayer->pos,
+				pPlayer->posOld,
+				D3DXVECTOR3(0, 0, 0),
+				D3DXVECTOR3(0, pPlayer->fHeight, 0),
+				pLift->pos,
+				g_aLiftModelData.vtxMin,
+				g_aLiftModelData.vtxMax
+			);
+
+			if (byHit & COLLISION_UP)
 			{
-				if (pPlayer->posOld.x >= g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMax.x)
-				{//右から
-					pPlayer->pos.x = g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMax.x;
-					bHitCheck = true;
-				}
-				else if (pPlayer->posOld.x <= g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMin.x)
-				{//左から
-					pPlayer->pos.x = g_aLift[nCntLift].pos.x + g_aLiftModelData.vtxMin.x;
-					bHitCheck = true;
-				}
-
-				if (pPlayer->posOld.y >= g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMax.y)
-				{//上から
-					pPlayer->pos.y = g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMax.y;
-					bHitCheck = true;
-					pPlayer->move.y = 0;
-					pPlayer->bJump = false;
-				}
-				else if (pPlayer->posOld.y <= g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMin.y)
-				{//下から
-					pPlayer->pos.y = g_aLift[nCntLift].pos.y + g_aLiftModelData.vtxMin.y;
-					bHitCheck = true;
-				}
-
-				if (pPlayer->posOld.z >= g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMax.z)
-				{//奥から
-					pPlayer->pos.z = g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMax.z;
-					bHitCheck = true;
-				}
-				else if (pPlayer->posOld.z <= g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMin.z)
-				{//手前から
-					pPlayer->pos.z = g_aLift[nCntLift].pos.z + g_aLiftModelData.vtxMin.z;
-					
-					bHitCheck = true;
-				}
+				pPlayer->pos.y = pLift->pos.y + g_aLiftModelData.vtxMax.y;
+				pPlayer->move.y = 0;
+				pPlayer->bJump = false;
 			}
-			else
+			else if (byHit & COLLISION_DOWN)
 			{
-				int a = 0;
+				pPlayer->pos.y = pLift->pos.y - pPlayer->fHeight;
+				pPlayer->move.y = 0;
 			}
 
-			if (bHitCheck == true)
+			if (byHit & COLLISION_LEFT)
 			{
-				pPlayer->pos.x += g_aLift[nCntLift].move.x;
-				pPlayer->pos.y += g_aLift[nCntLift].move.y;
-				pPlayer->pos.z += g_aLift[nCntLift].move.z;
+				pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMin.x;
 			}
-
+			if (byHit & COLLISION_RIGHT)
+			{
+				pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMax.x;
+			}
+			if (byHit & COLLISION_FRONT)
+			{
+				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMin.z;
+			}
+			if (byHit & COLLISION_BACK)
+			{
+				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMax.z;
+			}
 		}
 	}
 

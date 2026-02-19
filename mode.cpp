@@ -15,7 +15,7 @@
 #include "input.h"
 #include "fade.h"
 #include "DebugProc.h"
-
+#include"Logo.h"
 // シーンファイルのヘッダ
 #include "title.h"
 #include "Game.h"
@@ -34,6 +34,7 @@ MODE g_previousMode = g_currentMode;		// 直前のシーン
 // 各シーンの処理関数
 //*********************************************************************
 MODEDATA g_modes[MODE_MAX] = {
+	{ InitLogo, UninitLogo, UpdateLogo, DrawLogo },
 	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
 	{ InitResult, UninitResult, UpdateResult, DrawResult },

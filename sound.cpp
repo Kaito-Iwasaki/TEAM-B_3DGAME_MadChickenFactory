@@ -161,6 +161,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 	{"data/SOUND/SE/hit.wav",0},						// SE プレス機
 	{"data/SOUND/BGM/bgm002.wav",0},						// SE バーナー
 	{"data/SOUND/SE/donald.wav",0},						// SE 敵
+	{"data/SOUND/SE/blood.wav",0},						// SE 血
 };
 
 //=============================================================================

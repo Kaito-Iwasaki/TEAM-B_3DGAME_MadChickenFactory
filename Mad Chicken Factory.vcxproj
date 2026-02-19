@@ -164,6 +164,10 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="lift.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="Logo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="meshcylinder.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="main.h" />
@@ -234,6 +238,10 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="lift.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="Logo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="meshcylinder.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="main.cpp" />

@@ -239,9 +239,9 @@ void DrawPrompt(void)
 			pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 			// アルファテストを有効にする
-			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
-			pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+//			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+//			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
+//			pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
 		}
 
