@@ -31,7 +31,8 @@
 //*********************************************************************
 typedef enum
 {
-	MODE_TITLE = 0,
+	MODE_LOGO = 0,
+	MODE_TITLE,
 	MODE_GAME,
 	MODE_RESULT,
 	MODE_EDITOR,

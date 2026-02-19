@@ -52,7 +52,7 @@ void InitTitle(void)
 	InitMeshCylinder();				//メッシュシリンダー
 	InitLight();					//ライト
 	InitTeamLogo();					//チームロゴ
-
+	CAMERA* pCamera = GetCamera(0);
 	// スクリプトの読み込み
 	LoadScript("data\\model_Land.txt", &g_modelDataTitle);
 	// テクスチャの読み込み
@@ -91,7 +91,11 @@ void InitTitle(void)
 	}
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
-	GetCamera(0)->mode = CAMERAMODE_FREE;
+	pCamera->mode = CAMERAMODE_NONE;
+
+	pCamera->posR = D3DXVECTOR3(0.0f, 50.0f, 1100.0f);
+	pCamera->posV = D3DXVECTOR3(200.0f, 20.0f, 900.0f);
+	
 }
 
 //=======================
