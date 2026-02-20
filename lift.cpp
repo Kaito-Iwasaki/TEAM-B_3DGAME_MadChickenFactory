@@ -280,44 +280,47 @@ bool CollisionLift(void)
 	{
 		for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++, pLift++)
 		{
-			D3DXVECTOR3 vecHeight = D3DXVECTOR3(0, pPlayer->fHeight, 0);
-			BYTE byHit = CollisionBoxBoxDirection(
-				pPlayer->pos,
-				pPlayer->posOld,
-				D3DXVECTOR3(0, 0, 0),
-				D3DXVECTOR3(0, pPlayer->fHeight, 0),
-				pLift->pos,
-				g_aLiftModelData.vtxMin,
-				g_aLiftModelData.vtxMax
-			);
+			if (g_aLift[nCntLift].bUse == true)
+			{
+				D3DXVECTOR3 vecHeight = D3DXVECTOR3(0, pPlayer->fHeight, 0);
+				BYTE byHit = CollisionBoxBoxDirection(
+					pPlayer->pos,
+					pPlayer->posOld,
+					D3DXVECTOR3(0, 0, 0),
+					D3DXVECTOR3(0, pPlayer->fHeight, 0),
+					pLift->pos,
+					g_aLiftModelData.vtxMin,
+					g_aLiftModelData.vtxMax
+				);
 
-			if (byHit & COLLISION_UP)
-			{
-				pPlayer->pos.y = pLift->pos.y + g_aLiftModelData.vtxMax.y;
-				pPlayer->move.y = 0;
-				pPlayer->bJump = false;
-			}
-			else if (byHit & COLLISION_DOWN)
-			{
-				pPlayer->pos.y = pLift->pos.y - pPlayer->fHeight;
-				pPlayer->move.y = 0;
-			}
+				if (byHit & COLLISION_UP)
+				{
+					pPlayer->pos.y = pLift->pos.y + g_aLiftModelData.vtxMax.y;
+					pPlayer->move.y = 0;
+					pPlayer->bJump = false;
+				}
+				else if (byHit & COLLISION_DOWN)
+				{
+					pPlayer->pos.y = pLift->pos.y - pPlayer->fHeight;
+					pPlayer->move.y = 0;
+				}
 
-			if (byHit & COLLISION_LEFT)
-			{
-				pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMin.x;
-			}
-			if (byHit & COLLISION_RIGHT)
-			{
-				pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMax.x;
-			}
-			if (byHit & COLLISION_FRONT)
-			{
-				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMin.z;
-			}
-			if (byHit & COLLISION_BACK)
-			{
-				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMax.z;
+				if (byHit & COLLISION_LEFT)
+				{
+					pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMin.x;
+				}
+				if (byHit & COLLISION_RIGHT)
+				{
+					pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMax.x;
+				}
+				if (byHit & COLLISION_FRONT)
+				{
+					pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMin.z;
+				}
+				if (byHit & COLLISION_BACK)
+				{
+					pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMax.z;
+				}
 			}
 		}
 	}

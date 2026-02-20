@@ -1,7 +1,7 @@
 //=====================================================================
 //
 // Logo [Logo.cpp]
-// Author : 
+// Author : tutida
 // 
 //=====================================================================
 
@@ -53,6 +53,7 @@ LPDIRECT3DTEXTURE9 g_pTextureLogo[LOGO_MAX] = {};		//テクスチャのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffLogo;		//頂点バッファへのポインタ
 Logo g_aLogo[MAX_LOGO];
 int LogoFream;
+
 //=====================================================================
 // 初期化処理
 //=====================================================================
@@ -75,7 +76,6 @@ void InitLogo(void)
 	g_aLogo[1].type = LOGO_TEAMLOGO;
 			
 	g_aLogo[1].nCountLogo = 300;
-	  
 
 	LPDIRECT3DDEVICE9 pDevice;
 
