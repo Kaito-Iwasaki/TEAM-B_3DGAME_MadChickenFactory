@@ -36,6 +36,8 @@
 #define PLAYER_GRAVITY			(0.85f)						// 重力
 #define ONEPLAYER_MODELPAS		"data\\motion_muneo.txt"	// プレイヤーモデルへのパス
 #define TWOPLAYER_MODELPAS		"data\\motion_muneo.txt"	// プレイヤーモデルへのパス
+#define DEATHLINE				(-500.0f)					// 落下死亡判定の高さ
+#define PLAYER_BETWEEN			(3000.0f)					// プレイヤー間の最大距離
 //#define CHARACTER_TXTNAME		"data\\character.txt"		// キャラクターテキストファイル
 
 // グローバル変数
@@ -141,6 +143,7 @@ void UpdatePlayer(void)
 	{
 		if (g_Player[nCntPlayer].bUse == true)
 		{// 使用している
+
 			if (g_Player[nCntPlayer].bDisableControl == false)
 			{// 操作可能
 
@@ -342,8 +345,30 @@ void UpdatePlayer(void)
 					}
 				}
 			}
+
 			// モーションの更新処理
 			UpdateMotion(&g_Player[nCntPlayer].PlayerMotion);
+
+			if (g_Player[nCntPlayer].pos.y <= DEATHLINE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_ACTION)
+			{// 落下した
+
+				KillPlayer(&g_Player[nCntPlayer]);
+			}
+
+		}
+	}
+
+	if (g_Player[1].bUse == true)
+	{// 2Pプレイ
+
+		if (g_Player[0].pos.x - g_Player[1].pos.x >= PLAYER_BETWEEN || g_Player[0].pos.x - g_Player[1].pos.x <= -PLAYER_BETWEEN)
+		{// プレイヤー間の距離が最大値を超えた
+
+			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+			{// 位置を戻す
+
+				g_Player[nCntPlayer].pos = g_Player[nCntPlayer].posOld;
+			}
 		}
 	}
 }
