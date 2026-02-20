@@ -15,19 +15,19 @@
 #include "input.h"
 #include "fade.h"
 #include "DebugProc.h"
-#include"Logo.h"
 // シーンファイルのヘッダ
 #include "title.h"
 #include "Game.h"
 #include "result.h"
 #include "Editor.h"
-
+#include"Logo.h"
+#include"Gameover.h"
 //*********************************************************************
 // 
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-MODE g_currentMode = MODE_GAME;			// 現在のシーン
+MODE g_currentMode = MODE_GAMEOVER;			// 現在のシーン
 MODE g_previousMode = g_currentMode;		// 直前のシーン
 
 //*********************************************************************
@@ -37,6 +37,7 @@ MODEDATA g_modes[MODE_MAX] = {
 	{ InitLogo, UninitLogo, UpdateLogo, DrawLogo },
 	{ InitTitle, UninitTitle, UpdateTitle, DrawTitle },
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
+	{ InitGameover, UninitGameover, UpdateGameover, DrawGameover },
 	{ InitResult, UninitResult, UpdateResult, DrawResult },
 	{ InitEditor, UninitEditor, UpdateEditor, DrawEditor },
 };

@@ -157,13 +157,15 @@ void UpdateTeamLogo(void)
 	{
 		if (g_Start == TEAMLOGO_1PLAYER)
 		{
+			
 			SetFade(MODE_GAME);
-			GetTitle(0);
+			
 		}
 		else if (g_Start == TEAMLOGO_2PLAYER)
 		{
+			
 			SetFade(MODE_GAME);
-			GetTitle(1);
+			
 		}
 	}
 	for (int nCntTeamLogo = 0; nCntTeamLogo < MAX_TEAMLOGO; nCntTeamLogo++)
@@ -228,11 +230,8 @@ void DrawTeamLogo(void)
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,nCntTeamLogo * 4, 2);
 	}
 }
-bool GetTitle(int nIdx)
+int GetTitle(void)
 {
-	if (nIdx < 0 || nIdx >= TEAMLOGO_MAX)
-	{// ”ÍˆÍŠO‚È‚çfalse‚ð•Ô‚·
-		return false;
-	}
-	return &g_TeamLogo[nIdx] ;
+	return g_Start; // ‚Ü‚½‚Í nullptr
+	
 }

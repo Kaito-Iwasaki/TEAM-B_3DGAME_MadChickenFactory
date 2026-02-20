@@ -159,6 +159,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Gameover.h" />
     <ClInclude Include="gate.h" />
     <ClInclude Include="goal.h" />
     <ClInclude Include="input.h" />
@@ -233,6 +234,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="gate.cpp" />
     <ClCompile Include="goal.cpp" />
     <ClCompile Include="input.cpp" />

@@ -17,11 +17,14 @@
 //*********************************************************************
 typedef enum
 {
-
-	TEAMLOGO_1PLAYER = 0,
-	TEAMLOGO_2PLAYER,
-	TEAMLOGO_MAX
-}TEAMLOGO;
+	GAMEOVER_RETRY = 0,
+	GAMEOVER_QUIT,
+	GAMEOVER_BLOOD1,
+	GAMEOVER_BLOOD2,
+	GAMEOVER_GAMEOVER,
+	GAMEOVER_MAX,
+	
+}GAMEOVER;
 
 //*********************************************************************
 // 
@@ -32,7 +35,7 @@ typedef struct
 {
 	D3DXVECTOR3 pos;			//ロゴの位置
 	D3DXCOLOR col;				//ロゴの色
-	TEAMLOGO type;				//チームロゴのタイプ
+	GAMEOVER type;				//チームロゴのタイプ
 	bool bUse;					//どこを選択しているか
 }TeamLogo;
 //*********************************************************************
@@ -46,9 +49,9 @@ typedef struct
 // ***** プロトタイプ宣言 *****
 // 
 //*********************************************************************
-void InitTeamLogo(void);
-void UninitTeamLogo(void);
-void UpdateTeamLogo(void);
-void DrawTeamLogo(void);
-int GetTitle(void);
+void InitGameover(void);
+void UninitGameover(void);
+void UpdateGameover(void);
+void DrawGameover(void);
+
 #endif
