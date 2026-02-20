@@ -46,6 +46,7 @@
 #include "vignette.h"
 #include "Enemy.h"
 #include "SE_controller.h"
+#include "team_logo.h"
 
 //*********************************************************************
 // 
@@ -238,9 +239,21 @@ void InitGame(void)
 		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
 	}
 
+	int pStaet = GetTitle();		// プレイ人数情報取得
+
 	// カメラの初期設定
 	SetCameraPosVFromAngle(0);
-	GetCamera(0)->mode = CAMERAMODE_FREE;
+	if (pStaet == 0)
+	{// 1Pプレイ
+
+		GetCamera(0)->mode = CAMERAMODE_SIDEVIEW;
+	}
+	else
+	{// 2Pプレイ
+
+		GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
+	}
+	//GetCamera(0)->mode = CAMERAMODE_FREE;
 
 	g_bLightGame = true;
 	g_bFogGame = true;

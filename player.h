@@ -54,7 +54,8 @@ typedef struct
 	MOTION PlayerMotion;									// モーション
 	float fRadius;											// 半径
 	float fHeight;											// 高さ
-	bool bDisableControl;									// 操作受け付け判定								
+	bool bDisableControl;									// 操作受け付け判定			
+	bool bUse;												// 使用するかどうか
 }Player;
 
 // プロトタイプ宣言
