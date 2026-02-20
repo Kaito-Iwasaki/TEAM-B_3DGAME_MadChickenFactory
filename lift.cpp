@@ -66,8 +66,9 @@ void InitLift(void)
 	LoadModel(LIFT_MODEL_PATH, &g_aLiftModelData);
 
 	SetLift(1, D3DXVECTOR3(1803.0f, 0.0f, -400.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
-	SetLift(2, D3DXVECTOR3(1430.0f, 200.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
-	SetLift(2, D3DXVECTOR3(5250.0f, 200.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
+	SetLift(2, D3DXVECTOR3(970.0f, 0.0f, 2200.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 400.0f, 0.0f), 1.0f);
+	SetLift(4, D3DXVECTOR3(1430.0f, 200.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
+	SetLift(4, D3DXVECTOR3(5250.0f, 200.0f, 2000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 200.0f, 0.0f), 1.0f);
 }
 
 //==================================================
