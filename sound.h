@@ -33,7 +33,8 @@ typedef enum
 //*****************************************************************************
 HRESULT InitSound(HWND hWnd);
 void UninitSound(void);
-HRESULT PlaySound(SOUND_LABEL label, int* pOut = 0);
+HRESULT PlaySound(SOUND_LABEL label, int* pOut);
+HRESULT PlaySound(SOUND_LABEL label);
 void StopSound(int label, int* pOut = 0);
 void StopSound(void);
 void CheckSoundStop(int* nCnt);

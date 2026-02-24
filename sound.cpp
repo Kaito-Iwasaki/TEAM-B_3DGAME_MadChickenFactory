@@ -153,6 +153,7 @@ bool g_abPlay[SOUND_LABEL_MAX][MAX_SOUND] = {};					// 再生中か判定
 SoundChecker g_aChecker[SOUND_LABEL_MAX][MAX_SOUND] = {};		// オーディオチェッカー
 BYTE *g_apDataAudio[SOUND_LABEL_MAX] = {};						// オーディオデータ
 DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};						// オーディオデータサイズ
+IXAudio2SourceVoice* g_apSourceVoice2[SOUND_LABEL_MAX] = {};	// ソースボイス
 
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = 
@@ -380,7 +381,7 @@ void UninitSound(void)
 }
 
 //=============================================================================
-// セグメント再生(再生中なら停止)
+// セグメント再生
 //=============================================================================
 HRESULT PlaySound(SOUND_LABEL label, int* pOut)
 {
@@ -413,6 +414,40 @@ HRESULT PlaySound(SOUND_LABEL label, int* pOut)
 			break;
 		}
 	}
+
+	return S_OK;
+}
+//=============================================================================
+// セグメント再生(再生中なら停止)
+//=============================================================================
+HRESULT PlaySound(SOUND_LABEL label)
+{
+	XAUDIO2_VOICE_STATE xa2state;
+	XAUDIO2_BUFFER buffer;
+
+	// バッファの値設定
+	memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
+	buffer.AudioBytes = g_aSizeAudio[label];
+	buffer.pAudioData = g_apDataAudio[label];
+	buffer.Flags = XAUDIO2_END_OF_STREAM;
+	buffer.LoopCount = g_aSoundInfo[label].nCntLoop;
+
+	// 状態取得
+	g_apSourceVoice2[label]->GetState(&xa2state);
+	if (xa2state.BuffersQueued != 0)
+	{// 再生中
+		// 一時停止
+		g_apSourceVoice2[label]->Stop(0);
+
+		// オーディオバッファの削除
+		g_apSourceVoice2[label]->FlushSourceBuffers();
+	}
+
+	// オーディオバッファの登録
+	g_apSourceVoice2[label]->SubmitSourceBuffer(&buffer);
+
+	// 再生
+	g_apSourceVoice2[label]->Start(0);
 
 	return S_OK;
 }
