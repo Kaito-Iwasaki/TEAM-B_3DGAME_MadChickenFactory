@@ -164,6 +164,8 @@ void UpdatePause(void)
 {
 	PrintDebugProc("F1 : ポーズメニュー非表示\n");
 
+	if (GetFade().state != FADESTATE_NONE) return;
+
 	if (GetKeyboardTrigger(DIK_F1))
 	{
 		g_bF1 ^= true;
@@ -181,7 +183,7 @@ void UpdatePause(void)
 		}
 		else if (g_SelectModeP == PAUSE_MENU_QUIT)
 		{
-			SetFade(MODE_GAME);
+			SetFade(MODE_LOGO);
 		}
 		g_bF1 = false;
 	}
