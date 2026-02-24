@@ -23,7 +23,6 @@
 //	マクロ定義
 //
 //==================================================
-#define MAX_LIFT		(128)					// モデルの最大数
 #define LIFT_MODEL_PATH "data\\MODEL\\Factory\\lift.x"	// モデルファイルパス
 #define EFFECTIVE_RANGE_LIFT	(10.0f)			// 有効範囲
 
