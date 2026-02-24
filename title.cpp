@@ -122,6 +122,8 @@ void UninitTitle(void)
 //==================
 void UpdateTitle(void)
 {
+	CAMERA* pCamera = GetCamera(0);
+
 	PrintDebugProc("タイトル画面\n");
 	UpdateCamera();					//カメラ
 	UpdateTitleLogo();				//タイトルロゴ
@@ -131,7 +133,13 @@ void UpdateTitle(void)
 	UpdateLight();					//ライト
 	UpdateTeamLogo();				//チームロゴ
 
-	
+	// カメラの手振れ効果
+	D3DXVECTOR3 vShakeOffset = D3DXVECTOR3(
+		sinf((float)(pCamera->nCountState * 0.005f * 1.0f)) * 0.05f,
+		cosf((float)(pCamera->nCountState * 0.005f * 3.0f)) * 0.05f,
+		0
+	);
+	MoveCamera(0, vShakeOffset);
 }
 //=========================
 //タイトル画面の描画処理

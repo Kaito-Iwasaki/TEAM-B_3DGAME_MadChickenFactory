@@ -24,6 +24,8 @@
 #include "gate.h"
 #include "Enemy.h"
 #include"Timer.h"
+#include "lift.h"
+
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
@@ -192,6 +194,18 @@ typedef struct
 }ENEMYSETDATA;
 
 //*********************************************************************
+// ギミック配置情報構造体（リフト）
+//*********************************************************************
+typedef struct
+{
+	int nIdx;
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 rot;
+	D3DXVECTOR3 range;
+	float fSpeed;
+}LIFTSETDATA;
+
+//*********************************************************************
 // モデル配置情報構造体
 //*********************************************************************
 typedef struct
@@ -239,6 +253,9 @@ typedef struct
 
 	int nCountEnemySet;
 	ENEMYSETDATA aInfoEnemySet[MAX_ENEMY];
+
+	int nCountLiftSet;
+	LIFTSETDATA aInfoLiftSet[MAX_LIFT];
 }MODELDATA;
 
 //*********************************************************************

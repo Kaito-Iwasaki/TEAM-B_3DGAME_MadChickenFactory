@@ -50,6 +50,10 @@ void LoadParts(MOTION* pMotion);
 // pMotionの現在のモーション番号をnIdxMotionに設定します。
 void SetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend = 0);
 
+// pMotionの現在のモーション番号をnIdxMotionに設定します。
+// ただし、既に同じモーションが再生されている場合は再生しません。
+void SafeSetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend = 0);
+
 // pMotionのパーツにそれぞれの位置・回転オフセットを適用します。
 void SetPartOffset(MOTION* pMotion);
 

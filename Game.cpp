@@ -118,7 +118,7 @@ void InitGame(void)
 	SetSoundSpot(D3DXVECTOR3(3000.0f, 0.0f, 0.0f), SOUND_LABEL_SE_SAW);
 
 	// フォグの初期設定
-	float FogStart = 1500.0f, FogEnd = 3000.0f;
+	float FogStart = 2000.0f, FogEnd = 4000.0f;
 	GetDevice()->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR); // バーテックスフォグ
 	GetDevice()->SetRenderState(D3DRS_FOGSTART, *((DWORD*)(&FogStart))); // フォグ開始点
 	GetDevice()->SetRenderState(D3DRS_FOGEND, *((DWORD*)(&FogEnd))); // フォグ終了点
@@ -238,6 +238,17 @@ void InitGame(void)
 
 		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
 	}
+
+	// リフトの設定
+	for (int nCountLift = 0; nCountLift < g_modelDataGame.nCountLiftSet; nCountLift++)
+	{
+		LIFTSETDATA* pLiftData = &g_modelDataGame.aInfoLiftSet[nCountLift];
+
+		SetLift(pLiftData->nIdx, pLiftData->pos, pLiftData->rot, pLiftData->range, pLiftData->fSpeed);
+	}
+
+	// タイマー設定
+	SetTimerCount(GAME_TIMER_COUNT);
 
 	int pStaet = GetTitle();		// プレイ人数情報取得
 
@@ -529,6 +540,14 @@ void ReloadGame(void)
 		ENEMYSETDATA* pEnemyData = &g_modelDataGame.aInfoEnemySet[nCntEnemy];
 
 		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
+	}
+
+	// リフトの設定
+	for (int nCountLift = 0; nCountLift < g_modelDataGame.nCountLiftSet; nCountLift++)
+	{
+		LIFTSETDATA* pLiftData = &g_modelDataGame.aInfoLiftSet[nCountLift];
+
+		SetLift(pLiftData->nIdx, pLiftData->pos, pLiftData->rot, pLiftData->range, pLiftData->fSpeed);
 	}
 }
 
