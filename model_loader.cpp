@@ -250,6 +250,14 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 			pBuffer->nCountEnemySet++;
 		}
+		else if (strcmp(&aStrLine[0], "LIFTSET") == 0)
+		{// “GƒZƒbƒgî•ñ“Ç‚ÝŽæ‚è
+			LIFTSETDATA* pData = &pBuffer->aInfoLiftSet[pBuffer->nCountLiftSet];
+
+			_Read_LIFTSET(pFile, pData);
+
+			pBuffer->nCountLiftSet++;
+		}
 	}
 }
 
