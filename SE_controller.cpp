@@ -189,7 +189,7 @@ void SoundDistance(void)
 //	オブジェクト側からサウンドを鳴らす
 //
 //==================================================
-void CollPlaySound(int nSoundIdx, bool *play)
+void CallPlaySound(int nSoundIdx, bool *play)
 {
 	if (g_aSoundSpot[nSoundIdx].bwithin == true && g_aSoundSpot[nSoundIdx].bPlay == false)
 	{

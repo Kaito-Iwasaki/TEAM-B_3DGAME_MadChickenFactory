@@ -52,6 +52,6 @@ typedef struct
 void InitSEController(void);
 void UpdateSEController(void);
 int SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label);
-void CollPlaySound(int nSoundIdx, bool* play);
+void CallPlaySound(int nSoundIdx, bool* play);
 
 #endif
