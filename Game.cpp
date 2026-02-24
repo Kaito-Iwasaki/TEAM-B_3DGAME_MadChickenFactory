@@ -257,7 +257,7 @@ void InitGame(void)
 	if (pStaet == 0)
 	{// 1Pプレイ
 
-		GetCamera(0)->mode = CAMERAMODE_SIDEVIEW;
+		GetCamera(0)->mode = CAMERAMODE_FREE;
 	}
 	else
 	{// 2Pプレイ
