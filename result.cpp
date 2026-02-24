@@ -15,14 +15,14 @@
 #include "sound.h"
 #include "fade.h"
 #include"DebugProc.h"
-
+#include"Timer.h"
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
 #define MAX_RESULT (1)						//リザルトの最大数
-#define BACKGROUND_TEXTURE_FILENAME			"data\\TEXTURE\\ResultTBA.jpg"
+#define BACKGROUND_TEXTURE_FILENAME			"data\\TEXTURE\\gameclear.png"
 
 //*********************************************************************
 // 

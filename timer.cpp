@@ -199,7 +199,7 @@ void UpdateTimer(void)
 				//0•b‚ÅƒQ[ƒ€Ä‚Ñ
 				if (g_nTimer[nSetTimer][nCntTimer].CountTimer <= 0)
 				{
-					/*SetFade(MODE_GAME);*/
+					/*SetFade(MODE_GAMEOVER);*/
 				}
 
 			}

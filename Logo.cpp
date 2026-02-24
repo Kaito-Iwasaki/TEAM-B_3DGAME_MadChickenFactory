@@ -175,7 +175,7 @@ void UpdateLogo(void)
 			if (g_aLogo[nCntLogo].nCountLogo == 0)
 			{
 				g_aLogo[nCntLogo].col.a = 1.0f;
-				PlaySound(SOUND_LABEL_SE_BLOOD);
+				//PlaySound(SOUND_LABEL_SE_BLOOD);
 			}
 			break;
 		case LOGO_TEAMLOGO:

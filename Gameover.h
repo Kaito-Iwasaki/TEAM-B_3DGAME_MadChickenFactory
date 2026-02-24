@@ -22,6 +22,8 @@ typedef enum
 	GAMEOVER_BLOOD1,
 	GAMEOVER_BLOOD2,
 	GAMEOVER_GAMEOVER,
+	GAMEOVER_TIMER1,
+	GAMEOVER_TIMER2,
 	GAMEOVER_MAX,
 	
 }GAMEOVER;
@@ -37,6 +39,9 @@ typedef struct
 	D3DXCOLOR col;				//ロゴの色
 	GAMEOVER type;				//チームロゴのタイプ
 	bool bUse;					//どこを選択しているか
+	int Timer;
+	int Fream;
+	int nAnime;
 }TeamLogo;
 //*********************************************************************
 // 
