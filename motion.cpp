@@ -185,60 +185,66 @@ void UpdateMotion(MOTION* pMotion)
 	// パーツのオフセットを設定
 	AddPartOffset(pMotion);
 
-	if (pMotion->bFinishMotion == false)
-	{// モーション再生中
-		if (pMotion->bBlendMotion == true)
-		{// ブレンドモーションを再生
-			pMotion->nCounterMotionBlend++;
+	// モーションが再生されていなければ処理を中断
+	if (pMotion->bFinishMotion == true) return;
 
-			if (pMotion->nCounterMotionBlend > pCurrentBlendKeyInfo->nFrame)
-			{// フレームが現在のキーの最大フレームに達したら次のキーへ
-				int nNextBlendKeyIndex = GetNextBlendKeyIndex(pMotion);
+	// モーション再生
+	if (pMotion->bBlendMotion == true)
+	{// ブレンドモーションを再生
+		if (pMotion->nCounterMotionBlend > pCurrentBlendKeyInfo->nFrame)
+		{// フレームが現在のキーの最大フレームに達したら次のキーへ
+			int nNextBlendKeyIndex = GetNextBlendKeyIndex(pMotion);
 
-				if (nNextBlendKeyIndex == 0 && pCurrentBlendMotion->bLoop == false)
-				{// 次のキーが0かつループしないなら、ブレンドモーションを初期モーションに設定
-					pMotion->nIdxMotion = 0;
-					pMotion->nKeyMotionBlend = 0;
-					pMotion->nCounterMotionBlend = 0;
-					pMotion->nCounterBlend = 0;
-				}
-				else
-				{// 最初のキーに戻る（ループ）
-					pMotion->nKeyMotionBlend = GetNextBlendKeyIndex(pMotion);
-					pMotion->nCounterMotionBlend = 0;
-				}
+			if (nNextBlendKeyIndex == (pCurrentBlendMotion->nNumKey - 1) && pCurrentBlendMotion->bLoop == false)
+			{// 次のキーが（最大キー数－１）かつループしないなら、ブレンドモーションを初期モーションに設定
+				pMotion->nIdxMotion = 0;
+				pMotion->nKeyMotionBlend = 0;
+				pMotion->nCounterMotionBlend = 0;
+				pMotion->nCounterBlend = 0;
 			}
-
-			// ブレンド状態のカウンタを進める
-			pMotion->nCounterBlend++;
-
-			if (pMotion->nCounterBlend > pMotion->nFrameBlend)
-			{// ブレンドの終了→ブレンドモーションを現在のモーションに設定する
-				pMotion->bBlendMotion = false;
-				pMotion->nIdxMotion = pMotion->nIdxMotionBlend;
-				pMotion->nCounterMotion = pMotion->nCounterMotionBlend;
-				pMotion->nKeyMotion = pMotion->nKeyMotionBlend;
+			else
+			{// 最初のキーに戻る（ループ）
+				pMotion->nKeyMotionBlend = GetNextBlendKeyIndex(pMotion);
+				pMotion->nCounterMotionBlend = 0;
 			}
 		}
 		else
-		{// モーションを再生
+		{
+			// ブレンドモーションフレームを進める
+			pMotion->nCounterMotionBlend++;
+		}
+
+		// ブレンド状態のカウンタを進める
+		pMotion->nCounterBlend++;
+
+		if (pMotion->nCounterBlend > pMotion->nFrameBlend)
+		{// ブレンドの終了→ブレンドモーションを現在のモーションに設定する
+			pMotion->bBlendMotion = false;
+			pMotion->nIdxMotion = pMotion->nIdxMotionBlend;
+			pMotion->nCounterMotion = pMotion->nCounterMotionBlend;
+			pMotion->nKeyMotion = pMotion->nKeyMotionBlend;
+		}
+	}
+	else
+	{// モーションを再生
+		if (pMotion->nCounterMotion > pCurrentKeyInfo->nFrame)
+		{// フレームが現在のキーの最大フレームに達したら次のキーへ
+			int nNextKeyIndex = GetNextKeyIndex(pMotion);
+
+			if (nNextKeyIndex == (pCurrentMotion->nNumKey - 1) && pCurrentMotion->bLoop == false)
+			{// 次のキーが（最大キー数－１）かつループしないなら、モーションの再生を終了する
+				pMotion->bFinishMotion = true;
+			}
+			else
+			{// 最初のキーに戻る（ループ）
+				pMotion->nKeyMotion = GetNextKeyIndex(pMotion);
+				pMotion->nCounterMotion = 0;
+			}
+		}
+		else
+		{
 			// モーションフレームを進める
 			pMotion->nCounterMotion++;
-
-			if (pMotion->nCounterMotion > pCurrentKeyInfo->nFrame)
-			{// フレームが現在のキーの最大フレームに達したら次のキーへ
-				int nNextKeyIndex = GetNextKeyIndex(pMotion);
-
-				if (nNextKeyIndex == 0 && pCurrentMotion->bLoop == false)
-				{// 次のキーが0かつループしないなら、モーションの再生を終了する
-					pMotion->bFinishMotion = true;
-				}
-				else
-				{// 最初のキーに戻る（ループ）
-					pMotion->nKeyMotion = GetNextKeyIndex(pMotion);
-					pMotion->nCounterMotion = 0;
-				}
-			}
 		}
 	}
 }
@@ -255,6 +261,13 @@ void SetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend)
 
 	if (nFrameBlend > 0)
 	{// ブレンドでモーションを設定
+		if (pMotion->bBlendMotion)
+		{// ブレンド中ならブレンドモーションの状態を現在のモーションにコピー
+			pMotion->nIdxMotion = pMotion->nIdxMotionBlend;
+			pMotion->nCounterMotion = pMotion->nCounterMotionBlend;
+			pMotion->nKeyMotion = pMotion->nKeyMotionBlend;
+		}
+
 		pMotion->bBlendMotion = true;
 		pMotion->nIdxMotionBlend = nIdxMotion;
 		pMotion->nCounterMotionBlend = 0;
@@ -268,6 +281,20 @@ void SetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend)
 		pMotion->nIdxMotion = nIdxMotion;
 		pMotion->nCounterMotion = 0;
 		pMotion->nKeyMotion;
+	}
+}
+
+//=====================================================================
+// pMotionの現在のモーション番号をnIdxMotionに設定します。
+// nFrameBlendが0より大きければ、現在のモーションをブレンドしながら
+// 指定されたモーションに移行します。
+// 同じモーションが既に再生されている場合は再生しません。
+//=====================================================================
+void SafeSetMotion(MOTION* pMotion, int nIdxMotion, int nFrameBlend)
+{
+	if (pMotion->nIdxMotion != nIdxMotion)
+	{
+		SetMotion(pMotion, nIdxMotion, nFrameBlend);
 	}
 }
 
