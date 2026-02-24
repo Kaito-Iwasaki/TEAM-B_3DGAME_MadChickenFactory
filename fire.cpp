@@ -82,9 +82,6 @@ void InitFire(void)
 		g_aFire[nCntFire].nIdx = -1;										// インデックス初期化
 		g_aFire[nCntFire].state = FIRESTATE_OFF;							// 炎様態初期化
 		g_aFire[nCntFire].bUse = false;										// 使用していない状態にする
-
-		g_aFire[nCntFire].nSoundIdx = 0;
-		g_aFire[nCntFire].bplaySound = false;
 	}
 
 	LoadModel(FIRE_MODELPATH, &g_aFireModelData);
@@ -133,7 +130,7 @@ void UpdateFire(void)
 				break;
 
 			case FIRESTATE_ON:		// 炎ON状態
-				CollPlaySound(pFire->nSoundIdx, &pFire->bplaySound);
+				CollPlaySound(pFlamethrower->nSoundIdx, &pFlamethrower->bplaySound);
 				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
 				move.y = (float)(rand() % 200) / 100 + 3.0f;
 				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
@@ -292,6 +289,7 @@ void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIR
 			g_aflamethrower[nCntFlamethrower].rot = rot;		// 向き
 			g_aflamethrower[nCntFlamethrower].state = state;	// 状態
 			g_aflamethrower[nCntFlamethrower].bUse = true;		// 使用している状態にする
+			g_aflamethrower[nCntFlamethrower].nSoundIdx = SetSoundSpot(pos, SOUND_LABEL_SE_FIRE);	// サウンドスポット設定
 
 			// ブロックの幅と奥行の設定
 			SetFlamethrowerWidthAndDepth(nCntFlamethrower);
@@ -319,7 +317,6 @@ void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state
 			g_aFire[nCnt].nIdx = nIdx;				// インデックス設定
 			g_aFire[nCnt].state = state;			// 炎状態設定
 			g_aFire[nCnt].bUse = true;				// 使用している状態にする
-			g_aFire[nCnt].nSoundIdx = SetSoundSpot(pos, SOUND_LABEL_SE_FIRE);	// サウンドスポット設定
 		}
 	}
 	else if (setfiremode == SETFIREMODE_SWICHING)

@@ -282,7 +282,7 @@ void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRo
 		pEnemy->rot = rot;
 		pEnemy->fSpeed = fSpeed;
 		pEnemy->nIdxShadow = SetShadow(pEnemy->pos, 100);
-		pEnemy->nSoundIdx = SetSoundSpot(pos, SOUND_LABEL_SE_ENEMY);	// サウンドスポット設定
+		//pEnemy->nSoundIdx = SetSoundSpot(pos, SOUND_LABEL_SE_ENEMY);	// サウンドスポット設定
 
 		if (pRoutine != NULL)
 		{

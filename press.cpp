@@ -255,7 +255,7 @@ void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, float movewidth, int i
 			g_aPress[nCntPress].interval = interval;
 			g_aPress[nCntPress].rot = rot;
 			g_aPress[nCntPress].PState = state;
-			SetSoundSpot(pos, SOUND_LABEL_SE_PRESS);	// サウンドスポット設定
+			//SetSoundSpot(pos, SOUND_LABEL_SE_PRESS);	// サウンドスポット設定
 			break;
 		}
 	}

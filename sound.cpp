@@ -159,7 +159,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 {
 	{"data/SOUND/SE/Select.wav",0},					// SE 回転ノコギリ(仮置き)
 	{"data/SOUND/SE/hit.wav",0},						// SE プレス機
-	{"data/SOUND/BGM/bgm002.wav",0},						// SE バーナー
+	{"data/SOUND/SE/donald.wav",0},						// SE バーナー
 	{"data/SOUND/SE/donald.wav",0},						// SE 敵
 	{"data/SOUND/SE/blood.wav",0},						// SE 血
 };
@@ -408,7 +408,7 @@ HRESULT PlaySound(SOUND_LABEL label, int* pOut)
 			// 再生
 			g_apSourceVoice[label][nCntSource]->Start(0);
 
-			pOut = &nCntSource;
+			*pOut = nCntSource;
 
 			break;
 		}
@@ -573,20 +573,27 @@ bool GetPlaySound(SOUND_LABEL label, int nIdx)
 //=============================================================================
 // サウンド再生確認
 //=============================================================================
-void CheckSoundStop(void)
+void CheckSoundStop(int *nCnt)
 {
 	bool bCheck = false;
+	int nCntdel = 0;
 
 	for (int nCntLabel = 0; nCntLabel < SOUND_LABEL_MAX; nCntLabel++)
 	{
 		for (int nCntSource = 0; nCntSource < MAX_SOUND; nCntSource++)
 		{
-			bCheck = g_aChecker[nCntLabel][nCntSource].IsPlayingSound();
-
-			if (bCheck == true)
+			if (g_abPlay[nCntLabel][nCntSource] == true)
 			{
-				StopSound(nCntLabel, &nCntSource);
+				bCheck = g_aChecker[nCntLabel][nCntSource].IsPlayingSound();
+
+				if (bCheck == true)
+				{
+					StopSound(nCntLabel, &nCntSource);
+					nCntdel++;
+				}
 			}
 		}
+		nCnt++;
 	}
+	*nCnt -= nCntdel;
 }

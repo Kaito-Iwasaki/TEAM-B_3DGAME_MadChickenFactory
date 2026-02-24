@@ -83,6 +83,9 @@ typedef struct
 	float fDepMin;									// 奥行の最小値
 	int fireCounter;								// 炎の切り替え間隔カウンター
 	bool bUse;										// 使用しているかどうか
+
+	int nSoundIdx;			// 使用するサウンドスポットのインデックス
+	bool bplaySound;		// 音を鳴らしているか
 }FLAMETHROWER;
 
 // 炎構造体
@@ -93,9 +96,6 @@ typedef struct
 	int nSwitching;			// 炎の切り替え値
 	FIRESTATE state;		// 炎状態
 	bool bUse;				// 使用しているかどうか
-
-	int nSoundIdx;			// 使用するサウンドスポットのインデックス
-	bool bplaySound;		// 音を鳴らしているか
 }FIRE;
 
 //*********************************************************************

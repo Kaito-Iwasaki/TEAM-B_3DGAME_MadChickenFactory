@@ -36,7 +36,7 @@ void UninitSound(void);
 HRESULT PlaySound(SOUND_LABEL label, int* pOut = 0);
 void StopSound(int label, int* pOut = 0);
 void StopSound(void);
-void CheckSoundStop(void);
+void CheckSoundStop(int* nCnt);
 
 void SetVolume(SOUND_LABEL sound, int nIdx, float Volume);
 XAUDIO2_VOICE_STATE* GetSoundState(SOUND_LABEL label, int nIdx);
