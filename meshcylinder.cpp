@@ -154,6 +154,8 @@ void DrawMeshCylinder(void)
 			// ワールドマトリックスの設定
 			pDevice->SetTransform(D3DTS_WORLD, &g_aMeshCylinder[nCntMeshCylinder].mtxWorld);
 
+			pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 			// ポリゴンの描写
 			pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP,
 				0,
@@ -161,6 +163,9 @@ void DrawMeshCylinder(void)
 				((g_aMeshCylinder[nCntMeshCylinder].nDivisionRadius + 1) * (g_aMeshCylinder[nCntMeshCylinder].nDivisionHeight + 1)),
 				0,
 				(g_aMeshCylinder[nCntMeshCylinder].nDivisionRadius * g_aMeshCylinder[nCntMeshCylinder].nDivisionHeight * 2) + ((g_aMeshCylinder[nCntMeshCylinder].nDivisionHeight - 1) * 4));
+
+			pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 		}
 	}
 }
