@@ -126,7 +126,7 @@ void UpdateLift(void)
 				
 				if (CollisionPointBoxDirection(pPlayer->pos, pPlayer->posOld, g_aLift[nCntLift].pos, g_aLiftModelData.vtxMin, g_aLiftModelData.vtxMax))
 				{
-					pPlayer->pos += g_aLift[nCntLift].move;
+					pPlayer->pos -= g_aLift[nCntLift].move;
 				}
 
 				g_aLift[nCntLift].pos -= g_aLift[nCntLift].move;
