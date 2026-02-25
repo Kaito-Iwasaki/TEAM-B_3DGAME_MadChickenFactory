@@ -314,18 +314,30 @@ void UpdatePlayer(void)
 				{// 待機モーションに変更(移動していない&ジャンプモーション以外の時)
 
 					if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_LANDING
-						&& g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true
-						|| g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_LANDING)
-					{// 着地モーション終了時or着地モーション以外
+						&& g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
+					{// 着地モーション終了時
+
+						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 0);
+					}
+					else if(g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_LANDING)
+					{// 着地モーション以外
 
 						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 30);
 					}
 				}
 
-				if (g_Player[nCntPlayer].posOld.y >= g_Player[nCntPlayer].pos.y && g_Player[nCntPlayer].move.y <= 0.0f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_JUMP)
+				if (g_Player[nCntPlayer].posOld.y == g_Player[nCntPlayer].pos.y && g_Player[nCntPlayer].move.y <= 0.0f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_JUMP)
 				{// 着地モーション(posがposOldよりも低い位置&move.yが0&ジャンプ状態)
 
-					SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_LANDING, 30);
+					if (g_Player[nCntPlayer].move.x >= 0.3f || g_Player[nCntPlayer].move.x <= -0.3f || g_Player[nCntPlayer].move.z >= 0.3f || g_Player[nCntPlayer].move.z <= -0.3f)
+					{// 移動モーションに設定
+
+						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 10);
+					}
+					else
+					{
+						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_LANDING, 10);
+					}
 				}
 
 			}
