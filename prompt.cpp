@@ -10,6 +10,7 @@
 #include "util.h"
 #include "player.h"
 #include "DebugProc.h"
+#include "team_logo.h"
 
 
 // マクロ定義
@@ -28,6 +29,10 @@ typedef struct
 	int nIdx;
 	bool bDisp;
 }Prompt;
+
+// プロトタイプ宣言
+bool IsPromptKeyTriggered(int nCountPlayer);
+
 // グローバル変数
 LPDIRECT3DTEXTURE9 g_pTexturePrompt = NULL;				// テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffPrompt = NULL;			// 頂点バッファへのポインタ
@@ -135,27 +140,29 @@ void UpdatePrompt(void)
 		Player* pPlayer = GetPlayer();
 		int nPlayerCounter = 0;						// 初期化
 
+		g_aPromptTrigger[nCountPrompt] = false;
+
 		for (int nCountPlayer = 0; nCountPlayer < MAX_COUNT_PLAYER; nCountPlayer++, pPlayer++)
 		{// １プレイヤーずつ確認していく
-			bool bRengeX = VIEW_PROMPT >= fabsf(pPlayer->pos.x - g_aPrompt[nCountPrompt].pos.x);
-			bool bRengeY = VIEW_PROMPT >= fabsf(pPlayer->pos.y - g_aPrompt[nCountPrompt].pos.y);
-			bool bRengeZ = VIEW_PROMPT >= fabsf(pPlayer->pos.z - g_aPrompt[nCountPrompt].pos.z);
-			bool bRenge = bRengeX && bRengeY && bRengeZ;
+			if (pPlayer->bUse == false) continue;
 
-			if (bRenge)
+			float fMag = Magnitude(g_aPrompt[nCountPrompt].pos, pPlayer->pos);
+
+			if (fMag > VIEW_PROMPT)
 			{
-				nPlayerCounter++;					// プレイヤー数のカウントを＋１
+				g_aPromptTrigger[nCountPrompt] = false;
+			}
+			else
+			{
+				nPlayerCounter++;	// プレイヤー数のカウントを＋１
 
-				if (g_aPrompt[nCountPrompt].bDisp == true && (((nCountPlayer == 0) && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A)))|| ((nCountPlayer == 1) && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A)))))
+				if (IsPromptKeyTriggered(nCountPlayer))
 				{
 					g_aPromptTrigger[nCountPrompt] = true;
 					break;
 				}
-				else
-				{
-					g_aPromptTrigger[nCountPrompt] = false;
-				}
-			}	
+			}
+
 		}
 
 		// プロンプトに近いプレイヤーの数のカウントが０じゃなかったら表示する
@@ -166,10 +173,10 @@ void UpdatePrompt(void)
 		else
 		{
 			g_aPrompt[nCountPrompt].bDisp = false;
-
 		}
 
-		
+		pPlayer = GetPlayer();
+
 	}
 }
 
@@ -322,4 +329,27 @@ bool GetPromptTrigger(int nIdx)
 	}
 
 	return g_aPromptTrigger[nIdx];
+}
+
+bool IsPromptKeyTriggered(int nCountPlayer)
+{
+	Player* pPlayer = GetPlayer();
+
+	if (GetTitle() == 0)
+	{
+		return pPlayer[nCountPlayer].bUse && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A, 0));
+	}
+	else
+	{
+		if (nCountPlayer == 0 && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A, 0)))
+		{
+			return true;
+		}
+		else if (nCountPlayer == 1 && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A, 1)))
+		{
+			return true;
+		}
+	}
+	
+	return false;
 }
