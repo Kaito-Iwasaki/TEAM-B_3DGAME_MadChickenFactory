@@ -410,6 +410,7 @@ void ReloadGame(void)
 	UninitLift();			// リフト
 	UninitEnemy();			// 敵
 	UninitShadow();			// 影
+	UninitTimer();
 	ReleaseLoadedTexture();
 
 	InitField();			// フィールド
@@ -424,6 +425,7 @@ void ReloadGame(void)
 	InitConveyer();			// コンベア
 	InitLift();				// リフト
 	InitEnemy();			// 敵
+	InitTimer();
 	InitShadow();			// 影
 
 	// スクリプトの読み込み
