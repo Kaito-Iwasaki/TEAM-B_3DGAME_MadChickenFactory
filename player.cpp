@@ -29,7 +29,7 @@
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
-#define MOVE_POS				(3.0f)						// 位置移動量
+#define MOVE_POS				(5.0f)						// 位置移動量
 #define MAX_JUMP				(20.0f)						// ジャンプ量
 #define MOVE_DAMPINGFUNCTION	(0.3f)						// 移動量の減衰係数
 #define ANGLE_DAMPINGFUNCTION	(0.1f)						// 角度の減衰係数
