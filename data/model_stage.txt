@@ -997,6 +997,34 @@ END_PRESSSET
 # ‰Î‰Š•úŽËŠí
 #----------------------------------------
 
+FIRESET
+	ID = 6
+	POS = 13950 0 -240
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 6
+	POS = 13950 0 -320
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 6
+	POS = 13950 0 -400
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 6
+	POS = 13950 0 -475
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
 #----------------------------------------
 # “®‚©‚¹‚é” 
 #----------------------------------------
@@ -1085,15 +1113,6 @@ LIFTSET
 	RANGE = -1400 0 0
 	SPEED = 10
 END_LIFTSET
-
-LIFTSET
-	ID = 6
-	POS = 13950 100 -320
-	ROT = 0 0 90 
-	RANGE = 0 -1000 0
-	SPEED = 10
-END_LIFTSET
-
 
 #----------------------------------------
 # ƒ‚ƒfƒ‹î•ñ(ƒ‚ƒfƒ‹”Ô†‡‚É‹LÚ)

@@ -607,9 +607,9 @@ void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %d", &pBuffer->firestate);
 		}
-		else if (strcmp(&aStrLine[0], "SHADOW") == 0)
+		else if (strcmp(&aStrLine[0], "ID") == 0)
 		{
-			fscanf(pFile, " = %d", &pBuffer->bShadow);
+			fscanf(pFile, " = %d", &pBuffer->nIdx);
 		}
 	}
 }
