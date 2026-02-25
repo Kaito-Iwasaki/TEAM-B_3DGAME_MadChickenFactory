@@ -130,7 +130,7 @@ void UpdateFire(void)
 				break;
 
 			case FIRESTATE_ON:		// ‰ŠONó‘Ô
-				CollPlaySound(pFlamethrower->nSoundIdx, &pFlamethrower->bplaySound);
+				CallPlaySound(pFlamethrower->nSoundIdx, &pFlamethrower->bplaySound);
 				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
 				move.y = (float)(rand() % 200) / 100 + 3.0f;
 				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
