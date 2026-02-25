@@ -15,8 +15,6 @@
 
 // マクロ定義
 #define PROMPT_TXT_PASS "data\\TEXTURE\\pressA.png"			// プロンプトのテクスチャパス
-#define PROMPT_TEXTURE_SIZE_Y (100.0f)						// プロンプトのテクスチャサイズ(Y)
-#define PROMPT_TEXTURE_SIZE_X (100.0f)						// プロンプトのテクスチャサイズ(X)
 #define VIEW_PROMPT (300.0f)								// プロンプトを表示する範囲
 #define MAX_COUNT_PLAYER (2)								// プレイヤーのポインタをずらす用のマクロ
 
@@ -287,14 +285,11 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx)
 			pVtx[2].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
 			pVtx[3].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
 
-			float fTexsizeX = g_aPrompt[nCountPrompt].size.x / PROMPT_TEXTURE_SIZE_X;
-			float fTexsizeY = g_aPrompt[nCountPrompt].size.y / PROMPT_TEXTURE_SIZE_Y;
-
 			// テクスチャ座標の設定
 			pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-			pVtx[1].tex = D3DXVECTOR2(fTexsizeX, 0.0f);
-			pVtx[2].tex = D3DXVECTOR2(0.0f, fTexsizeY);
-			pVtx[3].tex = D3DXVECTOR2(fTexsizeX, fTexsizeY);
+			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
 			break;
 		}
