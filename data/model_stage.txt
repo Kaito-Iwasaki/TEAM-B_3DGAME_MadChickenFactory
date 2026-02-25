@@ -152,10 +152,10 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 1200 0 925
+	POS = 1200 -1000 925
 	ROT = 0 0 0
 	BLOCK = 1 2
-	SIZE = 2200 500
+	SIZE = 2200 1000
 END_WALLSET
 
 WALLSET
@@ -172,6 +172,22 @@ WALLSET
 	ROT = 0 90 0
 	BLOCK = 1 2
 	SIZE = 1000 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 350 -1000 250
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 1500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 2050 -1000 250
+	ROT = 0 90 0
+	BLOCK = 1 2
+	SIZE = 1500 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -751,18 +767,18 @@ END_FIELDSET
 #------------------------------------------------------------------------------
 WALLSET
 	TEXTYPE = 3
-	POS = 12600 0 1000
+	POS = 12600 -1000 1000
 	ROT = 0 -90 0
 	BLOCK = 1 2
-	SIZE = 1000 500
+	SIZE = 1000 1000
 END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 13700 0 920
+	POS = 13700 -1000 1500
 	ROT = 0 0 0
 	BLOCK = 1 2
-	SIZE = 2200 500
+	SIZE = 2200 1000
 END_WALLSET
 
 WALLSET
@@ -781,6 +797,30 @@ WALLSET
 	SIZE = 1000 500
 END_WALLSET
 
+WALLSET
+	TEXTYPE = 3
+	POS = 12850 -1000 220
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 1450 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 14550 -1000 500
+	ROT = 0 90 0
+	BLOCK = 1 2
+	SIZE = 2000 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 13700 -500 350
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 2200 500
+END_WALLSET
+
 #------------------------------------------------------------------------------
 # ステージ	床
 #------------------------------------------------------------------------------
@@ -794,7 +834,7 @@ END_FIELDSET
 
 FIELDSET
 	TEXTYPE = 6
-	POS = 12725 0 210
+	POS = 12725 0 220
 	ROT = 0 0 0
 	BLOCK = 1 2
 	SIZE = 250 720
@@ -802,10 +842,10 @@ END_FIELDSET
 
 FIELDSET
 	TEXTYPE = 6
-	POS = 14675 0 210
+	POS = 14675 0 500
 	ROT = 0 0 0
 	BLOCK = 1 2
-	SIZE = 250 720
+	SIZE = 250 1000
 END_FIELDSET
 
 FIELDSET
@@ -822,6 +862,14 @@ FIELDSET
 	ROT = 0 0 0
 	BLOCK = 1 2
 	SIZE = 1700 150
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 14200 0 1350
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 1000 150
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -851,7 +899,6 @@ WALLSET
 	SIZE = 1000 500
 END_WALLSET
 
-
 #------------------------------------------------------------------------------
 # ゴール	床
 #------------------------------------------------------------------------------
@@ -862,7 +909,6 @@ FIELDSET
 	BLOCK = 4 2
 	SIZE = 400 500
 END_FIELDSET
-
 
 #------------------------------------------------------------------------------
 # ギミック情報
@@ -901,10 +947,10 @@ CONVEYERSET
 END_CONVEYERSET
 
 CONVEYERSET
-	POS = 13600 50 500
+	POS = 13600 5 500
 	ROT = 0 90 0 
-	ONMOVE = 10 0 0
-	OFFMOVE = 0 0 0
+	ONMOVE = 50 0 0
+	OFFMOVE = 10 0 0
 	SIZE = 300 1500 
 	IDX = 5
 	STATE = 0
@@ -927,13 +973,13 @@ END_SAWSET
 # プレス機
 #----------------------------------------
 
-PRESSSET
+1PRESSSET
 	ID = 2
 	POS = 14600 0 500
 	ROT = 0 0 0
 	WIDTH = 300
-	INTERVAL = 0
-	STATE = 1
+	INTERVAL = 
+	STATE = 2
 	SHADOW = 1
 END_PRESSSET
 
@@ -982,20 +1028,32 @@ END_GATESET
 #----------------------------------------
 PROMPTSET
 	ID = 0
-	POS = 500 100 0
-	SIZE = 100 100 100
+	POS = 500 100 -100
+	SIZE = 50 50 
 END_PROMPTSET
 
 PROMPTSET
 	ID = 0
-	POS = 2100 100 500
-	SIZE = 50 50 50
+	POS = 1880 100 500
+	SIZE = 50 50 
 END_PROMPTSET
 
 PROMPTSET
-	ID = 1
+	ID = 2
 	POS = 13100 0 -335
-	SIZE = 100 100 100
+	SIZE = 50 50 
+END_PROMPTSET
+
+PROMPTSET
+	ID = 5
+	POS = 13500 0 -335
+	SIZE = 50 50 
+END_PROMPTSET
+
+PROMPTSET
+	ID = 6
+	POS = 13870 0 1360
+	SIZE = 50 50 
 END_PROMPTSET
 
 #----------------------------------------
@@ -1013,7 +1071,7 @@ END_TIMERSET
 
 LIFTSET
 	ID = 0
-	POS =500 100 -250
+	POS =500 -15 -250
 	ROT = 0 0 0 
 	RANGE = 1400 0 0
 	SPEED = 10
@@ -1022,11 +1080,20 @@ END_LIFTSET
 
 LIFTSET
 	ID = 0
-	POS = 1900 100 750
+	POS = 1900 -15 750
 	ROT = 0 0 0 
 	RANGE = -1400 0 0
 	SPEED = 10
 END_LIFTSET
+
+LIFTSET
+	ID = 6
+	POS = 13950 100 -320
+	ROT = 0 0 90 
+	RANGE = 0 -1000 0
+	SPEED = 10
+END_LIFTSET
+
 
 #----------------------------------------
 # モデル情報(モデル番号順に記載)
