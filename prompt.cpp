@@ -132,15 +132,15 @@ void UninitPrompt(void)
 //======================
 void UpdatePrompt(void)
 {
+	memset(&g_aPromptTrigger[0], 0, sizeof g_aPromptTrigger);
 
 	for (int nCountPrompt = 0; nCountPrompt < MAX_PROMPT; nCountPrompt++)
 	{// １プロンプトずつ確認していく
 		if (g_aPrompt[nCountPrompt].bUse == false) continue;
+		if (GetPromptTrigger(g_aPrompt[nCountPrompt].nIdx)) continue;
 
 		Player* pPlayer = GetPlayer();
 		int nPlayerCounter = 0;						// 初期化
-
-		g_aPromptTrigger[nCountPrompt] = false;
 
 		for (int nCountPlayer = 0; nCountPlayer < MAX_COUNT_PLAYER; nCountPlayer++, pPlayer++)
 		{// １プレイヤーずつ確認していく
@@ -150,7 +150,7 @@ void UpdatePrompt(void)
 
 			if (fMag > VIEW_PROMPT)
 			{
-				g_aPromptTrigger[nCountPrompt] = false;
+				g_aPromptTrigger[g_aPrompt[nCountPrompt].nIdx] = false;
 			}
 			else
 			{
@@ -158,7 +158,7 @@ void UpdatePrompt(void)
 
 				if (IsPromptKeyTriggered(nCountPlayer))
 				{
-					g_aPromptTrigger[nCountPrompt] = true;
+					g_aPromptTrigger[g_aPrompt[nCountPrompt].nIdx] = true;
 					break;
 				}
 			}
