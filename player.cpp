@@ -42,6 +42,7 @@
 
 // グローバル変数
 Player g_Player[MAX_PLAYER];						// プレイヤー情報
+PLAYEROPERATION g_Operation;						// 操作プレイヤー指定
 const char* c_apFilenamePlayer[MAX_PLAYER] =		// プレイヤーのxファイル
 {
 	ONEPLAYER_MODELPAS,
@@ -85,18 +86,7 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].fRadius = 40.0f;								// 半径初期化
 		g_Player[nCntPlayer].fHeight = 100.0f;								// 高さ初期化
 		g_Player[nCntPlayer].bDisableControl = false;						// 操作受け付け状態に設定
-
-		// プレイヤーの使用設定
-		if (pStart >= nCntPlayer)
-		{// 使用状態に
-
-			g_Player[nCntPlayer].bUse = true;
-		}
-		else
-		{// 未使用状態に
-
-			g_Player[nCntPlayer].bUse = false;
-		}
+		g_Player[nCntPlayer].bUse = true;									// 使用状態にする
 	}
 
 	// モーションの初期化
@@ -114,6 +104,18 @@ void InitPlayer(void)
 			SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 0);
 
 		}
+	}
+	int pStaet = GetTitle();		// プレイ人数情報取得
+
+	if (pStaet == 0)
+	{// ソロプレイ
+
+		g_Operation = PLAYEROPERATION_1P;
+	}
+	else
+	{// 2人プレイ
+
+		g_Operation = PLAYEROPERATION_2PL;
 	}
 }
 
@@ -141,11 +143,12 @@ void UpdatePlayer(void)
 
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		if (g_Player[nCntPlayer].bUse == true)
-		{// 使用している
 
-			if (g_Player[nCntPlayer].bDisableControl == false)
-			{// 操作可能
+		if (g_Player[nCntPlayer].bDisableControl == false)
+		{// 操作可能
+
+			if (g_Operation == PLAYEROPERATION_2PL || g_Operation == (PLAYEROPERATION)nCntPlayer)
+			{// 操作プレイヤーと一致
 
 				// 前回の位置保存
 				g_Player[nCntPlayer].posOld = g_Player[nCntPlayer].pos;
@@ -195,202 +198,160 @@ void UpdatePlayer(void)
 						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_JUMP, 20);
 					}
 				}
+			}
+		
+			// 角度の値補正
+			g_Player[nCntPlayer].rotmove.y = GetFixedRotation(g_Player[nCntPlayer].rotmove.y);
 
-				// 角度の値補正
-				g_Player[nCntPlayer].rotmove.y = GetFixedRotation(g_Player[nCntPlayer].rotmove.y);
+			// 移動量を更新
+			g_Player[nCntPlayer].move.x += (0.0f - g_Player[nCntPlayer].move.x) * MOVE_DAMPINGFUNCTION;
+			g_Player[nCntPlayer].move.z += (0.0f - g_Player[nCntPlayer].move.z) * MOVE_DAMPINGFUNCTION;
 
-				// 移動量を更新
-				g_Player[nCntPlayer].move.x += (0.0f - g_Player[nCntPlayer].move.x) * MOVE_DAMPINGFUNCTION;
-				g_Player[nCntPlayer].move.z += (0.0f - g_Player[nCntPlayer].move.z) * MOVE_DAMPINGFUNCTION;
+			// 重力を加える
+			g_Player[nCntPlayer].move.y -= PLAYER_GRAVITY;
 
-				// 重力を加える
-				g_Player[nCntPlayer].move.y -= PLAYER_GRAVITY;
+			// 位置を更新
+			g_Player[nCntPlayer].pos.x += g_Player[nCntPlayer].move.x;
+			g_Player[nCntPlayer].pos.y += g_Player[nCntPlayer].move.y;
+			g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
 
-				// 位置を更新
-				g_Player[nCntPlayer].pos.x += g_Player[nCntPlayer].move.x;
-				g_Player[nCntPlayer].pos.y += g_Player[nCntPlayer].move.y;
-				g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
+			// 当たり判定処理
+			CollisionPlayer(&g_Player[nCntPlayer]);
 
-				// 壁との当たり判定
-				CollisionWall(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, D3DXVECTOR3_ZERO);
+			// 目標の移動方向までの差分算出
+			fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
 
-				// モデルとの当たり判定
-				g_Player[nCntPlayer].ModelHit = CollisionModel(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld, D3DXVECTOR3(g_Player[nCntPlayer].fRadius, g_Player[nCntPlayer].fHeight, g_Player[nCntPlayer].fRadius));
+			// 角度の値補正
+			fRotDiff = GetFixedRotation(fRotDiff);
 
-				//床との当たり判定
-				if (CollisionField(&g_Player[nCntPlayer].pos, g_Player[nCntPlayer].posOld))
-				{
-					g_Player[nCntPlayer].bJump = false;		// ジャンプ状態解除
-					g_Player[nCntPlayer].move.y = 0.0f;		// 重力リセット
+			// 移動方向(角度)の補正
+			g_Player[nCntPlayer].rot.y += fRotDiff * ANGLE_DAMPINGFUNCTION;
+
+			// 角度の値補正
+			g_Player[nCntPlayer].rot.y = GetFixedRotation(g_Player[nCntPlayer].rot.y);
+
+			// 影の位置を設定(更新)
+			if (g_Player[nCntPlayer].move.y == 0.0f)
+			{// 現在の着地している高さに影を設定
+
+				SetPositionShadow(g_Player[nCntPlayer].nIdxShadow,
+					D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player[nCntPlayer].pos.z),
+					0.0f, true);
+
+			}
+			else
+			{// y座標変更無し
+
+				SetPositionShadow(g_Player[nCntPlayer].nIdxShadow,
+					D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player[nCntPlayer].pos.z),
+					(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f, false);
+			}
+
+			g_Player[nCntPlayer].fStandPos = 0.0f;		// 立っている位置を初期化する
+
+			for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
+			{
+				PART* pPart = &g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart];
+				pPart->pos = pPart->posOffset;
+				pPart->rot = pPart->rotOffset;
+			}
+
+			if (g_Player[nCntPlayer].move.x >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+				|| g_Player[nCntPlayer].move.x <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+				|| g_Player[nCntPlayer].move.z >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+				|| g_Player[nCntPlayer].move.z <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
+			{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中モーション以外の時)
+
+				SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 30);
+			}
+
+			if (g_Player[nCntPlayer].move.x < 0.3f && g_Player[nCntPlayer].move.x > -0.3f
+				&& g_Player[nCntPlayer].move.z < 0.3f && g_Player[nCntPlayer].move.z > -0.3f
+				&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_NEUTRAL && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
+			{// 待機モーションに変更(移動していない&ジャンプモーション以外の時)
+
+				if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_LANDING
+					&& g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
+				{// 着地モーション終了時
+
+					SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 0);
 				}
-				else if (g_Player[nCntPlayer].ModelHit != MODEL_HIT_NONE)
-				{// 何かに当たった
+				else if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_LANDING)
+				{// 着地モーション以外
 
-					// プレイヤーの移動量の設定
-					SetMove(&g_Player[nCntPlayer].move, g_Player[nCntPlayer].ModelHit, &g_Player[nCntPlayer].bJump);
+					SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 30);
+				}
+			}
+
+			if (g_Player[nCntPlayer].posOld.y == g_Player[nCntPlayer].pos.y && g_Player[nCntPlayer].move.y <= 0.0f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_JUMP)
+			{// 着地モーション(posがposOldよりも低い位置&move.yが0&ジャンプ状態)
+
+				if (g_Player[nCntPlayer].move.x >= 0.3f || g_Player[nCntPlayer].move.x <= -0.3f || g_Player[nCntPlayer].move.z >= 0.3f || g_Player[nCntPlayer].move.z <= -0.3f)
+				{// 移動モーションに設定
+
+					SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 10);
 				}
 				else
-				{// 落下中
-
-					if (g_Player[nCntPlayer].bJump == false)
-					{// ジャンプ状態にする
-
-						g_Player[nCntPlayer].bJump = true;		// ジャンプ中にする
-					}
-				}
-
-				// ゴールとの当たり判定
-				CollisionGoal(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
-
-				// 火炎放射器との当たり判定
-				CollisionFlamethrower(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
-
-				// 火炎放射器との当たり判定
-				CollisionGate(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move, g_Player[nCntPlayer].fRadius);
-
-				// コンベアとの当たり判定
-				if (CollisioncConveyer(&g_Player[nCntPlayer].pos, &g_Player[nCntPlayer].posOld, &g_Player[nCntPlayer].move))
 				{
-					if (g_Player[nCntPlayer].bJump == true)
-					{// ジャンプ中の場合ジャンプ状態を解除する
-
-						g_Player[nCntPlayer].bJump = false;
-					}
-				}
-
-				// リフトとの当たり判定
-				CollisionLift();
-
-				// 目標の移動方向までの差分算出
-				fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
-
-				// 角度の値補正
-				fRotDiff = GetFixedRotation(fRotDiff);
-
-				// 移動方向(角度)の補正
-				g_Player[nCntPlayer].rot.y += fRotDiff * ANGLE_DAMPINGFUNCTION;
-
-				// 角度の値補正
-				g_Player[nCntPlayer].rot.y = GetFixedRotation(g_Player[nCntPlayer].rot.y);
-
-				// 影の位置を設定(更新)
-				if (g_Player[nCntPlayer].move.y == 0.0f)
-				{// 現在の着地している高さに影を設定
-
-					SetPositionShadow(g_Player[nCntPlayer].nIdxShadow,
-						D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player[nCntPlayer].pos.z),
-						0.0f, true);
-
-				}
-				else
-				{// y座標変更無し
-
-					SetPositionShadow(g_Player[nCntPlayer].nIdxShadow,
-						D3DXVECTOR3(g_Player[nCntPlayer].pos.x, g_Player[nCntPlayer].fStandPos, g_Player[nCntPlayer].pos.z),
-						(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f, false);
-				}
-
-				g_Player[nCntPlayer].fStandPos = 0.0f;		// 立っている位置を初期化する
-
-				for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
-				{
-					PART* pPart = &g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart];
-					pPart->pos = pPart->posOffset;
-					pPart->rot = pPart->rotOffset;
-				}
-
-				if (g_Player[nCntPlayer].move.x >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
-					|| g_Player[nCntPlayer].move.x <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
-					|| g_Player[nCntPlayer].move.z >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
-					|| g_Player[nCntPlayer].move.z <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
-				{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中モーション以外の時)
-
-					SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 30);
-				}
-
-				if (g_Player[nCntPlayer].move.x < 0.3f && g_Player[nCntPlayer].move.x > -0.3f
-					&& g_Player[nCntPlayer].move.z < 0.3f && g_Player[nCntPlayer].move.z > -0.3f
-					&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_NEUTRAL && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
-				{// 待機モーションに変更(移動していない&ジャンプモーション以外の時)
-
-					if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_LANDING
-						&& g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
-					{// 着地モーション終了時
-
-						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 0);
-					}
-					else if(g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_LANDING)
-					{// 着地モーション以外
-
-						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 30);
-					}
-				}
-
-				if (g_Player[nCntPlayer].posOld.y == g_Player[nCntPlayer].pos.y && g_Player[nCntPlayer].move.y <= 0.0f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_JUMP)
-				{// 着地モーション(posがposOldよりも低い位置&move.yが0&ジャンプ状態)
-
-					if (g_Player[nCntPlayer].move.x >= 0.3f || g_Player[nCntPlayer].move.x <= -0.3f || g_Player[nCntPlayer].move.z >= 0.3f || g_Player[nCntPlayer].move.z <= -0.3f)
-					{// 移動モーションに設定
-
-						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 10);
-					}
-					else
-					{
-						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_LANDING, 10);
-					}
-				}
-
-			}
-			else if (g_Player[nCntPlayer].bDisableControl == true)
-			{// 操作不能
-
-				// 重力を加える
-				g_Player[nCntPlayer].move.y -= PLAYER_GRAVITY;
-
-				// 位置を更新
-				g_Player[nCntPlayer].pos.x += g_Player[nCntPlayer].move.x;
-				g_Player[nCntPlayer].pos.y += g_Player[nCntPlayer].move.y;
-				g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
-
-				if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_ACTION && g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
-				{// 死亡モーション終了
-
-					FADE pFade = GetFade();				// フェード状態取得処理
-
-					if (pFade.state == FADESTATE_NONE)
-					{// フェード状態ではない
-
-						// フェード処理(ゲーム画面に移行)
-						SetFade(MODE_GAME);
-					}
+					SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_LANDING, 10);
 				}
 			}
+		}
+		else if (g_Player[nCntPlayer].bDisableControl == true)
+		{// 操作不能
 
-			// モーションの更新処理
-			UpdateMotion(&g_Player[nCntPlayer].PlayerMotion);
+			// 重力を加える
+			g_Player[nCntPlayer].move.y -= PLAYER_GRAVITY;
 
-			if (g_Player[nCntPlayer].pos.y <= DEATHLINE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_ACTION)
-			{// 落下した
+			// 位置を更新
+			g_Player[nCntPlayer].pos.x += g_Player[nCntPlayer].move.x;
+			g_Player[nCntPlayer].pos.y += g_Player[nCntPlayer].move.y;
+			g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
 
-				KillPlayer(&g_Player[nCntPlayer]);
+			// 当たり判定処理
+			CollisionPlayer(&g_Player[nCntPlayer]);
+
+			if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_ACTION && g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
+			{// 死亡モーション終了
+
+				FADE pFade = GetFade();				// フェード状態取得処理
+
+				if (pFade.state == FADESTATE_NONE)
+				{// フェード状態ではない
+
+					// フェード処理(ゲーム画面に移行)
+					SetFade(MODE_GAME);
+				}
 			}
+		}
 
+		// モーションの更新処理
+		UpdateMotion(&g_Player[nCntPlayer].PlayerMotion);
+
+		if (g_Player[nCntPlayer].pos.y <= DEATHLINE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_ACTION)
+		{// 落下した
+
+			KillPlayer(&g_Player[nCntPlayer]);
+		}
+
+	}
+
+	if (g_Player[0].pos.x - g_Player[1].pos.x >= PLAYER_BETWEEN || g_Player[0].pos.x - g_Player[1].pos.x <= -PLAYER_BETWEEN)
+	{// プレイヤー間の距離が最大値を超えた
+
+		for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+		{// 位置を戻す
+
+			g_Player[nCntPlayer].pos = g_Player[nCntPlayer].posOld;
 		}
 	}
 
-	if (g_Player[1].bUse == true)
-	{// 2Pプレイ
+	if (GetKeyboardTrigger(DIK_LSHIFT) == true && g_Operation != PLAYEROPERATION_2PL)
+	{// 左シフト入力
 
-		if (g_Player[0].pos.x - g_Player[1].pos.x >= PLAYER_BETWEEN || g_Player[0].pos.x - g_Player[1].pos.x <= -PLAYER_BETWEEN)
-		{// プレイヤー間の距離が最大値を超えた
-
-			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-			{// 位置を戻す
-
-				g_Player[nCntPlayer].pos = g_Player[nCntPlayer].posOld;
-			}
-		}
+		g_Operation = (PLAYEROPERATION)(g_Operation ^ 1);		// 操作プレイヤー切り替え
 	}
+
 }
 
 //=======================================================
@@ -622,4 +583,60 @@ void KillPlayer(Player *pPlayer)
 
 	// モーションの設定
 	SetMotion(&pPlayer->PlayerMotion, MOTIONTYPE_ACTION, 30);
+}
+
+//=======================================================
+// プレイヤーとの当たり判定処理
+//=======================================================
+void CollisionPlayer(Player* pPlayer)
+{
+	// 壁との当たり判定
+	CollisionWall(&pPlayer->pos, pPlayer->posOld, &pPlayer->move, D3DXVECTOR3_ZERO);
+
+	// モデルとの当たり判定
+	pPlayer->ModelHit = CollisionModel(&pPlayer->pos, pPlayer->posOld, D3DXVECTOR3(pPlayer->fRadius, pPlayer->fHeight, pPlayer->fRadius));
+
+	//床との当たり判定
+	if (CollisionField(&pPlayer->pos, pPlayer->posOld))
+	{
+		pPlayer->bJump = false;		// ジャンプ状態解除
+		pPlayer->move.y = 0.0f;		// 重力リセット
+	}
+	else if (pPlayer->ModelHit != MODEL_HIT_NONE)
+	{// 何かに当たった
+
+		// プレイヤーの移動量の設定
+		SetMove(&pPlayer->move, pPlayer->ModelHit, &pPlayer->bJump);
+	}
+	else
+	{// 落下中
+
+		if (pPlayer->bJump == false)
+		{// ジャンプ状態にする
+
+			pPlayer->bJump = true;		// ジャンプ中にする
+		}
+	}
+
+	// ゴールとの当たり判定
+	CollisionGoal(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
+
+	// 火炎放射器との当たり判定
+	CollisionFlamethrower(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
+
+	// 火炎放射器との当たり判定
+	CollisionGate(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
+
+	// コンベアとの当たり判定
+	if (CollisioncConveyer(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move))
+	{
+		if (pPlayer->bJump == true)
+		{// ジャンプ中の場合ジャンプ状態を解除する
+
+			pPlayer->bJump = false;
+		}
+	}
+
+	// リフトとの当たり判定
+	CollisionLift();
 }

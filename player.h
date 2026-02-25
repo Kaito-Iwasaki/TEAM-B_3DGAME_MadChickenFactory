@@ -27,6 +27,16 @@ typedef enum
 	MOTIONTYPE_MAX
 }MOTIONTYPE;
 
+// プレイヤー操作列挙型
+typedef enum
+{
+	PLAYEROPERATION_1P = 0,			// 1P操作
+	PLAYEROPERATION_2P,				// 2P操作
+	PLAYEROPERATION_2PL,			// 2PL
+
+	PLAYEROPERATION_MAX
+}PLAYEROPERATION;
+
 // マクロ定義
 #define MAX_PLAYERMODEL			(10)		// モデルの総数
 #define MAX_PLAYERMOTION		(7)			// モーションの最大数
@@ -54,7 +64,7 @@ typedef struct
 	MOTION PlayerMotion;									// モーション
 	float fRadius;											// 半径
 	float fHeight;											// 高さ
-	bool bDisableControl;									// 操作受け付け判定			
+	bool bDisableControl;									// 操作受け付け判定
 	bool bUse;												// 使用するかどうか
 }Player;
 
@@ -67,5 +77,6 @@ void DrawPlayerShadow(int nCnt);
 Player* GetPlayer(void);
 void SetMove(D3DXVECTOR3* move, byte HitModel, bool *pbjump);
 void KillPlayer(Player* pPlayer);
+void CollisionPlayer(Player* pPlayer);
 
 #endif
