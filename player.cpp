@@ -344,6 +344,14 @@ void UpdatePlayer(void)
 			else if (g_Player[nCntPlayer].bDisableControl == true)
 			{// 操作不能
 
+				// 重力を加える
+				g_Player[nCntPlayer].move.y -= PLAYER_GRAVITY;
+
+				// 位置を更新
+				g_Player[nCntPlayer].pos.x += g_Player[nCntPlayer].move.x;
+				g_Player[nCntPlayer].pos.y += g_Player[nCntPlayer].move.y;
+				g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
+
 				if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_ACTION && g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
 				{// 死亡モーション終了
 
