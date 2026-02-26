@@ -21,8 +21,8 @@
 //*********************************************************************
 #define INIT_TIMER		(300)
 #define FRAME_TIMER		(60)		//時間が減るフレーム数
-#define MAX_TIMER		(3)			//表示される時間の数
-#define TIMER_SET_MAX   (3)			// タイマーの個数
+#define TIMER_SET_MAX   (128)			// タイマーの個数
+#define MAX_PLACE		(3)			//表示される時間の数
 
 //*********************************************************************
 // 
@@ -38,14 +38,12 @@
 //*********************************************************************
 typedef struct
 {
+	D3DXMATRIX mtxWorld;
 	D3DXVECTOR3 pos;			//タイマーの位置
+	D3DXVECTOR2 size;
 	D3DXCOLOR col;				//タイマーの色
-	int Fream;				//タイマーのフレーム
-	int CountTimer;				//タイマーが1秒減る
-	D3DXMATRIX mtxWorld;		// ワールドマトリックス
-	bool bUse;					//使用されているかどうか
-	bool bTimer;				//時間設定したかどうか
-	int nTexType;
+	int bUse;
+	int aPlace[MAX_PLACE];
 }Timer;
 
 //*********************************************************************
@@ -57,7 +55,7 @@ void InitTimer(void);
 void UninitTimer(void);
 void UpdateTimer(void);
 void DrawTimer(void);
-void SetTimer(int nTexType, D3DXVECTOR3 pos ,D3DXCOLOR col );
+void SetTimer(D3DXVECTOR3 pos, D3DXVECTOR2 size);
 void AddTimer(int nValue);
 void DownTimer(int nDown);
 void SetTimerCount(int nTimer);
