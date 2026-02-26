@@ -471,7 +471,24 @@ void StopSound(int label, int* pOut)
 		g_abPlay[label][*pOut] = false;
 	}
 }
+//=============================================================================
+// セグメント停止(ラベル指定)
+//=============================================================================
+void StopSound(SOUND_LABEL label)
+{
+	XAUDIO2_VOICE_STATE xa2state;
 
+	// 状態取得
+	g_apSourceVoice2[label]->GetState(&xa2state);
+	if (xa2state.BuffersQueued != 0)
+	{// 再生中
+		// 一時停止
+		g_apSourceVoice2[label]->Stop(0);
+
+		// オーディオバッファの削除
+		g_apSourceVoice2[label]->FlushSourceBuffers();
+	}
+}
 //=============================================================================
 // セグメント停止(全て)
 //=============================================================================

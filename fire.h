@@ -85,7 +85,6 @@ typedef struct
 	bool bUse;										// 使用しているかどうか
 
 	int nSoundIdx;			// 使用するサウンドスポットのインデックス
-	bool bplaySound;		// 音を鳴らしているか
 }FLAMETHROWER;
 
 // 炎構造体

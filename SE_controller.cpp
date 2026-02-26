@@ -77,10 +77,10 @@ void UpdateSEController(void)
 {
 	CheckSoundStop(&g_nCntLabel[0]);
 
-	float fSoundVolume[MAX_PLAYER][MAX_SOUND] = {};	// スポットごとの音量
+	float fSoundVolume[MAX_SOUND] = {};	// スポットごとの音量
 	Player* pPlayer = GetPlayer();
 	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
-	bool bCheck[MAX_SOUNDSPOT] = {};
+	bool bCheck[MAX_SOUNDSPOT] = {false};
 
 	/*SoundDistance();*/
 
@@ -96,25 +96,27 @@ void UpdateSEController(void)
 
 					if (Distance <= AUDIBLE_DISTANCE)
 					{// 範囲内			
+						bCheck[nCntSEC] = true;
+
 						// 再生するボリュームを取得
-						g_aSoundSpot[nCntSEC].fVolume = (1.0f - (Distance / AUDIBLE_DISTANCE))/* / g_nCntLabel[g_aSoundSpot[nCntSEC].label]*/;
+						g_aSoundSpot[nCntSEC].fVolume = (1.0f - (Distance / AUDIBLE_DISTANCE));
 
 						// CallPlaySound有効化
 						g_aSoundSpot[nCntSEC].bwithin = true;
 
-						/*if (g_aSoundSpot[nCntSEC].fVolume > fSoundVolume[nCntPlayer][nCntSEC])
-						{*/
-						//取得したボリュームを適応
-						fSoundVolume[nCntPlayer][nCntSEC] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
-						SetVolume(g_aSoundSpot[nCntSEC].label, g_aSoundSpot[nCntSEC].nSoundIdx, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
-					/*}*/
+						if (g_aSoundSpot[nCntSEC].fVolume > fSoundVolume[nCntSEC])
+						{
+							//取得したボリュームを適応
+							fSoundVolume[nCntSEC] = g_aSoundSpot[nCntSEC].fVolume;	// LabelVolume保存
+							SetVolume(g_aSoundSpot[nCntSEC].label, g_aSoundSpot[nCntSEC].nSoundIdx, g_aSoundSpot[nCntSEC].fVolume);			// 音量調整
+						}
 
 					//*******			!!!注意!!!			*******//
 					// サウンドの再生自体は、CallPlaySoundで行います！
 					//*******								*******//
 
 					}
-					else if (Distance > AUDIBLE_DISTANCE)
+					else if (Distance > AUDIBLE_DISTANCE && bCheck[nCntSEC] == false)
 					{
 						// CallPlaySound無効化
 						g_aSoundSpot[nCntSEC].bwithin = false;
@@ -189,7 +191,7 @@ void SoundDistance(void)
 //	オブジェクト側からサウンドを鳴らす
 //
 //==================================================
-void CallPlaySound(int nSoundIdx, bool *play)
+void CallPlaySound(int nSoundIdx)
 {
 	if (g_aSoundSpot[nSoundIdx].bwithin == true && g_aSoundSpot[nSoundIdx].bPlay == false)
 	{
@@ -208,5 +210,18 @@ void CallPlaySound(int nSoundIdx, bool *play)
 		{
 			g_aSoundSpot[nSoundIdx].bPlay = false;
 		}
+	}
+}
+//==================================================
+//
+//	オブジェクト側からサウンドを止める
+//
+//==================================================
+void CallStopSound(int nSoundIdx)
+{
+	if(g_aSoundSpot[nSoundIdx].bPlay == true)
+	{
+		StopSound(g_aSoundSpot[nSoundIdx].label, &g_aSoundSpot[nSoundIdx].nSoundIdx);
+		g_aSoundSpot[nSoundIdx].bPlay = false;
 	}
 }

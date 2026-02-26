@@ -85,6 +85,8 @@ void InitFire(void)
 	}
 
 	LoadModel(FIRE_MODELPATH, &g_aFireModelData);
+
+	SetFlamethrower(D3DXVECTOR3(100.0f,0.0f,0.0f), D3DXVECTOR3_ZERO,OPERATIONSTATE_AUTMATIC,FIRESTATE_OFF,0);
 }
 
 //=====================================================================
@@ -114,7 +116,7 @@ void UpdateFire(void)
 			switch (pFire->state)
 			{
 			case FIRESTATE_OFF:		// ‰ŠOFFó‘Ô
-
+				CallStopSound(pFlamethrower->nSoundIdx);
 				break;
 
 			case FIRESTATE_READY:	// ‰Š€”õó‘Ô
@@ -130,7 +132,7 @@ void UpdateFire(void)
 				break;
 
 			case FIRESTATE_ON:		// ‰ŠONó‘Ô
-				CallPlaySound(pFlamethrower->nSoundIdx, &pFlamethrower->bplaySound);
+				CallPlaySound(pFlamethrower->nSoundIdx);
 				move.x = sinf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
 				move.y = (float)(rand() % 200) / 100 + 3.0f;
 				move.z = cosf((float)(rand() % 629 - 314) / 100.0f) * (float)(rand() % 500) / 490 + 0.1f;
