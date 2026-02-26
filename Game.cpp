@@ -114,8 +114,6 @@ void InitGame(void)
 	InitVignette();			// ビネット
 	InitEnemy();			// 敵
 	InitSEController();		// サウンドコントローラー
-	SetSoundSpot(D3DXVECTOR3(0.0f, 0.0f, 0.0f), SOUND_LABEL_SE_SAW);
-	SetSoundSpot(D3DXVECTOR3(3000.0f, 0.0f, 0.0f), SOUND_LABEL_SE_SAW);
 
 	// フォグの初期設定
 	float FogStart = 2000.0f, FogEnd = 4000.0f;
@@ -165,9 +163,8 @@ void InitGame(void)
 		TIMERSETDATA* pTimerData = &g_modelDataGame.aInfoTimerSet[nCountTIMER];
 
 		SetTimer(
-			pTimerData->nType,
 			pTimerData->pos,
-			pTimerData->col
+			pTimerData->size
 		);
 	}
 	// 回転ノコギリの設定
@@ -457,9 +454,8 @@ void ReloadGame(void)
 		TIMERSETDATA* pTimerData = &g_modelDataGame.aInfoTimerSet[nCountTIMER];
 
 		SetTimer(
-			pTimerData->nType,
 			pTimerData->pos,
-			pTimerData->col
+			pTimerData->size
 		);
 	}
 	// ウォールの設定
