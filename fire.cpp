@@ -85,8 +85,6 @@ void InitFire(void)
 	}
 
 	LoadModel(FIRE_MODELPATH, &g_aFireModelData);
-
-	SetFlamethrower(D3DXVECTOR3(100.0f,0.0f,0.0f), D3DXVECTOR3_ZERO,OPERATIONSTATE_AUTMATIC,FIRESTATE_OFF,0);
 }
 
 //=====================================================================
