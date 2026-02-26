@@ -431,24 +431,14 @@ void _Read_TIMERSET(FILE* pFile, TIMERSETDATA* pBuffer)
 		{
 			break;
 		}
-		else if (strcmp(&aStrLine[0], "TEXTYPE") == 0)
+		else if (strcmp(&aStrLine[0], "SIZE") == 0)
 		{
-			fscanf(pFile, " = %d", &pBuffer->nType);
+			fscanf(pFile, " = %f %f", &pBuffer->size.x, &pBuffer->size.y);
 		}
 		else if (strcmp(&aStrLine[0], "POS") == 0)
 		{
 			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
-		}
-		else if (strcmp(&aStrLine[0], "COLOR") == 0)
-		{
-			float fR, fG, fB,fA;
-
-			fscanf(pFile, " = %f %f %f %f", &fR, &fG, &fB,&fA);
-
-			pBuffer->col = D3DXCOLOR(fR, fG, fB, fA);
-			
-		}
-	
+		}	
 	}
 }
 //=====================================================================
