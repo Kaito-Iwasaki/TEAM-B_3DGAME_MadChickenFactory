@@ -111,11 +111,12 @@ void UninitTitle(void)
 	UninitMeshCylinder();			//メッシュシリンダー
 	UninitLight();					//ライト
 	UninitTeamLogo();				//チームロゴ
-	
+
 	// テクスチャの解放
 	ReleaseLoadedTexture();
 
-	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
+	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);	
+	
 }
 //==================
 //タイトル画面の更新

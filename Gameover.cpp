@@ -8,6 +8,7 @@
 #include "Gameover.h"
 #include"input.h"
 #include"fade.h"
+#include"sound.h"
 //===========================================================
 // 
 // ƒ}ƒNƒ’è‹`
@@ -27,8 +28,6 @@ LPDIRECT3DTEXTURE9 g_pTextureGameover[GAMEOVER_MAX] = {};		//ƒeƒNƒXƒ`ƒƒ‚Ìƒ|ƒCƒ“ƒ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffGameover;		//’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^
 TeamLogo g_Gameover[MAX_GAMEOVER];
 int g_GameoverSelect;
-int nCountGameover;
-int nFreamGameover;
 //===========================================================
 // ƒQ[ƒ€ƒI[ƒo[‚Ì‰Šú‰»ˆ—
 //===========================================================
@@ -67,7 +66,7 @@ void InitGameover(void)
 
 	g_Gameover[3].bUse = false;
 
-	g_Gameover[4].pos = D3DXVECTOR3(500.0f, 100.0f, 0.0f);
+	g_Gameover[4].pos = D3DXVECTOR3(470.0f, 100.0f, 0.0f);
 
 	g_Gameover[4].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -99,7 +98,6 @@ void InitGameover(void)
 
 	g_Gameover[6].Timer = 10;
 
-	g_Gameover[6].nAnime = 0;
 	LPDIRECT3DDEVICE9 pDevice;
 
 	//ƒfƒoƒCƒX‚ÌŽæ“¾
@@ -157,8 +155,7 @@ void InitGameover(void)
 	}
 	//’¸“_ƒoƒbƒtƒ@‚ðƒAƒ“ƒƒbƒN‚·‚é
 	g_pVtxBuffGameover->Unlock();
-	nCountGameover = GAMEOVER_TIMER;
-	nFreamGameover = GAMEOVER_FREAM;
+	g_GameoverSelect = 0;
 }
 
 //===========================================================
@@ -226,27 +223,6 @@ void UpdateGameover(void)
 	
 		}
 	}
-
-	/*if (nCountGameover >= 1)
-	{
-
-		if (nFreamGameover >= 1)
-		{
-			nFreamGameover--;
-		}
-		else
-		{
-
-			nCountGameover--;
-			nFreamGameover = GAMEOVER_FREAM;
-		}
-	}
-	else
-	{
-		g_Gameover[nCntGameover].col.a = 0.0;
-		SetFade(MODE_LOGO);
-	}*/
-
 	
 	for (int nCntGameover = 0;  nCntGameover < MAX_GAMEOVER;  nCntGameover++)
 	{

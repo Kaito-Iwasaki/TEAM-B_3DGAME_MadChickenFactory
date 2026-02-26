@@ -8,6 +8,8 @@
 #include "team_logo.h"
 #include"input.h"
 #include"fade.h"
+#include"sound.h"
+#include"SE_controller.h"
 //===========================================================
 // 
 // ƒ}ƒNƒ’è‹`
@@ -123,6 +125,7 @@ void UninitTeamLogo(void)
 		g_pVtxBuffTeamLogo->Release();
 		g_pVtxBuffTeamLogo = NULL;
 	}
+	StopSound();
 }
 
 //===========================================================
@@ -155,6 +158,8 @@ void UpdateTeamLogo(void)
 	}
 	if (GetKeyboardTrigger(DIK_P) || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 	{
+
+	
 		if (g_Start == TEAMLOGO_1PLAYER)
 		{
 			

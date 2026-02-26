@@ -39,9 +39,8 @@ typedef struct
 	D3DXCOLOR col;				//ロゴの色
 	GAMEOVER type;				//チームロゴのタイプ
 	bool bUse;					//どこを選択しているか
-	int Timer;
-	int Fream;
-	int nAnime;
+	int Timer;					//タイマー
+	int Fream;					//フレーム
 }TeamLogo;
 //*********************************************************************
 // 
