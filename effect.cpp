@@ -95,25 +95,14 @@ void InitEffect(void)
 void UninitEffect(void)
 {
 	//テクスチャの破棄
-	if (g_pTextureEffect[0] != NULL)
-	{			
-		g_pTextureEffect[0]->Release();
-		g_pTextureEffect[0] = NULL;
-	}	
-	if (g_pTextureEffect[1] != NULL)
+
+	for (int nCntEffect = 0; nCntEffect < EFFECTTYPE_MAX; nCntEffect++)
 	{
-		g_pTextureEffect[1]->Release();
-		g_pTextureEffect[1] = NULL;
-	}
-	if (g_pTextureEffect[2] != NULL)
-	{
-		g_pTextureEffect[2]->Release();
-		g_pTextureEffect[2] = NULL;
-	}
-	if (g_pTextureEffect[3] != NULL)
-	{
-		g_pTextureEffect[3]->Release();
-		g_pTextureEffect[3] = NULL;
+		if (g_pTextureEffect[nCntEffect] != NULL)
+		{
+			g_pTextureEffect[nCntEffect]->Release();
+			g_pTextureEffect[nCntEffect] = NULL;
+		}
 	}
 	if (g_pVtxBuffEffect != NULL)
 	{			
@@ -162,10 +151,7 @@ void UpdateEffect(void)
 
 					}
 				}
-				
-				
-			
-			
+	
 					switch (g_aEffect[nCntEffect].type)
 					{
 					case EFFECTTYPE_NOMALE:
