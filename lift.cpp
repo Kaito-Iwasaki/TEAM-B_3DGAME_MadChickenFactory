@@ -92,18 +92,13 @@ void UpdateLift(void)
 	{
 		if (g_aLift[nCntLift].bUse == true)
 		{
+			g_aLift[nCntLift].move = g_aLift[nCntLift].vec * g_aLift[nCntLift].speed;
+
 			if (g_aLift[nCntLift].NowState == LIFTSTATE_GO_POINT)
 			{
 				//==============================
 				// --- ‰ŠúˆÊ’u‚©‚çˆÚ“®’† ---
 				//==============================
-				g_aLift[nCntLift].move = g_aLift[nCntLift].vec * g_aLift[nCntLift].speed;
-
-				if (CollisionPointBoxDirection(pPlayer->pos, pPlayer->posOld, g_aLift[nCntLift].pos, g_aLiftModelData.vtxMin, g_aLiftModelData.vtxMax))
-				{
-					pPlayer->pos += g_aLift[nCntLift].move;
-				}
-
 				g_aLift[nCntLift].pos += g_aLift[nCntLift].move;
 				if (g_aLift[nCntLift].pos.x <= g_aLift[nCntLift].GoPoint.x + EFFECTIVE_RANGE_LIFT &&
 					g_aLift[nCntLift].pos.x >= g_aLift[nCntLift].GoPoint.x - EFFECTIVE_RANGE_LIFT &&
@@ -121,14 +116,9 @@ void UpdateLift(void)
 				//==============================
 				// --- Ý’èˆÊ’u‚©‚çˆÚ“®’† ---
 				//==============================
-				g_aLift[nCntLift].move = g_aLift[nCntLift].vec * g_aLift[nCntLift].speed;
-				
-				if (CollisionPointBoxDirection(pPlayer->pos, pPlayer->posOld, g_aLift[nCntLift].pos, g_aLiftModelData.vtxMin, g_aLiftModelData.vtxMax))
-				{
-					pPlayer->pos -= g_aLift[nCntLift].move;
-				}
+				g_aLift[nCntLift].move *= -1;
 
-				g_aLift[nCntLift].pos -= g_aLift[nCntLift].move;
+				g_aLift[nCntLift].pos += g_aLift[nCntLift].move;
 				if (g_aLift[nCntLift].pos.x <= g_aLift[nCntLift].SavePos.x + EFFECTIVE_RANGE_LIFT &&
 					g_aLift[nCntLift].pos.x >= g_aLift[nCntLift].SavePos.x - EFFECTIVE_RANGE_LIFT &&
 					g_aLift[nCntLift].pos.y <= g_aLift[nCntLift].SavePos.y + EFFECTIVE_RANGE_LIFT &&
@@ -272,7 +262,7 @@ bool CollisionLift(Player *pPlayer)
 
 	for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++, pLift++)
 	{
-		if (g_aLift[nCntLift].bUse == true)
+		if (pLift->bUse == true)
 		{
 			D3DXVECTOR3 vecHeight = D3DXVECTOR3(0, pPlayer->fHeight, 0);
 			BYTE byHit = CollisionBoxBoxDirection(
@@ -287,6 +277,10 @@ bool CollisionLift(Player *pPlayer)
 
 			if (byHit & COLLISION_UP)
 			{
+				if (pLift->NowState != LIFTSTATE_STAY)
+				{
+					pPlayer->pos += pLift->move;
+				}
 				pPlayer->pos.y = pLift->pos.y + g_aLiftModelData.vtxMax.y;
 				pPlayer->move.y = 0;
 				pPlayer->bJump = false;
