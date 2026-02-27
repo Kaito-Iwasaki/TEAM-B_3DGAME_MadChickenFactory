@@ -13,7 +13,6 @@
 #include "model.h"
 #include "input.h"
 #include "debugproc.h"
-#include "player.h"
 #include "fade.h"
 #include "prompt.h"
 #include "collision.h"
@@ -265,57 +264,54 @@ void SetLift(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range,float
 //	ƒŠƒtƒg‚Ì“–‚½‚è”»’è
 //
 //==================================================
-bool CollisionLift(void)
+bool CollisionLift(Player *pPlayer)
 {
-	Player* pPlayer = GetPlayer();
 	bool bHitCheck = false;
 	Lift* pLift = &g_aLift[0];
 
-	for (int nPlayer = 0; nPlayer < MAX_PLAYER; nPlayer++, pPlayer++)
+
+	for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++, pLift++)
 	{
-		for (int nCntLift = 0; nCntLift < MAX_LIFT; nCntLift++, pLift++)
+		if (g_aLift[nCntLift].bUse == true)
 		{
-			if (g_aLift[nCntLift].bUse == true)
+			D3DXVECTOR3 vecHeight = D3DXVECTOR3(0, pPlayer->fHeight, 0);
+			BYTE byHit = CollisionBoxBoxDirection(
+				pPlayer->pos,
+				pPlayer->posOld,
+				D3DXVECTOR3(0, 0, 0),
+				D3DXVECTOR3(0, pPlayer->fHeight, 0),
+				pLift->pos,
+				g_aLiftModelData.vtxMin,
+				g_aLiftModelData.vtxMax
+			);
+
+			if (byHit & COLLISION_UP)
 			{
-				D3DXVECTOR3 vecHeight = D3DXVECTOR3(0, pPlayer->fHeight, 0);
-				BYTE byHit = CollisionBoxBoxDirection(
-					pPlayer->pos,
-					pPlayer->posOld,
-					D3DXVECTOR3(0, 0, 0),
-					D3DXVECTOR3(0, pPlayer->fHeight, 0),
-					pLift->pos,
-					g_aLiftModelData.vtxMin,
-					g_aLiftModelData.vtxMax
-				);
+				pPlayer->pos.y = pLift->pos.y + g_aLiftModelData.vtxMax.y;
+				pPlayer->move.y = 0;
+				pPlayer->bJump = false;
+			}
+			else if (byHit & COLLISION_DOWN)
+			{
+				pPlayer->pos.y = pLift->pos.y - pPlayer->fHeight;
+				pPlayer->move.y = 0;
+			}
 
-				if (byHit & COLLISION_UP)
-				{
-					pPlayer->pos.y = pLift->pos.y + g_aLiftModelData.vtxMax.y;
-					pPlayer->move.y = 0;
-					pPlayer->bJump = false;
-				}
-				else if (byHit & COLLISION_DOWN)
-				{
-					pPlayer->pos.y = pLift->pos.y - pPlayer->fHeight;
-					pPlayer->move.y = 0;
-				}
-
-				if (byHit & COLLISION_LEFT)
-				{
-					pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMin.x;
-				}
-				if (byHit & COLLISION_RIGHT)
-				{
-					pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMax.x;
-				}
-				if (byHit & COLLISION_FRONT)
-				{
-					pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMin.z;
-				}
-				if (byHit & COLLISION_BACK)
-				{
-					pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMax.z;
-				}
+			if (byHit & COLLISION_LEFT)
+			{
+				pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMin.x;
+			}
+			if (byHit & COLLISION_RIGHT)
+			{
+				pPlayer->pos.x = pLift->pos.x + g_aLiftModelData.vtxMax.x;
+			}
+			if (byHit & COLLISION_FRONT)
+			{
+				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMin.z;
+			}
+			if (byHit & COLLISION_BACK)
+			{
+				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMax.z;
 			}
 		}
 	}
