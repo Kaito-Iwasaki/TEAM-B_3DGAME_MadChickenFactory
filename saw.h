@@ -43,6 +43,8 @@ typedef struct
 	int nCounterState;		// 状態カウント
 
 	float turnSpeed;
+
+	int nIdxSound;			// サウンドスポットのインデックス
 }Saw;
 
 //==================================================

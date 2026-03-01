@@ -105,6 +105,7 @@ void UninitEnemy(void)
 //=====================================================================
 void UpdateEnemy(void)
 {
+	SoundSpot* pSoundSpot = GetSoundSpot();
 	ENEMY* pEnemy = &g_aEnemy[0];
 	int Enemy;
 
@@ -116,6 +117,7 @@ void UpdateEnemy(void)
 
 		pEnemy->previousState = pEnemy->currentState;
 
+		CallPlaySound(pEnemy->nSoundIdx[0]);
 
 		for (int nCountPlayer = 0; nCountPlayer < MAX_PLAYER; nCountPlayer++, pPlayer++)
 		{
@@ -128,6 +130,10 @@ void UpdateEnemy(void)
 				&& acosf(DotProduct(vSight, Normalize(vToPlr))) <= RAD(ENEMY_MAX_SIGHT_ANGLE) * 0.5f
 				)
 			{
+				// サウンドを切り替え
+				CallStopSound(pEnemy->nSoundIdx[0]);
+				CallPlaySound(pEnemy->nSoundIdx[1]);
+
 				// ターゲットをプレイヤーに設定
 				pEnemy->nTarget = nCountPlayer;
 
@@ -152,6 +158,9 @@ void UpdateEnemy(void)
 
 		// 影位置の更新
 		SetPositionShadow(pEnemy->nIdxShadow, pEnemy->pos, 0, true);
+
+		// サウンドスポット位置更新
+		*pSoundSpot[nCountEnemy].pos = *pEnemy->pos;
 	}
 }
 
@@ -282,7 +291,8 @@ void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRo
 		pEnemy->rot = rot;
 		pEnemy->fSpeed = fSpeed;
 		pEnemy->nIdxShadow = SetShadow(pEnemy->pos, 100);
-		//pEnemy->nSoundIdx = SetSoundSpot(pos, SOUND_LABEL_SE_ENEMY);	// サウンドスポット設定
+		pEnemy->nSoundIdx[0] = SetSoundSpot(pos, SOUND_LABEL_SE_ENEMY);	// 索敵サウンド
+		pEnemy->nSoundIdx[1] = SetSoundSpot(pos, SOUND_LABEL_SE_ENEMY);	// 敵探知サウンド
 
 		if (pRoutine != NULL)
 		{

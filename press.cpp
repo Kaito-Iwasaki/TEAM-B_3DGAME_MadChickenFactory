@@ -104,6 +104,10 @@ void UpdatePress(void)
 				g_aPress[nCntPress].pos.y -= PRESS_DOWN_SPEED;
 				if (g_aPress[nCntPress].pos.y <= g_aPress[nCntPress].memheight - g_aPress[nCntPress].movewidth)
 				{//下降前の座標よりも設定値分下
+					// 落下音
+					CallPlaySound(g_aPress[nCntPress].nSoundIdx);
+					CallPlaySound(g_aPress[nCntPress].nSoundIdx);
+
 					//pos矯正
 					g_aPress[nCntPress].pos.y = g_aPress[nCntPress].memheight - g_aPress[nCntPress].movewidth;
 
@@ -255,7 +259,7 @@ void SetPress(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, float movewidth, int i
 			g_aPress[nCntPress].interval = interval;
 			g_aPress[nCntPress].rot = rot;
 			g_aPress[nCntPress].PState = state;
-			//SetSoundSpot(pos, SOUND_LABEL_SE_PRESS);	// サウンドスポット設定
+			g_aPress[nCntPress].nSoundIdx = SetSoundSpot(pos, SOUND_LABEL_SE_PRESS);	// サウンドスポット設定
 			break;
 		}
 	}

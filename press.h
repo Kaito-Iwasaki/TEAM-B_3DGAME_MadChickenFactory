@@ -53,6 +53,8 @@ typedef struct
 	bool bUse;				// 使用 / 不使用
 	int nIdx;				// インデックス
 	D3DXMATRIX mtxWorld;	// ワールドマトリックス
+
+	int nSoundIdx;			// サウンドスポットのインデックス
 }Press;
 
 

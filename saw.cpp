@@ -55,10 +55,10 @@ void InitSaw(void)
 		g_aSaw[nCntSaw].pos = D3DXVECTOR3_ZERO;
 		g_aSaw[nCntSaw].rot = D3DXVECTOR3_ZERO;
 		g_aSaw[nCntSaw].turnSpeed = 0;
+		g_aSaw[nCntSaw].nIdxSound = -1;
 	}
 
 	LoadModel(SAW_MODEL_PATH, &g_aSawModelData);
-
 }
 
 //==================================================
@@ -89,6 +89,8 @@ void UpdateSaw(void)
 
 			if (g_aSaw[nCntSaw].bStartup == true)
 			{//起動スイッチがON
+				CallPlaySound(g_aSaw[nCntSaw].nIdxSound);
+
 				//MAX_SAW_SPEEDまで速度をあげながら回転
 				g_aSaw[nCntSaw].turnSpeed += (MAX_SAW_SPEED - g_aSaw[nCntSaw].turnSpeed) * 0.005f;
 				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
@@ -199,7 +201,7 @@ void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, i
 			g_aSaw[nCnt].move = ((pos + moveRange) - pos) / (float)nMoveTime;
 			g_aSaw[nCnt].bStartup = startup;
 			g_aSaw[nCnt].bUse = true;
-			//SetSoundSpot(pos, SOUND_LABEL_SE_SAW);	// サウンドスポット設定
+			g_aSaw[nCnt].nIdxSound = SetSoundSpot(pos, SOUND_LABEL_SE_SAW);	// サウンドスポット設定
 			break;
 		}
 	}

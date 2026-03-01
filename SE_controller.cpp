@@ -45,6 +45,7 @@
 //==================================================
 SoundSpot g_aSoundSpot[MAX_SOUNDSPOT];			// SEの発生位置
 int g_nCntLabel[SOUND_LABEL_MAX] = {1};			// ラベル別再生中カウント
+int bP = 0;
 int g_a = 0;
 
 //==================================================
@@ -136,7 +137,6 @@ void UpdateSEController(void)
 //==================================================
 int SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label)
 {
-	g_a++;
 	int nCntSSpot = 0;
 
 	for (nCntSSpot = 0; nCntSSpot < MAX_SOUNDSPOT; nCntSSpot++)
@@ -193,6 +193,13 @@ void SoundDistance(void)
 //==================================================
 void CallPlaySound(int nSoundIdx)
 {
+	
+	if (g_aSoundSpot[nSoundIdx].label == SOUND_LABEL_SE_PRESS)
+	{
+		PrintDebugProc("PLAY_SOUND : ?");
+		bP++;
+	}
+
 	if (g_aSoundSpot[nSoundIdx].bwithin == true && g_aSoundSpot[nSoundIdx].bPlay == false)
 	{
 		g_aSoundSpot[nSoundIdx].bPlay = true;
@@ -224,4 +231,13 @@ void CallStopSound(int nSoundIdx)
 		StopSound(g_aSoundSpot[nSoundIdx].label, &g_aSoundSpot[nSoundIdx].nSoundIdx);
 		g_aSoundSpot[nSoundIdx].bPlay = false;
 	}
+}
+//==================================================
+//
+//	サウンドスポット情報取得
+//
+//==================================================
+SoundSpot *GetSoundSpot(void)
+{
+	return &g_aSoundSpot[0];
 }
