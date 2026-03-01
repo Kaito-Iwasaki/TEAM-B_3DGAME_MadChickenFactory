@@ -334,8 +334,12 @@ int GetNextKeyIndex(MOTION* pMotion)
 	int nIdxMotion = pMotion->nIdxMotion;
 	int nIdxKey = pMotion->nKeyMotion;							
 	int nMaxKey = pMotion->aMotionInfo[nIdxMotion].nNumKey;
+	int nIdxNext = 0;
 
-	int nIdxNext = (nIdxKey + 1) % nMaxKey;
+	if (nMaxKey > 0)
+	{
+		nIdxNext = (nIdxKey + 1) % nMaxKey;
+	}
 
 	return nIdxNext;
 }
@@ -348,8 +352,12 @@ int GetNextBlendKeyIndex(MOTION* pMotion)
 	int nIdxMotionBlend = pMotion->nIdxMotionBlend;
 	int nIdxKeyBlend = pMotion->nKeyMotionBlend;
 	int nMaxKeyBlend = pMotion->aMotionInfo[nIdxMotionBlend].nNumKey;
+	int nIdxNext = 0;
 
-	int nIdxNext = (nIdxKeyBlend + 1) % nMaxKeyBlend;
+	if (nMaxKeyBlend > 0)
+	{
+		nIdxNext = (nIdxKeyBlend + 1) % nMaxKeyBlend;
+	}
 
 	return nIdxNext;
 }

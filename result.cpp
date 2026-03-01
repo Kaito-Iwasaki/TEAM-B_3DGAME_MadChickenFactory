@@ -122,17 +122,12 @@ void UpdateResult(void)
 
 	PrintDebugProc("リザルト画面\n");
 	//エンターキーが押されて最初の時
-	if (GetKeyboardTrigger(DIK_RETURN) == true)
+	if (GetKeyboardTrigger(DIK_RETURN) == true || GetJoypadTrigger(JOYKEY_A) == true)
 	{//ENTERキーが押された
 		//タイトル画面に移行
-		SetFade(MODE_TITLE);
+		SetFade(MODE_LOGO);
 	}
-	//スタートボタンが押されて再世の時
-	if (GetJoypadTrigger(JOYKEY_START) == true)
-	{//STARTが押された
-		//タイトル画面に移行
-		SetFade(MODE_TITLE);
-	}
+
 }
 //===================
 //リザルトの描画処理
@@ -140,7 +135,6 @@ void UpdateResult(void)
 void DrawResult(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
 	//頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0,g_pVtxBuffResult, 0, sizeof(VERTEX_2D));		//ここのsizeof(VERTEX)には*がいらない頂点バッファの時だけ
 	

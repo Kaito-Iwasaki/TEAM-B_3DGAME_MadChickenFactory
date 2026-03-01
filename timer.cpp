@@ -279,10 +279,10 @@ void SetTimer(D3DXVECTOR3 pos, D3DXVECTOR2 size)
 
 				//頂点座標の設定
 				//タイマーテクスチャ位置更新
-				pVtx[0].pos = D3DXVECTOR3(fStartPosX + fOffsetX * nCntTimer, g_aTimer[nCntTimer].size.y * 0.5f, 0.0f);
-				pVtx[1].pos = D3DXVECTOR3(fStartPosX + fOffsetX * (nCntTimer + 1), g_aTimer[nCntTimer].size.y * 0.5f, 0.0f);
-				pVtx[2].pos = D3DXVECTOR3(fStartPosX + fOffsetX * nCntTimer, -g_aTimer[nCntTimer].size.y * 0.5f, 0.0f);
-				pVtx[3].pos = D3DXVECTOR3(fStartPosX + fOffsetX * (nCntTimer + 1), -g_aTimer[nCntTimer].size.y * 0.5f, 0.0f);
+				pVtx[0].pos = D3DXVECTOR3(fStartPosX + fOffsetX * nCntTimer, g_aTimer[nSetTimer].size.y * 0.5f, 0.0f);
+				pVtx[1].pos = D3DXVECTOR3(fStartPosX + fOffsetX * (nCntTimer + 1), g_aTimer[nSetTimer].size.y * 0.5f, 0.0f);
+				pVtx[2].pos = D3DXVECTOR3(fStartPosX + fOffsetX * nCntTimer, -g_aTimer[nSetTimer].size.y * 0.5f, 0.0f);
+				pVtx[3].pos = D3DXVECTOR3(fStartPosX + fOffsetX * (nCntTimer + 1), -g_aTimer[nSetTimer].size.y * 0.5f, 0.0f);
 
 				// 頂点カラーの設定
 				pVtx[0].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);

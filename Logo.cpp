@@ -14,6 +14,7 @@
 #include"sound.h"
 #include"fade.h"
 #include"input.h"
+#include"SE_controller.h"
 //*********************************************************************
 // 
 // ***** É}ÉNÉçíËã` *****
@@ -137,6 +138,7 @@ void InitLogo(void)
 //=====================================================================
 void UninitLogo(void)
 {
+	
 	for (int nCntLogo = 0; nCntLogo < MAX_LOGO; nCntLogo++)
 	{
 
@@ -174,8 +176,10 @@ void UpdateLogo(void)
 			g_aLogo[nCntLogo].nCountLogo--;
 			if (g_aLogo[nCntLogo].nCountLogo == 0)
 			{
+				CallPlaySound(4);
 				g_aLogo[nCntLogo].col.a = 1.0f;
 				//PlaySound(SOUND_LABEL_SE_BLOOD);
+				CallStopSound(4);
 			}
 			break;
 		case LOGO_TEAMLOGO:

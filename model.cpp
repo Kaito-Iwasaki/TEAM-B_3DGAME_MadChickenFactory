@@ -240,11 +240,7 @@ void LoadAndSetModelFromData(MODELDATA* pModelData)
 	{// モデルの配置
 		MODELSETDATA setData = pModelData->aInfoModelSet[nCountModel];
 
-		SetModel(
-			setData.nType,
-			setData.pos,
-			setData.rot
-		);
+		SetModel(&setData);
 	}
 }
 
@@ -483,71 +479,37 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 	MODEL* pModel = &g_aModel[0];
 	BYTE byHitAll = MODEL_HIT_NONE;
 
+	pModel = &g_aModel[0];
 	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
 	{
-		if (pModel->bUsed == false) continue;	// 使用中でないならスキップ
+		if (pModel->bUsed == false)			continue;	// 使用中でないならスキップ
+		if (pModel->bCollision == false)	continue;	// 衝突判定がOFFならスキップ
 
 		BYTE byHit = MODEL_HIT_NONE;
 		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
 		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
 
-		// モデルの衝突判定処理
-		if (
-			posOld.x + size.x > pModel->transform.pos.x + vtxMin.x
-			&& posOld.x - size.x < pModel->transform.pos.x + vtxMax.x
-			&& posOld.z  - size.z < pModel->transform.pos.z + vtxMax.z
-			&& posOld.z  + size.z > pModel->transform.pos.z + vtxMin.z
-			&& posOld.y < pModel->transform.pos.y + vtxMax.y
-			&& posOld.y + size.y > pModel->transform.pos.y + vtxMin.y
-			)
-		{
-			byHit |= MODEL_HIT_IN;
-		}
-
 		if (
 			posOld.x + size.x <= pModel->transform.pos.x + vtxMin.x
 			&& pos->x + size.x > pModel->transform.pos.x + vtxMin.x
-			&& pos->z - size.z< pModel->transform.pos.z + vtxMax.z
-			&& pos->z + size.z> pModel->transform.pos.z + vtxMin.z
-			&& pos->y < pModel->transform.pos.y + vtxMax.y
-			&& pos->y + size.y >= pModel->transform.pos.y + vtxMin.y
+			&& posOld.z - size.z < pModel->transform.pos.z + vtxMax.z
+			&& posOld.z + size.z > pModel->transform.pos.z + vtxMin.z
+			&& posOld.y < pModel->transform.pos.y + vtxMax.y
+			&& posOld.y + size.y >= pModel->transform.pos.y + vtxMin.y
 			)
 		{// 左
 			byHit |= MODEL_HIT_LEFT;
 		}
 		if (
-			posOld.x - size.x>= pModel->transform.pos.x + vtxMax.x
-			&& pos->x- size.x < pModel->transform.pos.x + vtxMax.x
-			&& pos->z - size.z < pModel->transform.pos.z + vtxMax.z
-			&& pos->z + size.z> pModel->transform.pos.z + vtxMin.z
-			&& pos->y < pModel->transform.pos.y + vtxMax.y
-			&& pos->y + size.y >= pModel->transform.pos.y + vtxMin.y
+			posOld.x - size.x >= pModel->transform.pos.x + vtxMax.x
+			&& pos->x - size.x < pModel->transform.pos.x + vtxMax.x
+			&& posOld.z - size.z < pModel->transform.pos.z + vtxMax.z
+			&& posOld.z + size.z > pModel->transform.pos.z + vtxMin.z
+			&& posOld.y < pModel->transform.pos.y + vtxMax.y
+			&& posOld.y + size.y >= pModel->transform.pos.y + vtxMin.y
 			)
 		{// 右
 			byHit |= MODEL_HIT_RIGHT;
-		}
-
-		if (
-			posOld.z + size.z<= pModel->transform.pos.z + vtxMin.z
-			&& pos->z + size.z> pModel->transform.pos.z + vtxMin.z
-			&& pos->x + size.x> pModel->transform.pos.x + vtxMin.x
-			&& pos->x - size.x< pModel->transform.pos.x + vtxMax.x
-			&& pos->y < pModel->transform.pos.y + vtxMax.y
-			&& pos->y + size.y >= pModel->transform.pos.y + vtxMin.y
-			)
-		{// 前
-			byHit |= MODEL_HIT_FRONT;
-		}
-		if (
-			posOld.z - size.z>= pModel->transform.pos.z + vtxMax.z
-			&& pos->z - size.z< pModel->transform.pos.z + vtxMax.z
-			&& pos->x + size.x> pModel->transform.pos.x + vtxMin.x
-			&& pos->x - size.x< pModel->transform.pos.x + vtxMax.x
-			&& pos->y < pModel->transform.pos.y + vtxMax.y
-			&& pos->y + size.y >= pModel->transform.pos.y + vtxMin.y
-			)
-		{// 後ろ
-			byHit |= MODEL_HIT_BACK;
 		}
 
 		if (byHit & MODEL_HIT_LEFT)
@@ -560,7 +522,44 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 			pos->x = pModel->transform.pos.x + vtxMax.x + size.x;
 			OutputDebugString("Hit Right\n");
 		}
-		else if (byHit & MODEL_HIT_FRONT)
+
+		byHitAll |= byHit;
+	}
+
+	pModel = &g_aModel[0];
+	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
+	{
+		if (pModel->bUsed == false)			continue;	// 使用中でないならスキップ
+		if (pModel->bCollision == false)	continue;	// 衝突判定がOFFならスキップ
+
+		BYTE byHit = MODEL_HIT_NONE;
+		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
+		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
+
+		if (
+			posOld.z + size.z <= pModel->transform.pos.z + vtxMin.z
+			&& pos->z + size.z > pModel->transform.pos.z + vtxMin.z
+			&& posOld.x + size.x > pModel->transform.pos.x + vtxMin.x
+			&& posOld.x - size.x < pModel->transform.pos.x + vtxMax.x
+			&& posOld.y < pModel->transform.pos.y + vtxMax.y
+			&& posOld.y + size.y > pModel->transform.pos.y + vtxMin.y
+			)
+		{// 前
+			byHit |= MODEL_HIT_FRONT;
+		}
+		if (
+			posOld.z - size.z >= pModel->transform.pos.z + vtxMax.z
+			&& pos->z - size.z < pModel->transform.pos.z + vtxMax.z
+			&& posOld.x + size.x > pModel->transform.pos.x + vtxMin.x
+			&& posOld.x - size.x < pModel->transform.pos.x + vtxMax.x
+			&& posOld.y < pModel->transform.pos.y + vtxMax.y - 0.1f
+			&& posOld.y + size.y > pModel->transform.pos.y + vtxMin.y
+			)
+		{// 後ろ
+			byHit |= MODEL_HIT_BACK;
+		}
+
+		if (byHit & MODEL_HIT_FRONT)
 		{// 前から衝突
 			pos->z = pModel->transform.pos.z + vtxMin.z - size.z;
 			OutputDebugString("Hit Front\n");
@@ -570,14 +569,25 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 			pos->z = pModel->transform.pos.z + vtxMax.z + size.z;
 			OutputDebugString("Hit Back\n");
 		}
+	}
+
+	pModel = &g_aModel[0];
+	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++, pModel++)
+	{
+		if (pModel->bUsed == false)			continue;	// 使用中でないならスキップ
+		if (pModel->bCollision == false)	continue;	// 衝突判定がOFFならスキップ
+
+		BYTE byHit = MODEL_HIT_NONE;
+		D3DXVECTOR3 vtxMin = g_aMeshData[pModel->nType].vtxMin;
+		D3DXVECTOR3 vtxMax = g_aMeshData[pModel->nType].vtxMax;
 
 		if (
 			posOld.y >= pModel->transform.pos.y + vtxMax.y
 			&& pos->y <= pModel->transform.pos.y + vtxMax.y
-			&& pos->x + size.x > pModel->transform.pos.x + vtxMin.x
-			&& pos->x - size.x < pModel->transform.pos.x + vtxMax.x
-			&& pos->z + size.z > pModel->transform.pos.z + vtxMin.z
-			&& pos->z - size.z< pModel->transform.pos.z + vtxMax.z
+			&& posOld.x + size.x > pModel->transform.pos.x + vtxMin.x
+			&& posOld.x - size.x < pModel->transform.pos.x + vtxMax.x
+			&& posOld.z + size.z > pModel->transform.pos.z + vtxMin.z
+			&& posOld.z - size.z < pModel->transform.pos.z + vtxMax.z
 			)
 		{// 上
 			byHit |= MODEL_HIT_TOP;
@@ -586,10 +596,10 @@ BYTE CollisionModel(D3DXVECTOR3* pos, D3DXVECTOR3 posOld, D3DXVECTOR3 size)
 		if (
 			posOld.y + size.y <= pModel->transform.pos.y + vtxMin.y
 			&& pos->y + size.y > pModel->transform.pos.y + vtxMin.y
-			&& pos->x + size.x> pModel->transform.pos.x + vtxMin.x
-			&& pos->x - size.x< pModel->transform.pos.x + vtxMax.x
-			&& pos->z + size.z> pModel->transform.pos.z + vtxMin.z
-			&& pos->z - size.z < pModel->transform.pos.z + vtxMax.z
+			&& posOld.x + size.x > pModel->transform.pos.x + vtxMin.x
+			&& posOld.x - size.x < pModel->transform.pos.x + vtxMax.x
+			&& posOld.z + size.z > pModel->transform.pos.z + vtxMin.z
+			&& posOld.z - size.z < pModel->transform.pos.z + vtxMax.z
 			)
 		{// 下
 			byHit |= MODEL_HIT_BOTTOM;

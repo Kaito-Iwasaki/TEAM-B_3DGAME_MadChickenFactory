@@ -268,6 +268,8 @@ void _Read_MODELSET(FILE* pFile, MODELSETDATA* pBuffer)
 {
 	char aStrLine[MAX_READABLE_CHAR] = {};
 
+	pBuffer->bCollision = true;
+
 	while (true)
 	{
 		// ˆês“Ç‚İ‚Ş

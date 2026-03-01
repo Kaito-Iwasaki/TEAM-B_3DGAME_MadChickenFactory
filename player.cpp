@@ -147,11 +147,11 @@ void UpdatePlayer(void)
 		if (g_Player[nCntPlayer].bDisableControl == false)
 		{// 操作可能
 
+			// 前回の位置保存
+			g_Player[nCntPlayer].posOld = g_Player[nCntPlayer].pos;
+
 			if (g_Operation == PLAYEROPERATION_2PL || g_Operation == (PLAYEROPERATION)nCntPlayer)
 			{// 操作プレイヤーと一致
-
-				// 前回の位置保存
-				g_Player[nCntPlayer].posOld = g_Player[nCntPlayer].pos;
 
 				D3DXVECTOR3 move = D3DXVECTOR3_ZERO;
 
@@ -491,51 +491,6 @@ Player* GetPlayer(void)
 }
 
 //=======================================================
-// モーションの設定処理
-//=======================================================
-#if 0
-
-void SetMosion(MOTIONTYPE motiontype, bool bBlendMotion, int nFrameBlend)
-{
-	if (bBlendMotion == true)
-	{
-		// 各値の設定
-		g_Player.motionTypeBlend = motiontype;													// ブレンドモーションの種類設定
-		g_Player.bLoopMotionBlend = g_Player.aMotionInfo[(int)g_Player.motionTypeBlend].bLoop;	// ブレンドモーションのループ状態設定
-		g_Player.nNumKeyBlend = g_Player.aMotionInfo[(int)g_Player.motionTypeBlend].nNumKey;	// ブレンドモーションの総数キー設定
-		g_Player.nKeyBlend = 0;																	// ブレンドモーションの現在のキー初期化
-		g_Player.nCounterMotionBlend = 0;														// ブレンドモーションのカウンター初期化
-		g_Player.nFrameBlend = nFrameBlend;														// ブレンドモーションのフレーム数設定
-		g_Player.nCounterBlend = 0;																// ブレンドカウンターの初期化
-		g_Player.bBlendMotion = bBlendMotion;													// ブレンドモーションをする
-	}
-	else
-	{
-		// 各値の設定
-		g_Player.bBlendMotion = bBlendMotion;												// ブレンドモーションをしない
-		g_Player.motionType = motiontype;													// モーションの種類の設定
-		g_Player.bLoopMotion = g_Player.aMotionInfo[(int)g_Player.motionType].bLoop;		// ループ設定
-		g_Player.nNumKey = g_Player.aMotionInfo[(int)g_Player.motionType].nNumKey;			// 最大キー設定
-		g_Player.nKey = 0;																	// 現在キーの初期化
-		g_Player.nCounterMotion = 0;														// モーションカウンターの初期化
-
-		Model* pModel = &g_Player.aModel[0];																// モデル情報ポインタ
-		KEY* pKey = &g_Player.aMotionInfo[(int)g_Player.motionType].aKeyInfo[g_Player.nKey].aKey[0];		// キー要素ポインタ
-
-		for (int nCntParts = 0; nCntParts < g_Player.nNumModelParts; nCntParts++, pModel++, pKey++)
-		{
-			pModel->pos.x = pKey->fPosX;
-			pModel->pos.y = pKey->fPosY;
-			pModel->pos.z = pKey->fPosZ;
-			pModel->rot.x = pKey->fRotX;
-			pModel->rot.y = pKey->fRotY;
-			pModel->rot.z = pKey->fRotZ;
-		}
-	}
-}
-#endif
-
-//=======================================================
 // プレイヤーの移動量設定処理
 //=======================================================
 void SetMove(D3DXVECTOR3* move, byte HitModel, bool* pbjump)
@@ -638,5 +593,6 @@ void CollisionPlayer(Player* pPlayer)
 	}
 
 	// リフトとの当たり判定
-	CollisionLift();
+	CollisionLift(pPlayer);
+
 }
