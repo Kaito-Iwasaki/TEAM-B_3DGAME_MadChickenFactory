@@ -214,64 +214,63 @@ void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, i
 #if 1
 bool CollisionSawRotX(void)
 {
-	Player* pPlayer = GetPlayer();
 	bool bHitCheck = false;
 
 	for (int nCntSaw = 0; nCntSaw < MAX_SAW; nCntSaw++)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
 		{
-			if ((pPlayer->pos.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x) &&
-				(pPlayer->pos.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x) &&
-				(pPlayer->pos.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y) &&
-				(pPlayer->pos.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y) &&
-				(pPlayer->pos.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.x) &&
-				(pPlayer->pos.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.x))
+			Player* pPlayer = GetPlayer();
+
+			for (int nPlr = 0; nPlr < MAX_PLAYER; nPlr++, pPlayer++)
 			{
-				if (pPlayer->posOld.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x)
-				{//右から
-					/*pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x;*/
-					bHitCheck = true;
-				}
-				else if (pPlayer->posOld.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x)
-				{//左から
-					/*pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x;*/
-					bHitCheck = true;
-				}
+				if ((pPlayer->pos.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x) &&
+					(pPlayer->pos.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x) &&
+					(pPlayer->pos.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y) &&
+					(pPlayer->pos.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y) &&
+					(pPlayer->pos.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.x) &&
+					(pPlayer->pos.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.x))
+				{
+					if (pPlayer->posOld.x >= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x)
+					{//右から
+						/*pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMax.x;*/
+						bHitCheck = true;
+					}
+					else if (pPlayer->posOld.x <= g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x)
+					{//左から
+						/*pPlayer->pos.x = g_aSaw[nCntSaw].pos.x + g_aSawModelData.vtxMin.x;*/
+						bHitCheck = true;
+					}
 
-				if (pPlayer->posOld.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y)
-				{//上から
-					/*pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y;*/
-					bHitCheck = true;
-				}
-				else if (pPlayer->posOld.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y)
-				{//下から
-					/*pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y;*/
-					bHitCheck = true;
-				}
+					if (pPlayer->posOld.y >= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y)
+					{//上から
+						/*pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMax.y;*/
+						bHitCheck = true;
+					}
+					else if (pPlayer->posOld.y <= g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y)
+					{//下から
+						/*pPlayer->pos.y = g_aSaw[nCntSaw].pos.y + g_aSawModelData.vtxMin.y;*/
+						bHitCheck = true;
+					}
 
-				if (pPlayer->posOld.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z)
-				{//奥から
-					/*pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z;*/
-					bHitCheck = true;
-				}
-				else if (pPlayer->posOld.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z)
-				{//手前から
-					/*pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z;*/
-					bHitCheck = true;
-				}
+					if (pPlayer->posOld.z >= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z)
+					{//奥から
+						/*pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMax.z;*/
+						bHitCheck = true;
+					}
+					else if (pPlayer->posOld.z <= g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z)
+					{//手前から
+						/*pPlayer->pos.z = g_aSaw[nCntSaw].pos.z + g_aSawModelData.vtxMin.z;*/
+						bHitCheck = true;
+					}
 
-				if (bHitCheck == true && g_aSaw[nCntSaw].bStartup == false)
-				{//当たっても、スイッチが止まっていいれば死なない
-					bHitCheck = false;
+					if (bHitCheck == true && g_aSaw[nCntSaw].bStartup == true && pPlayer->PlayerMotion.nIdxMotion != MOTIONTYPE_ACTION)
+					{//当たっても、スイッチが止まっていいれば死なない
+						KillPlayer(pPlayer);
+					}
 				}
 			}
 		}
-	}
-
-	if (bHitCheck == true)
-	{
-		SetFade(MODE_GAME);
 	}
 
 	return bHitCheck;
@@ -280,7 +279,6 @@ bool CollisionSawRotX(void)
 #if 1
 bool CollisionSawRotY(void)
 {
-	Player* pPlayer = GetPlayer();
 	bool bHitCheck = false;
 
 	bool check = false, checkold = false;
@@ -294,88 +292,93 @@ bool CollisionSawRotY(void)
 	float fNormal;	//正規化法線ベクトル
 	float fRate, fAll, fIntersect;
 
-	VecMove = pPlayer->pos - pPlayer->posOld;
 
 	for (int nCnt = 0; nCnt < MAX_WALL; nCnt++)
 	{
 		if (g_aSaw[nCnt].bUse == true)
 		{
-			//Y軸回転時
-			v[0].x = g_aSaw[nCnt].pos.x 
-				+ (g_aSawModelData.vtxMax.z * sinf(g_aSaw[nCnt].rot.y))		//厚み
-				+ (g_aSawModelData.vtxMin.x * cosf(g_aSaw[nCnt].rot.y));	//幅
-			v[0].y = 0.0f;
-			v[0].z = g_aSaw[nCnt].pos.z 
-				+ (g_aSawModelData.vtxMax.z * cosf(g_aSaw[nCnt].rot.y))		//厚み
-				+ (g_aSawModelData.vtxMax.x * sinf(g_aSaw[nCnt].rot.y));	//幅
+			Player* pPlayer = GetPlayer();
+			VecMove = pPlayer->pos - pPlayer->posOld;
 
-			v[1].x = g_aSaw[nCnt].pos.x 
-				+ (g_aSawModelData.vtxMax.z * sinf(g_aSaw[nCnt].rot.y))		//厚み
-				+ (g_aSawModelData.vtxMax.x * cosf(g_aSaw[nCnt].rot.y));	//幅
-			v[1].y = 0.0f;
-			v[1].z = g_aSaw[nCnt].pos.z 
-				+ (g_aSawModelData.vtxMax.z * cosf(g_aSaw[nCnt].rot.y))		//厚み
-				+ (g_aSawModelData.vtxMax.x * -sinf(g_aSaw[nCnt].rot.y));	//幅
-
-			v[2].x = g_aSaw[nCnt].pos.x
-				+ (g_aSawModelData.vtxMin.z * sinf(g_aSaw[nCnt].rot.y))	//厚み
-				+ (g_aSawModelData.vtxMax.x * cosf(g_aSaw[nCnt].rot.y));	//幅
-			v[2].y = 0.0f;
-			v[2].z = g_aSaw[nCnt].pos.z 
-				+ (g_aSawModelData.vtxMin.z * cosf(g_aSaw[nCnt].rot.y))	//厚み
-				+ (g_aSawModelData.vtxMax.x * -sinf(g_aSaw[nCnt].rot.y));	//幅
-
-			v[3].x = g_aSaw[nCnt].pos.x 
-				+ (g_aSawModelData.vtxMin.z * sinf(g_aSaw[nCnt].rot.y))	//厚み
-				+ (g_aSawModelData.vtxMin.x * cosf(g_aSaw[nCnt].rot.y));	//幅
-			v[3].y = 0.0f;
-			v[3].z = g_aSaw[nCnt].pos.z 
-				+ (g_aSawModelData.vtxMin.z * cosf(g_aSaw[nCnt].rot.y))	//厚み
-				+ (g_aSawModelData.vtxMax.x * sinf(g_aSaw[nCnt].rot.y));	//幅
-			//0┌--┐1
-			//	 ・
-			//3└--┘2
-			//x -150
-			//z 250
-			for (int nCntColl = 0; nCntColl < SAW_FACE; nCntColl++)
-			{//各面の外積判定を行う
-				if (nCntColl == 3)
-				{
-					VecLine = v[0] - v[nCntColl];
-					VecToPos = pPlayer->pos - v[nCntColl];
-					VecToPosOld = pPlayer->posOld - v[nCntColl];
-				}
-				else
-				{
-					VecLine = v[nCntColl + 1] - v[nCntColl];
-					VecToPos = pPlayer->pos - v[nCntColl];
-					VecToPosOld = pPlayer->posOld - v[nCntColl];
-				}
-
-				if ((VecLine.z * VecToPos.x) - (VecLine.x * VecToPos.z) > MARGIN_RANGE_SAW)
-				{//posが右にいる
-					check = true;
-				}
-				else
-				{//posが左にいる
-					check = false;
-					break;
-				}
-
-				if ((VecLine.z * VecToPosOld.x) - (VecLine.x * VecToPosOld.z) < -MARGIN_RANGE_SAW)
-				{//posoldが左にいる
-					checkold = true;
-				}
-				else
-				{//posoldが右にいる
-					checkold = false;
-				}
-
-			}
-
-			if (check == true)
+			for (int nPlr = 0; nPlr < MAX_PLAYER; nPlr++, pPlayer++)
 			{
-				SetFade(MODE_GAME);
+				//Y軸回転時
+				v[0].x = g_aSaw[nCnt].pos.x
+					+ (g_aSawModelData.vtxMax.z * sinf(g_aSaw[nCnt].rot.y))		//厚み
+					+ (g_aSawModelData.vtxMin.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+				v[0].y = 0.0f;
+				v[0].z = g_aSaw[nCnt].pos.z
+					+ (g_aSawModelData.vtxMax.z * cosf(g_aSaw[nCnt].rot.y))		//厚み
+					+ (g_aSawModelData.vtxMax.x * sinf(g_aSaw[nCnt].rot.y));	//幅
+
+				v[1].x = g_aSaw[nCnt].pos.x
+					+ (g_aSawModelData.vtxMax.z * sinf(g_aSaw[nCnt].rot.y))		//厚み
+					+ (g_aSawModelData.vtxMax.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+				v[1].y = 0.0f;
+				v[1].z = g_aSaw[nCnt].pos.z
+					+ (g_aSawModelData.vtxMax.z * cosf(g_aSaw[nCnt].rot.y))		//厚み
+					+ (g_aSawModelData.vtxMax.x * -sinf(g_aSaw[nCnt].rot.y));	//幅
+
+				v[2].x = g_aSaw[nCnt].pos.x
+					+ (g_aSawModelData.vtxMin.z * sinf(g_aSaw[nCnt].rot.y))	//厚み
+					+ (g_aSawModelData.vtxMax.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+				v[2].y = 0.0f;
+				v[2].z = g_aSaw[nCnt].pos.z
+					+ (g_aSawModelData.vtxMin.z * cosf(g_aSaw[nCnt].rot.y))	//厚み
+					+ (g_aSawModelData.vtxMax.x * -sinf(g_aSaw[nCnt].rot.y));	//幅
+
+				v[3].x = g_aSaw[nCnt].pos.x
+					+ (g_aSawModelData.vtxMin.z * sinf(g_aSaw[nCnt].rot.y))	//厚み
+					+ (g_aSawModelData.vtxMin.x * cosf(g_aSaw[nCnt].rot.y));	//幅
+				v[3].y = 0.0f;
+				v[3].z = g_aSaw[nCnt].pos.z
+					+ (g_aSawModelData.vtxMin.z * cosf(g_aSaw[nCnt].rot.y))	//厚み
+					+ (g_aSawModelData.vtxMax.x * sinf(g_aSaw[nCnt].rot.y));	//幅
+				//0┌--┐1
+				//	 ・
+				//3└--┘2
+				//x -150
+				//z 250
+				for (int nCntColl = 0; nCntColl < SAW_FACE; nCntColl++)
+				{//各面の外積判定を行う
+					if (nCntColl == 3)
+					{
+						VecLine = v[0] - v[nCntColl];
+						VecToPos = pPlayer->pos - v[nCntColl];
+						VecToPosOld = pPlayer->posOld - v[nCntColl];
+					}
+					else
+					{
+						VecLine = v[nCntColl + 1] - v[nCntColl];
+						VecToPos = pPlayer->pos - v[nCntColl];
+						VecToPosOld = pPlayer->posOld - v[nCntColl];
+					}
+
+					if ((VecLine.z * VecToPos.x) - (VecLine.x * VecToPos.z) > MARGIN_RANGE_SAW)
+					{//posが右にいる
+						check = true;
+					}
+					else
+					{//posが左にいる
+						check = false;
+						break;
+					}
+
+					if ((VecLine.z * VecToPosOld.x) - (VecLine.x * VecToPosOld.z) < -MARGIN_RANGE_SAW)
+					{//posoldが左にいる
+						checkold = true;
+					}
+					else
+					{//posoldが右にいる
+						checkold = false;
+					}
+
+				}
+
+				if (check == true && g_aSaw[nCnt].bStartup == true && pPlayer->PlayerMotion.nIdxMotion != MOTIONTYPE_ACTION)
+				{
+					KillPlayer(pPlayer);
+				}
 			}
 		}
 

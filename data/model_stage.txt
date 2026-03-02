@@ -27,7 +27,7 @@ TEXTURE_FILENAME = data/TEXTURE/wall.png			# [8]ÉèÉCÉÑÅ[ÉeÉNÉXÉ`ÉÉ
 #------------------------------------------------------------------------------
 # ÉÇÉfÉãêî
 #------------------------------------------------------------------------------
-NUM_MODEL = 20
+NUM_MODEL = 21
 
 #------------------------------------------------------------------------------
 # ÉÇÉfÉãÉtÉ@ÉCÉãñº
@@ -52,6 +52,7 @@ MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [16]ä∑ãCêÓÇÃÉvÉçÉ
 MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [17]ñÿî†				ÉÇÉfÉãÇ∆ÇµÇƒégóp
 MODEL_FILENAME = data/MODEL/Factory/gate.x						# [18]ÉQÅ[Ég			ÉÇÉfÉãÇ∆ÇµÇƒégóp
 MODEL_FILENAME = data/MODEL/Factory/humannurture.x				# [19]î|ó{É|ÉbÉh		ÉÇÉfÉãÇ∆ÇµÇƒégóp
+MODEL_FILENAME = data/MODEL/Factory/switch000.x					# [20]ÉåÉoÅ[			ÉÇÉfÉãÇ∆ÇµÇƒégóp
 #------------------------------------------------------------------------------
 # ÉXÉeÅ[ÉW1
 #------------------------------------------------------------------------------
@@ -821,6 +822,14 @@ WALLSET
 	SIZE = 2200 500
 END_WALLSET
 
+WALLSET
+	TEXTYPE = 3
+	POS = 14250 -500 1200
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1100 500
+END_WALLSET
+
 #------------------------------------------------------------------------------
 # ÉXÉeÅ[ÉW	è∞
 #------------------------------------------------------------------------------
@@ -846,14 +855,6 @@ FIELDSET
 	ROT = 0 0 0
 	BLOCK = 1 2
 	SIZE = 250 1000
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = 13700 0 500
-	ROT = 0 0 0
-	BLOCK = 1 2
-	SIZE = 1700 150
 END_FIELDSET
 
 FIELDSET
@@ -891,20 +892,179 @@ WALLSET
 	SIZE = 320 500
 END_WALLSET
 
-WALLSET
-	TEXTYPE = 3
-	POS = 16400 0 0
-	ROT = 0 90 0
-	BLOCK = 1 2
-	SIZE = 1000 500
-END_WALLSET
-
 #------------------------------------------------------------------------------
 # ÉSÅ[Éã	è∞
 #------------------------------------------------------------------------------
+
 FIELDSET
 	TEXTYPE = 6
 	POS = 15600 0 0
+	ROT = 0 0 0
+	BLOCK = 4 2
+	SIZE = 400 500
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# ÉXÉeÅ[ÉW4
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# ÉXÉeÅ[ÉW	ï«
+#------------------------------------------------------------------------------
+
+WALLSET
+	TEXTYPE = 3
+	POS = 16400 0 675
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 350 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17500 -1000 850
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 2200 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17500 0 -500
+	ROT = 0 180 0
+	BLOCK = 1 2
+	SIZE = 2200 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 18600 0 675
+	ROT = 0 90 0
+	BLOCK = 1 2
+	SIZE = 350 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 2
+	POS = 16900 0 500
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1000 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 16650 -500 175
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 650 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17275 -500 500
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1300 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17910 -500 675
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 350 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 18600 -1000 175
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 1350 1000
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# ÉXÉeÅ[ÉW	è∞
+#------------------------------------------------------------------------------
+
+1FIELDSET
+	TEXTYPE = 6
+	POS = 17500 0 175
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 2200 1350
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 16525 0 0
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 250 500
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 16900 500 675
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1000 350
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 17290 0 -325
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1280 350
+END_FIELDSET
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 17290 0 675
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1280 350
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# òLâ∫ ï«	
+#------------------------------------------------------------------------------
+
+WALLSET
+	TEXTYPE = 3
+	POS = 19400 0 500
+	ROT = 0 0 0
+	BLOCK = 5 2
+	SIZE = 320 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 19400 0 -500
+	ROT = 0 180 0
+	BLOCK = 5 2
+	SIZE = 320 500
+END_WALLSET
+
+#----------------------------------
+# ó’éûÇÃï«(ÉXÉeÅ[ÉW5ÇçÏÇÈÇ∆Ç´è¡Ç∑)
+#----------------------------------
+WALLSET
+	TEXTYPE = 3
+	POS = 20200 0 0
+	ROT = 0 90 0
+	BLOCK = 5 2
+	SIZE = 200 500
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# òLâ∫ è∞
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 19400 0 0
 	ROT = 0 0 0
 	BLOCK = 4 2
 	SIZE = 400 500
@@ -917,7 +1077,7 @@ END_FIELDSET
 # ÉSÅ[Éã
 #----------------------------------------
 GOALSET
-	POS = 15700 0 0
+	POS = 19400 0 0
 END_GOALSET
 
 #----------------------------------------
@@ -947,11 +1107,11 @@ CONVEYERSET
 END_CONVEYERSET
 
 CONVEYERSET
-	POS = 13600 5 500
+	POS = 13700 0 500
 	ROT = 0 90 0 
 	ONMOVE = 50 0 0
 	OFFMOVE = 10 0 0
-	SIZE = 300 1500 
+	SIZE = 300 1700 
 	IDX = 5
 	STATE = 0
 	SHADOW = 0
@@ -960,7 +1120,7 @@ END_CONVEYERSET
 #----------------------------------------
 # âÒì]ÉmÉRÉMÉä
 #----------------------------------------
-1SAWSET
+SAWSET
 	ID = 2
 	POS = 14600 0 500
 	ROT = 0 0 0
@@ -973,22 +1133,22 @@ END_SAWSET
 # ÉvÉåÉXã@
 #----------------------------------------
 
-1PRESSSET
-	ID = 2
-	POS = 14600 0 500
-	ROT = 0 0 0
-	WIDTH = 300
-	INTERVAL = 
-	STATE = 2
-	SHADOW = 1
-END_PRESSSET
-
 PRESSSET
 	ID = 0
 	POS = 9300 100 1300
 	ROT = 0 0 0
 	WIDTH = 300
 	INTERVAL = 30
+	STATE = 0
+	SHADOW = 1
+END_PRESSSET
+
+PRESSSET
+	ID = 0
+	POS = 17150 500 675
+	ROT = 0 0 0
+	WIDTH = 500
+	INTERVAL = 10
 	STATE = 0
 	SHADOW = 1
 END_PRESSSET
@@ -1050,19 +1210,18 @@ MOVEBOXSET
 	SHADOW = 0
 END_GATESET
 
-
 #----------------------------------------
 # ÉvÉçÉìÉvÉg
 #----------------------------------------
 PROMPTSET
 	ID = 0
-	POS = 500 100 -100
+	POS = 0 100 200
 	SIZE = 50 50 
 END_PROMPTSET
 
 PROMPTSET
 	ID = 0
-	POS = 1880 100 500
+	POS = 2100 100 200
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1084,13 +1243,65 @@ PROMPTSET
 	SIZE = 50 50 
 END_PROMPTSET
 
+PROMPTSET
+	ID = 7
+	POS = 16500 0 380
+	SIZE = 50 50 
+END_PROMPTSET
+
+PROMPTSET
+	ID = 8
+	POS = 17820 0 720
+	SIZE = 50 50 
+END_PROMPTSET
+
 #----------------------------------------
 # É^ÉCÉ}Å[
 #----------------------------------------
 
-1TIMERSET
-	POS = 100 100 500
-	COLOR = 0 1 1 
+TIMERSET
+	POS = -750 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 1250 500 900
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 3220 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 7850 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 9790 500 1450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 11700 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 13700 500 1450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 17500 500 840
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 15700 500 450
+	SIZE = 200 200 
 END_TIMERSET
 
 #----------------------------------------
@@ -1111,6 +1322,30 @@ LIFTSET
 	POS = 1900 -15 750
 	ROT = 0 0 0 
 	RANGE = -1400 0 0
+	SPEED = 10
+END_LIFTSET
+
+LIFTSET
+	ID = 7
+	POS = 16525 10 380
+	ROT = 0 0 0 
+	RANGE = 0 500 0
+	SPEED = 2
+END_LIFTSET
+
+LIFTSET
+	ID = 8
+	POS = 18095 0 690
+	ROT = 0 0 0 
+	RANGE = 0 0 -1005
+	SPEED = 10
+END_LIFTSET
+
+LIFTSET
+	ID = 8 
+	POS = 18435 500 -320
+	ROT = 0 0 0 
+	RANGE = 0 -510 0
 	SPEED = 10
 END_LIFTSET
 
@@ -1539,6 +1774,18 @@ END_MODELSET
 
 MODELSET
 	TYPE = 19
+	POS = 10500 0 750
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+# ÉåÉoÅ[
+#----------------------------------------
+
+1MODELSET
+	TYPE = 20
 	POS = 10500 0 750
 	ROT = 0 0 0
 	COLLISION = 1

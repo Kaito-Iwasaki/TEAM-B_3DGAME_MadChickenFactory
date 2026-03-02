@@ -24,6 +24,7 @@
 #define FIELD_TXT_PASS "data\\TEXTURE\\field000.jpg"
 #define FIELD_TEXTURE_SIZE_X (300.0f)
 #define FIELD_TEXTURE_SIZE_Y (300.0f)
+#define MARGINE_HEIGHT		(5.0f)				// ã‚Éæ‚Á‚Ä‚¢‚é‚ÆŒ©‚È‚·‚‚³‚Ì”ÍˆÍ
 
 //*********************************************************************
 // 
@@ -285,7 +286,7 @@ bool CollisionField(D3DXVECTOR3 *pos, D3DXVECTOR3 posold)
 				pos->z <= g_aField[nCntField].pos.z + g_aField[nCntField].size.z * 0.5f &&
 				pos->y <= g_aField[nCntField].pos.y)
 			{
-				if (posold.y >= g_aField[nCntField].pos.y)
+				if (posold.y >= g_aField[nCntField].pos.y - MARGINE_HEIGHT)
 				{
 					pos->y = g_aField[nCntField].pos.y;
 					bGround = true;

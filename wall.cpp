@@ -20,7 +20,8 @@
 //*******************************
 #define WALL_TEXTURE_SIZE_X (300.0f)
 #define WALL_TEXTURE_SIZE_Y (300.0f)
-#define MARGIN_RANGE		(0.000001f)		//当たり判定のゆとり
+#define MARGIN_RANGE		(0.0000001f)		//当たり判定のゆとり
+#define MARGINE_HEIGHT		(5.0f)				// 上に乗っていると見なす高さの範囲
 
 //*******************************
 // 
@@ -222,11 +223,17 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 	D3DXVECTOR3 VecLine, VecToPos, VecMove, VecToPosOld;
 	D3DXVECTOR3 v0, v1;		//壁の端to端ベクトル
 	D3DXVECTOR3 WallMove, Reflection;	//壁ずりベクトル,反射ベクトル
+	D3DXVECTOR3 VecLineNor, VecToPosNor, VecToPosOldNor;
 
 	float fNormal;	//正規化法線ベクトル
 	float fRate, fAll, fIntersect;
 
 	VecMove = *pos - posold;
+
+	if (VecMove.x == 0 && VecMove.z == 0)
+	{// 移動していなかったら判定しない
+		return false;
+	}
 
 	for (int nCnt = 0; nCnt < MAX_WALL; nCnt++)
 	{
@@ -241,12 +248,13 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 			v1.z = (g_aWall[nCnt].pos.z + (g_aWall[nCnt].size.x / 2.0f) * sinf(-g_aWall[nCnt].rot.y));
 
 			VecLine = v1 - v0;
-
 			VecToPos = *pos - v0;
-
 			VecToPosOld = posold - v0;
+			VecLineNor = Normalize(VecLine);
+			VecToPosNor = Normalize(VecToPos);
+			VecToPosOldNor = Normalize(VecToPosOld);
 
-			if ((Normalize(VecLine).z * Normalize(VecToPos).x) - (Normalize(VecLine).x * Normalize(VecToPos).z) < MARGIN_RANGE)
+			if (CrossProduct(VecLineNor, VecToPosNor).y <= 0)
 			{//posが右にいる
 				check = true;
 
@@ -257,7 +265,7 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 
 			}
 
-			if ((Normalize(VecLine).z * Normalize(VecToPosOld).x) - (Normalize(VecLine).x * Normalize(VecToPosOld).z) > -MARGIN_RANGE)
+			if (CrossProduct(VecLineNor, VecToPosOldNor).y >= -MARGIN_RANGE)
 			{//posoldが左にいる
 				checkold = true;
 
@@ -271,20 +279,23 @@ bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVE
 			if (check == true && checkold == true)
 			{//範囲検証
 				//正規化
-				Normalize(VecLine);
-				Normalize(VecToPos);
-				Normalize(VecMove);
+				//Normalize(VecLine);
+				//Normalize(VecToPos);
+				//Normalize(VecMove);
 
 				fIntersect = (VecToPos.z * VecMove.x) - (VecToPos.x * VecMove.z);
 				fAll = (VecLine.z * VecMove.x) - (VecLine.x * VecMove.z);
+
 				fRate = fIntersect / fAll;
 
 				
-				if (0.0f <= fRate && fRate <= 1.0f && posold.y >= g_aWall[nCnt].pos.y && posold.y < g_aWall[nCnt].pos.y + g_aWall[nCnt].size.y)
+				if (0.0f <= fRate && fRate <= 1.0f && posold.y >= g_aWall[nCnt].pos.y && posold.y < g_aWall[nCnt].pos.y + g_aWall[nCnt].size.y - MARGINE_HEIGHT)
 				{
+					PrintDebugProc("[%d]%f\n", nCnt, fRate);
+
 					bChek = true;
 					fNormal = -DotProduct(*move, g_aWall[nCnt].nor);
-					WallMove = *move + fNormal * g_aWall[nCnt].nor;
+					WallMove = *move + fNormal * g_aWall[nCnt].nor * 1.5f;
 					pos->x = v0.x + VecLine.x * fRate;
 					pos->x += WallMove.x;
 
