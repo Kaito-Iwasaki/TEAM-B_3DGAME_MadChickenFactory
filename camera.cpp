@@ -107,8 +107,9 @@ void UpdateCamera(void)
 
 	case CAMERAMODE_SIDEVIEW:	// サイドビュー
 	{
-		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
-		SetCameraPosR(0, pPlayer->pos);
+		// カメラの注視点をプレイヤーに設定
+		pCamera->move = Lerp(pCamera->move, pPlayer->pos, 0.05f);
+		SetCameraPosR(0, pCamera->move);
 
 		// カメラの視点を設定
 		SetCameraPosVFromAngle(0);
@@ -131,7 +132,8 @@ void UpdateCamera(void)
 	{
 		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
 		D3DXVECTOR3 vecP1ToP2 = pPlayer[1].pos - pPlayer[0].pos;
-		SetCameraPosR(0, pPlayer->pos + (vecP1ToP2 / 2));
+		pCamera->move = Lerp(pCamera->move, pPlayer[0].pos + vecP1ToP2 * 0.5f, 0.05f);
+		SetCameraPosR(0, pCamera->move);
 
 		// プレイヤーの距離に応じてカメラを離す
 		pCamera->fDistance = max(fabsf(vecP1ToP2.x), INIT_CAMERA_DISTANCE);
@@ -141,8 +143,17 @@ void UpdateCamera(void)
 
 		// カメラをオフセット分ずらす
 		MoveCamera(0, pCamera->offset);
-	}
+
+		// カメラの手振れ効果
+		D3DXVECTOR3 vShakeOffset = D3DXVECTOR3(
+			sinf((float)(pCamera->nCountState * 0.005f * 1.0f)) * 10.0f,
+			cosf((float)(pCamera->nCountState * 0.005f * 3.0f)) * 10.0f,
+			0
+		);
+		MoveCamera(0, vShakeOffset);
+
 		break;
+	}
 
 	case CAMERAMODE_FREE:		// フリーカメラ
 	{
