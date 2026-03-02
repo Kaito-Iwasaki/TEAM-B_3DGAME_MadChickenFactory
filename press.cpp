@@ -25,7 +25,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define PRESS_MODEL_PATH	"data\\MODEL\\chicken.x"	//プレス機のモデルへのパス
+#define PRESS_MODEL_PATH	"data\\MODEL\\Factory\\press01.x"	//プレス機のモデルへのパス
 #define PRESS_UP_SPEED		(7.0f)			//プレス機の上昇速度
 #define PRESS_DOWN_SPEED	(50.0f)			//プレス機の下降速度
 #define PLAYER_HEIGHT_DEMO	(150.0f)		//プレイヤーの高さ
