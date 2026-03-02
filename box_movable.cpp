@@ -76,73 +76,73 @@ void UninitMoveBox(void)
 //==================================================
 void UpdateMoveBox(void)
 {
-	Player* pPlayer = GetPlayer();
-
 	CollisionMoveBox();
 
-	PrintDebugProc("%f\n", pPlayer->move.x);
+	//PrintDebugProc("%f\n", pPlayer->move.x);
 
 	for (int nCntMBox = 0; nCntMBox < MAX_MOVEBOX; nCntMBox++)
 	{
 		if (g_aMoveBox[nCntMBox].bUse == true)
 		{
-			if (g_aMoveBox[nCntMBox].state == STATE_RIGHT)
-			{//右から
-				if (pPlayer->move.x <= -ENABLE_MOVE)
-				{//ENABLE_MOVE以上の力で押されている
-					if (g_aMoveBox[nCntMBox].pos.x > g_aMoveBox[nCntMBox].SavePos.x || 
-						g_aMoveBox[nCntMBox].pos.x > g_aMoveBox[nCntMBox].MotionRange.x)
-					{//有効範囲内
-						g_aMoveBox[nCntMBox].pos.x -= MOVE_SPEED;
-					}
-				}
-				
-			}
-			else if (g_aMoveBox[nCntMBox].state == STATE_LEFT)
-			{//左から
-				if (pPlayer->move.x >= ENABLE_MOVE)
-				{
-					if (g_aMoveBox[nCntMBox].pos.x < g_aMoveBox[nCntMBox].SavePos.x ||
-						g_aMoveBox[nCntMBox].pos.x < g_aMoveBox[nCntMBox].MotionRange.x)
-					{
-						g_aMoveBox[nCntMBox].pos.x += MOVE_SPEED;
-					}
-				}
-			}
-			else if (g_aMoveBox[nCntMBox].state == STATE_REAR)
-			{//奥から
-				if (pPlayer->move.z <= -ENABLE_MOVE)
-				{
-					if (g_aMoveBox[nCntMBox].pos.z > g_aMoveBox[nCntMBox].SavePos.z ||
-						g_aMoveBox[nCntMBox].pos.z > g_aMoveBox[nCntMBox].MotionRange.z)
-					{
-						g_aMoveBox[nCntMBox].pos.z -= MOVE_SPEED;
-					}
-				}
-			}
-			else if (g_aMoveBox[nCntMBox].state == STATE_FRONT)
-			{//手前から
-				if (pPlayer->move.z >= ENABLE_MOVE)
-				{
-					if (g_aMoveBox[nCntMBox].pos.z < g_aMoveBox[nCntMBox].SavePos.z ||
-						g_aMoveBox[nCntMBox].pos.z < g_aMoveBox[nCntMBox].MotionRange.z)
-					{
-						g_aMoveBox[nCntMBox].pos.z += MOVE_SPEED;
-					}
-				}
-			}
+			Player* pPlayer = GetPlayer();
 
-			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++, pPlayer++)
 			{
+				if (g_aMoveBox[nCntMBox].state == STATE_RIGHT)
+				{//右から
+					if (pPlayer->move.x <= -ENABLE_MOVE)
+					{//ENABLE_MOVE以上の力で押されている
+						if (g_aMoveBox[nCntMBox].pos.x > g_aMoveBox[nCntMBox].SavePos.x ||
+							g_aMoveBox[nCntMBox].pos.x > g_aMoveBox[nCntMBox].MotionRange.x)
+						{//有効範囲内
+							g_aMoveBox[nCntMBox].pos.x -= MOVE_SPEED;
+						}
+					}
+
+				}
+				else if (g_aMoveBox[nCntMBox].state == STATE_LEFT)
+				{//左から
+					if (pPlayer->move.x >= ENABLE_MOVE)
+					{
+						if (g_aMoveBox[nCntMBox].pos.x < g_aMoveBox[nCntMBox].SavePos.x ||
+							g_aMoveBox[nCntMBox].pos.x < g_aMoveBox[nCntMBox].MotionRange.x)
+						{
+							g_aMoveBox[nCntMBox].pos.x += MOVE_SPEED;
+						}
+					}
+				}
+				else if (g_aMoveBox[nCntMBox].state == STATE_REAR)
+				{//奥から
+					if (pPlayer->move.z <= -ENABLE_MOVE)
+					{
+						if (g_aMoveBox[nCntMBox].pos.z > g_aMoveBox[nCntMBox].SavePos.z ||
+							g_aMoveBox[nCntMBox].pos.z > g_aMoveBox[nCntMBox].MotionRange.z)
+						{
+							g_aMoveBox[nCntMBox].pos.z -= MOVE_SPEED;
+						}
+					}
+				}
+				else if (g_aMoveBox[nCntMBox].state == STATE_FRONT)
+				{//手前から
+					if (pPlayer->move.z >= ENABLE_MOVE)
+					{
+						if (g_aMoveBox[nCntMBox].pos.z < g_aMoveBox[nCntMBox].SavePos.z ||
+							g_aMoveBox[nCntMBox].pos.z < g_aMoveBox[nCntMBox].MotionRange.z)
+						{
+							g_aMoveBox[nCntMBox].pos.z += MOVE_SPEED;
+						}
+					}
+				}
+
+
 				// オブジェクトの当たり判定処理
-				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos, 
-												g_aMoveBox[nCntMBox].pos, 
-												g_aMoveBoxModelData.vtxMin, 
-												g_aMoveBoxModelData.vtxMax, 
-												pPlayer[nCntPlayer].fStandPos);
+				pPlayer->fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos,
+					g_aMoveBox[nCntMBox].pos,
+					g_aMoveBoxModelData.vtxMin,
+					g_aMoveBoxModelData.vtxMax,
+					pPlayer[nCntPlayer].fStandPos);
 			}
 		}
-
 	}
 }
 
