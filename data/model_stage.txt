@@ -1133,16 +1133,6 @@ END_SAWSET
 # プレス機
 #----------------------------------------
 
-1PRESSSET
-	ID = 2
-	POS = 14600 0 500
-	ROT = 0 0 0
-	WIDTH = 300
-	INTERVAL = 
-	STATE = 2
-	SHADOW = 1
-END_PRESSSET
-
 PRESSSET
 	ID = 0
 	POS = 9300 100 1300
@@ -1158,7 +1148,7 @@ PRESSSET
 	POS = 17150 500 675
 	ROT = 0 0 0
 	WIDTH = 500
-	INTERVAL = 30
+	INTERVAL = 10
 	STATE = 0
 	SHADOW = 1
 END_PRESSSET
@@ -1262,15 +1252,6 @@ END_PROMPTSET
 PROMPTSET
 	ID = 8
 	POS = 17820 0 720
-	SIZE = 50 50 
-END_PROMPTSET
-
-#-------------
-# デバッグ用
-#-------------
-PROMPTSET
-	ID = 8
-	POS = 17820 0 -330
 	SIZE = 50 50 
 END_PROMPTSET
 
