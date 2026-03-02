@@ -822,6 +822,14 @@ WALLSET
 	SIZE = 2200 500
 END_WALLSET
 
+WALLSET
+	TEXTYPE = 3
+	POS = 14250 -500 1200
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1100 500
+END_WALLSET
+
 #------------------------------------------------------------------------------
 # ステージ	床
 #------------------------------------------------------------------------------
@@ -847,14 +855,6 @@ FIELDSET
 	ROT = 0 0 0
 	BLOCK = 1 2
 	SIZE = 250 1000
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 6
-	POS = 13700 0 500
-	ROT = 0 0 0
-	BLOCK = 1 2
-	SIZE = 1700 150
 END_FIELDSET
 
 FIELDSET
@@ -921,10 +921,10 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 17500 0 850
+	POS = 17500 -1000 850
 	ROT = 0 0 0
 	BLOCK = 1 2
-	SIZE = 2200 500
+	SIZE = 2200 1000
 END_WALLSET
 
 WALLSET
@@ -949,6 +949,38 @@ WALLSET
 	ROT = 0 0 0
 	BLOCK = 1 1
 	SIZE = 1000 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 16650 -500 175
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 650 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17275 -500 500
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1300 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17910 -500 675
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 350 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 18600 -1000 175
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 1350 1000
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -1011,8 +1043,19 @@ WALLSET
 	TEXTYPE = 3
 	POS = 19400 0 -500
 	ROT = 0 180 0
-	BLOCK = 1 2
+	BLOCK = 5 2
 	SIZE = 320 500
+END_WALLSET
+
+#----------------------------------
+# 臨時の壁(ステージ5を作るとき消す)
+#----------------------------------
+WALLSET
+	TEXTYPE = 3
+	POS = 20200 0 0
+	ROT = 0 90 0
+	BLOCK = 5 2
+	SIZE = 200 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -1064,11 +1107,11 @@ CONVEYERSET
 END_CONVEYERSET
 
 CONVEYERSET
-	POS = 13600 5 500
+	POS = 13700 0 500
 	ROT = 0 90 0 
 	ONMOVE = 50 0 0
 	OFFMOVE = 10 0 0
-	SIZE = 300 1500 
+	SIZE = 300 1700 
 	IDX = 5
 	STATE = 0
 	SHADOW = 0
@@ -1077,7 +1120,7 @@ END_CONVEYERSET
 #----------------------------------------
 # 回転ノコギリ
 #----------------------------------------
-1SAWSET
+SAWSET
 	ID = 2
 	POS = 14600 0 500
 	ROT = 0 0 0
@@ -1182,13 +1225,13 @@ END_GATESET
 #----------------------------------------
 PROMPTSET
 	ID = 0
-	POS = 500 100 -100
+	POS = 0 100 200
 	SIZE = 50 50 
 END_PROMPTSET
 
 PROMPTSET
 	ID = 0
-	POS = 1880 100 500
+	POS = 2100 100 200
 	SIZE = 50 50 
 END_PROMPTSET
 
