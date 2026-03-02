@@ -84,6 +84,7 @@ bool Clamp(int* pNum, int nMin, int nMax);
 float Clampf(float fNum, float fMin, float fMax);
 bool Clampf(float* pNum, float fMin, float fMax);
 float Lerpf(float a, float b, float t);
+D3DXVECTOR3 Lerp(D3DXVECTOR3 vecA, D3DXVECTOR3 vecB, float t);
 int RandRange(int nMin, int nMax);
 float DotProduct(D3DXVECTOR2 vectorA, D3DXVECTOR2 vectorB);
 float DotProduct(D3DXVECTOR3 vectorA, D3DXVECTOR3 vectorB);
