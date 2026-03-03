@@ -15,7 +15,7 @@
 
 // マクロ定義
 #define PROMPT_TXT_PASS "data\\TEXTURE\\pressA.png"			// プロンプトのテクスチャパス
-#define VIEW_PROMPT (300.0f)								// プロンプトを表示する範囲
+#define VIEW_PROMPT (200.0f)								// プロンプトを表示する範囲
 #define MAX_COUNT_PLAYER (2)								// プレイヤーのポインタをずらす用のマクロ
 
 // プロンプト構造体

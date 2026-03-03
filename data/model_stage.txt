@@ -1203,6 +1203,34 @@ END_PRESSSET
 #----------------------------------------
 
 FIRESET
+	ID = 2
+	POS = 12900 0 -240
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 2
+	POS = 12900 0 -320
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 2
+	POS = 12900 0 -400
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 2
+	POS = 12900 0 -475
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
 	ID = 6
 	POS = 13950 0 -240
 	STATE = 1
@@ -1283,7 +1311,6 @@ END_TIMERSET
 # 区間２(廊下→ステージ２)
 #----------------------------------------
 
-
 TIMERSET
 	POS = 7850 500 450
 	SIZE = 200 200 
@@ -1298,7 +1325,6 @@ END_TIMERSET
 #----------------------------------------
 # 区間３(廊下→ステージ３)
 #----------------------------------------
-
 
 TIMERSET
 	POS = 11700 500 450
@@ -1332,7 +1358,6 @@ END_TIMERSET
 # ステージ１
 #----------------------------------------
 
-
 LIFTSET
 	ID = 0
 	POS =500 -15 -250
@@ -1354,13 +1379,12 @@ END_LIFTSET
 # ステージ４
 #----------------------------------------
 
-
 LIFTSET
 	ID = 7
 	POS = 16525 10 380
 	ROT = 0 0 0 
 	RANGE = 0 500 0
-	SPEED = 2
+	SPEED = 5
 END_LIFTSET
 
 LIFTSET
@@ -1399,13 +1423,13 @@ PROMPTSET
 	SIZE = 50 50 
 END_PROMPTSET
 
-#----------------------------------------------
-# 対応ギミック：ステージ３の回転のこぎり
-#----------------------------------------------
+#------------------------------------------------------------
+# 対応ギミック：ステージ３の回転のこぎり・ガスバーナー(入口)
+#------------------------------------------------------------
 
 PROMPTSET
 	ID = 2
-	POS = 13100 0 -335
+	POS = 13325 0 -335
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1415,7 +1439,7 @@ END_PROMPTSET
 
 PROMPTSET
 	ID = 5
-	POS = 13500 0 -335
+	POS = 13710 0 -335
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1435,7 +1459,7 @@ END_PROMPTSET
 
 PROMPTSET
 	ID = 7
-	POS = 16500 0 380
+	POS = 17240 0 -300
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1779,7 +1803,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 20
-	POS = 50 0 0
+	POS = 50 0 250
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1787,7 +1811,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 20
-	POS = 2130 0 150
+	POS = 2130 0 250
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1799,7 +1823,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 20
-	POS = 13085 0 -380
+	POS = 13325 0 -380
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1807,7 +1831,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 20
-	POS = 13500 0 -380
+	POS = 13710 0 -380
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1827,8 +1851,8 @@ END_MODELSET
 
 MODELSET
 	TYPE = 20
-	POS = 16555 100 500
-	ROT = 90 0 180
+	POS = 17300 0 -325
+	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
