@@ -92,8 +92,6 @@ void UninitPress(void)
 //=====================================================================
 void UpdatePress(void)
 {
-	Player* pPlayer = GetPlayer();
-
 	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
 	{
 		if (g_aPress[nCntPress].bUse == true && g_aPress[nCntPress].bStartup == true)
@@ -171,19 +169,23 @@ void UpdatePress(void)
 			//************************************
 			// ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è
 			//************************************
-			if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
+			Player* pPlayer = GetPlayer();
+
+			for (int nPlr = 0; nPlr < MAX_PLAYER; nPlr++, pPlayer++)
 			{
-				if (CollisionPointBox(D3DXVECTOR3(pPlayer->pos.x,pPlayer->pos.y + PLAYER_HEIGHT_DEMO,pPlayer->pos.z)
-					, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
-				{	
-						SetFade(MODE_GAME);
+				if (g_aPress[nCntPress].PState == PRESSSTATE_DOWN)
+				{
+					if (CollisionPointBox(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y + PLAYER_HEIGHT_DEMO, pPlayer->pos.z)
+						, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
+					{
+						KillPlayer(pPlayer);
+					}
+				}
+				else if (CollisionPointBox(pPlayer->pos, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
+				{
+					pPlayer->pos = pPlayer->posOld;
 				}
 			}
-			else if(CollisionPointBox(pPlayer->pos, g_aPress[nCntPress].pos, g_aPressModelData.vtxMin, g_aPressModelData.vtxMax))
-			{
-				pPlayer->pos = pPlayer->posOld;
-			}
-
 		}
 	}
 }
