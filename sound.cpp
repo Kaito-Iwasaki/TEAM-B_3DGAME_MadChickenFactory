@@ -163,6 +163,10 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 	{"data/SOUND/SE/donald.wav",0},						// SE バーナー
 	{"data/SOUND/SE/donald.wav",0},						// SE 敵
 	{"data/SOUND/SE/blood.wav",0},						// SE 血
+	{"data/SOUND/SE/move_cursor.wav",0},				// SE カーソル移動音
+	{"data/SOUND/SE/decision.wav",0},					// SE 決定音
+	{"data/SOUND/SE/switch.wav",0},						// SE スイッチ音
+	{"data/SOUND/SE/footsteps.wav",0},					// SE 足音
 };
 
 //=============================================================================

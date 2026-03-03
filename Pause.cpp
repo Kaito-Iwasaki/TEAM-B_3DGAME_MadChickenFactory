@@ -13,7 +13,7 @@
 #include "util.h"
 #include "fade.h"
 #include "DebugProc.h"
-
+#include"SE_controller.h"
 //===========================================================
 // 
 //マクロ定義
@@ -28,7 +28,7 @@
 
 #define PAUSE_BG_PATH			"data\\TEXTURE\\Face-in Panel.png"	//ポーズメニューのBGテクスチャへのパス
 #define PAUSE_CONTINUE_PATH		"data\\TEXTURE\\pause000.png"		//CONTINUE
-#define PAUSE_RETRY_PATH		"data\\TEXTURE\\pause001.png"		//PAUSE
+#define PAUSE_RETRY_PATH		"data\\TEXTURE\\retry.png"			//RETRY
 #define PAUSE_QUIT_PATH			"data\\TEXTURE\\pause002.png"		//QUIT
 
 //===========================================================
