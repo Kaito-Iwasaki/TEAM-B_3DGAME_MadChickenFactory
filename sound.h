@@ -20,7 +20,10 @@
 //*****************************************************************************
 typedef enum
 {
-	SOUND_LABEL_SE_SAW = 0,
+	SOUND_LABEL_SE_TITLE = 0,
+	SOUND_LABEL_BGM_GAME,
+	SOUND_LABEL_BGM_RESULT,
+	SOUND_LABEL_SE_SAW,
 	SOUND_LABEL_SE_PRESS,
 	SOUND_LABEL_SE_FIRE,
 	SOUND_LABEL_SE_ENEMY,
