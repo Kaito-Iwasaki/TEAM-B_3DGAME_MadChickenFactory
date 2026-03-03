@@ -332,15 +332,15 @@ bool IsPromptKeyTriggered(int nCountPlayer)
 
 	if (GetTitle() == 0)
 	{
-		return pPlayer[nCountPlayer].bUse && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A, 0));
+		return pPlayer[nCountPlayer].bUse && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_B, 0));
 	}
 	else
 	{
-		if (nCountPlayer == 0 && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A, 0)))
+		if (nCountPlayer == 0 && (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_B, 0)))
 		{
 			return true;
 		}
-		else if (nCountPlayer == 1 && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_A, 1)))
+		else if (nCountPlayer == 1 && (GetKeyboardTrigger(DIK_NUMPAD1) || GetJoypadTrigger(JOYKEY_B, 1)))
 		{
 			return true;
 		}
