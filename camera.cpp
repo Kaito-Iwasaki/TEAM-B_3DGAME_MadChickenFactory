@@ -105,10 +105,33 @@ void UpdateCamera(void)
 	case CAMERAMODE_NONE:		// プログラム制御
 		break;
 
-	case CAMERAMODE_SIDEVIEW:	// サイドビュー
+	case CAMERAMODE_SIDEVIEWFOCUS1:	// サイドビュー
 	{
 		// カメラの注視点をプレイヤーに設定
-		pCamera->move = Lerp(pCamera->move, pPlayer->pos, 0.05f);
+		pCamera->move = Lerp(pCamera->move, pPlayer[0].pos, 0.05f);
+		SetCameraPosR(0, pCamera->move);
+
+		// カメラの視点を設定
+		SetCameraPosVFromAngle(0);
+
+		// カメラをオフセット分ずらす
+		MoveCamera(0, pCamera->offset);
+
+		// カメラの手振れ効果
+		D3DXVECTOR3 vShakeOffset = D3DXVECTOR3(
+			sinf((float)(pCamera->nCountState * 0.005f * 1.0f)) * 10.0f,
+			cosf((float)(pCamera->nCountState * 0.005f * 3.0f)) * 10.0f,
+			0
+		);
+		MoveCamera(0, vShakeOffset);
+
+		break;
+	}
+
+	case CAMERAMODE_SIDEVIEWFOCUS2:	// サイドビュー
+	{
+		// カメラの注視点をプレイヤーに設定
+		pCamera->move = Lerp(pCamera->move, pPlayer[1].pos, 0.05f);
 		SetCameraPosR(0, pCamera->move);
 
 		// カメラの視点を設定

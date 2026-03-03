@@ -41,10 +41,11 @@ typedef enum
 //*********************************************************************
 typedef enum
 {
-	CAMERAMODE_NONE = 0,		// なし（プログラム制御）
-	CAMERAMODE_SIDEVIEW,		// サイドビュー（ゲーム用）
-	CAMERAMODE_SIDEVIEW2P,		// サイドビュー（２プレイヤーゲーム用）
-	CAMERAMODE_FREE,			// 自由操作
+	CAMERAMODE_NONE = 0,			// なし（プログラム制御）
+	CAMERAMODE_SIDEVIEWFOCUS1,		// サイドビュー（１Pフォーカス）
+	CAMERAMODE_SIDEVIEWFOCUS2,		// サイドビュー（２Pフォーカス）
+	CAMERAMODE_SIDEVIEW2P,			// サイドビュー（２プレイヤーゲーム用）
+	CAMERAMODE_FREE,				// 自由操作
 	CAMERAMODE_MAX
 }CAMERAMODE;
 
