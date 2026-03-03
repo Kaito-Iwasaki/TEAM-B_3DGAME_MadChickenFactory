@@ -329,15 +329,15 @@ void UpdatePlayer(void)
 #endif
 	}
 
-	//if (g_Player[0].pos.x - g_Player[1].pos.x >= PLAYER_BETWEEN || g_Player[0].pos.x - g_Player[1].pos.x <= -PLAYER_BETWEEN)
-	//{// プレイヤー間の距離が最大値を超えた
+	if (g_Player[0].pos.x - g_Player[1].pos.x >= PLAYER_BETWEEN || g_Player[0].pos.x - g_Player[1].pos.x <= -PLAYER_BETWEEN)
+	{// プレイヤー間の距離が最大値を超えた
 
-	//	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-	//	{// 位置を戻す
+		for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+		{// 位置を戻す
 
-	//		g_Player[nCntPlayer].pos = g_Player[nCntPlayer].posOld;
-	//	}
-	//}
+			g_Player[nCntPlayer].pos = g_Player[nCntPlayer].posOld;
+		}
+	}
 
 	if (GetKeyboardTrigger(DIK_LSHIFT) == true && g_Operation != PLAYEROPERATION_2PL
 		|| GetJoypadTrigger(JOYKEY_X, 0) == true && g_Operation != PLAYEROPERATION_2PL)
