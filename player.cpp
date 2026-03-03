@@ -30,6 +30,7 @@
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
 #define MOVE_POS				(5.0f)						// 位置移動量
+#define ELIGIBLE_MOVE			(10.0f)						// 追従移動量
 #define MAX_JUMP				(20.0f)						// ジャンプ量
 #define MOVE_DAMPINGFUNCTION	(0.3f)						// 移動量の減衰係数
 #define ANGLE_DAMPINGFUNCTION	(0.1f)						// 角度の減衰係数
@@ -314,7 +315,7 @@ void UpdatePlayer(void)
 	//}
 
 	if (GetKeyboardTrigger(DIK_LSHIFT) == true && g_Operation != PLAYEROPERATION_2PL
-		|| GetJoypadPress(JOYKEY_X, 0) == true && g_Operation != PLAYEROPERATION_2PL)
+		|| GetJoypadTrigger(JOYKEY_X, 0) == true && g_Operation != PLAYEROPERATION_2PL)
 	{// 左シフトorXボタン入力
 
 		g_Operation = (PLAYEROPERATION)(g_Operation ^ 1);		// 操作プレイヤー切り替え
@@ -328,6 +329,13 @@ void UpdatePlayer(void)
 		{
 			GetCamera(0)->mode = CAMERAMODE_SIDEVIEWFOCUS2;
 		}
+	}
+
+	if (GetKeyboardPress(DIK_LCONTROL) == true && g_Operation != PLAYEROPERATION_2PL
+		|| GetJoypadPress(JOYKEY_Y, 0) == true && g_Operation != PLAYEROPERATION_2PL)
+	{// プレイヤー追従処理
+
+		PlayerFollow(&g_Player[(int)g_Operation], &g_Player[(int)g_Operation ^ 1]);
 	}
 
 }
@@ -629,4 +637,24 @@ void PlayerMoveControl(Player* pPlayer, int nCntControl)
 			SetMotion(&pPlayer->PlayerMotion, MOTIONTYPE_JUMP, 20);
 		}
 	}
+}
+
+//=======================================================
+// プレイヤーの追従処理
+//=======================================================
+void PlayerFollow(Player *pTargetPlayer, Player *EligiblePlayer)
+{
+	float fRot = 0.0f;		// 角度代入用
+
+	// 角度算出
+	fRot = atan2f((pTargetPlayer->pos.x - EligiblePlayer->pos.x), (pTargetPlayer->pos.z - EligiblePlayer->pos.z));
+	fRot = GetFixedRotation(fRot);
+
+	// 移動量設定
+	EligiblePlayer->move.x = sinf(fRot) * ELIGIBLE_MOVE;
+	EligiblePlayer->move.z = cosf(fRot) * ELIGIBLE_MOVE;
+
+	// プレイヤーの向き設定
+	EligiblePlayer->rotmove.y = fRot + D3DX_PI;
+
 }
