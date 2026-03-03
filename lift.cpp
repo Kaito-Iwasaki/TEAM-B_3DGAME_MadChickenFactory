@@ -282,7 +282,8 @@ bool CollisionLift(Player *pPlayer)
 				D3DXVECTOR3(0, pPlayer->fHeight, 0),
 				pLift->pos,
 				g_aLiftModelData.vtxMin,
-				g_aLiftModelData.vtxMax
+				g_aLiftModelData.vtxMax,
+				25.0f
 			);
 
 			if (byHit & COLLISION_UP)
@@ -294,6 +295,11 @@ bool CollisionLift(Player *pPlayer)
 				}
 				pPlayer->move.y = 0;
 				pPlayer->bJump = false;
+
+	/*			if (byHit & COLLISION_SIDE)
+				{
+					pPlayer->pos += pPlayer->move * 0.001f;
+				}*/
 			}
 			else if (byHit & COLLISION_DOWN)
 			{
@@ -316,6 +322,11 @@ bool CollisionLift(Player *pPlayer)
 			if (byHit & COLLISION_BACK)
 			{
 				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMax.z;
+			}
+
+			if (byHit & COLLISION_UP && byHit | COLLISION_SIDE)
+			{
+				pPlayer->pos += pPlayer->move * 0.001f;
 			}
 		}
 	}

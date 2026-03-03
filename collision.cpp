@@ -245,7 +245,8 @@ BYTE CollisionBoxBoxDirection(
 	D3DXVECTOR3 boxMaxA,
 	D3DXVECTOR3 posB,
 	D3DXVECTOR3 boxMinB,
-	D3DXVECTOR3 boxMaxB
+	D3DXVECTOR3 boxMaxB,
+	float fUpMargin
 )
 {
 	BYTE byHit = 0;
@@ -304,7 +305,7 @@ BYTE CollisionBoxBoxDirection(
 
 	// ã
 	if (
-		posAOld.y + boxMinA.y >= posB.y + boxMaxB.y
+		posAOld.y + boxMinA.y >= posB.y + boxMaxB.y - fUpMargin
 		&& posA.y + boxMinA.y <= posB.y + boxMaxB.y
 		&& posA.x + boxMinA.x <= posB.x + boxMaxB.x
 		&& posA.x + boxMaxA.x >= posB.x + boxMinB.x

@@ -26,6 +26,8 @@
 #define COLLISION_RIGHT		(0x08)		// 衝突判定（右）
 #define COLLISION_UP		(0x10)		// 衝突判定（上）
 #define COLLISION_DOWN		(0x20)		// 衝突判定（下）
+#define COLLISION_ALL		(COLLISION_FRONT & COLLISION_LEFT & COLLISION_RIGHT & COLLISION_BACK & COLLISION_UP & COLLISION_DOWN)
+#define COLLISION_SIDE		(COLLISION_FRONT & COLLISION_LEFT & COLLISION_RIGHT & COLLISION_BACK)
 
 //*********************************************************************
 // 
@@ -97,12 +99,13 @@ BYTE CollisionBoxBoxDirection(
 //=====================================================================
 BYTE CollisionBoxBoxDirection(
 	D3DXVECTOR3 posA,
-	D3DXVECTOR3 posAOld, 
-	D3DXVECTOR3 boxMinA, 
+	D3DXVECTOR3 posAOld,
+	D3DXVECTOR3 boxMinA,
 	D3DXVECTOR3 boxMaxA,
 	D3DXVECTOR3 posB,
-	D3DXVECTOR3 boxMinB, 
-	D3DXVECTOR3 boxMaxB
+	D3DXVECTOR3 boxMinB,
+	D3DXVECTOR3 boxMaxB,
+	float fUpMargin = 0.0f
 );
 
 //=====================================================================
