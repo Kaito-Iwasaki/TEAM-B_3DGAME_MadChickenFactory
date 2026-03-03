@@ -288,7 +288,7 @@ void UpdatePlayer(void)
 				{// フェード状態ではない
 
 					// フェード処理(ゲーム画面に移行)
-					SetFade(MODE_GAME);
+					SetFade(MODE_GAMEOVER);
 				}
 			}
 		}
