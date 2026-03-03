@@ -313,10 +313,21 @@ void UpdatePlayer(void)
 	//	}
 	//}
 
-	if (GetKeyboardTrigger(DIK_LSHIFT) == true && g_Operation != PLAYEROPERATION_2PL)
-	{// 左シフト入力
+	if (GetKeyboardTrigger(DIK_LSHIFT) == true && g_Operation != PLAYEROPERATION_2PL
+		|| GetJoypadPress(JOYKEY_X, 0) == true && g_Operation != PLAYEROPERATION_2PL)
+	{// 左シフトorXボタン入力
 
 		g_Operation = (PLAYEROPERATION)(g_Operation ^ 1);		// 操作プレイヤー切り替え
+
+		if (g_Operation == PLAYEROPERATION_1P)
+		{// カメラを1Pにフォーカス
+
+			GetCamera(0)->mode = CAMERAMODE_SIDEVIEWFOCUS1;
+		}
+		else if (g_Operation == PLAYEROPERATION_2P)
+		{
+			GetCamera(0)->mode = CAMERAMODE_SIDEVIEWFOCUS2;
+		}
 	}
 
 }
