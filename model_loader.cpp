@@ -725,7 +725,7 @@ void _Read_CONVEYERSET(FILE* pFile, CONVEYERSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %f %f", &pBuffer->size.x, &pBuffer->size.z);
 		}
-		else if (strcmp(&aStrLine[0], "IDX") == 0)
+		else if (strcmp(&aStrLine[0], "ID") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->nIdx);
 		}
@@ -813,7 +813,7 @@ void _Read_GATESET(FILE* pFile, GATESETDATA* pBuffer)
 			pBuffer->rot.y = D3DXToRadian(fRotY);
 			pBuffer->rot.z = D3DXToRadian(fRotZ);
 		}
-		else if (strcmp(&aStrLine[0], "IDX") == 0)
+		else if (strcmp(&aStrLine[0], "ID") == 0)
 		{
 			fscanf(pFile, " = %d", &pBuffer->nIdx);
 		}
