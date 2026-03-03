@@ -158,9 +158,9 @@ IXAudio2SourceVoice* g_apSourceVoice2[SOUND_LABEL_MAX] = {};	// ソースボイス
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = 
 {
-	{"data/SOUND/SE/Select.wav",0},					// SE 回転ノコギリ(仮置き)
-	{"data/SOUND/SE/hit.wav",0},						// SE プレス機
-	{"data/SOUND/SE/donald.wav",0},						// SE バーナー
+	{"data/SOUND/SE/saw.wav",0},					// SE 回転ノコギリ(仮置き)
+	{"data/SOUND/SE/press.wav",0},						// SE プレス機
+	{"data/SOUND/SE/fire.wav",0},						// SE バーナー
 	{"data/SOUND/SE/donald.wav",0},						// SE 敵
 	{"data/SOUND/SE/blood.wav",0},						// SE 血
 	{"data/SOUND/SE/move_cursor.wav",0},				// SE カーソル移動音
