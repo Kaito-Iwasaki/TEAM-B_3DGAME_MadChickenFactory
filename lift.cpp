@@ -324,6 +324,10 @@ bool CollisionLift(Player *pPlayer)
 				pPlayer->pos.z = pLift->pos.z + g_aLiftModelData.vtxMax.z;
 			}
 
+			// 段差登らせるのに横の当たり判定が邪魔してるので
+			// 地面に立っている判定と横に当たった判定が競合してる場合は
+			// 若干プレイヤーを進ませて横の衝突判定を突破するという
+			// ゴリ押しで解決しています。
 			if (byHit & COLLISION_UP && byHit | COLLISION_SIDE)
 			{
 				pPlayer->pos += pPlayer->move * 0.001f;

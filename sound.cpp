@@ -307,6 +307,15 @@ HRESULT InitSound(HWND hWnd)
 
 			return S_FALSE;
 		}
+
+		// ソースボイスの生成
+		hr = g_pXAudio2->CreateSourceVoice(&g_apSourceVoice2[nCntLabel], &(wfx.Format), 0, 2.0f);
+		if (FAILED(hr))
+		{
+			MessageBox(hWnd, "ソースボイスの生成に失敗！", "警告！", MB_ICONWARNING);
+
+			return S_FALSE;
+		}
 	
 		for (int nCntSound = 0; nCntSound < MAX_SOUND; nCntSound++)
 		{
@@ -318,7 +327,6 @@ HRESULT InitSound(HWND hWnd)
 
 				return S_FALSE;
 			}
-
 
 			// バッファの値設定
 			memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
