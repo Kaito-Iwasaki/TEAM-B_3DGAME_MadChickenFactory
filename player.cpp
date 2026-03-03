@@ -73,8 +73,8 @@ void InitPlayer(void)
 
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
 	{
-		g_Player[nCntPlayer].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 現在の位置初期化
-		g_Player[nCntPlayer].posOld = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 前回の位置代入
+		g_Player[nCntPlayer].pos = D3DXVECTOR3(-2000.0f, 0.0f, 950.0f);			// 現在の位置初期化
+		g_Player[nCntPlayer].posOld = D3DXVECTOR3(-2000.0f, 0.0f, 950.0f);		// 前回の位置代入
 		g_Player[nCntPlayer].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 移動量初期化
 		g_Player[nCntPlayer].rot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);		// 向き初期化
 		g_Player[nCntPlayer].rotmove = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);	// 向きの移動量初期化
@@ -183,7 +183,7 @@ void UpdatePlayer(void)
 			g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
 
 			// 当たり判定処理
-			CollisionPlayer(&g_Player[nCntPlayer]);
+			CollisionPlayer(&g_Player[nCntPlayer], nCntPlayer);
 
 			// 目標の移動方向までの差分算出
 			fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
@@ -276,7 +276,7 @@ void UpdatePlayer(void)
 			g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
 
 			// 当たり判定処理
-			CollisionPlayer(&g_Player[nCntPlayer]);
+			CollisionPlayer(&g_Player[nCntPlayer], nCntPlayer);
 
 			if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_ACTION && g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
 			{// 死亡モーション終了
@@ -510,7 +510,7 @@ void KillPlayer(Player *pPlayer)
 //=======================================================
 // プレイヤーとの当たり判定処理
 //=======================================================
-void CollisionPlayer(Player* pPlayer)
+void CollisionPlayer(Player* pPlayer, int nCntPlayer)
 {
 	// 壁との当たり判定
 	CollisionWall(&pPlayer->pos, pPlayer->posOld, &pPlayer->move, D3DXVECTOR3_ZERO);
@@ -561,6 +561,9 @@ void CollisionPlayer(Player* pPlayer)
 
 	// リフトとの当たり判定
 	CollisionLift(pPlayer);
+
+	// 可動箱の当たり判定
+	CollisionMoveBox(nCntPlayer);
 
 }
 

@@ -13,6 +13,7 @@
 //
 //==================================================
 #include "main.h"
+#include "player.h"
 
 //==================================================
 //
@@ -64,7 +65,7 @@ void UninitMoveBox(void);
 void UpdateMoveBox(void);
 void DrawMoveBox(void);
 void SetMoveBox(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 range);
-bool CollisionMoveBox(void);
+bool CollisionMoveBox(int nCntPlayer);
 
 #endif // !_STAGELIGHT_H_
 
