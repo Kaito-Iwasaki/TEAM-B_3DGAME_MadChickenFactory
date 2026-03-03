@@ -302,6 +302,31 @@ void UpdatePlayer(void)
 			KillPlayer(&g_Player[nCntPlayer]);
 		}
 
+#ifdef _DEBUG
+
+		// ステージ移動(デバック用)
+		if (GetKeyboardTrigger(DIK_1) == true)
+		{// 1ステージ移動
+
+			g_Player[nCntPlayer].pos = D3DXVECTOR3(-2000.0f, 0.0f, 800.0f);
+		}
+		else if (GetKeyboardTrigger(DIK_2) == true)
+		{// 2ステージ移動
+
+			g_Player[nCntPlayer].pos = D3DXVECTOR3(8000.0f, 0.0f, 0.0f);
+		}
+		else if (GetKeyboardTrigger(DIK_3) == true)
+		{// 3ステージ移動
+
+			g_Player[nCntPlayer].pos = D3DXVECTOR3(11900.0f, 0.0f, 0.0f);
+		}
+		else if (GetKeyboardTrigger(DIK_4) == true)
+		{// 4ステージ移動
+
+			g_Player[nCntPlayer].pos = D3DXVECTOR3(16000.0f, 0.0f, 0.0f);
+		}
+
+#endif
 	}
 
 	//if (g_Player[0].pos.x - g_Player[1].pos.x >= PLAYER_BETWEEN || g_Player[0].pos.x - g_Player[1].pos.x <= -PLAYER_BETWEEN)
@@ -337,7 +362,6 @@ void UpdatePlayer(void)
 
 		PlayerFollow(&g_Player[(int)g_Operation], &g_Player[(int)g_Operation ^ 1]);
 	}
-
 }
 
 //=======================================================
@@ -583,7 +607,6 @@ void CollisionPlayer(Player* pPlayer, int nCntPlayer)
 
 	// 可動箱の当たり判定
 	CollisionMoveBox(nCntPlayer);
-
 }
 
 //=======================================================
