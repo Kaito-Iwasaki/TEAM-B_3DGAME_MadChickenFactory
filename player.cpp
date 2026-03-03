@@ -153,50 +153,17 @@ void UpdatePlayer(void)
 			if (g_Operation == PLAYEROPERATION_2PL || g_Operation == (PLAYEROPERATION)nCntPlayer)
 			{// 操作プレイヤーと一致
 
-				D3DXVECTOR3 move = D3DXVECTOR3_ZERO;
+				if (g_Operation == PLAYEROPERATION_2PL)
+				{// 2PL操作(それぞれのコントローラーで移動)
 
-				if (GetKeyboardPress(g_playerControlKey[nCntPlayer][0]) == true || GetJoypadPress(JOYKEY_UP, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_UP, nCntPlayer) == TRUE)
-				{// Wキー入力(Z軸+の方向に移動)
-					move.x += sinf(pCamera->rot.y);
-					move.z += cosf(pCamera->rot.y);
+					// プレイヤーの移動処理
+					PlayerMoveControl(&g_Player[nCntPlayer], nCntPlayer);
 				}
-				if (GetKeyboardPress(g_playerControlKey[nCntPlayer][1]) == true || GetJoypadPress(JOYKEY_DOWN, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntPlayer) == TRUE)
-				{/// Sキー入力(Z軸-の方向に移動)
-					move.x -= sinf(pCamera->rot.y);
-					move.z -= cosf(pCamera->rot.y);
-				}
-				if (GetKeyboardPress(g_playerControlKey[nCntPlayer][2]) == true || GetJoypadPress(JOYKEY_LEFT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntPlayer) == TRUE)
-				{// Aキー入力(X軸-の方向に移動)
-					move.x -= sinf(pCamera->rot.y + D3DX_PI * 0.5f);
-					move.z -= cosf(pCamera->rot.y + D3DX_PI * 0.5f);
-				}
-				if (GetKeyboardPress(g_playerControlKey[nCntPlayer][3]) == true || GetJoypadPress(JOYKEY_RIGHT, nCntPlayer) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntPlayer) == TRUE)
-				{// Dキー入力(X軸+の方向に移動)
-					move.x += sinf(pCamera->rot.y + D3DX_PI * 0.5f);
-					move.z += cosf(pCamera->rot.y + D3DX_PI * 0.5f);
-				}
+				else
+				{// 1PL操作(1つのコントローラーで移動)
 
-				if (Magnitude(move) != 0)
-				{
-					move = Normalize(move);
-					g_Player[nCntPlayer].move.x += move.x * MOVE_POS;
-					g_Player[nCntPlayer].move.z += move.z * MOVE_POS;
-
-					g_Player[nCntPlayer].rotmove.y = atan2f(move.x, move.z) + D3DX_PI;
-				}
-
-				if (GetKeyboardTrigger(g_playerControlKey[nCntPlayer][4]) == true || GetJoypadPress(JOYKEY_A, nCntPlayer) == true)
-				{// ジャンプ押下
-
-					if (g_Player[nCntPlayer].bJump == false)
-					{// ジャンプする
-
-						g_Player[nCntPlayer].bJump = true;		// ジャンプ中にする
-						g_Player[nCntPlayer].move.y = MAX_JUMP;	// ジャンプ量
-
-						// ジャンプモーションに変更
-						SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_JUMP, 20);
-					}
+					// プレイヤーの移動処理
+					PlayerMoveControl(&g_Player[nCntPlayer], 0);
 				}
 			}
 		
@@ -595,4 +562,57 @@ void CollisionPlayer(Player* pPlayer)
 	// リフトとの当たり判定
 	CollisionLift(pPlayer);
 
+}
+
+//=======================================================
+// プレイヤーの移動処理
+//=======================================================
+void PlayerMoveControl(Player* pPlayer, int nCntControl)
+{
+	CAMERA* pCamera = GetCamera(0);			// カメラ情報の取得
+	D3DXVECTOR3 move = D3DXVECTOR3_ZERO;	// move代入用
+
+	if (GetKeyboardPress(g_playerControlKey[nCntControl][0]) == true || GetJoypadPress(JOYKEY_UP, nCntControl) == true || GetJoystickPress(JOYSTICK_L_UP, nCntControl) == TRUE)
+	{// Wキー入力(Z軸+の方向に移動)
+		move.x += sinf(pCamera->rot.y);
+		move.z += cosf(pCamera->rot.y);
+	}
+	if (GetKeyboardPress(g_playerControlKey[nCntControl][1]) == true || GetJoypadPress(JOYKEY_DOWN, nCntControl) == true || GetJoystickPress(JOYSTICK_L_DOWN, nCntControl) == TRUE)
+	{/// Sキー入力(Z軸-の方向に移動)
+		move.x -= sinf(pCamera->rot.y);
+		move.z -= cosf(pCamera->rot.y);
+	}
+	if (GetKeyboardPress(g_playerControlKey[nCntControl][2]) == true || GetJoypadPress(JOYKEY_LEFT, nCntControl) == true || GetJoystickPress(JOYSTICK_L_LEFT, nCntControl) == TRUE)
+	{// Aキー入力(X軸-の方向に移動)
+		move.x -= sinf(pCamera->rot.y + D3DX_PI * 0.5f);
+		move.z -= cosf(pCamera->rot.y + D3DX_PI * 0.5f);
+	}
+	if (GetKeyboardPress(g_playerControlKey[nCntControl][3]) == true || GetJoypadPress(JOYKEY_RIGHT, nCntControl) == true || GetJoystickPress(JOYSTICK_L_RIGHT, nCntControl) == TRUE)
+	{// Dキー入力(X軸+の方向に移動)
+		move.x += sinf(pCamera->rot.y + D3DX_PI * 0.5f);
+		move.z += cosf(pCamera->rot.y + D3DX_PI * 0.5f);
+	}
+
+	if (Magnitude(move) != 0)
+	{
+		move = Normalize(move);
+		pPlayer->move.x += move.x * MOVE_POS;
+		pPlayer->move.z += move.z * MOVE_POS;
+
+		pPlayer->rotmove.y = atan2f(move.x, move.z) + D3DX_PI;
+	}
+
+	if (GetKeyboardTrigger(g_playerControlKey[nCntControl][4]) == true || GetJoypadPress(JOYKEY_A, nCntControl) == true)
+	{// ジャンプ押下
+
+		if (pPlayer->bJump == false)
+		{// ジャンプする
+
+			pPlayer->bJump = true;		// ジャンプ中にする
+			pPlayer->move.y = MAX_JUMP;	// ジャンプ量
+
+			// ジャンプモーションに変更
+			SetMotion(&pPlayer->PlayerMotion, MOTIONTYPE_JUMP, 20);
+		}
+	}
 }

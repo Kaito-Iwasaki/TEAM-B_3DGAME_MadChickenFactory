@@ -78,5 +78,6 @@ Player* GetPlayer(void);
 void SetMove(D3DXVECTOR3* move, byte HitModel, bool *pbjump);
 void KillPlayer(Player* pPlayer);
 void CollisionPlayer(Player* pPlayer);
+void PlayerMoveControl(Player* pPlayer, int nCntControl);
 
 #endif
