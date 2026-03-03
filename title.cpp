@@ -96,6 +96,7 @@ void InitTitle(void)
 	pCamera->posR = D3DXVECTOR3(0.0f, 50.0f, 1100.0f);
 	pCamera->posV = D3DXVECTOR3(200.0f, 20.0f, 900.0f);
 	
+	PlaySound(SOUND_LABEL_SE_TITLE);
 }
 
 //=======================
@@ -117,6 +118,7 @@ void UninitTitle(void)
 
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);	
 	
+	StopSound();
 }
 //==================
 //タイトル画面の更新

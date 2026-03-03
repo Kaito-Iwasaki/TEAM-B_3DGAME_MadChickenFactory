@@ -266,6 +266,8 @@ void InitGame(void)
 
 	g_bLightGame = true;
 	g_bFogGame = true;
+
+	PlaySound(SOUND_LABEL_BGM_GAME);
 }
 
 //=====================================================================
@@ -300,6 +302,8 @@ void UninitGame(void)
 	ReleaseLoadedTexture();
 
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
+	StopSound();
 }
 
 //=====================================================================

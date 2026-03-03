@@ -2,6 +2,7 @@
 //
 // サウンド処理 [sound.cpp]
 // Author : KAITO IWASAKI
+//			NAGATE KEITARO
 // Special Thanks : AKIRA TANAKA
 //				　: TENMA SAITO
 //
@@ -158,7 +159,10 @@ IXAudio2SourceVoice* g_apSourceVoice2[SOUND_LABEL_MAX] = {};	// ソースボイス
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = 
 {
-	{"data/SOUND/SE/saw.wav",0},					// SE 回転ノコギリ(仮置き)
+	{"data/SOUND/BGM/title.wav"},
+	{"data/SOUND/BGM/game.wav"},
+	{"data/SOUND/BGM/result.wav"},
+	{"data/SOUND/SE/saw.wav",0},						// SE 回転ノコギリ(仮置き)
 	{"data/SOUND/SE/press.wav",0},						// SE プレス機
 	{"data/SOUND/SE/fire.wav",0},						// SE バーナー
 	{"data/SOUND/SE/donald.wav",0},						// SE 敵
@@ -307,6 +311,15 @@ HRESULT InitSound(HWND hWnd)
 
 			return S_FALSE;
 		}
+
+		// ソースボイスの生成
+		hr = g_pXAudio2->CreateSourceVoice(&g_apSourceVoice2[nCntLabel], &(wfx.Format), 0, 2.0f);
+		if (FAILED(hr))
+		{
+			MessageBox(hWnd, "ソースボイスの生成に失敗！", "警告！", MB_ICONWARNING);
+
+			return S_FALSE;
+		}
 	
 		for (int nCntSound = 0; nCntSound < MAX_SOUND; nCntSound++)
 		{
@@ -318,7 +331,6 @@ HRESULT InitSound(HWND hWnd)
 
 				return S_FALSE;
 			}
-
 
 			// バッファの値設定
 			memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
@@ -501,6 +513,11 @@ void StopSound(void)
 	// 一時停止
 	for(int nCntSound = 0; nCntSound < SOUND_LABEL_MAX; nCntSound++)
 	{
+		if (g_apSourceVoice2[nCntSound] != NULL)
+		{
+			g_apSourceVoice2[nCntSound]->Stop(0);
+		}
+
 		for (int nCntSource = 0; nCntSource < MAX_SOUND; nCntSource++)
 		{
 			if (g_apSourceVoice[nCntSound][nCntSource] != NULL)
