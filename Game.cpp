@@ -250,11 +250,12 @@ void InitGame(void)
 	int pStaet = GetTitle();		// プレイ人数情報取得
 
 	// カメラの初期設定
+	SetCameraPosR(0, GetPlayer()->pos);
 	SetCameraPosVFromAngle(0);
 	if (pStaet == 0)
 	{// 1Pプレイ
 
-		GetCamera(0)->mode = CAMERAMODE_FREE;
+		GetCamera(0)->mode = CAMERAMODE_SIDEVIEWFOCUS2;
 	}
 	else
 	{// 2Pプレイ

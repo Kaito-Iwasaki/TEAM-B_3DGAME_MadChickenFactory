@@ -78,7 +78,7 @@ void UpdateSEController(void)
 {
 	CheckSoundStop(&g_nCntLabel[0]);
 
-	float fSoundVolume[MAX_SOUND] = {};	// スポットごとの音量
+	float fSoundVolume[MAX_SOUNDSPOT] = {};	// スポットごとの音量
 	Player* pPlayer = GetPlayer();
 	float Distance;	// プレイヤーとオブジェクトサウンドとの距離
 	bool bCheck[MAX_SOUNDSPOT] = {false};
