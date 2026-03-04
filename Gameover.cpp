@@ -18,7 +18,7 @@
 #define TITLEROGO_HEIGHT	(50.0f)		//高さ
 #define MAX_GAMEOVER (7)				//ロゴの最大数
 #define GAMEOVER_TIMER (11)				//ゲームオーバーの時間
-#define GAMEOVER_FREAM (90)				//ゲームオーバーのフレーム
+#define GAMEOVER_FREAM (150)				//ゲームオーバーのフレーム
 //===========================================================
 // 
 //グローバル変数
@@ -179,6 +179,8 @@ void UninitGameover(void)
 		g_pVtxBuffGameover->Release();
 		g_pVtxBuffGameover = NULL;
 	}
+
+	StopSound();
 }
 
 //===========================================================
@@ -194,7 +196,7 @@ void UpdateGameover(void)
 	if (GetKeyboardTrigger(DIK_S) || GetKeyboardTrigger(DIK_DOWN) || GetJoystickTrigger(JOYSTICK_L_DOWN))
 	{//選択フレームを下に
 		g_GameoverSelect++;
-
+		PlaySound(SOUND_LABEL_SE_CURSOR);
 		if (g_GameoverSelect >= GAMEOVER_BLOOD1)
 		{//選択フレームが下限
 			g_GameoverSelect = GAMEOVER_RETRY;
@@ -202,7 +204,10 @@ void UpdateGameover(void)
 	}
 	else if (GetKeyboardTrigger(DIK_W) || GetKeyboardTrigger(DIK_UP) || GetJoystickTrigger(JOYSTICK_L_UP))
 	{//選択フレームを上に
+
 		g_GameoverSelect--;
+
+		PlaySound(SOUND_LABEL_SE_CURSOR);
 
 		if (g_GameoverSelect <= -1)
 		{//選択フレームが上限
@@ -212,6 +217,8 @@ void UpdateGameover(void)
 	}
 	if (GetKeyboardTrigger(DIK_P) || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 	{
+		PlaySound(SOUND_LABEL_SE_DECISION);
+
 		if (g_GameoverSelect == GAMEOVER_RETRY)
 		{
 			SetFade(MODE_GAME);

@@ -159,7 +159,7 @@ void UpdateCamera(void)
 		SetCameraPosR(0, pCamera->move);
 
 		// プレイヤーの距離に応じてカメラを離す
-		pCamera->fDistance = max(fabsf(vecP1ToP2.x), INIT_CAMERA_DISTANCE);
+		pCamera->fDistance = max(max(fabsf(vecP1ToP2.x), fabsf(vecP1ToP2.z) * 1.3f), INIT_CAMERA_DISTANCE);
 
 		// カメラの視点を設定
 		SetCameraPosVFromAngle(0);
