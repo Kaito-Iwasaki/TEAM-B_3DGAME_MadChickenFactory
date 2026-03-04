@@ -35,7 +35,6 @@ void InitLight(void)
 {
 	//ƒ‰ƒCƒg‚Ì•ûŒü‚ğİ’è
 	SetLight(0, D3DXVECTOR3(0.2f, -0.8f, 0.4f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	SetSpotLight(1, D3DXVECTOR3(0.0f, 45.0f, 0.0f), D3DXCOLOR(1.0f, 0.5f, 0.0f, 1.0f));
 	
 }
 //==================================================
