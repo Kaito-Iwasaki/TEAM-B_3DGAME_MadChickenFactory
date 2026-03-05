@@ -218,7 +218,9 @@ void DrawPrompt(void)
 			pDevice->SetFVF(FVF_VERTEX_3D);
 
 			// ライティングを無効にする
-			pDevice->SetRenderState(D3DRS_LIGHTING,FALSE);
+			DWORD dwLastLightState;
+			pDevice->GetRenderState(D3DRS_LIGHTING, &dwLastLightState);
+			pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 			// アルファテストを有効にする
 			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -237,7 +239,7 @@ void DrawPrompt(void)
 				0,
 				2);
 			// ライティングを有効にする
-			pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+			pDevice->SetRenderState(D3DRS_LIGHTING, dwLastLightState);
 
 			// Zテストを有効にする
 			pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);

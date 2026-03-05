@@ -14,11 +14,11 @@
 // マクロ定義
 // 
 //===========================================================
-#define TITLELOGO_WIDTH		(200.0f)	//チームロゴの幅
-#define TITLEROGO_HEIGHT	(50.0f)		//高さ
-#define MAX_GAMEOVER (7)				//ロゴの最大数
+#define GAMEOVERLOGO_WIDTH		(200.0f)	//幅
+#define GAMEOVERLOGO_HEIGHT		(50.0f)		//高さ
+#define MAX_GAMEOVER (7)				//テクスチャの最大数
 #define GAMEOVER_TIMER (11)				//ゲームオーバーの時間
-#define GAMEOVER_FREAM (150)				//ゲームオーバーのフレーム
+#define GAMEOVER_FREAM (120)				//ゲームオーバーのフレーム
 //===========================================================
 // 
 //グローバル変数
@@ -27,8 +27,8 @@
 LPDIRECT3DTEXTURE9 g_pTextureGameover[GAMEOVER_MAX] = {};		//テクスチャのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffGameover;		//頂点バッファへのポインタ
 TeamLogo g_Gameover[MAX_GAMEOVER];
-int g_GameoverSelect;
-int g_Gameoverbgm;
+int g_GameoverSelect;	//選択値
+int g_Gameoverbgm;		//連打されても音が鳴らない
 //===========================================================
 // ゲームオーバーの初期化処理
 //===========================================================
@@ -83,7 +83,7 @@ void InitGameover(void)
 
 	g_Gameover[5].bUse = false;
 
-	g_Gameover[5].Fream = 60;
+	g_Gameover[5].Fream = GAMEOVER_FREAM;
 
 	g_Gameover[5].Timer = 1;
 
@@ -95,7 +95,7 @@ void InitGameover(void)
 
 	g_Gameover[6].bUse = false;
 
-	g_Gameover[6].Fream = 60;
+	g_Gameover[6].Fream = GAMEOVER_FREAM;
 
 	g_Gameover[6].Timer = 10;
 
@@ -129,10 +129,10 @@ void InitGameover(void)
 	for (int nCntGameover = 0; nCntGameover < MAX_GAMEOVER; nCntGameover++)
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT, 0.0f);//右回りで！
-		pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT, 0.0f);//右回りで！
+		pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
 																							 
 		//rhwの設定
 		pVtx[0].rhw = 1.0f;
@@ -264,10 +264,10 @@ void UpdateGameover(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 2, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 2, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
 			break;
 		case GAMEOVER_QUIT:
 			//頂点座標の設定
@@ -275,10 +275,10 @@ void UpdateGameover(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 2, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 2, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
 			break;
 		case GAMEOVER_BLOOD1:
 			//頂点座標の設定
@@ -286,10 +286,10 @@ void UpdateGameover(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 2, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH + 100.0f, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 2, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT * 4, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH + 100.0f, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT * 4, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH + 100.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT * 4, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH + 100.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT * 4, 0.0f);
 
 			g_Gameover[nCntGameover].col.a = 0.5f;
 			break;
@@ -299,10 +299,10 @@ void UpdateGameover(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 3, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH + 500.0f, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT * 3, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT + 400.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH + 500.0f, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT + 400.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 3, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH + 500.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 3, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT + 400.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH + 500.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT + 400.0f, 0.0f);
 			g_Gameover[nCntGameover].col.a = 0.5f;
 			break;
 		case GAMEOVER_GAMEOVER:
@@ -312,10 +312,10 @@ void UpdateGameover(void)
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH + 350.0f, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT + 200.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH + 350.0f,  g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT + 200.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH + 350.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT + 200.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH + 350.0f,  g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT + 200.0f, 0.0f);
 			break;
 		case GAMEOVER_TIMER1:
 			//頂点座標の設定
@@ -326,10 +326,10 @@ void UpdateGameover(void)
 			pVtx[2].tex = D3DXVECTOR2(0.1f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(0.2f, 1.0f);
 
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT + 25.0f, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT + 25.0f, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT - 25.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT - 25.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
 			
 			if (g_Gameover[nCntGameover].Timer >= 1)
 			{
@@ -366,10 +366,10 @@ void UpdateGameover(void)
 				pVtx[2].tex = D3DXVECTOR2(0.9f, 1.0f);
 				pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 			}
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT + 25.0f, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y - TITLEROGO_HEIGHT + 25.0f, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - TITLELOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT - 25.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + TITLELOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y + TITLEROGO_HEIGHT - 25.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
 			if (g_Gameover[nCntGameover].Timer >= 1)
 			{
 				if (g_Gameover[nCntGameover].Fream >= 1)
@@ -384,6 +384,8 @@ void UpdateGameover(void)
 						pVtx[1].tex.x -= 0.1f;
 						pVtx[2].tex.x -= 0.1f;
 						pVtx[3].tex.x -= 0.1f;
+
+						g_Gameover[nCntGameover].pos = D3DXVECTOR3(630.0f, 350.0f, 0.0f);
 					}
 					
 					g_Gameover[nCntGameover].Timer--;
