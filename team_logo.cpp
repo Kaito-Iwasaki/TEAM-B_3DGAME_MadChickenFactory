@@ -26,8 +26,8 @@
 LPDIRECT3DTEXTURE9 g_pTextureTeamLogo[TEAMLOGO_MAX] = {};		//テクスチャのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTeamLogo;		//頂点バッファへのポインタ
 TeamLogo g_TeamLogo[MAX_TEAMLOGO];
-int g_Start;
-
+int g_Start;			//プレイ人数選択値
+int g_teamlogobgm;		//連打されても音が鳴らない
 //===========================================================
 // チームロゴの初期化処理
 //===========================================================
@@ -102,6 +102,7 @@ void InitTeamLogo(void)
 	//頂点バッファをアンロックする
 	g_pVtxBuffTeamLogo->Unlock();
 
+	g_teamlogobgm = 0;
 }
 
 //===========================================================
@@ -159,21 +160,18 @@ void UpdateTeamLogo(void)
 	}
 	if (GetKeyboardTrigger(DIK_P) || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 	{
-
-		PlaySound(SOUND_LABEL_SE_DECISION);
+		if (g_teamlogobgm == 0)
+		{
+			PlaySound(SOUND_LABEL_SE_DECISION);
+			g_teamlogobgm++;
+		}
 		if (g_Start == TEAMLOGO_1PLAYER)
 		{
-			
-			SetFade(MODE_GAME);
-			
-			
+			SetFade(MODE_GAME);	
 		}
 		else if (g_Start == TEAMLOGO_2PLAYER)
 		{
-			
 			SetFade(MODE_GAME);
-		
-			
 		}
 	}
 	for (int nCntTeamLogo = 0; nCntTeamLogo < MAX_TEAMLOGO; nCntTeamLogo++)
@@ -238,6 +236,9 @@ void DrawTeamLogo(void)
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,nCntTeamLogo * 4, 2);
 	}
 }
+//===========================
+//プレイヤーの人数選択
+//===========================
 int GetTitle(void)
 {
 	return g_Start; // または nullptr
