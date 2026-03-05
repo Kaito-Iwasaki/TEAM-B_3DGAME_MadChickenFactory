@@ -97,7 +97,7 @@ void UpdateSaw(void)
 				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
 
 				// Ž©“®“®ì
-				if (g_aSaw[nCntSaw].nMoveID >= 0)
+				if (g_aSaw[nCntSaw].nMoveID < 0)
 				{
 					if (g_aSaw[nCntSaw].nCounterState > g_aSaw[nCntSaw].nMoveTime)
 					{
