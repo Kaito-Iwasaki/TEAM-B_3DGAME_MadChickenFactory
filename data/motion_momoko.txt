@@ -14,8 +14,8 @@ NUM_MODEL = 10
 #------------------------------------------------------------------------------
 # モデルファイル名
 #------------------------------------------------------------------------------
-MODEL_FILENAME = data/MODEL/PLAYER/muneo_body.x		# [0]体
-MODEL_FILENAME = data/MODEL/PLAYER/muneo_head.x		# [1]頭
+MODEL_FILENAME = data/MODEL/PLAYER/momoko_body.x		# [0]体
+MODEL_FILENAME = data/MODEL/PLAYER/momoko_head.x		# [1]頭
 MODEL_FILENAME = data/MODEL/PLAYER/muneo_right_arm.x		# [2]右腕
 MODEL_FILENAME = data/MODEL/PLAYER/muneo_right_hand.x		# [3]右手
 MODEL_FILENAME = data/MODEL/PLAYER/muneo_left_arm.x		# [4]左腕
@@ -45,7 +45,7 @@ CHARACTERSET
 	PARTSSET
 		INDEX = 1					# 頭
 		PARENT = 0					# (親)体
-		POS = 0.0 45.0 0.0
+		POS = 0.0 20.0 0.0
 		ROT = 0.0 0.0 0.0
 	END_PARTSSET
 
