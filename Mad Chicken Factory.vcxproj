@@ -140,6 +140,10 @@
   <ItemGroup>
     <ClInclude Include="box_movable.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="Checkpoint.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="collision.h">
       <SubType>
       </SubType>
@@ -215,6 +219,10 @@
   <ItemGroup>
     <ClCompile Include="box_movable.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="Checkpoint.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="collision.cpp">
       <SubType>
       </SubType>
