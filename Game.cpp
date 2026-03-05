@@ -47,13 +47,15 @@
 #include "Enemy.h"
 #include "SE_controller.h"
 #include "team_logo.h"
+#include "Checkpoint.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-
+#define GAME_FOG_START		(2500.0f)
+#define GAME_FOG_END		(4000.0f)
 
 //*********************************************************************
 // 
@@ -75,6 +77,7 @@
 // 
 //*********************************************************************
 void _DebugDisplay();
+void _SetMap();
 
 //*********************************************************************
 // 
@@ -116,133 +119,13 @@ void InitGame(void)
 	InitSEController();		// サウンドコントローラー
 
 	// フォグの初期設定
-	float FogStart = 2000.0f, FogEnd = 4000.0f;
+	float FogStart = GAME_FOG_START, FogEnd = GAME_FOG_END;
 	GetDevice()->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR); // バーテックスフォグ
 	GetDevice()->SetRenderState(D3DRS_FOGSTART, *((DWORD*)(&FogStart))); // フォグ開始点
 	GetDevice()->SetRenderState(D3DRS_FOGEND, *((DWORD*)(&FogEnd))); // フォグ終了点
 
-	// スクリプトの読み込み
-	LoadScript("data\\model_stage.txt", &g_modelDataGame);
-
-	// モデルの読み込み・配置
-	LoadAndSetModelFromData(&g_modelDataGame);
-
-	// テクスチャの読み込み
-	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_TEXTURE; nCountTex++)
-	{
-		LoadTexture(&g_modelDataGame.aFilenameTexture[nCountTex][0], nCountTex);
-	}
-
-	// フィールドの設定
-	for (int nCountField = 0; nCountField < g_modelDataGame.nCountFieldSet; nCountField++)
-	{
-		FIELDSETDATA* pFieldData = &g_modelDataGame.aInfoFieldSet[nCountField];
-
-		SetField(
-			pFieldData->pos,
-			D3DXVECTOR3(pFieldData->size.x * pFieldData->nBlockX, 0, pFieldData->size.z * pFieldData->nBlockZ),
-			pFieldData->rot,
-			pFieldData->nType
-		);
-	}
-
-	// ウォールの設定
-	for (int nCountWALL = 0; nCountWALL < g_modelDataGame.nCountWallSet; nCountWALL++)
-	{
-		WALLSETDATA* pWallData = &g_modelDataGame.aInfoWallSet[nCountWALL];
-
-		SetWall(
-			pWallData->nType,
-			pWallData->pos,
-			D3DXVECTOR3(pWallData->size.x * pWallData->nBlockX, pWallData->size.y * pWallData->nBlockY, 0),
-			pWallData->rot
-		);
-	}
-	for (int nCountTIMER = 0; nCountTIMER < g_modelDataGame.nCountTimerSet; nCountTIMER++)
-	{
-		TIMERSETDATA* pTimerData = &g_modelDataGame.aInfoTimerSet[nCountTIMER];
-
-		SetTimer(
-			pTimerData->pos,
-			pTimerData->size
-		);
-	}
-	// 回転ノコギリの設定
-	for (int nCntSaw = 0; nCntSaw < g_modelDataGame.nCountSawSet; nCntSaw++)
-	{
-		SAWSETDATA* pSawData = &g_modelDataGame.aInfoSawSet[nCntSaw];
-
-		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->moveRange, pSawData->nTimeMove, pSawData->bStartup);
-	}
-
-	// プレス機の設定
-	for (int nCntPress = 0; nCntPress < g_modelDataGame.nCountPressSet; nCntPress++)
-	{
-		PRESSSETDATA* pPressData = &g_modelDataGame.aInfoPressSet[nCntPress];
-
-		SetPress(pPressData->nIdx, pPressData->pos, pPressData->rot,pPressData->width, pPressData->interval, pPressData->state);
-	}
-
-	// 火炎放射器の設定
-	for (int nCntFire = 0; nCntFire < g_modelDataGame.nCountFireSet; nCntFire++)
-	{
-		FIRESETDATA* pFireData = &g_modelDataGame.aInfoFireSet[nCntFire];
-
-		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state, pFireData->firestate, pFireData->nIdx);
-	}
-
-	// プロンプトの設定
-	for (int nCntPrompt = 0; nCntPrompt < g_modelDataGame.nCountPromptSet; nCntPrompt++)
-	{
-		PROMPTSETDATA* pPromptData = &g_modelDataGame.aInfoPromptSet[nCntPrompt];
-
-		SetPrompt(pPromptData->pos, pPromptData->size, pPromptData->nIdx);
-	}
-
-	// ゴールの設定
-	GOALSETDATA* pGoalData = &g_modelDataGame.InfoGoalSet;
-
-	SetGoal(pGoalData->pos, pGoalData->rot);
-
-	// コンベアの設定
-	for (int nCntConveyer = 0; nCntConveyer < g_modelDataGame.nCountConveyerSet; nCntConveyer++)
-	{
-		CONVEYERSETDATA* pConveyerData = &g_modelDataGame.aInfoConveyerSet[nCntConveyer];
-
-		SetConveyer(pConveyerData->nIdx, pConveyerData->pos, pConveyerData->rot, pConveyerData->Onmove, pConveyerData->Offmove, pConveyerData->size, pConveyerData->state);
-	}
-
-	// 動く箱の設定
-	for (int nCntMoveBox = 0; nCntMoveBox < g_modelDataGame.nCountMoveBoxSet; nCntMoveBox++)
-	{
-		MOVEBOXSETDATA* pMoveBoxData = &g_modelDataGame.aInfoMoveBoxSet[nCntMoveBox];
-
-		SetMoveBox(pMoveBoxData->pos, pMoveBoxData->rot, pMoveBoxData->range);
-	}
-
-	// ゲートの設定
-	for (int nCntGate = 0; nCntGate < g_modelDataGame.nCountGateSet; nCntGate++)
-	{
-		GATESETDATA* pGateData = &g_modelDataGame.aInfoGateSet[nCntGate];
-
-		SetGate(pGateData->pos, pGateData->rot, pGateData->nIdx, pGateData->movewidth, pGateData->Goup, pGateData->state);
-	}
-
-	// 敵の設定
-	for (int nCntEnemy = 0; nCntEnemy < g_modelDataGame.nCountEnemySet; nCntEnemy++)
-	{
-		ENEMYSETDATA* pEnemyData = &g_modelDataGame.aInfoEnemySet[nCntEnemy];
-
-		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
-	}
-
-	// リフトの設定
-	for (int nCountLift = 0; nCountLift < g_modelDataGame.nCountLiftSet; nCountLift++)
-	{
-		LIFTSETDATA* pLiftData = &g_modelDataGame.aInfoLiftSet[nCountLift];
-
-		SetLift(pLiftData->nIdx, pLiftData->pos, pLiftData->rot, pLiftData->range, pLiftData->fSpeed);
-	}
+	// オブジェクト配置
+	_SetMap();
 
 	// タイマー設定
 	SetTimerCount(GAME_TIMER_COUNT);
@@ -430,6 +313,37 @@ void ReloadGame(void)
 	InitTimer();
 	InitShadow();			// 影
 
+	// オブジェクト配置
+	_SetMap();
+}
+
+void _DebugDisplay(void)
+{
+#ifdef  _DEBUG
+	// デバッグ表示
+	Player* pPlayer = GetPlayer();
+
+	PrintDebugProc("ゲーム画面\n");
+	PrintDebugProc("ライト切り替え:[F1]\n");
+	if (GetKeyboardTrigger(DIK_F1))
+	{
+		g_bLightGame = !g_bLightGame;
+		GetDevice()->SetRenderState(D3DRS_LIGHTING, (DWORD)g_bLightGame);
+	}
+
+	PrintDebugProc("フォグ切り替え:[F2]\n");
+	if (GetKeyboardTrigger(DIK_F2))
+	{
+		g_bFogGame = !g_bFogGame;
+	}
+
+	PrintDebugProc("位置[0]：%f, %f, %f\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
+	PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[1].pos.x, pPlayer[1].pos.y, pPlayer[1].pos.z);
+#endif //  _DEBUG
+}
+
+void _SetMap()
+{
 	// スクリプトの読み込み
 	LoadScript("data\\model_stage.txt", &g_modelDataGame);
 
@@ -552,29 +466,4 @@ void ReloadGame(void)
 
 		SetLift(pLiftData->nIdx, pLiftData->pos, pLiftData->rot, pLiftData->range, pLiftData->fSpeed);
 	}
-}
-
-void _DebugDisplay(void)
-{
-#ifdef  _DEBUG
-	// デバッグ表示
-	Player* pPlayer = GetPlayer();
-
-	PrintDebugProc("ゲーム画面\n");
-	PrintDebugProc("ライト切り替え:[F1]\n");
-	if (GetKeyboardTrigger(DIK_F1))
-	{
-		g_bLightGame = !g_bLightGame;
-		GetDevice()->SetRenderState(D3DRS_LIGHTING, (DWORD)g_bLightGame);
-	}
-
-	PrintDebugProc("フォグ切り替え:[F2]\n");
-	if (GetKeyboardTrigger(DIK_F2))
-	{
-		g_bFogGame = !g_bFogGame;
-	}
-
-	PrintDebugProc("位置[0]：%f, %f, %f\n", pPlayer[0].pos.x, pPlayer[0].pos.y, pPlayer[0].pos.z);
-	PrintDebugProc("位置[1]：%f, %f, %f\n", pPlayer[1].pos.x, pPlayer[1].pos.y, pPlayer[1].pos.z);
-#endif //  _DEBUG
 }
