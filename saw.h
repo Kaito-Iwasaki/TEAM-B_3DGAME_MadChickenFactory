@@ -30,7 +30,9 @@
 //==================================================
 typedef struct
 {
-	int nIdx;
+	int nPromptID;			// 起動のON・OFF用プロンプトのID
+	int nMoveID;			// 移動用プロンプトのID
+	bool bMove;				// 動かすかどうか
 	D3DXVECTOR3 pos;		// 位置
 	D3DXVECTOR3 poslocal;	// 設定位置
 	D3DXVECTOR3 rot;		// 角度
@@ -56,8 +58,8 @@ void InitSaw(void);
 void UninitSaw(void);
 void UpdateSaw(void);
 void DrawSaw(void);
-void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, int nMoveTime, bool startup);
-void SwitchSaw(int nIdx);
+void SetSaw(int nPromptID, int  nMoveID, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, int nMoveTime, bool startup);
+void SwitchSaw(int nPromptID);
 bool CollisionSawRotX(void);
 bool CollisionSawRotY(void);
 

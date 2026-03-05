@@ -395,7 +395,7 @@ void _SetMap()
 	{
 		SAWSETDATA* pSawData = &g_modelDataGame.aInfoSawSet[nCntSaw];
 
-		SetSaw(pSawData->nIdx, pSawData->pos, pSawData->rot, pSawData->moveRange, pSawData->nTimeMove, pSawData->bStartup);
+		SetSaw(pSawData->nIdx, pSawData->nMoveIdx, pSawData->pos, pSawData->rot, pSawData->moveRange, pSawData->nTimeMove, pSawData->bStartup);
 	}
 
 	// ƒvƒŒƒX‹@‚Ìİ’è

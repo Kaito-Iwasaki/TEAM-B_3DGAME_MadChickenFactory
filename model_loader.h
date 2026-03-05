@@ -89,6 +89,7 @@ typedef struct
 typedef struct
 {
 	int nIdx;				// インデックス（番号）
+	int nMoveIdx;			// MOVE用インデックス
 	D3DXVECTOR3 pos;		// 位置
 	D3DXVECTOR3 rot;		// 向き
 	D3DXVECTOR3 moveRange;	//可動域
