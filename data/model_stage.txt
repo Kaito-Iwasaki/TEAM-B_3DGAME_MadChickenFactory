@@ -568,263 +568,84 @@ WALLSET
 	SIZE = 1000 500
 END_WALLSET
 
+WALLSET
+	TEXTYPE = 3
+	POS = 8900 0 490
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 1500 500
+END_WALLSET
+
 #------------------------------------------------------------------------------
 # ステージ	大人の壁
 #------------------------------------------------------------------------------
 
-WALLSET
-	TEXTYPE = 8
-	POS = 9750 0 541
-	ROT = 0 0 0
-	BLOCK = 1 2
-	SIZE = 2200 500
-END_WALLSET
 #------------------------------------------------------------------------------
 # ステージ	床
 #------------------------------------------------------------------------------
+
 FIELDSET
 	TEXTYPE = 6
-	POS = 9750 0 500
-	ROT = 0 0 0
-	BLOCK = 2 2 
-	SIZE = 1100 1000
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 9165 380 50
-	ROT = 0 0 0
-	BLOCK = 2 1 
-	SIZE = 100 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 第1区間
-#------------------------------------------------------------------------------
-
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 9315 380 50
-	ROT = 0 0 0
-	BLOCK = 1 2 
-	SIZE = 100 175
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 9440 380 175
+	POS = 9745 0 1375
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 150 100
+	SIZE = 1700 250
 END_FIELDSET
 
 FIELDSET
-	TEXTYPE = 2
-	POS = 9440 380 -75
+	TEXTYPE = 6
+	POS = 10722.5 0  1200
 	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 150 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 第2区間 上
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 9565 380 175
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 100 240
+	BLOCK = 1 1
+	SIZE = 255 600
 END_FIELDSET
 
 FIELDSET
-	TEXTYPE = 2
-	POS = 9677 380 245
+	TEXTYPE = 6
+	POS = 10100 0 775
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 125 100
+	SIZE = 1500 250
 END_FIELDSET
 
 FIELDSET
-	TEXTYPE = 2
-	POS = 9677 380 105
+	TEXTYPE = 6
+	POS = 9480 0  575
 	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 125 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 第2区間 下
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 9565 380 -80
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 100 240
+	BLOCK = 1 1
+	SIZE = 255 150
 END_FIELDSET
 
 FIELDSET
-	TEXTYPE = 2
-	POS = 9677 380 -10
+	TEXTYPE = 6
+	POS = 10100 0 375
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 125 100
+	SIZE = 1500 250
 END_FIELDSET
 
 FIELDSET
-	TEXTYPE = 2
-	POS = 9677 380 -150
+	TEXTYPE = 6
+	POS = 9850 0 -375
 	ROT = 0 0 0
 	BLOCK = 1 1 
-	SIZE = 125 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 第3区間
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 9790 380 55
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 100 600
+	SIZE = 2000 250
 END_FIELDSET
 
 FIELDSET
-	TEXTYPE = 2
-	POS = 9902.5 380 305
+	TEXTYPE = 6
+	POS = 8772 0  500
 	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 125 100
+	BLOCK = 1 1
+	SIZE = 252 2000
 END_FIELDSET
 
-FIELDSET
-	TEXTYPE = 2
-	POS = 9902.5 380 -195
+1FIELDSET
+	TEXTYPE = 6
+	POS = 10725 0  250
 	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 125 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 第4区間 上
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10015 380 300
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 100 300
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10255 380 200
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 380 100
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10255 380 400
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 380 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 第4区間 下
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10015 380 -150
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 100 400
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10115 380 0
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 100 100
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10115 380 -300
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 100 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 第5区間 上
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10190 380 0
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 50 250
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10330 380 75
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 230 100
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10330 380 -75
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 230 100
-END_FIELDSET
-
-#------------------------------------------------------------------------------
-# ステージ	迷路 下	第5区間 下
-#------------------------------------------------------------------------------
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10190 380 -300
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 50 250
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10330 380 -225
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 230 100
-END_FIELDSET
-
-FIELDSET
-	TEXTYPE = 2
-	POS = 10330 380 -375
-	ROT = 0 0 0
-	BLOCK = 1 1 
-	SIZE = 230 100
+	BLOCK = 1 1
+	SIZE = 252 1500
 END_FIELDSET
 
 #------------------------------------------------------------------------------
@@ -1227,34 +1048,83 @@ GOALSET
 END_GOALSET
 
 #----------------------------------------
+# 動かせる箱
+#----------------------------------------
+
+MOVEBOXSET
+ 	POS = 5500 -300 560
+ 	ROT = 0 0 0
+ 	RANGE = 0 0 740
+ END_MOVEBOXSET
+
+#----------------------------------------
+# タイマー
+#----------------------------------------
+
+#----------------------------------------
+# 区間１(廊下→ステージ１→廊下)
+#----------------------------------------
+
+1TIMERSET
+	POS = -750 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+1TIMERSET
+	POS = 1250 500 900
+	SIZE = 200 200 
+END_TIMERSET
+
+1TIMERSET
+	POS = 3220 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+#----------------------------------------
+# 区間２(廊下→ステージ２)
+#----------------------------------------
+
+1TIMERSET
+	POS = 7850 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+1TIMERSET
+	POS = 9790 500 1450
+	SIZE = 200 200 
+END_TIMERSET
+
+#----------------------------------------
+# 区間３(廊下→ステージ３)
+#----------------------------------------
+
+1TIMERSET
+	POS = 11700 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+1TIMERSET
+	POS = 13700 500 1450
+	SIZE = 200 200 
+END_TIMERSET
+
+#----------------------------------------
+# 区間４(廊下→ステージ４)
+#----------------------------------------
+
+1TIMERSET
+	POS = 17500 500 840
+	SIZE = 200 200 
+END_TIMERSET
+
+1TIMERSET
+	POS = 15700 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+#----------------------------------------
 # ベルトコンベア
 #----------------------------------------
-
-#----------------------------------------
-# ステージ２(背景)
-#----------------------------------------
-
-CONVEYERSET
-	POS = 9225 100 1300
-	ROT = 0 90 0 
-	ONMOVE = 10 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 200 1170
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 10325 100 1300
-	ROT = 0 90 0 
-	ONMOVE = 10 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 200 1050
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
 
 #----------------------------------------
 # ステージ３
@@ -1266,7 +1136,7 @@ CONVEYERSET
 	ONMOVE = 50 0 0
 	OFFMOVE = 10 0 0
 	SIZE = 300 1700 
-	ID = 5
+	ID = 0
 	STATE = 0
 	SHADOW = 0
 END_CONVEYERSET
@@ -1281,8 +1151,8 @@ END_CONVEYERSET
 
 
 SAWSET
-	ID = 2
-	POS = 14600 0 400
+	ID = 101
+	POS = 13750 0 400
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
@@ -1290,8 +1160,8 @@ SAWSET
 END_SAWSET
 
 SAWSET
-	ID = 2
-	POS = 14600 0 500
+	ID = 101
+	POS = 13750 0 500
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
@@ -1300,8 +1170,8 @@ END_SAWSET
 
 
 SAWSET
-	ID = 2
-	POS = 14600 0 600
+	ID = 101
+	POS = 13750 0 600
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
@@ -1313,25 +1183,11 @@ END_SAWSET
 #----------------------------------------
 
 #----------------------------------------
-# ステージ２(背景)
-#----------------------------------------
-
-PRESSSET
-	ID = 0
-	POS = 9300 100 1300
-	ROT = 0 0 0
-	WIDTH = 300
-	INTERVAL = 30
-	STATE = 0
-	SHADOW = 1
-END_PRESSSET
-
-#----------------------------------------
 # ステージ４
 #----------------------------------------
 
 PRESSSET
-	ID = 0
+	ID = 201
 	POS = 17150 500 675
 	ROT = 0 0 0
 	WIDTH = 500
@@ -1345,74 +1201,68 @@ END_PRESSSET
 #----------------------------------------
 
 #----------------------------------------
+# ステージ2
+#----------------------------------------
+
+#----------------------------------------
 # ステージ３
 #----------------------------------------
 
 FIRESET
-	ID = 2
+	ID = 310
 	POS = 12900 0 -240
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 2
+	ID = 310
 	POS = 12900 0 -320
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 2
+	ID = 310
 	POS = 12900 0 -400
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 2
+	ID = 310
 	POS = 12900 0 -475
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 6
+	ID = 310
 	POS = 13950 0 -240
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 6
+	ID = 311
 	POS = 13950 0 -320
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 6
+	ID = 311
 	POS = 13950 0 -400
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 6
+	ID = 311
 	POS = 13950 0 -475
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
-
-#----------------------------------------
-# 動かせる箱
-#----------------------------------------
-
-MOVEBOXSET
- 	POS = 5500 -300 560
- 	ROT = 0 0 0
- 	RANGE = 0 0 740
- END_MOVEBOXSET
 
 #----------------------------------------
 # ゲート
@@ -1422,79 +1272,12 @@ MOVEBOXSET
 	POS = -700 0 0
 	ROT = 0 0 0
 	COLLISION = 1
-	ID = 0
+	ID = 401
 	GOUP = 0
 	MOVEWIDTH = 300
 	STATE = 1
 	SHADOW = 0
 END_GATESET
-
-#----------------------------------------
-# タイマー
-#----------------------------------------
-
-#----------------------------------------
-# 区間１(廊下→ステージ１→廊下)
-#----------------------------------------
-
-TIMERSET
-	POS = -750 500 450
-	SIZE = 200 200 
-END_TIMERSET
-
-TIMERSET
-	POS = 1250 500 900
-	SIZE = 200 200 
-END_TIMERSET
-
-TIMERSET
-	POS = 3220 500 450
-	SIZE = 200 200 
-END_TIMERSET
-
-
-#----------------------------------------
-# 区間２(廊下→ステージ２)
-#----------------------------------------
-
-TIMERSET
-	POS = 7850 500 450
-	SIZE = 200 200 
-END_TIMERSET
-
-TIMERSET
-	POS = 9790 500 1450
-	SIZE = 200 200 
-END_TIMERSET
-
-
-#----------------------------------------
-# 区間３(廊下→ステージ３)
-#----------------------------------------
-
-TIMERSET
-	POS = 11700 500 450
-	SIZE = 200 200 
-END_TIMERSET
-
-TIMERSET
-	POS = 13700 500 1450
-	SIZE = 200 200 
-END_TIMERSET
-
-#----------------------------------------
-# 区間４(廊下→ステージ４)
-#----------------------------------------
-
-TIMERSET
-	POS = 17500 500 840
-	SIZE = 200 200 
-END_TIMERSET
-
-TIMERSET
-	POS = 15700 500 450
-	SIZE = 200 200 
-END_TIMERSET
 
 #----------------------------------------
 # リフト
@@ -1505,7 +1288,7 @@ END_TIMERSET
 #----------------------------------------
 
 LIFTSET
-	ID = 0
+	ID = 501
 	POS = 500 -10 -250
 	ROT = 0 0 0 
 	RANGE = 1400 0 0
@@ -1514,7 +1297,7 @@ END_LIFTSET
 
 
 LIFTSET
-	ID = 0
+	ID = 501
 	POS = 1900 -10 750
 	ROT = 0 0 0 
 	RANGE = -1400 0 0
@@ -1526,7 +1309,7 @@ END_LIFTSET
 #----------------------------------------
 
 LIFTSET
-	ID = 7
+	ID = 502
 	POS = 16450 10 325
 	ROT = 0 0 0 
 	RANGE = 0 500 0
@@ -1534,7 +1317,7 @@ LIFTSET
 END_LIFTSET
 
 LIFTSET
-	ID = 8
+	ID = 503
 	POS = 18095 -10 690
 	ROT = 0 0 0 
 	RANGE = 0 0 -1000
@@ -1542,7 +1325,7 @@ LIFTSET
 END_LIFTSET
 
 LIFTSET
-	ID = 8 
+	ID = 503
 	POS = 18431.755 500 -305
 	ROT = 0 0 0 
 	RANGE = 0 -515 0
@@ -1550,32 +1333,16 @@ LIFTSET
 END_LIFTSET
 
 #----------------------------------------
-# プロンプト
+# プロンプト(ID順)
 #----------------------------------------
 
-#----------------------------------------------
-# 対応ギミック：ステージ1のリフト
-#----------------------------------------------
-
-PROMPTSET
-	ID = 0
-	POS = 0 100 200
-	SIZE = 50 50 
-END_PROMPTSET
-
-PROMPTSET
-	ID = 0
-	POS = 2100 100 200
-	SIZE = 50 50 
-END_PROMPTSET
-
 #------------------------------------------------------------
-# 対応ギミック：ステージ３の回転のこぎり・ガスバーナー(入口)
+# 対応ギミック：ステージ３の回転のこぎり
 #------------------------------------------------------------
 
 PROMPTSET
-	ID = 2
-	POS = 13325 0 -335
+	ID = 101
+	POS = 13500 0 -275
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1584,8 +1351,31 @@ END_PROMPTSET
 #----------------------------------------------
 
 PROMPTSET
-	ID = 6
+	ID = 310
+	POS = 13500 0 -2275
+	SIZE = 50 50 
+END_PROMPTSET
+
+
+PROMPTSET
+	ID = 311
 	POS = 13870 0 1360
+	SIZE = 50 50 
+END_PROMPTSET
+
+#----------------------------------------------
+# 対応ギミック：ステージ1のリフト
+#----------------------------------------------
+
+PROMPTSET
+	ID = 501
+	POS = 0 100 200
+	SIZE = 50 50 
+END_PROMPTSET
+
+PROMPTSET
+	ID = 501
+	POS = 2100 100 200
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1594,7 +1384,7 @@ END_PROMPTSET
 #----------------------------------------------
 
 PROMPTSET
-	ID = 7
+	ID = 502
 	POS = 17240 0 -300
 	SIZE = 50 50 
 END_PROMPTSET
@@ -1604,11 +1394,10 @@ END_PROMPTSET
 #----------------------------------------------
 
 PROMPTSET
-	ID = 8
-	POS = 17820 0 720
+	ID = 503
+	POS = 18095 100 850
 	SIZE = 50 50 
 END_PROMPTSET
-
 
 #----------------------------------------
 # モデル情報(モデル番号順に記載)
@@ -1620,22 +1409,6 @@ END_PROMPTSET
 #----------------------------------------
 # コンベア
 #----------------------------------------
-
-MODELSET
-	TYPE = 2
-	POS = 9225 0 1300
-	ROT = 0 90 0
-	COLLISION = 0
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 2
-	POS = 10275 0 1300
-	ROT = 0 90 0
-	COLLISION = 0
-	SHADOW = 0
-END_MODELSET
 
 #----------------------------------------
 # ドローン
@@ -1782,268 +1555,12 @@ END_MODELSET
 #----------------------------------------
 
 #----------------------------------------
-# ステージ1の木箱
+# 木箱
 #----------------------------------------
-
-#----------------------------------------
-# ステージ2の木箱(手前)
-#----------------------------------------
-
-MODELSET
-	TYPE = 18
-	POS = 8750 0 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8750 0 -85
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8750 0 190
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8750 0 400
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 0 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 0 -85
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 0 190
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 0 400
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 0 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 9150 0 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 200 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 200 -85
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 200 190
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 8950 200 400
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-#----------------------------------------
-# ステージ2の木箱(奥)
-#----------------------------------------
-
-MODELSET
-	TYPE = 18
-	POS = 10520 0 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10520 0 -85
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10520 0 190
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10520 0 400
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10725 0 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10725 0 -85
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10725 0 190
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10725 0 400
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10520 200 -355
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10520 200 -85
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10520 200 190
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 18
-	POS = 10520 200 400
-	ROT = 0 90 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
 
 #----------------------------------------
 # 培養ポッド
 #----------------------------------------
-
-MODELSET
-	TYPE = 20
-	POS = 8900 0 750
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 20
-	POS = 9300 0 750
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 20
-	POS = 9700 0 750
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 20
-	POS = 10100 0 750
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
-
-MODELSET
-	TYPE = 20
-	POS = 10500 0 750
-	ROT = 0 0 0
-	COLLISION = 1
-	SHADOW = 0
-END_MODELSET
 
 #----------------------------------------
 # レバー
@@ -2104,8 +1621,8 @@ END_MODELSET
 
 MODELSET
 	TYPE = 21
-	POS = 17800 0 625
-	ROT = 0 0 0
+	POS = 18095 100 850
+	ROT = 90 180 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
@@ -2114,7 +1631,7 @@ END_MODELSET
 # ドナルド配置
 #----------------------------------------
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 10.0
 	
 	ROUTINESET
