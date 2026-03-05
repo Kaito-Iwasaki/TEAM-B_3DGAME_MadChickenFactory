@@ -52,6 +52,7 @@ void InitSaw(void)
 	{
 		g_aSaw[nCntSaw].bStartup = false;
 		g_aSaw[nCntSaw].bUse = false;
+		g_aSaw[nCntSaw].bMove = false;
 		g_aSaw[nCntSaw].pos = D3DXVECTOR3_ZERO;
 		g_aSaw[nCntSaw].rot = D3DXVECTOR3_ZERO;
 		g_aSaw[nCntSaw].turnSpeed = 0;
@@ -82,28 +83,32 @@ void UpdateSaw(void)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
 		{
-			if (GetPromptTrigger(g_aSaw[nCntSaw].nIdx))
+			if (GetPromptTrigger(g_aSaw[nCntSaw].nPromptID))
 			{
 				SwitchSaw(nCntSaw);
 			}
 
 			if (g_aSaw[nCntSaw].bStartup == true)
-			{//起動スイッチがON
+			{//　起動スイッチがON
 				CallPlaySound(g_aSaw[nCntSaw].nIdxSound);
 
-				//MAX_SAW_SPEEDまで速度をあげながら回転
+				//　MAX_SAW_SPEEDまで速度をあげながら回転
 				g_aSaw[nCntSaw].turnSpeed += (MAX_SAW_SPEED - g_aSaw[nCntSaw].turnSpeed) * 0.005f;
 				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
 
-				if (g_aSaw[nCntSaw].nCounterState > g_aSaw[nCntSaw].nMoveTime)
+				// 自動動作
+				if (g_aSaw[nCntSaw].nMoveID >= 0)
 				{
-					g_aSaw[nCntSaw].move *= -1;
-					g_aSaw[nCntSaw].nCounterState = 0;
-				}
-				
-				g_aSaw[nCntSaw].pos += g_aSaw[nCntSaw].move;
+					if (g_aSaw[nCntSaw].nCounterState > g_aSaw[nCntSaw].nMoveTime)
+					{
+						g_aSaw[nCntSaw].move *= -1;
+						g_aSaw[nCntSaw].nCounterState = 0;
+					}
 
-				g_aSaw[nCntSaw].nCounterState++;
+					g_aSaw[nCntSaw].pos += g_aSaw[nCntSaw].move;
+
+					g_aSaw[nCntSaw].nCounterState++;
+				}
 			}
 			else
 			{//OFF
@@ -111,6 +116,26 @@ void UpdateSaw(void)
 				g_aSaw[nCntSaw].turnSpeed += (0.0f - g_aSaw[nCntSaw].turnSpeed) * 0.02f;
 				g_aSaw[nCntSaw].rot.z += g_aSaw[nCntSaw].turnSpeed;
 
+			}
+
+			// MOVE用プロンプト作動時
+			if (GetPromptTrigger(g_aSaw[nCntSaw].nMoveID))
+			{
+				g_aSaw[nCntSaw].bMove = true;
+			}
+
+			if (g_aSaw[nCntSaw].bMove == true)
+			{
+				if (g_aSaw[nCntSaw].nCounterState > g_aSaw[nCntSaw].nMoveTime)
+				{
+					g_aSaw[nCntSaw].move *= -1;
+					g_aSaw[nCntSaw].nCounterState = 0;
+					g_aSaw[nCntSaw].bMove = false;
+				}
+
+				g_aSaw[nCntSaw].pos += g_aSaw[nCntSaw].move;
+
+				g_aSaw[nCntSaw].nCounterState++;
 			}
 
 			//X軸を回していたら矩形
@@ -182,18 +207,19 @@ void DrawSaw(void)
 //==================================================
 //
 //	回転ノコギリ設置処理
-//	moveRange = posを中心に+-で動作
+//	moveRange  posを中心に+-で動作
 // 
 //==================================================
-void SetSaw(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, int nMoveTime, bool startup)
+void SetSaw(int nPromptID,int nMoveID, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 moveRange, int nMoveTime, bool startup)
 {
 	for (int nCnt = 0; nCnt < MAX_SAW; nCnt++)
 	{
 		if (g_aSaw[nCnt].bUse == false)
 		{
-			g_aSaw[nCnt].nIdx = nIdx;
-			g_aSaw[nCnt].pos = pos;
-			g_aSaw[nCnt].poslocal = pos;
+			g_aSaw[nCnt].nPromptID = nPromptID;		// ON・OFF用プロンプトID
+			g_aSaw[nCnt].nMoveID = nMoveID;			// MOVE用プロンプトID
+			g_aSaw[nCnt].pos = pos;					// pos
+			g_aSaw[nCnt].poslocal = pos;			// pos保存用
 			g_aSaw[nCnt].rot = rot;
 			g_aSaw[nCnt].moveRange = moveRange;
 			g_aSaw[nCnt].nMoveTime = nMoveTime;
@@ -392,7 +418,7 @@ bool CollisionSawRotY(void)
 //	回転ノコギリのスイッチを切り替え
 //
 //==================================================
-void SwitchSaw(int nIdx)
+void SwitchSaw(int nPromptID)
 {
-	g_aSaw[nIdx].bStartup ^= true;
+	g_aSaw[nPromptID].bStartup ^= true;
 }
