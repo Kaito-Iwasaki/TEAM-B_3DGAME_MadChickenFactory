@@ -12,7 +12,7 @@
 #include "main.h"
 
 // マクロ定義
-#define MAX_PROMPT (256)									// 最大数
+#define MAX_PROMPT (1024)									// 最大数
 
 //プロトタイプ宣言
 
