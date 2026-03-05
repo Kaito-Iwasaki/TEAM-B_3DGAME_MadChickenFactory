@@ -80,5 +80,6 @@ void KillPlayer(Player* pPlayer);
 void CollisionPlayer(Player* pPlayer, int nCntPlayer);
 void PlayerMoveControl(Player* pPlayer, int nCntControl);
 void PlayerFollow(Player* pTargetPlayer, Player* EligiblePlayer);
+PLAYEROPERATION GetPlayerOperation(void);
 
 #endif

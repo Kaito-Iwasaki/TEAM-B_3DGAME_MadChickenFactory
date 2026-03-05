@@ -683,3 +683,11 @@ void PlayerFollow(Player *pTargetPlayer, Player *EligiblePlayer)
 	EligiblePlayer->rotmove.y = fRot + D3DX_PI;
 
 }
+
+//=======================================================
+// ‘€ìƒvƒŒƒCƒ„[î•ñæ“¾ˆ—
+//=======================================================
+PLAYEROPERATION GetPlayerOperation(void)
+{
+	return g_Operation;
+}
