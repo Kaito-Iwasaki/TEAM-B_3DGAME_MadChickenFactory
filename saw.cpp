@@ -119,7 +119,7 @@ void UpdateSaw(void)
 			}
 
 			// MOVE用プロンプト作動時
-			if (GetPromptTrigger(g_aSaw[nCntSaw].nMoveID))
+			if (GetPromptTrigger(g_aSaw[nCntSaw].nMoveID) && g_aSaw[nCntSaw].bMove == false)
 			{
 				g_aSaw[nCntSaw].bMove = true;
 			}
