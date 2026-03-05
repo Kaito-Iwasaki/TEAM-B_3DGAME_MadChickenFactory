@@ -36,7 +36,7 @@
 #define ANGLE_DAMPINGFUNCTION	(0.1f)						// 角度の減衰係数
 #define PLAYER_GRAVITY			(0.85f)						// 重力
 #define ONEPLAYER_MODELPAS		"data\\motion_muneo.txt"	// プレイヤーモデルへのパス
-#define TWOPLAYER_MODELPAS		"data\\motion_momoko.txt"	// プレイヤーモデルへのパス
+#define TWOPLAYER_MODELPAS		"data\\motion_muneo.txt"	// プレイヤーモデルへのパス
 #define DEATHLINE				(-500.0f)					// 落下死亡判定の高さ
 #define PLAYER_BETWEEN			(3000.0f)					// プレイヤー間の最大距離
 //#define CHARACTER_TXTNAME		"data\\character.txt"		// キャラクターテキストファイル
@@ -215,8 +215,6 @@ void UpdatePlayer(void)
 					(g_Player[nCntPlayer].pos.y - g_Player[nCntPlayer].posOld.y) / 10.0f, false);
 			}
 
-			g_Player[nCntPlayer].fStandPos = 0.0f;		// 立っている位置を初期化する
-
 			for (int nCntPart = 0; nCntPart < g_Player[nCntPlayer].PlayerMotion.nNumPart; nCntPart++)
 			{
 				PART* pPart = &g_Player[nCntPlayer].PlayerMotion.aPart[nCntPart];
@@ -288,7 +286,7 @@ void UpdatePlayer(void)
 				{// フェード状態ではない
 
 					// フェード処理(ゲーム画面に移行)
-					SetFade(MODE_GAME);
+					SetFade(MODE_GAMEOVER);
 				}
 			}
 		}
@@ -505,39 +503,40 @@ Player* GetPlayer(void)
 //=======================================================
 // プレイヤーの移動量設定処理
 //=======================================================
-void SetMove(D3DXVECTOR3* move, byte HitModel, bool* pbjump)
+void SetMove(Player *pPlayer)
 {
-	if (HitModel & MODEL_HIT_FRONT)
+	if (pPlayer->ModelHit & MODEL_HIT_FRONT)
 	{// 正面(z方向の移動量を0にする)
 
-		move->z = 0.0f;
+		pPlayer->move.z = 0.0f;
 	}
-	else if (HitModel & MODEL_HIT_BACK)
+	else if (pPlayer->ModelHit & MODEL_HIT_BACK)
 	{// 後ろ(z方向の移動量を0にする)
 
-		move->z = 0.0f;
+		pPlayer->move.z = 0.0f;
 	}
-	else if (HitModel & MODEL_HIT_RIGHT)
+	else if (pPlayer->ModelHit & MODEL_HIT_RIGHT)
 	{// 右(x方向の移動量を0にする)
 
-		move->x = 0.0f;
+		pPlayer->move.x = 0.0f;
 	}
-	else if (HitModel & MODEL_HIT_LEFT)
+	else if (pPlayer->ModelHit & MODEL_HIT_LEFT)
 	{// 左(x方向の移動量を0にする)
 
-		move->x = 0.0f;
+		pPlayer->move.x = 0.0f;
 	}
 
-	if (HitModel & MODEL_HIT_TOP)
+	if (pPlayer->ModelHit & MODEL_HIT_TOP)
 	{// 上(y方向の移動量を0にする)
 
-		move->y = 0.0f;
-		*pbjump = false;
+		pPlayer->move.y = 0.0f;
+		pPlayer->bJump = false;
+		pPlayer->fStandPos = pPlayer->pos.y;
 	}
-	else if (HitModel & MODEL_HIT_BOTTOM)
+	else if (pPlayer->ModelHit & MODEL_HIT_BOTTOM)
 	{//下(y方向の移動量を0にする)
 
-		move->y = 0.0f;
+		pPlayer->move.y = 0.0f;
 	}
 }
 
@@ -566,14 +565,15 @@ void CollisionPlayer(Player* pPlayer, int nCntPlayer)
 	//床との当たり判定
 	if (CollisionField(&pPlayer->pos, pPlayer->posOld))
 	{
-		pPlayer->bJump = false;		// ジャンプ状態解除
-		pPlayer->move.y = 0.0f;		// 重力リセット
+		pPlayer->bJump = false;						// ジャンプ状態解除
+		pPlayer->move.y = 0.0f;						// 重力リセット
+		pPlayer->fStandPos = pPlayer->pos.y;		// 立っている位置更新
 	}
 	else if (pPlayer->ModelHit != MODEL_HIT_NONE)
 	{// 何かに当たった
 
 		// プレイヤーの移動量の設定
-		SetMove(&pPlayer->move, pPlayer->ModelHit, &pPlayer->bJump);
+		SetMove(pPlayer);
 	}
 	else
 	{// 落下中
@@ -591,7 +591,7 @@ void CollisionPlayer(Player* pPlayer, int nCntPlayer)
 	// 火炎放射器との当たり判定
 	CollisionFlamethrower(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
 
-	// 火炎放射器との当たり判定
+	// ゲートとの当たり判定
 	CollisionGate(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
 
 	// コンベアとの当たり判定
