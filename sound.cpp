@@ -159,9 +159,9 @@ IXAudio2SourceVoice* g_apSourceVoice2[SOUND_LABEL_MAX] = {};	// ソースボイス
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] = 
 {
-	{"data/SOUND/BGM/title.wav"},
-	{"data/SOUND/BGM/game.wav"},
-	{"data/SOUND/BGM/result.wav"},
+	{"data/SOUND/BGM/title.wav", -1},
+	{"data/SOUND/BGM/game.wav", -1},
+	{"data/SOUND/BGM/result.wav", -1},
 	{"data/SOUND/SE/saw.wav",0},						// SE 回転ノコギリ(仮置き)
 	{"data/SOUND/SE/press.wav",0},						// SE プレス機
 	{"data/SOUND/SE/fire.wav",0},						// SE バーナー
