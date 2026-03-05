@@ -18,6 +18,7 @@
 typedef enum
 {
 	GAMEOVER_RETRY = 0,
+	GAMEOVER_QUIT,
 	GAMEOVER_BLOOD1,
 	GAMEOVER_BLOOD2,
 	GAMEOVER_GAMEOVER,
@@ -37,6 +38,7 @@ typedef struct
 	D3DXVECTOR3 pos;			//ロゴの位置
 	D3DXCOLOR col;				//ロゴの色
 	GAMEOVER type;				//チームロゴのタイプ
+	bool bUse;					//どこを選択しているか
 	int Timer;					//タイマー
 	int Fream;					//フレーム
 }TeamLogo;
