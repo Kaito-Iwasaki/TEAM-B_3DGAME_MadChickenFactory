@@ -36,7 +36,7 @@
 #define ANGLE_DAMPINGFUNCTION	(0.1f)						// 角度の減衰係数
 #define PLAYER_GRAVITY			(0.85f)						// 重力
 #define ONEPLAYER_MODELPAS		"data\\motion_muneo.txt"	// プレイヤーモデルへのパス
-#define TWOPLAYER_MODELPAS		"data\\motion_muneo.txt"	// プレイヤーモデルへのパス
+#define TWOPLAYER_MODELPAS		"data\\motion_momoko.txt"	// プレイヤーモデルへのパス
 #define DEATHLINE				(-500.0f)					// 落下死亡判定の高さ
 #define PLAYER_BETWEEN			(3000.0f)					// プレイヤー間の最大距離
 //#define CHARACTER_TXTNAME		"data\\character.txt"		// キャラクターテキストファイル
@@ -286,7 +286,7 @@ void UpdatePlayer(void)
 				{// フェード状態ではない
 
 					// フェード処理(ゲーム画面に移行)
-					SetFade(MODE_GAMEOVER);
+					SetFade(MODE_GAME);
 				}
 			}
 		}
