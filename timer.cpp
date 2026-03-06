@@ -211,6 +211,9 @@ void DrawTimer(void)
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_3D);
 
+	DWORD dwLightState;
+	pDevice->GetRenderState(D3DRS_LIGHTING, &dwLightState);
+
 	for (int nSetTimer = 0; nSetTimer < TIMER_SET_MAX; nSetTimer++)
 	{
 		if (g_aTimer[nSetTimer].bUse == false) continue;
@@ -239,7 +242,7 @@ void DrawTimer(void)
 				(nSetTimer * MAX_PLACE + nCntTimer) * 4,
 				2);
 
-			pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+			pDevice->SetRenderState(D3DRS_LIGHTING, dwLightState);
 			//アルファテスト有効
 			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
