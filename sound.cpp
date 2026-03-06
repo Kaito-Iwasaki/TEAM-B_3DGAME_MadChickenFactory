@@ -171,6 +171,8 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 	{"data/SOUND/SE/decision.wav",0},					// SE 決定音
 	{"data/SOUND/SE/switch.wav",0},						// SE スイッチ音
 	{"data/SOUND/SE/footsteps.wav",0},					// SE 足音
+	{"data/SOUND/SE/died00.wav",0},						// SE 死亡（P1）
+	{"data/SOUND/SE/died01.wav",0},						// SE 死亡（P2）
 };
 
 //=============================================================================
