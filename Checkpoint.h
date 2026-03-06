@@ -62,6 +62,10 @@ void SetCheckpoint(D3DXVECTOR3 pos);
 // チェックポイント[nCheckpoint]の位置へ移動します。
 void MoveToCheckpointPos(D3DXVECTOR3* pOut, int nCheckpoint);
 
+// チェックポイント番号取得処理
+// 現在のチェックポイント番号を取得します。
+int GetCurrentCheckpoint(void);
+
 // チェックポイント位置取得処理
 // 現在のチェックポイントの位置を取得します。
 D3DXVECTOR3 GetCurrentCheckpointPos(void);

@@ -105,6 +105,7 @@ void UpdateCheckpoint(void)
 		if (nPassedPlayers == MAX_PLAYER)
 		{
 			g_nCurrentCheckpoint = nCheckpoint;
+			break;
 		}
 	}
 
@@ -191,6 +192,15 @@ void SetCheckpoint(D3DXVECTOR3 pos)
 void MoveToCheckpointPos(D3DXVECTOR3* pOut, int nCheckpoint)
 {
 	*pOut = g_aCheckpoints[g_nCurrentCheckpoint].pos;
+}
+
+//=====================================================================
+// チェックポイント番号取得処理
+// 現在のチェックポイント番号を取得します。
+//=====================================================================
+int GetCurrentCheckpoint(void)
+{
+	return g_nCurrentCheckpoint;
 }
 
 //=====================================================================
