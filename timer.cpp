@@ -78,7 +78,6 @@ void InitTimer(void)
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 	//テクスチャ4枚分
 
-	g_nTimerCount = 0;
 	g_nCounterStateTimer = 0;
 
 	// 頂点バッファをロックし、頂点情報へのポインタを取得
@@ -122,8 +121,6 @@ void InitTimer(void)
 		}
 	}
 	g_pVtxBuffTimer->Unlock();
-
-	SetTimerCount(300);
 }
 
 //=====================================================================
