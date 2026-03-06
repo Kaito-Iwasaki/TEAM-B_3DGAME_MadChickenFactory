@@ -428,7 +428,6 @@ WALLSET
 	BLOCK = 2 1
 	SIZE = 105 1000
 END_WALLSET
-
 #------------------------------------------------------------------------------
 # ステージ2
 #------------------------------------------------------------------------------
@@ -570,31 +569,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 8895 0 490
-	ROT = 0 90 0
-	BLOCK = 1 2
-	SIZE = 1500 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 9022 0 1255
-	ROT = 0 180 0
-	BLOCK = 1 2
-	SIZE = 254 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 9022 0 -250
-	ROT = 0 0 0
-	BLOCK = 1 2
-	SIZE = 254 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 9150 0 490
+	POS = 8900 0 490
 	ROT = 0 -90 0
 	BLOCK = 1 2
 	SIZE = 1500 500
@@ -608,7 +583,7 @@ END_WALLSET
 # ステージ	床
 #------------------------------------------------------------------------------
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 9745 0 1375
 	ROT = 0 0 0
@@ -616,7 +591,7 @@ END_WALLSET
 	SIZE = 1700 250
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 10722.5 0  1200
 	ROT = 0 0 0
@@ -624,7 +599,7 @@ END_FIELDSET
 	SIZE = 255 600
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 10100 0 775
 	ROT = 0 0 0
@@ -632,7 +607,7 @@ END_FIELDSET
 	SIZE = 1500 250
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 9480 0  575
 	ROT = 0 0 0
@@ -640,7 +615,7 @@ END_FIELDSET
 	SIZE = 255 150
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 10100 0 375
 	ROT = 0 0 0
@@ -1080,7 +1055,7 @@ END_GOALSET
 #----------------------------------------
 
 CHECKPOINTSET
-	POS = -750 0 0
+	POS = -2000 0 0
 END_CHECKPOINTSET
 
 #----------------------------------------
@@ -1188,65 +1163,6 @@ END_TIMERSET
 #----------------------------------------
 
 #----------------------------------------
-# ステージ2
-#----------------------------------------
-
-CONVEYERSET
-	POS = 9747 0 1375
-	ROT = 0 90 0 
-	ONMOVE = 5 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 250 1700 
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 10724 0  1200
-	ROT = 0 0 0 
-	ONMOVE = 0 0 -5
-	OFFMOVE = 0 0 0
-	SIZE = 255 600
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 10225 0 775
-	ROT = 0 90 0 
-	ONMOVE = -5 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 250 1250 
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 9472 0  700
-	ROT = 0 0 0 
-	ONMOVE = 0 0 -5
-	OFFMOVE = 0 0 0
-	SIZE = 255 400
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 10100 0 375
-	ROT = 0 90 0 
-	ONMOVE = 5 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 250 1500 
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-#----------------------------------------
 # ステージ３
 #----------------------------------------
 
@@ -1272,33 +1188,30 @@ END_CONVEYERSET
 
 SAWSET
 	ID = 101
-	MOVEID = 101
-	POS = 13750 0 400
+	POS = 14600 0 400
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
-	RANGE = 0 -500 0
+	RANGE = 0 0 0
 END_SAWSET
 
 SAWSET
 	ID = 101
-	MOVEID = 101
-	POS = 13750 0 500
+	POS = 14600 0 500
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
-	RANGE = 0 -500 0
+	RANGE = 0 0 0
 END_SAWSET
 
 
 SAWSET
 	ID = 101
-	MOVEID = 101
-	POS = 13750 0 600
+	POS = 14600 0 600
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
-	RANGE = 0 -500 0
+	RANGE = 0 0 0
 END_SAWSET
 
 #----------------------------------------
@@ -1327,63 +1240,311 @@ END_PRESSSET
 # ステージ2
 #----------------------------------------
 
+#---------------------------------
+# １列目
+#---------------------------------
 
+FIRESET
+	ID = 301
+	POS = 9200 0 1465
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9200 0 1380
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9200 0 1300
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+#---------------------------------
+# ２列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 9600 0 1465
+	STATE = 2
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9600 0 1380
+	STATE = 2
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9600 0 1300
+	STATE = 2
+	FIRESTATE = 2
+END_FIRESET
+
+#---------------------------------
+# ３列目
+#---------------------------------
+
+FIRESET
+	ID = 302
+	POS = 10000 0 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 302
+	POS = 10000 0 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 302
+	POS = 10000 0 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ４列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10400 0 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10400 0 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10400 0 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ５列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10620 0 1050
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10720 0 1050
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10820 0 1050
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ６列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10185 0 865
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10185 0 770
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10185 0 680
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ７列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9800 0 865
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 0 770
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 0 680
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ８列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9390 0 575
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9480 0 575
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9565 0 575
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ９列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10000 0 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10000 0 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10000 0 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# １０列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10400 0 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10400 0 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10400 0 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
 
 #----------------------------------------
 # ステージ３
 #----------------------------------------
 
 FIRESET
-	ID = 310
+	ID = 302
 	POS = 12900 0 -240
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 310
+	ID = 302
 	POS = 12900 0 -320
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 310
+	ID = 302
 	POS = 12900 0 -400
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 310
+	ID = 302
 	POS = 12900 0 -475
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 303
 	POS = 13950 0 -240
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 303
 	POS = 13950 0 -320
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 303
 	POS = 13950 0 -400
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 303
 	POS = 13950 0 -475
 	STATE = 1
 	FIRESTATE = 2
@@ -1467,23 +1628,7 @@ END_LIFTSET
 
 PROMPTSET
 	ID = 101
-	POS = 13500 0 -275
-	SIZE = 50 50 
-END_PROMPTSET
-
-#----------------------------------------------
-# 対応ギミック：ステージ2のガスバーナー
-#----------------------------------------------
-
-1PROMPTSET
-	ID = 301
-	POS = 9600 0 -300
-	SIZE = 50 50 
-END_PROMPTSET
-
-1PROMPTSET
-	ID = 302
-	POS = 9600 0 -300
+	POS = 13325 0 -335
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1492,14 +1637,14 @@ END_PROMPTSET
 #----------------------------------------------
 
 PROMPTSET
-	ID = 310
-	POS = 13500 0 -275
+	ID = 302
+	POS = 13325 0 -335
 	SIZE = 50 50 
 END_PROMPTSET
 
 
 PROMPTSET
-	ID = 311
+	ID = 303
 	POS = 13870 0 1360
 	SIZE = 50 50 
 END_PROMPTSET
@@ -1536,7 +1681,7 @@ END_PROMPTSET
 
 PROMPTSET
 	ID = 503
-	POS = 18095 100 850
+	POS = 17820 0 720
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1733,7 +1878,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 21
-	POS = 13535 0 -380
+	POS = 13325 0 -380
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1762,8 +1907,8 @@ END_MODELSET
 
 MODELSET
 	TYPE = 21
-	POS = 18095 100 850
-	ROT = 90 180 0
+	POS = 17800 0 625
+	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
@@ -1800,5 +1945,7 @@ END_MODELSET
 		WAIT = 60
 	END_ROUTINESET
 END_ENEMYSET
+
+
 
 END_SCRIPT		# この行は絶対消さないこと！

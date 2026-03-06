@@ -1080,7 +1080,7 @@ END_GOALSET
 #----------------------------------------
 
 CHECKPOINTSET
-	POS = -750 0 0
+	POS = -2000 0 0
 END_CHECKPOINTSET
 
 #----------------------------------------
@@ -1327,7 +1327,521 @@ END_PRESSSET
 # ÉXÉeÅ[ÉW2
 #----------------------------------------
 
+#---------------------------------
+# ÇPóÒñ⁄
+#---------------------------------
 
+FIRESET
+	ID = 301
+	POS = 9500 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9500 -60 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9500 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ÇQóÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 9600 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9600 -60 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9600 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ÇRóÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 302
+	POS = 9700 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 302
+	POS = 9700 -60 1380
+	STATE = 1
+	FIRESTATE =1
+END_FIRESET
+
+FIRESET
+	ID = 302
+	POS = 9700 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ÇSóÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# ÇTóÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 6óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 7óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10100 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10100 -60 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10100 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 8óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10200 -60 1465
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10200 -60 1380
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10200 -60 1300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+
+#---------------------------------
+# 9óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10900 75 1150
+	ROT = 90 -90 0
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10900 175 1150
+	ROT = 90 -90 0
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 10óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10620 -60 895
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10720 -60 800
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10820 -60 700
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 11óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 865
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 770
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 680
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 12óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 865
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 770
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 680
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 13óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 865
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 770
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 680
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 14óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9125 75 715
+	ROT = 90 90 0
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9125 175 715
+	ROT = 90 90 0
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 15óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9390 -60 300
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9480 -60 365
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9560 -60 460
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 16óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10000 -60 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10000 -60 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10000 -60 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 17óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10100 -60 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10100 -60 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10100 -60 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 18óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10200 -60 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10200 -60 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10200 -60 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 19óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10300 -60 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10300 -60 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10300 -60 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 20óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10400 -60 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10400 -60 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10400 -60 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+#---------------------------------
+# 21óÒñ⁄
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10500 -60 455
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10500 -60 360
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10500 -60 280
+	STATE = 1
+	FIRESTATE = 1
+END_FIRESET
 
 #----------------------------------------
 # ÉXÉeÅ[ÉWÇR
@@ -1493,7 +2007,7 @@ END_PROMPTSET
 
 PROMPTSET
 	ID = 310
-	POS = 13500 0 -275
+	POS = 13500 0 -2275
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1802,3 +2316,4 @@ END_MODELSET
 END_ENEMYSET
 
 END_SCRIPT		# Ç±ÇÃçsÇÕê‚ëŒè¡Ç≥Ç»Ç¢Ç±Ç∆ÅI
+

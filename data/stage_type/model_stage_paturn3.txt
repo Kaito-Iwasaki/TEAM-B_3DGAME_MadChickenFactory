@@ -428,7 +428,6 @@ WALLSET
 	BLOCK = 2 1
 	SIZE = 105 1000
 END_WALLSET
-
 #------------------------------------------------------------------------------
 # ステージ2
 #------------------------------------------------------------------------------
@@ -570,31 +569,7 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 8895 0 490
-	ROT = 0 90 0
-	BLOCK = 1 2
-	SIZE = 1500 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 9022 0 1255
-	ROT = 0 180 0
-	BLOCK = 1 2
-	SIZE = 254 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 9022 0 -250
-	ROT = 0 0 0
-	BLOCK = 1 2
-	SIZE = 254 500
-END_WALLSET
-
-WALLSET
-	TEXTYPE = 3
-	POS = 9150 0 490
+	POS = 8900 0 490
 	ROT = 0 -90 0
 	BLOCK = 1 2
 	SIZE = 1500 500
@@ -608,7 +583,7 @@ END_WALLSET
 # ステージ	床
 #------------------------------------------------------------------------------
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 9745 0 1375
 	ROT = 0 0 0
@@ -616,7 +591,7 @@ END_WALLSET
 	SIZE = 1700 250
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 10722.5 0  1200
 	ROT = 0 0 0
@@ -624,7 +599,7 @@ END_FIELDSET
 	SIZE = 255 600
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 10100 0 775
 	ROT = 0 0 0
@@ -632,7 +607,7 @@ END_FIELDSET
 	SIZE = 1500 250
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 9480 0  575
 	ROT = 0 0 0
@@ -640,7 +615,7 @@ END_FIELDSET
 	SIZE = 255 150
 END_FIELDSET
 
-1FIELDSET
+FIELDSET
 	TEXTYPE = 6
 	POS = 10100 0 375
 	ROT = 0 0 0
@@ -1080,7 +1055,7 @@ END_GOALSET
 #----------------------------------------
 
 CHECKPOINTSET
-	POS = -750 0 0
+	POS = -2000 0 0
 END_CHECKPOINTSET
 
 #----------------------------------------
@@ -1188,65 +1163,6 @@ END_TIMERSET
 #----------------------------------------
 
 #----------------------------------------
-# ステージ2
-#----------------------------------------
-
-CONVEYERSET
-	POS = 9747 0 1375
-	ROT = 0 90 0 
-	ONMOVE = 5 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 250 1700 
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 10724 0  1200
-	ROT = 0 0 0 
-	ONMOVE = 0 0 -5
-	OFFMOVE = 0 0 0
-	SIZE = 255 600
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 10225 0 775
-	ROT = 0 90 0 
-	ONMOVE = -5 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 250 1250 
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 9472 0  700
-	ROT = 0 0 0 
-	ONMOVE = 0 0 -5
-	OFFMOVE = 0 0 0
-	SIZE = 255 400
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-CONVEYERSET
-	POS = 10100 0 375
-	ROT = 0 90 0 
-	ONMOVE = 5 0 0
-	OFFMOVE = 0 0 0
-	SIZE = 250 1500 
-	ID = 0
-	STATE = 0
-	SHADOW = 0
-END_CONVEYERSET
-
-#----------------------------------------
 # ステージ３
 #----------------------------------------
 
@@ -1256,7 +1172,7 @@ CONVEYERSET
 	ONMOVE = 50 0 0
 	OFFMOVE = 10 0 0
 	SIZE = 300 1700 
-	ID = 0
+	ID = 5
 	STATE = 0
 	SHADOW = 0
 END_CONVEYERSET
@@ -1271,34 +1187,31 @@ END_CONVEYERSET
 
 
 SAWSET
-	ID = 101
-	MOVEID = 101
-	POS = 13750 0 400
+	ID = 2
+	POS = 14600 0 400
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
-	RANGE = 0 -500 0
+	RANGE = 0 0 0
 END_SAWSET
 
 SAWSET
-	ID = 101
-	MOVEID = 101
-	POS = 13750 0 500
+	ID = 2
+	POS = 14600 0 500
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
-	RANGE = 0 -500 0
+	RANGE = 0 0 0
 END_SAWSET
 
 
 SAWSET
-	ID = 101
-	MOVEID = 101
-	POS = 13750 0 600
+	ID = 2
+	POS = 14600 0 600
 	ROT = 0 0 0
 	STARTUP = 1
 	TIME = 100
-	RANGE = 0 -500 0
+	RANGE = 0 0 0
 END_SAWSET
 
 #----------------------------------------
@@ -1310,7 +1223,7 @@ END_SAWSET
 #----------------------------------------
 
 PRESSSET
-	ID = 201
+	ID = 0
 	POS = 17150 500 675
 	ROT = 0 0 0
 	WIDTH = 500
@@ -1327,67 +1240,103 @@ END_PRESSSET
 # ステージ2
 #----------------------------------------
 
+FIRESET
+	ID = 9
+	POS = 9000 0 525
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
 
+FIRESET
+	ID = 9
+	POS = 9100 0 525
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 9
+	POS = 9200 0 525
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
+
+FIRESET
+	ID = 9
+	POS = 9300 0 525
+	STATE = 1
+	FIRESTATE = 2
+END_FIRESET
 
 #----------------------------------------
 # ステージ３
 #----------------------------------------
 
 FIRESET
-	ID = 310
+	ID = 2
 	POS = 12900 0 -240
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 310
+	ID = 2
 	POS = 12900 0 -320
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 310
+	ID = 2
 	POS = 12900 0 -400
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 310
+	ID = 2
 	POS = 12900 0 -475
 	STATE = 1
 	FIRESTATE = 1
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 6
 	POS = 13950 0 -240
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 6
 	POS = 13950 0 -320
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 6
 	POS = 13950 0 -400
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
 
 FIRESET
-	ID = 311
+	ID = 6
 	POS = 13950 0 -475
 	STATE = 1
 	FIRESTATE = 2
 END_FIRESET
+
+#----------------------------------------
+# 動かせる箱
+#----------------------------------------
+
+MOVEBOXSET
+ 	POS = 5500 -300 560
+ 	ROT = 0 0 0
+ 	RANGE = 0 0 740
+ END_MOVEBOXSET
 
 #----------------------------------------
 # ゲート
@@ -1397,12 +1346,79 @@ END_FIRESET
 	POS = -700 0 0
 	ROT = 0 0 0
 	COLLISION = 1
-	ID = 401
+	ID = 0
 	GOUP = 0
 	MOVEWIDTH = 300
 	STATE = 1
 	SHADOW = 0
 END_GATESET
+
+#----------------------------------------
+# タイマー
+#----------------------------------------
+
+#----------------------------------------
+# 区間１(廊下→ステージ１→廊下)
+#----------------------------------------
+
+TIMERSET
+	POS = -750 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 1250 500 900
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 3220 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+
+#----------------------------------------
+# 区間２(廊下→ステージ２)
+#----------------------------------------
+
+TIMERSET
+	POS = 7850 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 9790 500 1450
+	SIZE = 200 200 
+END_TIMERSET
+
+
+#----------------------------------------
+# 区間３(廊下→ステージ３)
+#----------------------------------------
+
+TIMERSET
+	POS = 11700 500 450
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 13700 500 1450
+	SIZE = 200 200 
+END_TIMERSET
+
+#----------------------------------------
+# 区間４(廊下→ステージ４)
+#----------------------------------------
+
+TIMERSET
+	POS = 17500 500 840
+	SIZE = 200 200 
+END_TIMERSET
+
+TIMERSET
+	POS = 15700 500 450
+	SIZE = 200 200 
+END_TIMERSET
 
 #----------------------------------------
 # リフト
@@ -1413,7 +1429,7 @@ END_GATESET
 #----------------------------------------
 
 LIFTSET
-	ID = 501
+	ID = 0
 	POS = 500 -10 -250
 	ROT = 0 0 0 
 	RANGE = 1400 0 0
@@ -1422,7 +1438,7 @@ END_LIFTSET
 
 
 LIFTSET
-	ID = 501
+	ID = 0
 	POS = 1900 -10 750
 	ROT = 0 0 0 
 	RANGE = -1400 0 0
@@ -1434,7 +1450,7 @@ END_LIFTSET
 #----------------------------------------
 
 LIFTSET
-	ID = 502
+	ID = 7
 	POS = 16450 10 325
 	ROT = 0 0 0 
 	RANGE = 0 500 0
@@ -1442,7 +1458,7 @@ LIFTSET
 END_LIFTSET
 
 LIFTSET
-	ID = 503
+	ID = 8
 	POS = 18095 -10 690
 	ROT = 0 0 0 
 	RANGE = 0 0 -1000
@@ -1450,7 +1466,7 @@ LIFTSET
 END_LIFTSET
 
 LIFTSET
-	ID = 503
+	ID = 8 
 	POS = 18431.755 500 -305
 	ROT = 0 0 0 
 	RANGE = 0 -515 0
@@ -1458,32 +1474,32 @@ LIFTSET
 END_LIFTSET
 
 #----------------------------------------
-# プロンプト(ID順)
+# プロンプト
 #----------------------------------------
 
+#----------------------------------------------
+# 対応ギミック：ステージ1のリフト
+#----------------------------------------------
+
+PROMPTSET
+	ID = 0
+	POS = 0 100 200
+	SIZE = 50 50 
+END_PROMPTSET
+
+PROMPTSET
+	ID = 0
+	POS = 2100 100 200
+	SIZE = 50 50 
+END_PROMPTSET
+
 #------------------------------------------------------------
-# 対応ギミック：ステージ３の回転のこぎり
+# 対応ギミック：ステージ３の回転のこぎり・ガスバーナー(入口)
 #------------------------------------------------------------
 
 PROMPTSET
-	ID = 101
-	POS = 13500 0 -275
-	SIZE = 50 50 
-END_PROMPTSET
-
-#----------------------------------------------
-# 対応ギミック：ステージ2のガスバーナー
-#----------------------------------------------
-
-1PROMPTSET
-	ID = 301
-	POS = 9600 0 -300
-	SIZE = 50 50 
-END_PROMPTSET
-
-1PROMPTSET
-	ID = 302
-	POS = 9600 0 -300
+	ID = 2
+	POS = 13325 0 -335
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1492,31 +1508,8 @@ END_PROMPTSET
 #----------------------------------------------
 
 PROMPTSET
-	ID = 310
-	POS = 13500 0 -275
-	SIZE = 50 50 
-END_PROMPTSET
-
-
-PROMPTSET
-	ID = 311
+	ID = 6
 	POS = 13870 0 1360
-	SIZE = 50 50 
-END_PROMPTSET
-
-#----------------------------------------------
-# 対応ギミック：ステージ1のリフト
-#----------------------------------------------
-
-PROMPTSET
-	ID = 501
-	POS = 0 100 200
-	SIZE = 50 50 
-END_PROMPTSET
-
-PROMPTSET
-	ID = 501
-	POS = 2100 100 200
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1525,7 +1518,7 @@ END_PROMPTSET
 #----------------------------------------------
 
 PROMPTSET
-	ID = 502
+	ID = 7
 	POS = 17240 0 -300
 	SIZE = 50 50 
 END_PROMPTSET
@@ -1535,10 +1528,11 @@ END_PROMPTSET
 #----------------------------------------------
 
 PROMPTSET
-	ID = 503
-	POS = 18095 100 850
+	ID = 8
+	POS = 17820 0 720
 	SIZE = 50 50 
 END_PROMPTSET
+
 
 #----------------------------------------
 # モデル情報(モデル番号順に記載)
@@ -1733,7 +1727,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 21
-	POS = 13535 0 -380
+	POS = 13325 0 -380
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
@@ -1762,8 +1756,8 @@ END_MODELSET
 
 MODELSET
 	TYPE = 21
-	POS = 18095 100 850
-	ROT = 90 180 0
+	POS = 17800 0 625
+	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
@@ -1800,5 +1794,7 @@ END_MODELSET
 		WAIT = 60
 	END_ROUTINESET
 END_ENEMYSET
+
+
 
 END_SCRIPT		# この行は絶対消さないこと！
