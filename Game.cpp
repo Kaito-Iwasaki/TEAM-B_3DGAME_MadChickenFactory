@@ -308,6 +308,9 @@ void DrawGame(void)
 
 void ReloadGame(void)
 {
+	// リロードするオブジェクトの終了処理
+	// スクリプトから変更があった場合にここでリロードするため
+	// なのでスクリプトで変更しないものについては初期化・終了しなくてOK
 	UninitField();			// フィールド
 	UninitWall();			// 壁
 	UninitModel();			// モデル
@@ -321,10 +324,12 @@ void ReloadGame(void)
 	UninitLift();			// リフト
 	UninitEnemy();			// 敵
 	UninitShadow();			// 影
-	UninitTimer();
+	UninitGate();
+	UninitTimer();			// タイマー
 	UninitCheckpoint();		// チェックポイント
 	ReleaseLoadedTexture();
 
+	// リロードするオブジェクトの初期化処理処理
 	InitField();			// フィールド
 	InitWall();				// 壁
 	InitModel();			// モデル
@@ -337,7 +342,8 @@ void ReloadGame(void)
 	InitConveyer();			// コンベア
 	InitLift();				// リフト
 	InitEnemy();			// 敵
-	InitTimer();
+	InitGate();
+	InitTimer();			// タイマー
 	InitShadow();			// 影
 	InitCheckpoint();		// チェックポイント
 
