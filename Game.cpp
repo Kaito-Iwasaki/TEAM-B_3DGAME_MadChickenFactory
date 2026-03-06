@@ -133,8 +133,6 @@ void InitGame(void)
 	int pStaet = GetTitle();		// プレイ人数情報取得
 
 	// カメラの初期設定
-	SetCameraPosR(0, GetPlayer()->pos);
-	SetCameraPosVFromAngle(0);
 	if (pStaet == 0)
 	{// 1Pプレイ
 
@@ -171,6 +169,11 @@ void InitGame(void)
 		pPlayer->pos = GetCurrentCheckpointPos();
 		pPlayer->posOld = pPlayer->pos;
 	}
+
+	// カメラ位置の設定
+	SetCameraPosR(0, GetPlayer()->pos);
+	SetCameraPosVFromAngle(0);
+	GetCamera(0)->move = GetPlayer()->pos;
 }
 
 //=====================================================================
