@@ -235,11 +235,12 @@ void CollisionGate(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, 
 {
 
 	Player* pPlayer = GetPlayer();
-	bool bHitCheck = false;
 
 	for (int nCntGate = 0; nCntGate < MAX_GATE; nCntGate++)
 	{
-		if (g_aGate[nCntGate].bUse == true)
+		if (g_aGate[nCntGate].bUse == false) continue;
+
+		for (int nPlr = 0; nPlr < MAX_PLAYER; nPlr++)
 		{
 			if ((pPlayer->pos.x <= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x) &&
 				(pPlayer->pos.x >= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x) &&
@@ -251,37 +252,29 @@ void CollisionGate(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, 
 				if (pPlayer->posOld.x >= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x)
 				{//‰E‚©‚ç
 					pPlayer->pos.x = g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x;
-					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.x <= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x)
 				{//¶‚©‚ç
 					pPlayer->pos.x = g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x;
-					bHitCheck = true;
 				}
 
 				if (pPlayer->posOld.y >= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y)
 				{//ã‚©‚ç
 					pPlayer->pos.y = g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y;
-					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.y <= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y)
 				{//‰º‚©‚ç
 					pPlayer->pos.y = g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y;
-					bHitCheck = true;
 				}
 
 				if (pPlayer->posOld.z >= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z)
 				{//‰œ‚©‚ç
 					pPlayer->pos.z = g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z;
-					bHitCheck = true;
 				}
 				else if (pPlayer->posOld.z <= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z)
 				{//Žè‘O‚©‚ç
 					pPlayer->pos.z = g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z;
-					bHitCheck = true;
 				}
-
-				
 			}
 		}
 	}
