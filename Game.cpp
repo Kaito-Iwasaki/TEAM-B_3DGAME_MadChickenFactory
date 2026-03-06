@@ -130,9 +130,6 @@ void InitGame(void)
 	// オブジェクト配置
 	_SetMap();
 
-	// タイマー設定
-	SetTimerCount(GAME_TIMER_COUNT);
-
 	int pStaet = GetTitle();		// プレイ人数情報取得
 
 	// カメラの初期設定
@@ -161,6 +158,11 @@ void InitGame(void)
 
 		// ポーズ画面からのリトライについてはリトライボタンを押した時に
 		// チェックポイントをリセットする
+	}
+
+	if (GetCurrentCheckpoint() == 0)
+	{
+		SetTimerCount(GAME_TIMER_COUNT);
 	}
 
 	Player* pPlayer = GetPlayer();
