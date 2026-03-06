@@ -81,6 +81,7 @@ void UpdateCamera(void);
 void SetCamera(int nIdx);
 CAMERA* GetCamera(int nIdx);
 void MoveCamera(int nIdx, D3DXVECTOR3 move);
+void SetCameraPos(int nIdx, D3DXVECTOR3 pos);
 void SetCameraPosV(int nIdx, D3DXVECTOR3 pos);
 void SetCameraPosR(int nIdx, D3DXVECTOR3 pos);
 void SetCameraPosVFromAngle(int nIdx);

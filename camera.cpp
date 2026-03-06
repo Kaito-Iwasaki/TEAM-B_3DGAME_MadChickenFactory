@@ -22,7 +22,7 @@
 // 
 //*********************************************************************
 #define INIT_CAMERA_ROT				D3DXVECTOR3(D3DXToRadian(-25), 0, 0)		// カメラ回転初期値
-#define INIT_CAMERA_OFFSET			D3DXVECTOR3(0, 150, 0)						// カメラオフセット初期値
+#define INIT_CAMERA_OFFSET			D3DXVECTOR3(0, 0, 0)						// カメラオフセット初期値
 #define INIT_CAMERA_DISTANCE		(1200)										// カメラ距離初期値
 #define CAMERA_PROJECTION_FOV		(45.0f)										// 最近点
 #define CAMERA_PROJECTION_MIN		(10.0f)										// 最近点
@@ -159,7 +159,7 @@ void UpdateCamera(void)
 		SetCameraPosR(0, pCamera->move);
 
 		// プレイヤーの距離に応じてカメラを離す
-		pCamera->fDistance = max(max(fabsf(vecP1ToP2.x), fabsf(vecP1ToP2.z) * 1.3f), INIT_CAMERA_DISTANCE);
+		pCamera->fDistance = max(Magnitude(vecP1ToP2), INIT_CAMERA_DISTANCE);
 
 		// カメラの視点を設定
 		SetCameraPosVFromAngle(0);
@@ -281,6 +281,17 @@ void MoveCamera(int nIdx, D3DXVECTOR3 move)
 	// カメラの視点と注視点を同量動かす（平行移動）
 	pCamera->posV += move;
 	pCamera->posR += move;
+}
+
+//=====================================================================
+// カメラ位置の設定処理
+//=====================================================================
+void SetCameraPos(int nIdx, D3DXVECTOR3 pos)
+{
+	CAMERA* pCamera = &g_camera[nIdx];
+
+	pCamera->posV = pos;
+	pCamera->posR = pos;
 }
 
 //=====================================================================
