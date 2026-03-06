@@ -42,6 +42,7 @@ typedef enum
 #define MAX_PLAYERMOTION		(7)			// モーションの最大数
 #define MAX_PLAYERTEXTURE		(16)		// テクスチャ数
 #define MAX_PLAYER				(2)			// プレイヤー数
+#define INIT_PLAYER_POS			D3DXVECTOR3(-2000.0f, 0.0f, 950.0f)
 
 // プレイヤーの構造体の定義
 typedef struct
