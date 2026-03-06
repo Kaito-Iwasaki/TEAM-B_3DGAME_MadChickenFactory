@@ -47,6 +47,7 @@ void _Read_MODELSET(FILE* pFile, MODELSETDATA* pBuffer);
 void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer);
 void _Read_WALLSET(FILE* pFile, WALLSETDATA* pBuffer);
 void _Read_TIMERSET(FILE* pFile, TIMERSETDATA* pBuffer);
+void _Read_CHECKPOINTSET(FILE* pFile, CHECKPOINTSETDATA* pBuffer);
 void _Read_SAWSET(FILE* pFile, SAWSETDATA* pBuffer);
 void _Read_PRESSSET(FILE* pFile, PRESSSETDATA* pBuffer);
 void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer);
@@ -176,6 +177,14 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 			pBuffer->nCountTimerSet++;
 			
+		}
+		else if (strcmp(&aStrLine[0], "CHECKPOINTSET") == 0)
+		{// チェックポイント情報
+			CHECKPOINTSETDATA* pData = &pBuffer->aInfoCheckpointSet[pBuffer->nCountCheckpointSet];
+
+			_Read_CHECKPOINTSET(pFile, pData);
+
+			pBuffer->nCountCheckpointSet++;
 		}
 		else if (strcmp(&aStrLine[0], "SAWSET") == 0)
 		{// ソウセット情報読み込み
@@ -443,6 +452,33 @@ void _Read_TIMERSET(FILE* pFile, TIMERSETDATA* pBuffer)
 		}	
 	}
 }
+
+//=====================================================================
+// [CHECKPOINTSET]読み込み処理
+//=====================================================================
+void _Read_CHECKPOINTSET(FILE* pFile, CHECKPOINTSETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_CHECKPOINTSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+	}
+}
+
 //=====================================================================
 // [SAWSET]読み込み処理
 //=====================================================================

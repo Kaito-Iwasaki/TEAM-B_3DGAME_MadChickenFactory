@@ -25,6 +25,7 @@
 #include "Enemy.h"
 #include"Timer.h"
 #include "lift.h"
+#include "Checkpoint.h"
 
 //*********************************************************************
 // 
@@ -83,6 +84,15 @@ typedef struct
 	D3DXVECTOR3 pos;
 	D3DXVECTOR2 size;
 }TIMERSETDATA;
+
+//*********************************************************************
+// チェックポイント
+//*********************************************************************
+typedef struct
+{
+	D3DXVECTOR3 pos;
+}CHECKPOINTSETDATA;
+
 //*********************************************************************
 // ギミック配置情報構造体（ノコギリ）
 //*********************************************************************
@@ -256,6 +266,9 @@ typedef struct
 
 	int nCountLiftSet;
 	LIFTSETDATA aInfoLiftSet[MAX_LIFT];
+
+	int nCountCheckpointSet;
+	CHECKPOINTSETDATA aInfoCheckpointSet[MAX_CHECKPOINT];
 }MODELDATA;
 
 //*********************************************************************

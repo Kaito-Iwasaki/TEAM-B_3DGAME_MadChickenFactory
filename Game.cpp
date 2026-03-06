@@ -93,6 +93,8 @@ bool g_bFogGame = false;
 //=====================================================================
 void InitGame(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
 	// 各オブジェクトの初期化処理
 	InitCamera();			// カメラ
 	InitShadow();			// 影
@@ -117,12 +119,13 @@ void InitGame(void)
 	InitVignette();			// ビネット
 	InitEnemy();			// 敵
 	InitSEController();		// サウンドコントローラー
+	InitCheckpoint();		// チェックポイント
 
 	// フォグの初期設定
 	float FogStart = GAME_FOG_START, FogEnd = GAME_FOG_END;
-	GetDevice()->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR); // バーテックスフォグ
-	GetDevice()->SetRenderState(D3DRS_FOGSTART, *((DWORD*)(&FogStart))); // フォグ開始点
-	GetDevice()->SetRenderState(D3DRS_FOGEND, *((DWORD*)(&FogEnd))); // フォグ終了点
+	pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR); // バーテックスフォグ
+	pDevice->SetRenderState(D3DRS_FOGSTART, *((DWORD*)(&FogStart))); // フォグ開始点
+	pDevice->SetRenderState(D3DRS_FOGEND, *((DWORD*)(&FogEnd))); // フォグ終了点
 
 	// オブジェクト配置
 	_SetMap();
@@ -145,12 +148,27 @@ void InitGame(void)
 
 		GetCamera(0)->mode = CAMERAMODE_SIDEVIEW2P;
 	}
-	//GetCamera(0)->mode = CAMERAMODE_FREE;
 
 	g_bLightGame = true;
 	g_bFogGame = true;
 
+	// BGM再生
 	PlaySound(SOUND_LABEL_BGM_GAME);
+
+	if (GetPreviousMode() != MODE_GAME)
+	{// ゲーム画面からのリトライでない＝新規スタート
+		ResetCurrentCheckpoint();
+
+		// ポーズ画面からのリトライについてはリトライボタンを押した時に
+		// チェックポイントをリセットする
+	}
+
+	Player* pPlayer = GetPlayer();
+	for (int nPlayer = 0; nPlayer < MAX_PLAYER; nPlayer++, pPlayer++)
+	{// プレイヤー位置を現在のチェックポイントの位置に設定
+		pPlayer->pos = GetCurrentCheckpointPos();
+		pPlayer->posOld = pPlayer->pos;
+	}
 }
 
 //=====================================================================
@@ -180,6 +198,7 @@ void UninitGame(void)
 	UninitLift();			// リフト
 	UninitVignette();		// ビネット
 	UninitEnemy();			// 敵
+	UninitCheckpoint();		// チェックポイント
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -225,6 +244,7 @@ void UpdateGame(void)
 		UpdateVignette();		// ビネット
 		UpdateEnemy();			// 敵
 		UpdateSEController();	// サウンドコントローラー
+		UpdateCheckpoint();		// チェックポイント
 
 		// デバッグ表示
 		_DebugDisplay();
@@ -267,6 +287,7 @@ void DrawGame(void)
 	DrawEnemy();			// 敵
 	DrawEffect();			// エフェクト
 	DrawShadow();			// 影
+	DrawCheckpoint();		// チェックポイント
 
 	// フォグを無効化
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
@@ -296,6 +317,7 @@ void ReloadGame(void)
 	UninitEnemy();			// 敵
 	UninitShadow();			// 影
 	UninitTimer();
+	UninitCheckpoint();		// チェックポイント
 	ReleaseLoadedTexture();
 
 	InitField();			// フィールド
@@ -312,6 +334,7 @@ void ReloadGame(void)
 	InitEnemy();			// 敵
 	InitTimer();
 	InitShadow();			// 影
+	InitCheckpoint();		// チェックポイント
 
 	// オブジェクト配置
 	_SetMap();
@@ -388,6 +411,15 @@ void _SetMap()
 			D3DXVECTOR3(pWallData->size.x * pWallData->nBlockX, pWallData->size.y * pWallData->nBlockY, 0),
 			pWallData->rot
 		);
+	}
+
+	// チェックポイントの設定
+	SetCheckpoint(INIT_PLAYER_POS); // 初期位置を最初のチェックポイントに設定
+	for (int nCheckPoint = 0; nCheckPoint < g_modelDataGame.nCountCheckpointSet; nCheckPoint++)
+	{
+		CHECKPOINTSETDATA* pCheckpoint = &g_modelDataGame.aInfoCheckpointSet[nCheckPoint];
+
+		SetCheckpoint(pCheckpoint->pos);
 	}
 
 	// 回転ノコギリの設定

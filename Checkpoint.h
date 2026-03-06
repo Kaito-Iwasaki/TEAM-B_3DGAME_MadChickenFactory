@@ -45,6 +45,10 @@ typedef struct CHECKPOINT
 // 
 //*********************************************************************
 void InitCheckpoint(void);
+
+// ※リスタートするチェックポイントの位置は
+// 　ResetCurrentCheckpoint関数を呼ばないと
+// 　初期化されません。
 void UninitCheckpoint(void);
 void UpdateCheckpoint(void);
 void DrawCheckpoint(void);
@@ -52,7 +56,7 @@ void DrawCheckpoint(void);
 // チェックポイント設定処理
 // vec.xを超えるとその地点を現在のチェックポイントとし
 // MoveToCurrentCheckpointPosが呼ばれた時にvecに設定します。
-void SetCheckpoint(D3DXVECTOR3* pPos);
+void SetCheckpoint(D3DXVECTOR3 pos);
 
 // チェックポイント移動処理
 // チェックポイント[nCheckpoint]の位置へ移動します。
@@ -61,5 +65,13 @@ void MoveToCheckpointPos(D3DXVECTOR3* pOut, int nCheckpoint);
 // チェックポイント位置取得処理
 // 現在のチェックポイントの位置を取得します。
 D3DXVECTOR3 GetCurrentCheckpointPos(void);
+
+// チェックポイント位置取得処理
+// 次のチェックポイントの位置を取得します。
+D3DXVECTOR3 GetNextCheckpointPos(void);
+
+// 現在のチェックポイント位置初期化処理
+// リスタートするチェックポイントの位置を初期化します
+void ResetCurrentCheckpoint(void);
 
 #endif

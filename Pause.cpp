@@ -14,6 +14,7 @@
 #include "fade.h"
 #include "DebugProc.h"
 #include"SE_controller.h"
+#include "Checkpoint.h"
 //===========================================================
 // 
 //É}ÉNÉçíËã`
@@ -179,6 +180,7 @@ void UpdatePause(void)
 		}
 		else if (g_SelectModeP == PAUSE_MENU_RETRY)
 		{
+			ResetCurrentCheckpoint();
 			SetFade(MODE_GAME);
 		}
 		else if (g_SelectModeP == PAUSE_MENU_QUIT)
