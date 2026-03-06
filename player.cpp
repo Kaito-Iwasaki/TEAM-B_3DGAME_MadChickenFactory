@@ -88,6 +88,7 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].fHeight = 100.0f;								// 高さ初期化
 		g_Player[nCntPlayer].bDisableControl = false;						// 操作受け付け状態に設定
 		g_Player[nCntPlayer].bUse = true;									// 使用状態にする
+		g_Player[nCntPlayer].nIdx = nCntPlayer;
 	}
 
 	// モーションの初期化
@@ -549,6 +550,20 @@ void KillPlayer(Player *pPlayer)
 
 	// モーションの設定
 	SetMotion(&pPlayer->PlayerMotion, MOTIONTYPE_ACTION, 30);
+
+	switch (pPlayer->nIdx)
+	{
+	case 0:
+		PlaySound(SOUND_LABEL_SE_DIED00);
+		break;
+
+	case 1:
+		PlaySound(SOUND_LABEL_SE_DIED01);
+		break;
+
+	default:
+		break;
+	}
 }
 
 //=======================================================

@@ -67,6 +67,7 @@ typedef struct
 	float fHeight;											// 高さ
 	bool bDisableControl;									// 操作受け付け判定
 	bool bUse;												// 使用するかどうか
+	int nIdx;
 }Player;
 
 // プロトタイプ宣言
