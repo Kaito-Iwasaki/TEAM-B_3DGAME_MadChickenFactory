@@ -132,7 +132,9 @@ typedef struct
 	OPERATIONSTATE state;	// 状態
 	FIRESTATE firestate;	// 炎の状態
 	int nIdx;				// インデックス
-	int nCntSwitch;			// 切り替え間隔
+	int nCntSwitchOn;		// 炎ON時間
+	int nCntSwitchReady;	// 炎準備時間
+	int nCntSwitchOff;		// 炎OFF時間
 	int nLife;				// 寿命
 	bool bShadow;			// 影の有無
 }FIRESETDATA;

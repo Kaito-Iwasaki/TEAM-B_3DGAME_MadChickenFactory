@@ -76,7 +76,10 @@ void InitFire(void)
 		g_aflamethrower[nCntFire].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向きの初期化
 		g_aflamethrower[nCntFire].state = OPERATIONSTATE_NONE;				// 状態の初期化
 		g_aflamethrower[nCntFire].fireCounter = 0;							// 炎カウンター初期化
-		g_aflamethrower[nCntFire].nCntSwitch = 0;							// 炎切り替え間隔初期化
+		g_aflamethrower[nCntFire].nCntSwitchOn = 0;							// 炎On間隔初期化
+		g_aflamethrower[nCntFire].nCntSwitchReady = 0;						// 炎Ready間隔初期化
+		g_aflamethrower[nCntFire].nCntSwitchOff = 0;						// 炎Off間隔初期化
+
 		g_aflamethrower[nCntFire].bUse = false;								// 使用していない状態にする
 		g_aFire[nCntFire].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				// 位置初期化
 		g_aFire[nCntFire].nSwitching = 1;									// 炎の切り替え順番初期化
@@ -165,8 +168,10 @@ void UpdateFire(void)
 
 				pFlamethrower->fireCounter++;		// 炎カウンター加算
 
-				if (pFlamethrower->fireCounter > pFlamethrower->nCntSwitch)
-				{// 炎をONOFFの切り替え
+				if (pFlamethrower->fireCounter > pFlamethrower->nCntSwitchOn && pFire->state == FIRESTATE_ON 
+					|| pFlamethrower->fireCounter > pFlamethrower->nCntSwitchOff && pFire->state == FIRESTATE_OFF
+					|| pFlamethrower->fireCounter > pFlamethrower->nCntSwitchReady && pFire->state == FIRESTATE_READY)
+				{// 炎をON/OFF切り替え
 					
 					if (pFire->state == FIRESTATE_ON)
 					{// OFFにする
@@ -266,17 +271,19 @@ void DrawFire(void)
 //=====================================================================
 // 火炎放射器の設定
 //=====================================================================
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx, int nCntSwitch, int nLife)
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx, int nCntSwitchOn, int nCntSwitchReady, int nCntSwitchOff, int nLife)
 {
 	for (int nCntFlamethrower = 0; nCntFlamethrower < MAX_FIRE; nCntFlamethrower++)
 	{
 		if (g_aflamethrower[nCntFlamethrower].bUse == false)
 		{
-			g_aflamethrower[nCntFlamethrower].pos = pos;						// 位置
-			g_aflamethrower[nCntFlamethrower].rot = rot;						// 向き
-			g_aflamethrower[nCntFlamethrower].nCntSwitch = nCntSwitch;			// 炎切り替え間隔
-			g_aflamethrower[nCntFlamethrower].state = state;					// 状態
-			g_aflamethrower[nCntFlamethrower].bUse = true;						// 使用している状態にする
+			g_aflamethrower[nCntFlamethrower].pos = pos;							// 位置
+			g_aflamethrower[nCntFlamethrower].rot = rot;							// 向き
+			g_aflamethrower[nCntFlamethrower].nCntSwitchOn = nCntSwitchOn;			// 炎On間隔
+			g_aflamethrower[nCntFlamethrower].nCntSwitchReady = nCntSwitchReady;	// 炎Ready間隔
+			g_aflamethrower[nCntFlamethrower].nCntSwitchOff = nCntSwitchOff;		// 炎Off間隔
+			g_aflamethrower[nCntFlamethrower].state = state;						// 状態
+			g_aflamethrower[nCntFlamethrower].bUse = true;							// 使用している状態にする
 			g_aflamethrower[nCntFlamethrower].nSoundIdx = SetSoundSpot(pos, SOUND_LABEL_SE_FIRE);	// サウンドスポット設定
 
 			// ブロックの幅と奥行の設定

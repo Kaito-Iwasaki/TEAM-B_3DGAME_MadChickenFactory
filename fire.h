@@ -82,7 +82,9 @@ typedef struct
 	float fDepMax;									// 奥行の最大値
 	float fDepMin;									// 奥行の最小値
 	int fireCounter;								// 炎の切り替え間隔カウンター
-	int nCntSwitch;									// 炎切り替え間隔
+	int nCntSwitchOn;								// 炎ON時間
+	int nCntSwitchReady;							// 炎準備時間
+	int nCntSwitchOff;								// 炎OFF時間
 	bool bUse;										// 使用しているかどうか
 
 	int nSoundIdx;			// 使用するサウンドスポットのインデックス
@@ -108,7 +110,7 @@ void InitFire(void);
 void UninitFire(void);
 void UpdateFire(void);
 void DrawFire(void);
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx, int nCntSwitch, int nLife);
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx, int nCntSwitchOn, int nCntSwitchReady, int nCntSwitchOff, int nLife);
 void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state, int nCnt, int nLife);
 void SetFlamethrowerWidthAndDepth(int nIdx);
 void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius, bool* bJump, float* pStandPos);
