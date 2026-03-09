@@ -82,6 +82,7 @@ typedef struct
 	float fDepMax;									// 奥行の最大値
 	float fDepMin;									// 奥行の最小値
 	int fireCounter;								// 炎の切り替え間隔カウンター
+	int nCntSwitch;									// 炎切り替え間隔
 	bool bUse;										// 使用しているかどうか
 
 	int nSoundIdx;			// 使用するサウンドスポットのインデックス
@@ -94,6 +95,7 @@ typedef struct
 	int nIdx;				// インデックス
 	int nSwitching;			// 炎の切り替え値
 	FIRESTATE state;		// 炎状態
+	int nLife;				// エフェクトの寿命
 	bool bUse;				// 使用しているかどうか
 }FIRE;
 
@@ -106,8 +108,8 @@ void InitFire(void);
 void UninitFire(void);
 void UpdateFire(void);
 void DrawFire(void);
-void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx);
-void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state, int nCnt);
+void SetFlamethrower(D3DXVECTOR3 pos, D3DXVECTOR3 rot, OPERATIONSTATE state, FIRESTATE firestate, int nIdx, int nCntSwitch, int nLife);
+void SetFire(SETFIREMODE setfiremode, int nIdx, D3DXVECTOR3 pos, FIRESTATE state, int nCnt, int nLife);
 void SetFlamethrowerWidthAndDepth(int nIdx);
 void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
 bool CollisionFire(D3DXVECTOR3 pPlayerPos, D3DXVECTOR3 PlayerSize, D3DXVECTOR3 pFirePos, D3DXVECTOR3 FireSize);

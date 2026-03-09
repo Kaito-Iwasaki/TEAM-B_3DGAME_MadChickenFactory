@@ -643,6 +643,14 @@ void _Read_FIRESET(FILE* pFile, FIRESETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %d", &pBuffer->nIdx);
 		}
+		else if (strcmp(&aStrLine[0], "SWITCH") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nCntSwitch);
+		}
+		else if (strcmp(&aStrLine[0], "LIFE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nLife);
+		}
 	}
 }
 

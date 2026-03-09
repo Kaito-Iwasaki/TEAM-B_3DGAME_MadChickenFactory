@@ -459,7 +459,7 @@ void _SetMap()
 	{
 		FIRESETDATA* pFireData = &g_modelDataGame.aInfoFireSet[nCntFire];
 
-		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state, pFireData->firestate, pFireData->nIdx);
+		SetFlamethrower(pFireData->pos, pFireData->rot, pFireData->state, pFireData->firestate, pFireData->nIdx, pFireData->nCntSwitch, pFireData->nLife);
 	}
 
 	// ƒvƒƒ“ƒvƒg‚ÌÝ’è
