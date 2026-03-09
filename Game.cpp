@@ -49,6 +49,7 @@
 #include "team_logo.h"
 #include "Checkpoint.h"
 #include "guide.h"
+#include "guide_limit.h"
 
 //*********************************************************************
 // 
@@ -122,6 +123,7 @@ void InitGame(void)
 	InitSEController();		// サウンドコントローラー
 	InitCheckpoint();		// チェックポイント
 	InitGuide();			// 操作ガイト表示
+	InitGuide_Limit();		// 距離制限ガイド表示
 
 	// フォグの初期設定
 	float FogStart = GAME_FOG_START, FogEnd = GAME_FOG_END;
@@ -207,6 +209,7 @@ void UninitGame(void)
 	UninitEnemy();			// 敵
 	UninitCheckpoint();		// チェックポイント
 	UninitGuide();			// 操作ガイト表示
+	UninitGuide_Limit();	// 距離制限ガイド表示
 
 	// テクスチャの解放
 	ReleaseLoadedTexture();
@@ -254,6 +257,7 @@ void UpdateGame(void)
 		UpdateSEController();	// サウンドコントローラー
 		UpdateCheckpoint();		// チェックポイント
 		UpdateGuide();			// 操作ガイド表示
+		UpdateGuide_Limit();	// 距離制限ガイド表示
 
 		// デバッグ表示
 		_DebugDisplay();
@@ -305,6 +309,7 @@ void DrawGame(void)
 	DrawPrompt();			// プロンプト
 	DrawVignette();			// ビネット
 	DrawGuide();			// 操作ガイド表示
+	DrawGuide_Limit();		// 距離制限ガイド表示
 	DrawPause();			// ポーズ
 
 	// フォグを元の状態に戻す
