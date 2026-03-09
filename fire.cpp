@@ -202,20 +202,6 @@ void UpdateFire(void)
 				break;
 			}
 		}
-
-		if (pFlamethrower->bUse == true)
-		{// 設置している
-
-			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-			{
-				// オブジェクトの当たり判定処理
-				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos,
-												g_aflamethrower[nCntFire].pos,
-												g_aFireModelData.vtxMin,
-												g_aFireModelData.vtxMax,
-												pPlayer[nCntPlayer].fStandPos);
-			}
-		}
 	}
 }
 
@@ -401,7 +387,7 @@ void SetFlamethrowerWidthAndDepth(int nIdx)
 //=======================================================
 // 火炎放射器との当たり判定処理
 //=======================================================
-void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius, bool *bJump)
+void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius, bool *bJump, float *pStandPos)
 {
 	FLAMETHROWER* pFlamethrower = &g_aflamethrower[0];		// 火炎放射器情報のポインタ
 	bool bLand = false;										// 着地したかどうか
@@ -515,6 +501,7 @@ void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3*
 
 		pPos->y = g_aflamethrower[nCount].pos.y + g_aFireModelData.vtxMax.y;		// ブロックの上に立たせる
 		pMove->y = 0.0f;															// 移動量を0にする
+		*pStandPos = pPos->y;														// 立っている位置更新
 
 		*bJump = false;			// ジャンプしていない状態にする
 	}

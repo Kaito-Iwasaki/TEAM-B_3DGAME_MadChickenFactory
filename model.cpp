@@ -80,25 +80,6 @@ void UninitModel(void)
 //=====================================================================
 void UpdateModel(void)
 {
-	Player* pPlayer = GetPlayer();		// プレイヤー情報の取得処理
-
-	for (int nCntModel = 0; nCntModel < MAX_MODEL; nCntModel++)
-	{
-		if (g_aModel[nCntModel].bUsed == true)
-		{// 使用している
-
-			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-			{
-				// オブジェクトの当たり判定処理
-				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos, 
-												g_aModel[nCntModel].transform.pos, 
-												g_aMeshData[g_aModel[nCntModel].nType].vtxMin, 
-												g_aMeshData[g_aModel[nCntModel].nType].vtxMax, 
-												pPlayer[nCntPlayer].fStandPos);
-
-			}
-		}
-	}
 
 }
 

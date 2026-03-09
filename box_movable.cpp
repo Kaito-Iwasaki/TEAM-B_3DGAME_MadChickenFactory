@@ -131,14 +131,6 @@ void UpdateMoveBox(void)
 						}
 					}
 				}
-
-
-				// オブジェクトの当たり判定処理
-				pPlayer->fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos,
-					g_aMoveBox[nCntMBox].pos,
-					g_aMoveBoxModelData.vtxMin,
-					g_aMoveBoxModelData.vtxMax,
-					pPlayer[nCntPlayer].fStandPos);
 			}
 		}
 	}
@@ -259,6 +251,7 @@ bool CollisionMoveBox(int nCntPlayer)
 					bHitCheck = true;
 					pPlayer[nCntPlayer].move.y = 0;
 					pPlayer[nCntPlayer].bJump = false;
+					pPlayer[nCntPlayer].fStandPos = pPlayer[nCntPlayer].pos.y;
 				}
 				else if (pPlayer[nCntPlayer].posOld.y <= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y)
 				{//下から

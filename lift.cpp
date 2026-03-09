@@ -158,16 +158,6 @@ void UpdateLift(void)
 					}
 				}
 			}
-
-			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-			{
-				// オブジェクトの当たり判定処理
-				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos,
-												g_aLift[nCntLift].pos,
-												g_aLiftModelData.vtxMin,
-												g_aLiftModelData.vtxMax,
-												pPlayer[nCntPlayer].fStandPos);
-			}
 		}
 	}
 }
@@ -295,6 +285,7 @@ bool CollisionLift(Player *pPlayer)
 				}
 				pPlayer->move.y = 0;
 				pPlayer->bJump = false;
+				pPlayer->fStandPos = pPlayer->pos.y;
 
 	/*			if (byHit & COLLISION_SIDE)
 				{

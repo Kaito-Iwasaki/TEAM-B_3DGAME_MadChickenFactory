@@ -604,13 +604,13 @@ void CollisionPlayer(Player* pPlayer, int nCntPlayer)
 	CollisionGoal(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
 
 	// 火炎放射器との当たり判定
-	CollisionFlamethrower(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius, &pPlayer->bJump);
+	CollisionFlamethrower(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius, &pPlayer->bJump, &pPlayer->fStandPos);
 
 	// ゲートとの当たり判定
 	CollisionGate(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
 
 	// コンベアとの当たり判定
-	if (CollisioncConveyer(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move))
+	if (CollisioncConveyer(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, &pPlayer->fStandPos))
 	{
 		if (pPlayer->bJump == true)
 		{// ジャンプ中の場合ジャンプ状態を解除する

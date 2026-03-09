@@ -178,16 +178,6 @@ void UpdateConveyer(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f + g_aConveyer[nCntConveyer].movetex);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f + g_aConveyer[nCntConveyer].movetex);
-
-			for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
-			{
-				// オブジェクトの当たり判定処理
-				pPlayer[nCntPlayer].fStandPos = CollisionPointBoxObject(pPlayer[nCntPlayer].pos, 
-					g_aConveyer[nCntConveyer].pos, 
-					D3DXVECTOR3(g_aConveyer->size.x * 0.5f, 0.0f, g_aConveyer->size.z * 0.5f),
-					D3DXVECTOR3(g_aConveyer->size.x * 0.5f, 0.0f, g_aConveyer->size.z * 0.5f),
-					pPlayer[nCntPlayer].fStandPos);
-			}
 		}
 
 		pVtx += 4;		// 頂点データのポインタを4つ進める
@@ -292,7 +282,7 @@ void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove,
 //=======================================================
 // コンベアとの当たり判定処理
 //=======================================================
-bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove)
+bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float *pStandPos)
 {
 	Conveyer* pConveyer = &g_aConveyer[0];					// コンベア情報へのポインタ
 	bool bLand = false;										// 着地したかどうか
@@ -314,6 +304,7 @@ bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pM
 					bLand = true;
 					pPos->y = pConveyer->pos.y;		// y軸の位置修正
 					pMove->y = 0.0f;				// y軸の移動量初期化
+					*pStandPos = pPos->y;			// 立っている位置更新
 
 					if (pConveyer->state == CONVEYERSTATE_MOVE)
 					{// コンベア稼働中

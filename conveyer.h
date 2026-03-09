@@ -42,7 +42,7 @@ void UninitConveyer(void);
 void UpdateConveyer(void);
 void DrawConveyer(void);
 void SetConveyer(int nIdx, D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 Onmove, D3DXVECTOR3 Offmove, D3DXVECTOR3 size, CONVEYERSTATE state);
-bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove);
+bool CollisioncConveyer(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float* pStandPos);
 void SetSizeConveyer(D3DXVECTOR3 rot, D3DXVECTOR3 *size);
 
 #endif
