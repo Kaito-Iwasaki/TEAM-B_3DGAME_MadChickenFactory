@@ -27,7 +27,7 @@ TEXTURE_FILENAME = data/TEXTURE/wall.png			# [8]ワイヤーテクスチャ
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 22
+NUM_MODEL = 23
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -35,25 +35,26 @@ NUM_MODEL = 22
 MODEL_FILENAME = data/MODEL/Factory/bloodknife.x				# [0]血の付いたナイフ	モデルとして使用
 MODEL_FILENAME = data/MODEL/Factory/comber.x					# [1]コンベア			モデルとして使用
 MODEL_FILENAME = data/MODEL/Factory/comber00.x					# [2]コンベア			モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/drone.x						# [3]ドローン			後々ギミックとして使用
+MODEL_FILENAME = data/MODEL/Factory/drone.x						# [3]ドローン			モデルとして使用
 MODEL_FILENAME = data/MODEL/Factory/friedchicken.x				# [4]チキン				モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/fryer00.x					# [5]フライヤー			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/fryer01.x					# [6]フライヤー			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/gasburner00.x				# [7]ガスバーナー		〇
-MODEL_FILENAME = data/MODEL/Factory/grinder000.x				# [8]ミンチ機			後々ギミックとして使用?
-MODEL_FILENAME = data/MODEL/Factory/lift.x						# [9]リフト				ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/lift01.x					# [10]リフト支柱		モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/meat00.x					# [11]肉				モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/press00.x					# [12]プレス機			モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/press01.x					# [13]プレス機の中身	〇
-MODEL_FILENAME = data/MODEL/Factory/rawchicken.x				# [14]揚げた肉			モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/saw000.x					# [15]のこぎり			〇
-MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [16]換気扇			後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [17]換気扇のプロペラ	後々ギミックとして使用
-MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [18]木箱				モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/gate.x						# [19]ゲート			モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/humannurture.x				# [20]培養ポッド		モデルとして使用
-MODEL_FILENAME = data/MODEL/Factory/switch000.x					# [21]レバー			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/fryer00.x					# [5]フライヤー			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/fryer01.x					# [6]フライヤー			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/fence.x						# [7]フェンス			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/gasburner00.x				# [8]ガスバーナー		〇
+MODEL_FILENAME = data/MODEL/Factory/grinder000.x				# [9]ミンチ機			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/lift.x						# [10]リフト			〇
+MODEL_FILENAME = data/MODEL/Factory/lift01.x					# [11]リフト支柱		モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/meat00.x					# [12]肉				モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/press00.x					# [13]プレス機			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/press01.x					# [14]プレス機の中身	〇
+MODEL_FILENAME = data/MODEL/Factory/rawchicken.x				# [15]揚げた肉			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/saw000.x					# [16]のこぎり			〇
+MODEL_FILENAME = data/MODEL/Factory/ventilationfan.x			# [17]換気扇			モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [18]換気扇のプロペラ	モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [19]木箱				モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/gate.x						# [20]ゲート			〇
+MODEL_FILENAME = data/MODEL/Factory/humannurture.x				# [21]培養ポッド		モデルとして使用
+MODEL_FILENAME = data/MODEL/Factory/switch000.x					# [22]レバー			モデルとして使用
 
 #------------------------------------------------------------------------------
 # ステージ1
@@ -538,10 +539,10 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 9750 0 1500
+	POS = 9750 -1000 1500
 	ROT = 0 0 0
 	BLOCK = 1 2
-	SIZE = 2200 500
+	SIZE = 2200 1000
 END_WALLSET
 
 WALLSET
@@ -562,10 +563,10 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 10850 0 1000
+	POS = 10850 -1000 1000
 	ROT = 0 90 0
 	BLOCK = 1 2
-	SIZE = 1000 500
+	SIZE = 1000 1000
 END_WALLSET
 
 WALLSET
@@ -575,6 +576,15 @@ WALLSET
 	BLOCK = 1 2
 	SIZE = 1500 500
 END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 8900 -500 490
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 1500 1000
+END_WALLSET
+
 
 WALLSET
 	TEXTYPE = 3
@@ -594,10 +604,66 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 9150 0 490
+	POS = 9150 -1000 490
 	ROT = 0 -90 0
 	BLOCK = 1 2
-	SIZE = 1500 500
+	SIZE = 1500 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9750 -1000 1250
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1700 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 10600 -1000 1000
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 500 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 10850 -1000 150
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 800 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 10225 -1000 650
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1250 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9600 -1000 650
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 250 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 9350 -1000 650
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 750 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 10100 -1000 300
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1500 1000
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -964,6 +1030,14 @@ WALLSET
 	ROT = 0 0 0
 	BLOCK = 1 1
 	SIZE = 250 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17400 0 750
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 500 500
 END_WALLSET
 
 #------------------------------------------------------------------------------
@@ -1398,7 +1472,7 @@ END_FIRESET
 #----------------------------------------
 
 GATESET
-	POS = 10835 0 -325
+	POS = 10835 -5 -325
 	ROT = 0 0 0
 	COLLISION = 1
 	ID = 401
@@ -1578,6 +1652,18 @@ END_PROMPTSET
 #----------------------------------------
 
 #----------------------------------------
+#  フェンス
+#----------------------------------------
+
+MODELSET
+	TYPE = 7
+	POS = 0 -5 0
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
 #  ミンチ機
 #----------------------------------------
 
@@ -1590,7 +1676,7 @@ END_PROMPTSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 1000 200 -250
 	ROT = 90 0 90
 	COLLISION = 0
@@ -1598,7 +1684,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 1650 200 -250
 	ROT = 90 0 90
 	COLLISION = 0
@@ -1606,7 +1692,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 2050 200 -250
 	ROT = 90 0 90
 	COLLISION = 0
@@ -1614,7 +1700,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 1000 200 750
 	ROT = 90 0 90
 	COLLISION = 0
@@ -1622,7 +1708,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 1650 200 750
 	ROT = 90 0 90
 	COLLISION = 0
@@ -1630,7 +1716,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 2050 200 750
 	ROT = 90 0 90
 	COLLISION = 0
@@ -1642,7 +1728,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 16450 0 300
 	ROT = 0 0 0
 	COLLISION = 0
@@ -1650,7 +1736,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 18095 200 850
 	ROT = 90 0 180
 	COLLISION = 0
@@ -1658,7 +1744,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 18095 200 195
 	ROT = 90 0 180
 	COLLISION = 0
@@ -1666,7 +1752,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 18095 200 150
 	ROT = 90 0 180
 	COLLISION = 0
@@ -1674,7 +1760,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 18431.755 -150 -305
 	ROT = 0 0 0
 	COLLISION = 0
@@ -1682,7 +1768,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 18431.755 -660 -305
 	ROT = 0 0 0
 	COLLISION = 0
@@ -1690,7 +1776,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 10
+	TYPE = 11
 	POS = 18431.755 -1000 -305
 	ROT = 0 0 0
 	COLLISION = 0
@@ -1726,7 +1812,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 21
+	TYPE = 22
 	POS = 50 0 250
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1734,7 +1820,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 21
+	TYPE = 22
 	POS = 2130 0 250
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1746,7 +1832,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 21
+	TYPE = 22
 	POS = 13535 0 -380
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1755,7 +1841,7 @@ END_MODELSET
 
 
 MODELSET
-	TYPE = 21
+	TYPE = 22
 	POS = 13880 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1767,7 +1853,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 21
+	TYPE = 22
 	POS = 17300 0 -325
 	ROT = 0 0 0
 	COLLISION = 1
@@ -1775,7 +1861,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 21
+	TYPE = 22
 	POS = 18095 100 850
 	ROT = 90 180 0
 	COLLISION = 1
