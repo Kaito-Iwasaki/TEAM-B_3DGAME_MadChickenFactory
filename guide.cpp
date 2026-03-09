@@ -13,6 +13,7 @@
 #include "guide.h"
 #include "team_logo.h"
 #include "player.h"
+#include "input.h"
 
 //*********************************************************************
 // 
@@ -126,7 +127,16 @@ void UninitGuide(void)
 //=====================================================================
 void UpdateGuide(void)
 {
+	if (GetTitle() != 0) return;
 
+	if (GetKeyboardPress(DIK_LCONTROL) || GetJoypadPress(JOYKEY_Y))
+	{
+		g_aGuide[GUIDETYPE_FOLLOW].color = COLOR_ACTIVE;
+	}
+	else
+	{
+		g_aGuide[GUIDETYPE_FOLLOW].color = COLOR_INACTIVE;
+	}
 }
 
 //=====================================================================
