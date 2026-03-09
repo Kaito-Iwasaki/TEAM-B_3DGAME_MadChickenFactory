@@ -1357,7 +1357,597 @@ END_PRESSSET
 # ステージ2
 #----------------------------------------
 
+#---------------------------------
+# １列目
+#---------------------------------
 
+FIRESET
+	ID = 301
+	POS = 9500 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9500 -60 1380
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+6	SWITCH = 180
+	LIFE = 60
+FIRESET
+	ID = 301
+	POS = 9500 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# ２列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 9600 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 240
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9600 -60 1380
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 240
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 9600 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 240
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# ３列目
+#---------------------------------
+
+FIRESET
+	ID = 302
+	POS = 9700 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 300
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 302
+	POS = 9700 -60 1380
+	STATE = 2
+	FIRESTATE =2
+	SWITCH = 300
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 302
+	POS = 9700 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 300
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# ４列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 360
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 1380
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 360
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 360
+	LIFE = 60
+	END_FIRESET
+
+#---------------------------------
+# ５列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 420
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 1380
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 420
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 420
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 6列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 480
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 1380
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 480
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 480
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 7列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10100 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 540
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10100 -60 1380
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 540
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10100 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 540
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 8列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10200 -60 1465
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 600
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10200 -60 1380
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 600
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10200 -60 1300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 600
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 9列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10620 -60 895
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10720 -60 800
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10820 -60 700
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 10列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 865
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 770
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 10000 -60 680
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+#---------------------------------
+# 11列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 865
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 770
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9900 -60 680
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+#---------------------------------
+# 12列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 865
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 770
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 9000
+	LIFE = 20
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9800 -60 680
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH =9000
+	LIFE =20
+END_FIRESET
+
+#---------------------------------
+# 13列目
+#---------------------------------
+
+FIRESET
+	ID = 303
+	POS = 9390 -60 300
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9480 -60 365
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 303
+	POS = 9560 -60 460
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+
+
+#---------------------------------
+# 14列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10000 -60 455
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 480
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10000 -60 360
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 480
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10000 -60 280
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 480
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 15列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10100 -60 455
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 420
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10100 -60 360
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 420
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10100 -60 280
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 420
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 16列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10200 -60 455
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 360
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10200 -60 360
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 360
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10200 -60 280
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 360
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 17列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10300 -60 455
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 300
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10300 -60 360
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 300
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10300 -60 280
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 300
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 18列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10400 -60 455
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 240
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10400 -60 360
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 240
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10400 -60 280
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 240
+	LIFE = 60
+END_FIRESET
+
+#---------------------------------
+# 19列目
+#---------------------------------
+
+FIRESET
+	ID = 301
+	POS = 10500 -60 455
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10500 -60 360
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
+
+FIRESET
+	ID = 301
+	POS = 10500 -60 280
+	STATE = 2
+	FIRESTATE = 2
+	SWITCH = 180
+	LIFE = 60
+END_FIRESET
 
 #----------------------------------------
 # ステージ３
@@ -1368,6 +1958,8 @@ FIRESET
 	POS = 12900 0 -240
 	STATE = 1
 	FIRESTATE = 1
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 FIRESET
@@ -1375,6 +1967,8 @@ FIRESET
 	POS = 12900 0 -320
 	STATE = 1
 	FIRESTATE = 1
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 FIRESET
@@ -1382,6 +1976,8 @@ FIRESET
 	POS = 12900 0 -400
 	STATE = 1
 	FIRESTATE = 1
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 FIRESET
@@ -1389,6 +1985,8 @@ FIRESET
 	POS = 12900 0 -475
 	STATE = 1
 	FIRESTATE = 1
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 FIRESET
@@ -1396,6 +1994,8 @@ FIRESET
 	POS = 13950 0 -240
 	STATE = 1
 	FIRESTATE = 2
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 FIRESET
@@ -1403,6 +2003,8 @@ FIRESET
 	POS = 13950 0 -320
 	STATE = 1
 	FIRESTATE = 2
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 FIRESET
@@ -1410,6 +2012,8 @@ FIRESET
 	POS = 13950 0 -400
 	STATE = 1
 	FIRESTATE = 2
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 FIRESET
@@ -1417,6 +2021,8 @@ FIRESET
 	POS = 13950 0 -475
 	STATE = 1
 	FIRESTATE = 2
+	SWITCH = 0
+	LIFE = 60
 END_FIRESET
 
 #----------------------------------------
@@ -1535,12 +2141,12 @@ PROMPTSET
 END_PROMPTSET
 
 #----------------------------------------------
-# 対応ギミック：ステージ1のリフト
+# 対応ギミック：ステージ2のゲート
 #----------------------------------------------
 
 PROMPTSET
 	ID = 401
-	POS = 10965 0 405
+	POS = 11135 0 405
 	SIZE = 50 50 
 END_PROMPTSET
 
@@ -1594,6 +2200,39 @@ END_PROMPTSET
 #----------------------------------------
 # ドローン
 #----------------------------------------
+
+#-------------------------------------
+# ステージ１
+#-------------------------------------
+
+MODELSET
+	TYPE = 3
+	POS = 1350 100 350
+	ROT = 0 90 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+MODELSET
+	TYPE = 3
+	POS = 950 100 350
+	ROT = 0 90 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+MODELSET
+	TYPE = 3
+	POS = 950 -300 350
+	ROT = 0 90 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+MODELSET
+	TYPE = 3
+	POS = 650 -400 350
+	ROT = 20 270 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
 
 #----------------------------------------
 #  チキン

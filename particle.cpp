@@ -17,7 +17,7 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_PARTICLE (2048)				//パーティクルの最大数
+#define MAX_PARTICLE (8192)				//パーティクルの最大数
 
 //*********************************************************************
 // 
@@ -151,7 +151,7 @@ void UpdateParticle(void)
 				
 				//パーティクルの寿命減少
 				g_aParticle[nCntParticle].nLife--;
-				if (g_aParticle[nCntParticle].nLife < 1)
+				if (g_aParticle[nCntParticle].nLife < 0)
 				{
 					g_aParticle[nCntParticle].bUse = false;
 				}
