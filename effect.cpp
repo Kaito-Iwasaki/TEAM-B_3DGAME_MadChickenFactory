@@ -15,7 +15,7 @@
 //==================
 //マクロ定義 
 //==================
-#define MAX_EFFECT (2048)			//エフェクトの最大数
+#define MAX_EFFECT (4096)			//エフェクトの最大数
 #define EFFECTSIZE_DASH (60)		//ダッシュエフェクトのサイズ
 #define EFFECTSIZE_LANDINGE	(80)		//着地エフェクトのサイズ
 #define MAX_FREAM (60.0f)			//最大フレーム
