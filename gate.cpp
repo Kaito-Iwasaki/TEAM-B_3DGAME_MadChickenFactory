@@ -236,48 +236,45 @@ void CollisionGate(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, 
 
 	Player* pPlayer = GetPlayer();
 
-	for (int nCntGate = 0; nCntGate < MAX_GATE; nCntGate++)
-	{
-		if (g_aGate[nCntGate].bUse == false) continue;
+for (int nCntGate = 0; nCntGate < MAX_GATE; nCntGate++)
+{
+	if (g_aGate[nCntGate].bUse == false) continue;
 
-		for (int nPlr = 0; nPlr < MAX_PLAYER; nPlr++)
+		if ((pPos->x <= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x) &&
+			(pPos->x >= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x) &&
+			(pPos->y <= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y) &&
+			(pPos->y >= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y) &&
+			(pPos->z <= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z) &&
+			(pPos->z >= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z))
 		{
-			if ((pPlayer->pos.x <= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x) &&
-				(pPlayer->pos.x >= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x) &&
-				(pPlayer->pos.y <= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y) &&
-				(pPlayer->pos.y >= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y) &&
-				(pPlayer->pos.z <= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z) &&
-				(pPlayer->pos.z >= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z))
-			{
-				if (pPlayer->posOld.x >= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x)
-				{//右から
-					pPlayer->pos.x = g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x;
-				}
-				else if (pPlayer->posOld.x <= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x)
-				{//左から
-					pPlayer->pos.x = g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x;
-				}
+			if (pPosOld->x >= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x)
+			{//右から
+				pPos->x = g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMax.x;
+			}
+			else if (pPosOld->x <= g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x)
+			{//左から
+				pPos->x = g_aGate[nCntGate].pos.x + g_aGateModelData.vtxMin.x;
+			}
 
-				if (pPlayer->posOld.y >= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y)
-				{//上から
-					pPlayer->pos.y = g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y;
-				}
-				else if (pPlayer->posOld.y <= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y)
-				{//下から
-					pPlayer->pos.y = g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y;
-				}
+			if (pPosOld->y >= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y)
+			{//上から
+				pPos->y = g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMax.y;
+			}
+			else if (pPosOld->y <= g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y)
+			{//下から
+				pPos->y = g_aGate[nCntGate].pos.y + g_aGateModelData.vtxMin.y;
+			}
 
-				if (pPlayer->posOld.z >= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z)
-				{//奥から
-					pPlayer->pos.z = g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z;
-				}
-				else if (pPlayer->posOld.z <= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z)
-				{//手前から
-					pPlayer->pos.z = g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z;
-				}
+			if (pPosOld->z >= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z)
+			{//奥から
+				pPos->z = g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMax.z;
+			}
+			else if (pPosOld->z <= g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z)
+			{//手前から
+				pPos->z = g_aGate[nCntGate].pos.z + g_aGateModelData.vtxMin.z;
 			}
 		}
-	}
+}
 
 }
 //==================================================
