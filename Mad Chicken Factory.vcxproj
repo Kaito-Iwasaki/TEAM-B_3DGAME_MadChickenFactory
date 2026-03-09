@@ -200,6 +200,7 @@
     </ClInclude>
     <ClInclude Include="prompt.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="result_logo.h" />
     <ClInclude Include="saw.h" />
     <ClInclude Include="script.h" />
     <ClInclude Include="SE_controller.h" />
@@ -286,6 +287,7 @@
     </ClCompile>
     <ClCompile Include="prompt.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="result_logo.cpp" />
     <ClCompile Include="saw.cpp" />
     <ClCompile Include="script.cpp" />
     <ClCompile Include="SE_controller.cpp" />

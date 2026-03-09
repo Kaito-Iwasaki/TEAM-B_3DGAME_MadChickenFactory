@@ -16,6 +16,7 @@
 //===========================================================
 #define GAMEOVERLOGO_WIDTH		(200.0f)	//幅
 #define GAMEOVERLOGO_HEIGHT		(50.0f)		//高さ
+#define SELECT_WIDHT (300.0f)				//選択肢の幅
 #define MAX_GAMEOVER (7)				//テクスチャの最大数
 #define GAMEOVER_TIMER (11)				//ゲームオーバーの時間
 #define GAMEOVER_FREAM (120)				//ゲームオーバーのフレーム
@@ -264,10 +265,10 @@ void UpdateGameover(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
 			break;
 		case GAMEOVER_QUIT:
 			//頂点座標の設定
@@ -275,10 +276,10 @@ void UpdateGameover(void)
 			pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 			pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT * 2, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  SELECT_WIDHT, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT, 0.0f);
 			break;
 		case GAMEOVER_BLOOD1:
 			//頂点座標の設定
