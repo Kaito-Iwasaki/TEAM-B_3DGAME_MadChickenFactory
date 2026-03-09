@@ -12,6 +12,7 @@
 //*********************************************************************
 #include "guide.h"
 #include "team_logo.h"
+#include "player.h"
 
 //*********************************************************************
 // 
@@ -22,12 +23,8 @@
 #define GUIDE_POS_START		D3DXVECTOR3(80, SCREEN_HEIGHT - (GUIDE_SIZE * 0.5f + 10), 0)
 #define GUIDE_OFFSET_X		(GUIDE_SIZE * 0.5f + 20)
 
-//*********************************************************************
-// 
-// ***** ç\ë¢ëÃ *****
-// 
-//*********************************************************************
-
+#define COLOR_ACTIVE		D3DXCOLOR_WHITE
+#define COLOR_INACTIVE		D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f)
 
 //*********************************************************************
 // 
@@ -36,10 +33,18 @@
 //*********************************************************************
 typedef enum
 {
-	GUIDETYPE_SWITCH = 0,
+	GUIDETYPE_SWITCH_A = 0,
+	GUIDETYPE_SWITCH_B,
 	GUIDETYPE_FOLLOW,
 	GUIDETYPE_MAX
 }GUIDETYPE;
+
+//*********************************************************************
+// 
+// ***** ç\ë¢ëÃ *****
+// 
+//*********************************************************************
+
 
 //*********************************************************************
 // 
@@ -60,6 +65,7 @@ GUIDE g_aGuide[GUIDETYPE_MAX] = {};
 const char* g_aFilenameGuideTexture[GUIDETYPE_MAX] = {
 	"data\\TEXTURE\\guide000.png",
 	"data\\TEXTURE\\guide001.png",
+	"data\\TEXTURE\\guide002.png",
 };
 
 //=====================================================================
@@ -94,7 +100,7 @@ void InitGuide(void)
 	ZeroMemory(&g_aGuide[0], sizeof g_aGuide);
 	for (int nGuide = 0; nGuide < GUIDETYPE_MAX; nGuide++, pGuide++)
 	{
-		pGuide->transform.pos = GUIDE_POS_START + D3DXVECTOR3(GUIDE_OFFSET_X * nGuide, 0, 0);
+		pGuide->transform.pos = GUIDE_POS_START + D3DXVECTOR3(GUIDE_OFFSET_X * max(nGuide - 1, 0), 0, 0);
 		pGuide->transform.size = D3DXVECTOR3(GUIDE_SIZE, GUIDE_SIZE, 0);
 		pGuide->color = D3DXCOLOR_WHITE;
 	}
@@ -184,6 +190,11 @@ void DrawGuide(void)
 
 	for (int nGuide = 0; nGuide < GUIDETYPE_MAX; nGuide++)
 	{
+		if (nGuide <= GUIDETYPE_SWITCH_B && GetPlayerOperation() ^ nGuide != 1)
+		{
+			continue;
+		}
+
 		pDevice->SetTexture(0, g_apTexBuffGuide[nGuide]);
 
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nGuide * 4, 2);
