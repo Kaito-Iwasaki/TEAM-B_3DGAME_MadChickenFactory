@@ -152,7 +152,7 @@ void UpdateTimer(void)
 
 	if (g_nTimerCount < 0)
 	{
-		SetFade(MODE_GAME);
+		SetFade(MODE_GAMEOVER);
 		return;
 	}
 
