@@ -604,7 +604,7 @@ void CollisionPlayer(Player* pPlayer, int nCntPlayer)
 	CollisionGoal(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
 
 	// ‰Î‰Š•úËŠí‚Æ‚Ì“–‚½‚è”»’è
-	CollisionFlamethrower(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);
+	CollisionFlamethrower(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius, &pPlayer->bJump);
 
 	// ƒQ[ƒg‚Æ‚Ì“–‚½‚è”»’è
 	CollisionGate(&pPlayer->pos, &pPlayer->posOld, &pPlayer->move, pPlayer->fRadius);

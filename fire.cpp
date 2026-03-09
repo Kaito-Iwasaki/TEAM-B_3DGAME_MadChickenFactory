@@ -401,7 +401,7 @@ void SetFlamethrowerWidthAndDepth(int nIdx)
 //=======================================================
 // 火炎放射器との当たり判定処理
 //=======================================================
-void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius)
+void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius, bool *bJump)
 {
 	FLAMETHROWER* pFlamethrower = &g_aflamethrower[0];		// 火炎放射器情報のポインタ
 	bool bLand = false;										// 着地したかどうか
@@ -513,12 +513,10 @@ void CollisionFlamethrower(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3*
 	if (bLand == true)
 	{// 地面にめり込んだ
 
-		Player* pPlayer = GetPlayer();
-
 		pPos->y = g_aflamethrower[nCount].pos.y + g_aFireModelData.vtxMax.y;		// ブロックの上に立たせる
 		pMove->y = 0.0f;															// 移動量を0にする
 
-		pPlayer->bJump = false;			// ジャンプしていない状態にする
+		*bJump = false;			// ジャンプしていない状態にする
 	}
 
 	if (bHitHead == true)
