@@ -186,6 +186,9 @@
     <ClCompile Include="Checkpoint.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="guide.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sound.h">
@@ -327,6 +330,9 @@
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
     <ClInclude Include="Checkpoint.h">
+      <Filter>ヘッダー ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="guide.h">
       <Filter>ヘッダー ファイル\Game</Filter>
     </ClInclude>
   </ItemGroup>

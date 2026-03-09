@@ -166,6 +166,10 @@
     <ClInclude Include="Gameover.h" />
     <ClInclude Include="gate.h" />
     <ClInclude Include="goal.h" />
+    <ClInclude Include="guide.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="input.h" />
     <ClInclude Include="lift.h" />
     <ClInclude Include="light.h" />
@@ -245,6 +249,10 @@
     <ClCompile Include="Gameover.cpp" />
     <ClCompile Include="gate.cpp" />
     <ClCompile Include="goal.cpp" />
+    <ClCompile Include="guide.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="input.cpp" />
     <ClCompile Include="lift.cpp" />
     <ClCompile Include="light.cpp" />
