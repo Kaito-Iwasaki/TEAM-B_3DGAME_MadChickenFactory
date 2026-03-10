@@ -49,7 +49,7 @@ void InitResult(void)
 	InitMeshCylinder();				//メッシュシリンダー
 	InitLight();					//ライト
 	InitTimer();
-	SetTimer(D3DXVECTOR3(430.0f, -400.0f, 0.0f), D3DXVECTOR2(400.0f, 400.0f));
+	SetTimer(D3DXVECTOR3(430.0f, -350.0f, 0.0f), D3DXVECTOR2(400.0f, 250.0f));
 	CAMERA* pCamera = GetCamera(0);
 
 	// スクリプトの読み込み
@@ -90,6 +90,9 @@ void InitResult(void)
 	}	
 	SetCameraPosVFromAngle(0);
 	pCamera->mode = CAMERAMODE_NONE;
+
+	pCamera->posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pCamera->posV = D3DXVECTOR3(0.0f, 50.0f, -1450.0f);
 }
 //=======================
 //リザルトの終了処理
@@ -141,12 +144,13 @@ void DrawResult(void)
 {	
 	// ゲームカメラの設定
 	SetCamera(CAMERATYPE_GAME);
-	DrawResult_Logo();
+
 	DrawField();					//フィールド
 	DrawWall();						//壁
 	DrawModel();					//モデル
 	DrawMeshCylinder();				//メッシュシリンダー
 	DrawTimer();
+	DrawResult_Logo();
 
 
 }

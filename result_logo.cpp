@@ -22,10 +22,13 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define MAX_RESULT (2)						//リザルトの最大数
-#define BACKGROUND_TEXTURE_FILENAME0			"data\\TEXTURE\\gameclear.png"
-#define BACKGROUND_TEXTURE_FILENAME1			"data\\TEXTURE\\cleartime.png"
-#define RESULTLOGO_WIDTH		(300.0f)	//幅
+#define MAX_RESULT (3)						//リザルトの最大数
+#define BACKGROUND_TEXTURE_FILENAME0			"data\\TEXTURE\\Vresult_bacuground.png"		//文字を見やすくする背景
+#define BACKGROUND_TEXTURE_FILENAME1			"data\\TEXTURE\\gameclear.png"		//ゲームクリアの文字
+#define BACKGROUND_TEXTURE_FILENAME2			"data\\TEXTURE\\cleartime.png"		//クリアタイムの文字
+#define RESULTBACKGROUND_WIDTH		(700.0f)		//背景幅
+#define RESULTBACKGROUND_HEIGHT		(400.0f)		//背景高さ
+#define RESULTLOGO_WIDTH		(300.0f)		//幅
 #define RESULTLOGO_HEIGHT		(100.0f)		//高さ
 //*********************************************************************
 // 
@@ -44,21 +47,22 @@ void InitResult_Logo(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	
 	//リザルトの背景
-	g_aResult[0].g_posResult = D3DXVECTOR3(600.0f, 200.0f, 0.0f);
-	g_aResult[0].g_colerResult = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	g_aResult[0].g_nCounterAnimResult = 0;
-	g_aResult[0].g_nPatternAnimResult = 0;
-	g_aResult[0].nType = RESULTTYPE_CLEAR;
+	g_aResult[0].pos = D3DXVECTOR3(600.0f, 360.0f, 0.0f);
+	g_aResult[0].col = D3DXCOLOR(0.0f, 0.0f,0.0f, 0.4f);
+	g_aResult[0].nType = RESULTTYPE_BACKGROUND;
 
-	g_aResult[1].g_posResult = D3DXVECTOR3(400.0f, 500.0f, 0.0f);
-	g_aResult[1].g_colerResult = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	g_aResult[1].g_nCounterAnimResult = 0;
-	g_aResult[1].g_nPatternAnimResult = 0;
-	g_aResult[1].nType = RESULTTYPE_CLEARTIME;
+	g_aResult[1].pos = D3DXVECTOR3(600.0f, 200.0f, 0.0f);
+	g_aResult[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	g_aResult[1].nType = RESULTTYPE_CLEAR;
 
+	g_aResult[2].pos = D3DXVECTOR3(400.0f, 500.0f, 0.0f);
+	g_aResult[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	g_aResult[2].nType = RESULTTYPE_CLEARTIME;
+	
 	//テクスチャの読み込み
-	D3DXCreateTextureFromFile(pDevice,BACKGROUND_TEXTURE_FILENAME0, &g_pTextureResult[0]);		//
-	D3DXCreateTextureFromFile(pDevice, BACKGROUND_TEXTURE_FILENAME1, &g_pTextureResult[1]);		//
+	D3DXCreateTextureFromFile(pDevice, BACKGROUND_TEXTURE_FILENAME0, &g_pTextureResult[0]);		
+	D3DXCreateTextureFromFile(pDevice,BACKGROUND_TEXTURE_FILENAME1, &g_pTextureResult[1]);		
+	D3DXCreateTextureFromFile(pDevice, BACKGROUND_TEXTURE_FILENAME2, &g_pTextureResult[2]);		
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * MAX_RESULT,
@@ -76,10 +80,10 @@ void InitResult_Logo(void)
 	for (int nResult = 0; nResult < MAX_RESULT; nResult++)
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x - RESULTLOGO_WIDTH, g_aResult[nResult].g_posResult.y - RESULTLOGO_HEIGHT, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x + RESULTLOGO_WIDTH, g_aResult[nResult].g_posResult.y - RESULTLOGO_HEIGHT, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x - RESULTLOGO_WIDTH, g_aResult[nResult].g_posResult.y + RESULTLOGO_HEIGHT, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x + RESULTLOGO_WIDTH, g_aResult[nResult].g_posResult.y + RESULTLOGO_HEIGHT, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT, 0.0f);
 
 		//rhwの設定
 		pVtx[0].rhw = 1.0f;
@@ -88,10 +92,10 @@ void InitResult_Logo(void)
 		pVtx[3].rhw = 1.0f;
 
 		// 頂点カラーの設定
-		pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[0].col = g_aResult[nResult].col;
+		pVtx[1].col = g_aResult[nResult].col;
+		pVtx[2].col = g_aResult[nResult].col;
+		pVtx[3].col = g_aResult[nResult].col;
 
 		//テクスチャ座標の設定
 		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
@@ -144,17 +148,25 @@ void UpdateResult_Logo(void)
 	{
 		switch (g_aResult[nResult].nType)
 		{
+		case RESULTTYPE_BACKGROUND:
+			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTBACKGROUND_WIDTH , g_aResult[nResult].pos.y - RESULTBACKGROUND_HEIGHT, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTBACKGROUND_WIDTH , g_aResult[nResult].pos.y - RESULTBACKGROUND_HEIGHT, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTBACKGROUND_WIDTH , g_aResult[nResult].pos.y + RESULTBACKGROUND_HEIGHT, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTBACKGROUND_WIDTH , g_aResult[nResult].pos.y + RESULTBACKGROUND_HEIGHT, 0.0f);
+
+			
+			break;																									
 		case RESULTTYPE_CLEAR:
-			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].g_posResult.y - RESULTLOGO_HEIGHT, 0.0f);
-			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].g_posResult.y - RESULTLOGO_HEIGHT, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].g_posResult.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].g_posResult.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
 			break;
 		case RESULTTYPE_CLEARTIME:
-			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x - RESULTLOGO_WIDTH - 100.0f, g_aResult[nResult].g_posResult.y - RESULTLOGO_HEIGHT, 0.0f);
-			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x + RESULTLOGO_WIDTH + 100.0f, g_aResult[nResult].g_posResult.y - RESULTLOGO_HEIGHT, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x - RESULTLOGO_WIDTH - 100.0f, g_aResult[nResult].g_posResult.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].g_posResult.x + RESULTLOGO_WIDTH + 100.0f, g_aResult[nResult].g_posResult.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 100.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 100.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 100.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 100.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
 			break;
 		default:
 			break;

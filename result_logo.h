@@ -8,7 +8,8 @@
 //*********************************************************************
 typedef enum
 {
-	RESULTTYPE_CLEAR = 0,
+	RESULTTYPE_BACKGROUND = 0,
+	RESULTTYPE_CLEAR,
 	RESULTTYPE_CLEARTIME,
 	RESULTTYPE_MAX,
 }RESULT;
@@ -18,10 +19,8 @@ typedef enum
 typedef struct
 {
 
-	D3DXVECTOR3 g_posResult;			//位置
-	D3DXCOLOR g_colerResult;			//色
-	int g_nCounterAnimResult;			//アニメーションカウンター
-	int g_nPatternAnimResult;			//アニメーションパターンNo
+	D3DXVECTOR3 pos;			//位置
+	D3DXCOLOR col;			//色
 	RESULT nType;							//リザルトのの種類
 }Result;
 //================
