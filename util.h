@@ -28,6 +28,7 @@
 #define D3DXCOLOR_WHITE				D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)
 #define D3DXCOLOR_BLACK				D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f)
 #define D3DXCOLOR_ALPHA(alpha)		D3DXCOLOR(0.0f, 0.0f, 0.0f, alpha)
+#define D3DXCOLOR_GRAY(brightness)	D3DXCOLOR(brightness, brightness, brightness, 1.0f)
 
 #define PI					D3DX_PI
 #define RAD(degree)			D3DXToRadian(degree)
