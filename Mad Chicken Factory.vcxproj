@@ -188,6 +188,10 @@
     <ClInclude Include="model_loader.h" />
     <ClInclude Include="motion.h" />
     <ClInclude Include="motion_loader.h" />
+    <ClInclude Include="objective.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="particle.h">
       <SubType>
       </SubType>
@@ -279,6 +283,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="motion_loader.cpp" />
+    <ClCompile Include="objective.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="particle.cpp">
       <SubType>
       </SubType>
