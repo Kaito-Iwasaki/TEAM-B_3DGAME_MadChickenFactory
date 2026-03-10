@@ -43,6 +43,7 @@ typedef enum
 #define MAX_PLAYERTEXTURE		(16)		// テクスチャ数
 #define MAX_PLAYER				(2)			// プレイヤー数
 #define INIT_PLAYER_POS			D3DXVECTOR3(-2000.0f, 0.0f, 950.0f)
+#define PLAYER_BETWEEN			(2400.0f)					// プレイヤー間の最大距離
 
 // プレイヤーの構造体の定義
 typedef struct
