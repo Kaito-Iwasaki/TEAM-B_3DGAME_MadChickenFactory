@@ -10,6 +10,7 @@
 //
 //==================================================
 #include "light.h"
+#include "util.h"
 
 //==================================================
 //
@@ -34,7 +35,8 @@ D3DLIGHT9 g_aLight[MAX_LIGHT];	//ライトの情報
 void InitLight(void)
 {
 	//ライトの方向を設定
-	SetLight(0, D3DXVECTOR3(0.2f, -0.8f, 0.4f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	SetLight(0, D3DXVECTOR3(0.2f, -0.8f, 0.4f), D3DXCOLOR_GRAY(0.7f));
+	SetLight(1, D3DXVECTOR3(-0.2f, -0.2f, 0.1f), D3DXCOLOR_GRAY(0.3f));
 	
 }
 //==================================================
