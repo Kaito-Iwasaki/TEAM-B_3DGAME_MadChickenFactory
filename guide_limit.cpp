@@ -110,7 +110,7 @@ void DrawGuide_Limit(void)
 	// プレイヤーの方でもう位置を補正しちゃってて
 	// そっちで使ってた条件式使えないので
 	// ヤケクソ気味に判定
-	if (fabsf(pPlayer[0].pos.x - pPlayer[1].pos.x) < 1780.0f)
+	if (fabsf(pPlayer[0].pos.x - pPlayer[1].pos.x) < PLAYER_BETWEEN - 20.0f)
 	{
 		return;
 	}
