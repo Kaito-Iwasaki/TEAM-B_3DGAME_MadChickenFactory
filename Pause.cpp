@@ -27,7 +27,7 @@
 #define PA_SE_HEIGHT (140)
 #define MAX_FRAME	(8)		//必要な枠の数
 
-#define PAUSE_BG_PATH			"data\\TEXTURE\\Face-in Panel.png"	//ポーズメニューのBGテクスチャへのパス
+#define PAUSE_BG_PATH			"data\\TEXTURE\\pause_BACK.png"		//ポーズメニューのBGテクスチャへのパス
 #define PAUSE_CONTINUE_PATH		"data\\TEXTURE\\pause000.png"		//CONTINUE
 #define PAUSE_RETRY_PATH		"data\\TEXTURE\\retry.png"			//RETRY
 #define PAUSE_QUIT_PATH			"data\\TEXTURE\\pause002.png"		//QUIT
@@ -46,9 +46,9 @@ bool g_bF1;					//F1による表示・非表示
 PAUSE g_aPause[MAX_FRAME] =
 {
 	{D3DXVECTOR3(640.0f,320.0f,0.0f),300.0f,300.0f},
-	{D3DXVECTOR3(640.0f,320.0f,0.0f),300.0f,100.0f},
-	{D3DXVECTOR3(640.0f,420.0f,0.0f),270.0f,75.0f},
-	{D3DXVECTOR3(640.0f,520.0f,0.0f),300.0f,100.0f}
+	{D3DXVECTOR3(640.0f,230.0f,0.0f),300.0f,100.0f},
+	{D3DXVECTOR3(640.0f,380.0f,0.0f),270.0f,75.0f},
+	{D3DXVECTOR3(640.0f,500.0f,0.0f),300.0f,100.0f}
 };
 
 const char g_pTextureName[MAX_FRAME][MAX_PATH] =
