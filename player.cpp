@@ -685,6 +685,7 @@ void PlayerMoveControl(Player* pPlayer, int nCntControl)
 void PlayerFollow(Player *pTargetPlayer, Player *EligiblePlayer)
 {
 	if (EligiblePlayer->bDisableFollow) return;
+	if (Magnitude(EligiblePlayer->pos, pTargetPlayer->pos) < 100) return;	// ˆê’è‹——£‹ß‚©‚Á‚½‚çŽ~‚Ü‚é
 
 	float fRot = 0.0f;		// Šp“x‘ã“ü—p
 
