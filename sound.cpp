@@ -362,6 +362,16 @@ void UninitSound(void)
 	// 一時停止
 	for(int nCntSound = 0; nCntSound < SOUND_LABEL_MAX; nCntSound++)
 	{
+		if (g_apSourceVoice2[nCntSound] != NULL)
+		{
+			// 一時停止
+			g_apSourceVoice2[nCntSound]->Stop();
+
+			// ソースボイスの破棄
+			g_apSourceVoice2[nCntSound]->DestroyVoice();
+			g_apSourceVoice2[nCntSound] = NULL;
+		}
+
 		for (int nCntSource = 0; nCntSource < MAX_SOUND; nCntSource++)
 		{
 			if (g_apSourceVoice[nCntSound][nCntSource] != NULL)
