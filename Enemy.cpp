@@ -183,36 +183,36 @@ void DrawEnemy(void)
 	VERTEX_3D* pVtx;
 
 	D3DXMATERIAL pMatSight;
-	
-	g_pVtxBuffEnemySight->Lock(0, 0, (void**)&pVtx, 0);
-
-	float fAngleStart = -RAD(pEnemy->nSightAngle) * 0.5f;
-	float fAngleGap = RAD(pEnemy->nSightAngle) / (float)(ENEMY_SIGHT_NUM_SEGMENT - 1);
-
-	for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++)
-	{
-		for (int nCountVtx = 0; nCountVtx < ENEMY_SIGHT_NUM_SEGMENT + 1; nCountVtx++, pVtx++)
-		{
-			if (nCountVtx == 0)
-			{
-				pVtx->pos = D3DXVECTOR3_ZERO;
-			}
-			else
-			{
-				float fAngle = fAngleStart + fAngleGap * (nCountVtx - 1);
-				pVtx->pos = D3DXVECTOR3(-sinf(fAngle), 0, -cosf(fAngle)) * pEnemy->nSightRange + D3DXVECTOR3(0, 0.1f, 0);
-			}
-
-			pVtx->nor = D3DXVECTOR3_UP;
-			pVtx->col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.35f);
-		}
-	}
-
-	g_pVtxBuffEnemySight->Unlock();
 
 	for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++, pEnemy++)
 	{
 		if (pEnemy->bUse == false) continue;
+
+		g_pVtxBuffEnemySight->Lock(0, 0, (void**)&pVtx, 0);
+
+		float fAngleStart = -RAD(pEnemy->nSightAngle) * 0.5f;
+		float fAngleGap = RAD(pEnemy->nSightAngle) / (float)(ENEMY_SIGHT_NUM_SEGMENT - 1);
+
+		for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++)
+		{
+			for (int nCountVtx = 0; nCountVtx < ENEMY_SIGHT_NUM_SEGMENT + 1; nCountVtx++, pVtx++)
+			{
+				if (nCountVtx == 0)
+				{
+					pVtx->pos = D3DXVECTOR3_ZERO;
+				}
+				else
+				{
+					float fAngle = fAngleStart + fAngleGap * (nCountVtx - 1);
+					pVtx->pos = D3DXVECTOR3(-sinf(fAngle), 0, -cosf(fAngle)) * pEnemy->nSightRange + D3DXVECTOR3(0, 0.1f, 0);
+				}
+
+				pVtx->nor = D3DXVECTOR3_UP;
+				pVtx->col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.35f);
+			}
+		}
+
+		g_pVtxBuffEnemySight->Unlock();
 
 		pDevice->SetStreamSource(0, g_pVtxBuffEnemySight, 0, sizeof(VERTEX_3D));
 		pDevice->SetFVF(FVF_VERTEX_3D);
