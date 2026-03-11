@@ -14,6 +14,7 @@
 #include "util.h"
 #include "player.h"
 #include "goal.h"
+#include "DebugProc.h"
 
 //*********************************************************************
 // 
@@ -107,14 +108,28 @@ void DrawGuide_Limit(void)
 {
 	Player* pPlayer = GetPlayer();
 
+	PrintDebugProc("otinkp:%d\n", GetNumPlayersTouchingGoal());
+
 	// プレイヤーが離れていなかったら表示しない
 	// プレイヤーの方でもう位置を補正しちゃってて
 	// そっちで使ってた条件式使えないので
 	// ヤケクソ気味に判定
-	if (fabsf(pPlayer[0].pos.x - pPlayer[1].pos.x) < PLAYER_BETWEEN - 20.0f && GetNumPlayersTouchingGoal() != 1)
+
+	if (GetNumPlayersTouchingGoal() == 1)
 	{
-		return;
+		if (fabsf(pPlayer[1].pos.x - pPlayer[0].pos.x) < 500)
+		{
+			return;
+		}
 	}
+	else
+	{
+		if (fabsf(pPlayer[1].pos.x - pPlayer[0].pos.x) < PLAYER_BETWEEN - 20.0f)
+		{
+			return;
+		}
+	}
+
 
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
