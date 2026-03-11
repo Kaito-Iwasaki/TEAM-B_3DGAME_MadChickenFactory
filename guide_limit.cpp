@@ -108,12 +108,11 @@ void DrawGuide_Limit(void)
 {
 	Player* pPlayer = GetPlayer();
 
-	PrintDebugProc("otinkp:%d\n", GetNumPlayersTouchingGoal());
-
 	// プレイヤーが離れていなかったら表示しない
 	// プレイヤーの方でもう位置を補正しちゃってて
 	// そっちで使ってた条件式使えないので
 	// ヤケクソ気味に判定
+	// ゴールで２人揃ってないときもついでに表示
 
 	if (GetNumPlayersTouchingGoal() == 1)
 	{
