@@ -201,7 +201,7 @@ void DrawGuide(void)
 	for (int nGuide = 0; nGuide < GUIDETYPE_MAX; nGuide++)
 	{
 		// 最初の２枚のテクスチャについて、現在操作されていないプレイヤーのイラストを表示する
-		if (nGuide <= GUIDETYPE_SWITCH_B && (GetPlayerOperation() ^ nGuide) != 1)
+		if (nGuide <= GUIDETYPE_SWITCH_B && ((int)GetPlayerOperation() ^ nGuide) != 1)
 		{
 			continue;
 		}
