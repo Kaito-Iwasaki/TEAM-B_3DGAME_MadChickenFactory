@@ -389,7 +389,7 @@ void _OnEnemyState(int nIdx)
 	{
 		// 敵をターゲット（発見したプレイヤー）の位置へ近づける
 		D3DXVECTOR3 vToPlr = pTarget->pos - pEnemy->pos;
-		pEnemy->pos += Normalize(vToPlr) * pEnemy->fSpeed;
+		pEnemy->pos += Normalize(vToPlr) * ENEMY_SPEED_CHASE;
 
 		// 敵をターゲットの方向に向ける
 		pEnemy->rotMove.y = GetFixedRotation(atan2f(vToPlr.x, vToPlr.z) + D3DX_PI);
