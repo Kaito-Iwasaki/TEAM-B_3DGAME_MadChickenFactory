@@ -172,7 +172,7 @@ void UpdatePause(void)
 		g_bF1 ^= true;
 	}
 
-	if (GetKeyboardTrigger(DIK_P) || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
+	if (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 	{//セレクト
 		if (g_SelectModeP == PAUSE_MENU_CONTINUE)
 		{
@@ -206,6 +206,11 @@ void UpdatePause(void)
 		{//選択フレームが上限
 			g_SelectModeP = PAUSE_MENU_QUIT;
 		}
+	}
+	else if (GetKeyboardTrigger(DIK_P))
+	{
+		SwitchPause();
+		g_SelectModeP = PAUSE_MENU_CONTINUE;
 	}
 
 	//=============================================
