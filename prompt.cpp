@@ -11,6 +11,7 @@
 #include "player.h"
 #include "DebugProc.h"
 #include "team_logo.h"
+#include "sound.h"
 
 
 // É}ÉNÉçíËã`
@@ -156,6 +157,7 @@ void UpdatePrompt(void)
 
 				if (IsPromptKeyTriggered(nCountPlayer))
 				{
+					PlaySound(SOUND_LABEL_SE_SWITCH);
 					g_aPromptTrigger[g_aPrompt[nCountPrompt].nIdx] = true;
 					break;
 				}
