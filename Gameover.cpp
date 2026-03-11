@@ -219,7 +219,7 @@ void UpdateGameover(void)
 		}
 
 	}
-	if (GetKeyboardTrigger(DIK_P) || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
+	if (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 	{
 		if (g_Gameoverbgm == 0)
 		{

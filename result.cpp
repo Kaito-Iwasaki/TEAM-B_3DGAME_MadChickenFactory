@@ -49,7 +49,7 @@ void InitResult(void)
 	InitMeshCylinder();				//メッシュシリンダー
 	InitLight();					//ライト
 	InitTimer();
-	SetTimer(D3DXVECTOR3(430.0f, -350.0f, 0.0f), D3DXVECTOR2(400.0f, 250.0f));
+	SetTimer(D3DXVECTOR3(510.0f, -350.0f, 0.0f), D3DXVECTOR2(400.0f, 250.0f));
 	CAMERA* pCamera = GetCamera(0);
 
 	// スクリプトの読み込み
@@ -93,14 +93,15 @@ void InitResult(void)
 
 	pCamera->posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	pCamera->posV = D3DXVECTOR3(0.0f, 50.0f, -1450.0f);
+
+	PlaySound(SOUND_LABEL_BGM_RESULT);
 }
 //=======================
 //リザルトの終了処理
 //=======================
 void UninitResult(void)
 {
-	// サウンドの停止
-	StopSound();
+	
 	UninitResult_Logo();
 	UninitCamera();					//カメラ
 	UninitField();					//フィールド
@@ -115,7 +116,8 @@ void UninitResult(void)
 
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
-	
+	// サウンドの停止
+	StopSound();
 	
 }	
 //==================

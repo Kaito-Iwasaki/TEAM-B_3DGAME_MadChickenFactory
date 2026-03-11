@@ -27,7 +27,7 @@
 #define BACKGROUND_TEXTURE_FILENAME1			"data\\TEXTURE\\gameclear.png"		//ÉQÅ[ÉÄÉNÉäÉAÇÃï∂éö
 #define BACKGROUND_TEXTURE_FILENAME2			"data\\TEXTURE\\cleartime.png"		//ÉNÉäÉAÉ^ÉCÉÄÇÃï∂éö
 #define RESULTBACKGROUND_WIDTH		(700.0f)		//îwåiïù
-#define RESULTBACKGROUND_HEIGHT		(400.0f)		//îwåiçÇÇ≥
+#define RESULTBACKGROUND_HEIGHT		(320.0f)		//îwåiçÇÇ≥
 #define RESULTLOGO_WIDTH		(300.0f)		//ïù
 #define RESULTLOGO_HEIGHT		(100.0f)		//çÇÇ≥
 //*********************************************************************
@@ -47,7 +47,7 @@ void InitResult_Logo(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	
 	//ÉäÉUÉãÉgÇÃîwåi
-	g_aResult[0].pos = D3DXVECTOR3(600.0f, 360.0f, 0.0f);
+	g_aResult[0].pos = D3DXVECTOR3(600.0f, 160.0f, 0.0f);
 	g_aResult[0].col = D3DXCOLOR(0.0f, 0.0f,0.0f, 0.4f);
 	g_aResult[0].nType = RESULTTYPE_BACKGROUND;
 
@@ -55,7 +55,7 @@ void InitResult_Logo(void)
 	g_aResult[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	g_aResult[1].nType = RESULTTYPE_CLEAR;
 
-	g_aResult[2].pos = D3DXVECTOR3(400.0f, 500.0f, 0.0f);
+	g_aResult[2].pos = D3DXVECTOR3(450.0f, 500.0f, 0.0f);
 	g_aResult[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	g_aResult[2].nType = RESULTTYPE_CLEARTIME;
 	

@@ -186,7 +186,7 @@ void UpdateLogo(void)
 			{
 				g_aLogo[nCntLogo].col.a += 0.01f;
 			}
-			if (g_aLogo[nCntLogo].nCountLogo == 0 || GetKeyboardTrigger(DIK_P) || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
+			if (g_aLogo[nCntLogo].nCountLogo == 0 || GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 			{
 				SetFade(MODE_TITLE);
 			}
@@ -195,7 +195,7 @@ void UpdateLogo(void)
 			break;
 		}
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(g_aLogo[nCntLogo].pos.x - LOGO_WIDTH, g_aLogo[nCntLogo].pos.y - LOGO_HEIGHT, 0.0f);//右回りで！
+		pVtx[0].pos = D3DXVECTOR3(g_aLogo[nCntLogo].pos.x - LOGO_WIDTH, g_aLogo[nCntLogo].pos.y - LOGO_HEIGHT, 0.0f);
 		pVtx[1].pos = D3DXVECTOR3(g_aLogo[nCntLogo].pos.x + LOGO_WIDTH, g_aLogo[nCntLogo].pos.y - LOGO_HEIGHT, 0.0f);
 		pVtx[2].pos = D3DXVECTOR3(g_aLogo[nCntLogo].pos.x - LOGO_WIDTH, g_aLogo[nCntLogo].pos.y + LOGO_HEIGHT, 0.0f);
 		pVtx[3].pos = D3DXVECTOR3(g_aLogo[nCntLogo].pos.x + LOGO_WIDTH, g_aLogo[nCntLogo].pos.y + LOGO_HEIGHT, 0.0f);
