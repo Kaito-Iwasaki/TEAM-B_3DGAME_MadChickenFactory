@@ -176,15 +176,18 @@ void UpdatePause(void)
 	{//セレクト
 		if (g_SelectModeP == PAUSE_MENU_CONTINUE)
 		{
+			PlaySound(SOUND_LABEL_SE_CANCEL);
 			SwitchPause();
 		}
 		else if (g_SelectModeP == PAUSE_MENU_RETRY)
 		{
+			PlaySound(SOUND_LABEL_SE_DECISION);
 			ResetCurrentCheckpoint();
 			SetFade(MODE_GAME);
 		}
 		else if (g_SelectModeP == PAUSE_MENU_QUIT)
 		{
+			PlaySound(SOUND_LABEL_SE_DECISION);
 			SetFade(MODE_LOGO);
 		}
 		g_bF1 = false;
@@ -192,6 +195,7 @@ void UpdatePause(void)
 	else if (GetKeyboardTrigger(DIK_S) || GetKeyboardTrigger(DIK_DOWN) || GetJoystickTrigger(JOYSTICK_L_DOWN))
 	{//選択フレームを下に
 		g_SelectModeP++;
+		PlaySound(SOUND_LABEL_SE_CURSOR);
 
 		if (g_SelectModeP >= PAUSE_MENU_MAX)
 		{//選択フレームが下限
@@ -201,6 +205,7 @@ void UpdatePause(void)
 	else if (GetKeyboardTrigger(DIK_W) || GetKeyboardTrigger(DIK_UP) || GetJoystickTrigger(JOYSTICK_L_UP))
 	{//選択フレームを上に
 		g_SelectModeP--;
+		PlaySound(SOUND_LABEL_SE_CURSOR);
 
 		if (g_SelectModeP <= PAUSE_MENU_BG)
 		{//選択フレームが上限
@@ -209,6 +214,7 @@ void UpdatePause(void)
 	}
 	else if (GetKeyboardTrigger(DIK_P))
 	{
+		PlaySound(SOUND_LABEL_SE_CANCEL);
 		SwitchPause();
 		g_SelectModeP = PAUSE_MENU_CONTINUE;
 	}
