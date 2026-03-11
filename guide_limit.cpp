@@ -13,6 +13,7 @@
 #include "guide_limit.h"
 #include "util.h"
 #include "player.h"
+#include "goal.h"
 
 //*********************************************************************
 // 
@@ -110,7 +111,7 @@ void DrawGuide_Limit(void)
 	// プレイヤーの方でもう位置を補正しちゃってて
 	// そっちで使ってた条件式使えないので
 	// ヤケクソ気味に判定
-	if (fabsf(pPlayer[0].pos.x - pPlayer[1].pos.x) < PLAYER_BETWEEN - 20.0f)
+	if (fabsf(pPlayer[0].pos.x - pPlayer[1].pos.x) < PLAYER_BETWEEN - 20.0f && GetNumPlayersTouchingGoal() != 1)
 	{
 		return;
 	}

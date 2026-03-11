@@ -34,6 +34,7 @@ void DrawGoal(void);
 void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius);
 void SetGoalWidthAndDepth(GOAL* pGoal, D3DXVECTOR3 vtxMax, D3DXVECTOR3 vtxMin);
 void SetGoal(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+int GetNumPlayersTouchingGoal();
 
 
 #endif

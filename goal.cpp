@@ -10,11 +10,12 @@
 
 // マクロ定義
 #define MAX_GOAL		(1)								// ゴール数
-#define GOAL_MODELPATH	"data\\MODEL\\player000.x"		// ゴールモデルのパス情報
+#define GOAL_MODELPATH	"data\\MODEL\\Factory\\goal.x"			// ゴールモデルのパス情報
 
 // グローバル変数
 GOAL g_Goal;					// ゴール情報
 MESHDATA g_GoalModelData;		// ゴールモデル情報
+bool g_bPlayerTouching = false;
 
 //=======================================================
 // ゴールの初期化処理
@@ -47,8 +48,7 @@ void UninitGoal(void)
 //=======================================================
 void UpdateGoal(void)
 {
-
-
+	
 }
 
 //=======================================================
@@ -111,6 +111,7 @@ void DrawGoal(void)
 void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, float fRadius)
 {
 	FADE pFade = GetFade();			// フェード情報取得
+	Player* pPlayer = GetPlayer();
 
 	if (pPos->x + fRadius >= g_Goal.pos.x - g_Goal.fWidMin
 		&& pPos->x - fRadius <= g_Goal.pos.x + g_Goal.fWidMax
@@ -154,9 +155,8 @@ void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, 
 			pPos->z = g_Goal.pos.z + fRadius + g_Goal.fDepMax;	// ブロックの上側面に立たせる
 		}
 
-		if (pFade.state == FADESTATE_NONE)
-		{// フェードの設定
-
+		if (Magnitude(pPlayer[1].pos - pPlayer[0].pos) < 500)
+		{
 			SetFade(MODE_RESULT);
 		}
 	}
@@ -233,4 +233,25 @@ void SetGoal(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	// ブロックの幅と奥行の設定
 	SetGoalWidthAndDepth(&g_Goal, g_GoalModelData.vtxMax, g_GoalModelData.vtxMin);
+}
+
+int GetNumPlayersTouchingGoal(void)
+{
+	Player* pPlayer = GetPlayer();
+	int nTouching = 0;
+
+	for (int nPlayer = 0; nPlayer < MAX_PLAYER; nPlayer++, pPlayer++)
+	{
+		if (pPlayer->pos.x + pPlayer->fRadius >= g_Goal.pos.x - g_Goal.fWidMin
+			&& pPlayer->pos.x - pPlayer->fRadius <= g_Goal.pos.x + g_Goal.fWidMax
+			&& pPlayer->pos.y + pPlayer->fRadius > g_Goal.pos.y + g_GoalModelData.vtxMin.y
+			&& pPlayer->pos.y - pPlayer->fRadius < g_Goal.pos.y + g_GoalModelData.vtxMax.y
+			&& pPlayer->pos.z + pPlayer->fRadius >= g_Goal.pos.z - g_Goal.fDepMin
+			&& pPlayer->pos.z - pPlayer->fRadius <= g_Goal.pos.z + g_Goal.fDepMax)
+		{// ブロック範囲内
+			nTouching++;
+		}
+	}
+
+	return nTouching;
 }
