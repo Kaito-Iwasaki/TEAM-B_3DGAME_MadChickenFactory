@@ -334,8 +334,6 @@ void UpdatePlayer(void)
 		{// ˆÊ’u‚ð–ß‚·
 
 			g_Player[nCntPlayer].pos.x = g_Player[nCntPlayer].posOld.x;
-			g_Player[nCntPlayer].pos.z = g_Player[nCntPlayer].posOld.z;
-
 		}
 	}
 
