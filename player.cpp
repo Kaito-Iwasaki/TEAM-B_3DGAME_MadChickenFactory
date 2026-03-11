@@ -223,10 +223,12 @@ void UpdatePlayer(void)
 				pPart->rot = pPart->rotOffset;
 			}
 
-			if (g_Player[nCntPlayer].move.x >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
-				|| g_Player[nCntPlayer].move.x <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
-				|| g_Player[nCntPlayer].move.z >= 0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
-				|| g_Player[nCntPlayer].move.z <= -0.3f && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
+			if (
+				Magnitude(D3DXVECTOR3(g_Player[nCntPlayer].move.x, 0, g_Player[nCntPlayer].move.z)) >= 0.3f &&
+				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE &&
+				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP &&
+				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_PREPARATIONFOREXTRUSION
+				)
 			{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中モーション以外の時)
 
 				SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 30);
