@@ -67,6 +67,7 @@ typedef struct
 	float fRadius;											// 半径
 	float fHeight;											// 高さ
 	bool bDisableControl;									// 操作受け付け判定
+	bool bDisableFollow;									// 追従受け付け判定
 	bool bUse;												// 使用するかどうか
 	int nIdx;
 }Player;

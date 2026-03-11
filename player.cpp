@@ -86,6 +86,7 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].fRadius = 40.0f;								// 半径初期化
 		g_Player[nCntPlayer].fHeight = 100.0f;								// 高さ初期化
 		g_Player[nCntPlayer].bDisableControl = false;						// 操作受け付け状態に設定
+		g_Player[nCntPlayer].bDisableFollow = false;						// 追従受け付け状態に設定
 		g_Player[nCntPlayer].bUse = true;									// 使用状態にする
 		g_Player[nCntPlayer].nIdx = nCntPlayer;
 	}
@@ -681,6 +682,8 @@ void PlayerMoveControl(Player* pPlayer, int nCntControl)
 //=======================================================
 void PlayerFollow(Player *pTargetPlayer, Player *EligiblePlayer)
 {
+	if (EligiblePlayer->bDisableFollow) return;
+
 	float fRot = 0.0f;		// 角度代入用
 
 	// 角度算出

@@ -141,6 +141,7 @@ void UpdateEnemy(void)
 
 				// プレイヤーの操作を無効化
 				pPlayer->bDisableControl = true;
+				pPlayer->bDisableFollow = true;
 
 				// 発見状態に遷移
 				_SetEnemyState(nCountEnemy, ENEMYSTATE_FOUND);
