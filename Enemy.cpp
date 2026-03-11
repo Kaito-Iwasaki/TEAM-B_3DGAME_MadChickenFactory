@@ -127,7 +127,7 @@ void UpdateEnemy(void)
 
 			if (
 				Magnitude(vToPlr) < pEnemy->nSightRange		// プレイヤーとの距離が範囲内かつ
-				&& fabsf(vToPlr.y) < ENEMY_INIT_MAX_SIGHT_DISTANCE_Y		// 視野角の内側にいる
+				&& fabsf(vToPlr.y) < ENEMY_INIT_SIGHT_DISTANCE_Y		// 視野角の内側にいる
 				&& acosf(DotProduct(vSight, Normalize(vToPlr))) <= RAD(pEnemy->nSightAngle) * 0.5f
 				&& pEnemy->nTarget == -1
 				)
