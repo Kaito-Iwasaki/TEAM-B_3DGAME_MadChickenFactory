@@ -76,6 +76,8 @@ typedef struct
 	ENEMYSTATE previousState;
 	int nTarget;
 	float fSpeed;
+	int  nSightRange;			// Ž‹–ì”ÍˆÍ
+	int nSightAngle;			// Ž‹–ìŠp
 
 	int nMaxRoutine;
 	int nCurrentRoutine;
@@ -96,6 +98,6 @@ void InitEnemy(void);
 void UninitEnemy(void);
 void UpdateEnemy(void);
 void DrawEnemy(void);
-void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRoutine);
+void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, int nSightAngle, int nSightRange, ENEMY_ROUTINE* pRoutine);
 
 #endif

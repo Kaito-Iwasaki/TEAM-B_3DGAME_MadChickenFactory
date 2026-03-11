@@ -204,6 +204,8 @@ typedef struct
 {
 	float fSpeed;							// 移動速度
 	ENEMY_ROUTINE routine[MAX_ROUTINE];		// 行動ルーチン
+	int nSightAngle;						// 視野角
+	int nSightRange;						// 視野範囲
 	bool bShadow;							// 影の有無
 }ENEMYSETDATA;
 

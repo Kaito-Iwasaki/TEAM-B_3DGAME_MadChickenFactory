@@ -514,7 +514,14 @@ void _SetMap()
 	{
 		ENEMYSETDATA* pEnemyData = &g_modelDataGame.aInfoEnemySet[nCntEnemy];
 
-		SetEnemy(pEnemyData->routine[0].pos, pEnemyData->routine[0].rot, pEnemyData->fSpeed, &pEnemyData->routine[0]);
+		SetEnemy(
+			pEnemyData->routine[0].pos,
+			pEnemyData->routine[0].rot,
+			pEnemyData->fSpeed, 
+			pEnemyData->nSightAngle,
+			pEnemyData->nSightRange,
+			&pEnemyData->routine[0]
+		);
 	}
 
 	// ƒŠƒtƒg‚Ìİ’è

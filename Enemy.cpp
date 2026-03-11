@@ -25,10 +25,11 @@
 // 
 //*********************************************************************
 #define ENEMY_MOTION_FILENAME			"data\\motion_donald.txt"
-#define ENEMY_MAX_SIGHT_DISTANCE		(600)								// 敵の視界距離
-#define ENEMY_MAX_SIGHT_DISTANCE_Y		(150)								// 敵の視界距離（縦）
-#define ENEMY_MAX_SIGHT_ANGLE			(90.0f)								// 敵の視野角
-#define ENEMY_SIGHT_NUM_SEGMENT			(16)								// 敵の視野角表示の詳細度（頂点の分割数）
+#define ENEMY_INIT_SIGHT_DISTANCE			(600)							// 敵の視界距離
+#define ENEMY_INIT_SIGHT_DISTANCE_Y			(150)							// 敵の視界距離（縦）
+#define ENEMY_INIT_SIGHT_ANGLE				(90)							// 敵の視野角
+#define ENEMY_SIGHT_NUM_SEGMENT				(16)							// 敵の視野角表示の詳細度（頂点の分割数）
+#define ENEMY_SPEED_CHASE					(6.0f)
 
 //*********************************************************************
 // 
@@ -125,9 +126,9 @@ void UpdateEnemy(void)
 			D3DXVECTOR3 vToPlr = pPlayer->pos - pEnemy->pos;
 
 			if (
-				Magnitude(vToPlr) < ENEMY_MAX_SIGHT_DISTANCE		// プレイヤーとの距離が範囲内かつ
-				&& fabsf(vToPlr.y) < ENEMY_MAX_SIGHT_DISTANCE_Y		// 視野角の内側にいる
-				&& acosf(DotProduct(vSight, Normalize(vToPlr))) <= RAD(ENEMY_MAX_SIGHT_ANGLE) * 0.5f
+				Magnitude(vToPlr) < pEnemy->nSightRange		// プレイヤーとの距離が範囲内かつ
+				&& fabsf(vToPlr.y) < ENEMY_INIT_MAX_SIGHT_DISTANCE_Y		// 視野角の内側にいる
+				&& acosf(DotProduct(vSight, Normalize(vToPlr))) <= RAD(pEnemy->nSightAngle) * 0.5f
 				&& pEnemy->nTarget == -1
 				)
 			{
@@ -185,8 +186,8 @@ void DrawEnemy(void)
 	
 	g_pVtxBuffEnemySight->Lock(0, 0, (void**)&pVtx, 0);
 
-	float fAngleStart = -RAD(ENEMY_MAX_SIGHT_ANGLE) * 0.5f;
-	float fAngleGap = RAD(ENEMY_MAX_SIGHT_ANGLE) / (float)(ENEMY_SIGHT_NUM_SEGMENT - 1);
+	float fAngleStart = -RAD(pEnemy->nSightAngle) * 0.5f;
+	float fAngleGap = RAD(pEnemy->nSightAngle) / (float)(ENEMY_SIGHT_NUM_SEGMENT - 1);
 
 	for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++)
 	{
@@ -199,7 +200,7 @@ void DrawEnemy(void)
 			else
 			{
 				float fAngle = fAngleStart + fAngleGap * (nCountVtx - 1);
-				pVtx->pos = D3DXVECTOR3(-sinf(fAngle), 0, -cosf(fAngle)) * ENEMY_MAX_SIGHT_DISTANCE + D3DXVECTOR3(0, 0.1f, 0);
+				pVtx->pos = D3DXVECTOR3(-sinf(fAngle), 0, -cosf(fAngle)) * pEnemy->nSightRange + D3DXVECTOR3(0, 0.1f, 0);
 			}
 
 			pVtx->nor = D3DXVECTOR3_UP;
@@ -279,7 +280,7 @@ void DrawEnemy(void)
 //=====================================================================
 // 敵設定処理
 //=====================================================================
-void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRoutine)
+void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, int nSightAngle, int nSightRange, ENEMY_ROUTINE* pRoutine)
 {
 	ENEMY* pEnemy = &g_aEnemy[0];
 
@@ -291,6 +292,8 @@ void SetEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float fSpeed, ENEMY_ROUTINE* pRo
 		pEnemy->pos = pos;
 		pEnemy->rot = rot;
 		pEnemy->fSpeed = fSpeed;
+		pEnemy->nSightAngle = nSightAngle > 0 ? nSightAngle: ENEMY_INIT_SIGHT_ANGLE;
+		pEnemy->nSightRange = nSightRange > 0 ? nSightRange: ENEMY_INIT_SIGHT_DISTANCE;
 		pEnemy->nIdxShadow = SetShadow(pEnemy->pos, 100);
 
 		pEnemy->nSoundIdx[0] = SetSoundSpot(pos, SOUND_LABEL_SE_ENEMY);	// 索敵音

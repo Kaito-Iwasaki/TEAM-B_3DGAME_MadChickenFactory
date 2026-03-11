@@ -917,6 +917,14 @@ void _Read_ENEMYSET(FILE* pFile, ENEMYSETDATA* pBuffer)
 		{
 			fscanf(pFile, " = %f", &pBuffer->fSpeed);
 		}
+		else if (strcmp(&aStrLine[0], "SIGHTRANGE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nSightRange);
+		}
+		else if (strcmp(&aStrLine[0], "SIGHTANGLE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nSightAngle);
+		}
 		else if (strcmp(&aStrLine[0], "ROUTINESET") == 0)
 		{
 			_Read_ROUTINESET(pFile, &pBuffer->routine[nCountRoutineSet]);
