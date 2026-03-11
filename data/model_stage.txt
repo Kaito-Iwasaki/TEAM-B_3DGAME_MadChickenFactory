@@ -1064,17 +1064,6 @@ WALLSET
 	SIZE = 320 500
 END_WALLSET
 
-#----------------------------------
-# 臨時の壁(ステージ5を作るとき消す)
-#----------------------------------
-WALLSET
-	TEXTYPE = 3
-	POS = 20200 0 0
-	ROT = 0 90 0
-	BLOCK = 5 2
-	SIZE = 200 500
-END_WALLSET
-
 #------------------------------------------------------------------------------
 # 廊下 床
 #------------------------------------------------------------------------------
@@ -1087,6 +1076,112 @@ FIELDSET
 	SIZE = 400 500
 END_FIELDSET
 
+
+#------------------------------------------------------------------------------
+# ステージ5
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# ステージ	壁
+#------------------------------------------------------------------------------
+
+WALLSET
+	TEXTYPE = 3
+	POS = 21450 0 900
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 2500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 21450 0 -500
+	ROT = 0 180 0
+	BLOCK = 1 2
+	SIZE = 2500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 21450 -1000 -500
+	ROT = 0 0 0
+	BLOCK = 1 2
+	SIZE = 2500 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 20200 0 700
+	ROT = 0 -90 0
+	BLOCK = 1 2
+	SIZE = 400 500
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 22700 0 700
+	ROT = 0 90 0
+	BLOCK = 1 2
+	SIZE = 400 500
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# ステージ	床
+#------------------------------------------------------------------------------
+
+FIELDSET
+	TEXTYPE = 6
+	POS = 21450 0 200
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 2500 1400
+END_FIELDSET
+
+#------------------------------------------------------------------------------
+# 廊下	壁
+#------------------------------------------------------------------------------
+WALLSET
+	TEXTYPE = 3
+	POS = 23200 0 500
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1000 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 23200 0 -500
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 1000 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 23200 -1000 -500
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1000 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 23700 0 0
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 1000 1000
+END_WALLSET
+
+#------------------------------------------------------------------------------
+# 廊下	床
+#------------------------------------------------------------------------------
+FIELDSET
+	TEXTYPE = 6
+	POS = 23200 0 0
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 1000 1000
+END_FIELDSET
+
 #------------------------------------------------------------------------------
 # ギミック情報
 #------------------------------------------------------------------------------
@@ -1094,7 +1189,7 @@ END_FIELDSET
 # ゴール
 #----------------------------------------
 GOALSET
-	POS = 19400 0 0
+	POS = 23200 0 0
 END_GOALSET
 
 #----------------------------------------
@@ -1131,6 +1226,14 @@ END_CHECKPOINTSET
 
 CHECKPOINTSET
 	POS = 16000 0 0
+END_CHECKPOINTSET
+
+#----------------------------------------
+# ステージ5
+#----------------------------------------
+
+CHECKPOINTSET
+	POS = 19500 0 0
 END_CHECKPOINTSET
 
 
@@ -2491,6 +2594,10 @@ END_MODELSET
 #  フェンス
 #----------------------------------------
 
+#-------------------------------------
+#  ステージ2
+#-------------------------------------
+
 MODELSET
 	TYPE = 7
 	POS = 10855 -5 190
@@ -2647,6 +2754,210 @@ MODELSET
 	TYPE = 7
 	POS = 10855 215 -110
 	ROT = 0 90 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+#-------------------------------------
+#  ステージ5
+#-------------------------------------
+
+MODELSET
+	TYPE = 7
+	POS = 20250 0 500
+	ROT = 0 180 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 20350 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 20450 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 20550 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 20650 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 20750 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 20850 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 20950 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21050 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21150 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21250 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21350 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21450 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21550 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21650 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21750 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21850 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 21950 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 22050 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 22150 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 22250 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 22350 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 22450 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 22550 0 500
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
+MODELSET
+	TYPE = 7
+	POS = 22650 0 500
+	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
@@ -2853,7 +3164,7 @@ END_MODELSET
 
 MODELSET
 	TYPE = 22
-	POS = 11110 0 320
+	POS = 11110 0 
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
@@ -2904,33 +3215,159 @@ END_MODELSET
 # ドナルド配置
 #----------------------------------------
 
-1ENEMYSET
-	SPEED = 10.0
+ENEMYSET
+	SPEED = 5.0
+	SIGHTRANGE = 500
+	SIGHTANGLE = 50
 	
 	ROUTINESET
-		POS = 9320 0 500
+		POS = 20300 0 700
 		ROT = 0 0 0
-		WAIT = 60
+		WAIT = 300
 	END_ROUTINESET
 
 	ROUTINESET
-		POS = 9320 0 -195
+		POS = 20300 0 -400
 		ROT = 0 -90 0
-		WAIT = 60
+		WAIT = 180
 	END_ROUTINESET
-
-	ROUTINESET
-		POS = 10150 0 -195
-		ROT = 0 180 0
-		WAIT = 60
-	END_ROUTINESET
-
 	
 	ROUTINESET
-		POS = 10150 0 500
-		ROT = 0 90 0
-		WAIT = 60
+		POS = 22600 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
 	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 22600 0 700
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+END_ENEMYSET
+
+ENEMYSET
+	SPEED = 5.0
+	SIGHTRANGE = 500
+	SIGHTANGLE = 50
+		
+	ROUTINESET
+		POS = 20300 0 700
+		ROT = 0 0 0
+		WAIT = 720
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 20300 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 22600 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 22600 0 700
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+END_ENEMYSET
+
+ENEMYSET
+	SPEED = 5.0
+	SIGHTRANGE = 500
+	SIGHTANGLE = 50
+		
+	ROUTINESET
+		POS = 20300 0 700
+		ROT = 0 0 0
+		WAIT = 1140
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 20300 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 22600 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 22600 0 700
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+END_ENEMYSET
+
+ENEMYSET
+	SPEED = 5.0
+	SIGHTRANGE = 500
+	SIGHTANGLE = 50
+		
+	ROUTINESET
+		POS = 20300 0 700
+		ROT = 0 0 0
+		WAIT = 1560
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 20300 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 22600 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 22600 0 700
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+END_ENEMYSET
+
+ENEMYSET
+	SPEED = 5.0
+	SIGHTRANGE = 500
+	SIGHTANGLE = 50
+		
+	ROUTINESET
+		POS = 20300 0 700
+		ROT = 0 0 0
+		WAIT = 1980
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 20300 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 22600 0 -400
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 22600 0 700
+		ROT = 0 -90 0
+		WAIT = 180
+	END_ROUTINESET
+	
 END_ENEMYSET
 
 END_SCRIPT		# この行は絶対消さないこと！
