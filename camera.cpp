@@ -170,13 +170,16 @@ void UpdateCamera(void)
 	case CAMERAMODE_SIDEVIEW2P:	// サイドビュー（2P）
 	{
 		// カメラの注視点をプレイヤー１とプレイヤー２の中間に設定
-		D3DXVECTOR3 vecP1ToP2 = pPlayer[1].pos - pPlayer[0].pos;
-		pCamera->move = Lerp(pCamera->move, pPlayer[0].pos + vecP1ToP2 * 0.5f, 0.05f);
-		SetCameraPosR(0, pCamera->move);
+		if (bIsPlayerDead == false)
+		{
+			D3DXVECTOR3 vecP1ToP2 = pPlayer[1].pos - pPlayer[0].pos;
+			pCamera->move = Lerp(pCamera->move, pPlayer[0].pos + vecP1ToP2 * 0.5f, 0.05f);
 
-		// プレイヤーの距離に応じてカメラを離す
-		pCamera->fDistanceMove = max(Magnitude(vecP1ToP2), INIT_CAMERA_DISTANCE);
-		pCamera->fDistance = (Lerpf(pCamera->fDistance, pCamera->fDistanceMove, 0.1f));
+			// プレイヤーの距離に応じてカメラを離す
+			pCamera->fDistanceMove = max(Magnitude(vecP1ToP2), INIT_CAMERA_DISTANCE);
+			pCamera->fDistance = (Lerpf(pCamera->fDistance, pCamera->fDistanceMove, 0.1f));
+		}
+		SetCameraPosR(0, pCamera->move);
 
 		// カメラの視点を設定
 		SetCameraPosVFromAngle(0);
