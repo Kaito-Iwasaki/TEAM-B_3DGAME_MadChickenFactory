@@ -116,7 +116,7 @@ void DrawGuide_Limit(void)
 
 	if (GetNumPlayersTouchingGoal() == 1)
 	{
-		if (fabsf(pPlayer[1].pos.x - pPlayer[0].pos.x) < 500)
+		if (Magnitude(pPlayer[1].pos - pPlayer[0].pos) < 500)
 		{
 			return;
 		}
