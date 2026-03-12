@@ -361,6 +361,58 @@ WALLSET
 	SIZE = 2000 1000
 END_WALLSET
 
+#---------------------------------------------------------------
+# 肉置き場所
+#---------------------------------------------------------------
+
+WALLSET
+	TEXTYPE = 7
+	POS = 4350 0 500
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 600 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4300 0 500
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 500 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 7
+	POS = 4650 0 700
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 400 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4650 0 700
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 400 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 7
+	POS = 4650 0 1300
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 400 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 8
+	POS = 4650 0 1300
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 400 1000
+END_WALLSET
+
 #------------------------------------------------------------------------------
 # ゴール地点	床
 #------------------------------------------------------------------------------
@@ -1231,7 +1283,7 @@ END_WALLSET
 # ゴール
 #----------------------------------------
 GOALSET
-	POS = 23350 0 450
+	POS = 23350 0 500
 END_GOALSET
 
 #----------------------------------------
@@ -2509,6 +2561,14 @@ MODELSET
 	SHADOW = 0
 END_MODELSET
 
+MODELSET
+    TYPE = 3
+    POS = 4760 250 1050
+    ROT = 20 270 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
 #----------------------------------------
 #  チキン
 #----------------------------------------
@@ -3316,6 +3376,88 @@ END_MODELSET
 #----------------------------------------
 #  肉
 #----------------------------------------
+#----------------------------------------
+# ステージ１
+#----------------------------------------
+MODELSET
+    TYPE = 13
+    POS = 4200 300 650
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4200 300 850
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0 
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4200 300 1050
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4200 300 1250
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4200 300 1450
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4500 300 650
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4500 300 850
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0  
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4500 100 1050
+    ROT = 0 0 300
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4500 300 1250
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 4500 300 1450
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
 
 #----------------------------------------
 #  プレス機
@@ -3439,156 +3581,125 @@ END_MODELSET
 #----------------------------------------
 
 ENEMYSET
-	SPEED = 5.0
+	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
 	
 	ROUTINESET
 		POS = 20325 0 700
 		ROT = 0 0 0
-		WAIT = 300
+		WAIT = 30
 	END_ROUTINESET
 
 	ROUTINESET
 		POS = 20325 0 -275
 		ROT = 0 -90 0
-		WAIT = 180a
+		WAIT = 30
 	END_ROUTINESET
 	
 	ROUTINESET
 		POS = 22500 0 -275
 		ROT = 0 180 0
-		WAIT = 180
+		WAIT = 30
 	END_ROUTINESET
 	
 	ROUTINESET
 		POS = 22500 0 700
 		ROT = 0 90 0
-		WAIT = 180
+		WAIT = 30
 	END_ROUTINESET
 	
 END_ENEMYSET
 
-1ENEMYSET
-	SPEED = 5.0
+ENEMYSET
+	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
 		
 	ROUTINESET
-		POS = 20325 0 700
+		POS = 20325 0 -275
 		ROT = 0 0 0
-		WAIT = 300
+		WAIT = 30
 	END_ROUTINESET
 
 	ROUTINESET
-		POS = 20325 0 -275
-		ROT = 0 -90 0
-		WAIT = 180a
-	END_ROUTINESET
-	
-	ROUTINESET
 		POS = 22500 0 -275
-		ROT = 0 180 0
-		WAIT = 180
+		ROT = 0 -90 0
+		WAIT = 30
 	END_ROUTINESET
 	
 	ROUTINESET
-		POS = 22500 0 700
-		ROT = 0 90 0
-		WAIT = 180
+		POS = 22500 0 700	
+		ROT = 0 900 0
+		WAIT = 30
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 20325 0 700
+		ROT = 0 180 0
+		WAIT = 30
 	END_ROUTINESET
 	
 END_ENEMYSET
 
-1ENEMYSET
-	SPEED = 5.0
+ENEMYSET
+	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
 		
 	ROUTINESET
-		POS = 20325 0 700
+		POS = 22500 0 -275
 		ROT = 0 0 0
-		WAIT = 300
+		WAIT = 30
 	END_ROUTINESET
 
 	ROUTINESET
-		POS = 20325 0 -275
-		ROT = 0 -90 0
-		WAIT = 180a
-	END_ROUTINESET
-	
-	ROUTINESET
-		POS = 22500 0 -275
-		ROT = 0 180 0
-		WAIT = 180
-	END_ROUTINESET
-	
-	ROUTINESET
 		POS = 22500 0 700
+		ROT = 0 -90 0
+		WAIT = 30
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 20325 0 700
+		ROT = 0 180 0
+		WAIT = 30
+	END_ROUTINESET
+	
+	ROUTINESET
+		POS = 20325 0 -275
 		ROT = 0 90 0
-		WAIT = 180
+		WAIT = 30
 	END_ROUTINESET
 	
 END_ENEMYSET
 
-1ENEMYSET
-	SPEED = 5.0
+ENEMYSET
+	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
 		
 	ROUTINESET
-		POS = 20325 0 700
+		POS = 22500 0 700
 		ROT = 0 0 0
-		WAIT = 300
+		WAIT = 30
 	END_ROUTINESET
 
 	ROUTINESET
+		POS = 20325 0 700
+		ROT = 0 180 0
+		WAIT = 30
+	END_ROUTINESET
+	
+	ROUTINESET
 		POS = 20325 0 -275
-		ROT = 0 -90 0
-		WAIT = 180a
+		ROT = 0 180 0
+		WAIT = 30
 	END_ROUTINESET
 	
 	ROUTINESET
 		POS = 22500 0 -275
-		ROT = 0 180 0
-		WAIT = 180
-	END_ROUTINESET
-	
-	ROUTINESET
-		POS = 22500 0 700
 		ROT = 0 90 0
-		WAIT = 180
-	END_ROUTINESET
-	
-END_ENEMYSET
-
-1ENEMYSET
-	SPEED = 5.0
-	SIGHTRANGE = 500
-	SIGHTANGLE = 50
-		
-	ROUTINESET
-		POS = 20325 0 700
-		ROT = 0 0 0
-		WAIT = 300
-	END_ROUTINESET
-
-	ROUTINESET
-		POS = 20325 0 -275
-		ROT = 0 -90 0
-		WAIT = 180a
-	END_ROUTINESET
-	
-	ROUTINESET
-		POS = 22500 0 -275
-		ROT = 0 180 0
-		WAIT = 180
-	END_ROUTINESET
-	
-	ROUTINESET
-		POS = 22500 0 700
-		ROT = 0 90 0
-		WAIT = 180
+		WAIT = 30
 	END_ROUTINESET
 	
 END_ENEMYSET
