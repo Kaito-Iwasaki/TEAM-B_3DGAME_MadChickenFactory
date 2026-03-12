@@ -124,6 +124,7 @@ void UpdateEnemy(void)
 		{
 			D3DXVECTOR3 vSight = D3DXVECTOR3(sinf(pEnemy->rot.y + D3DX_PI), 0, cosf(pEnemy->rot.y + D3DX_PI));
 			D3DXVECTOR3 vToPlr = pPlayer->pos - pEnemy->pos;
+			vToPlr.y = 0;
 
 			if (
 				Magnitude(vToPlr) < pEnemy->nSightRange		// プレイヤーとの距離が範囲内かつ
@@ -392,6 +393,7 @@ void _OnEnemyState(int nIdx)
 	{
 		// 敵をターゲット（発見したプレイヤー）の位置へ近づける
 		D3DXVECTOR3 vToPlr = pTarget->pos - pEnemy->pos;
+		vToPlr.y = 0;
 		pEnemy->pos += Normalize(vToPlr) * ENEMY_SPEED_CHASE;
 
 		// 敵をターゲットの方向に向ける
