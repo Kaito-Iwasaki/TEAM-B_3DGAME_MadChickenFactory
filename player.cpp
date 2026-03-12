@@ -326,7 +326,16 @@ void UpdatePlayer(void)
 
 			g_Player[nCntPlayer].pos = D3DXVECTOR3(16000.0f, 0.0f, 0.0f);
 		}
+		else if (GetKeyboardTrigger(DIK_5) == true)
+		{// 4ステージ移動
 
+			g_Player[nCntPlayer].pos = D3DXVECTOR3(19400.0f, 0.0f, 0.0f);
+		}
+		else if (GetKeyboardTrigger(DIK_0) == true)
+		{// 4ステージ移動
+
+			g_Player[nCntPlayer].pos = D3DXVECTOR3(23200.0f, 0.0f, 0.0f);
+		}
 #endif
 	}
 
