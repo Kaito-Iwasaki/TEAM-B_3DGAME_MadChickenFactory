@@ -12,6 +12,7 @@
 #include "DebugProc.h"
 #include "team_logo.h"
 #include "sound.h"
+#include "motion.h"
 
 
 // ƒ}ƒNƒ’è‹`
@@ -157,6 +158,11 @@ void UpdatePrompt(void)
 
 				if (IsPromptKeyTriggered(nCountPlayer))
 				{
+					if (pPlayer->PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE)
+					{
+						SetMotion(&pPlayer->PlayerMotion, MOTIONTYPE_PREPARATIONFOREXTRUSION, 10);
+					}
+
 					PlaySound(SOUND_LABEL_SE_SWITCH);
 					g_aPromptTrigger[g_aPrompt[nCountPrompt].nIdx] = true;
 					break;
