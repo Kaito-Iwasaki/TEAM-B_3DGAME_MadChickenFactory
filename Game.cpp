@@ -301,10 +301,10 @@ void DrawGame(void)
 	DrawConveyer();			// コンベア
 	DrawLift();				// リフト
 	DrawEnemy();			// 敵
-	DrawEffect();			// エフェクト
 	DrawShadow();			// 影
 	DrawCheckpoint();		// チェックポイント
 	DrawPlayer();			// プレイヤー
+	DrawEffect();			// エフェクト
 
 	// フォグを無効化
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
