@@ -288,7 +288,6 @@ void DrawGame(void)
 	// フォグを有効化
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, g_bFogGame);
 
-	DrawPlayer();			// プレイヤー
 	DrawField();			// フィールド
 	DrawWall();				// 壁
 	DrawTimer();			// タイマー
@@ -305,6 +304,7 @@ void DrawGame(void)
 	DrawEffect();			// エフェクト
 	DrawShadow();			// 影
 	DrawCheckpoint();		// チェックポイント
+	DrawPlayer();			// プレイヤー
 
 	// フォグを無効化
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);

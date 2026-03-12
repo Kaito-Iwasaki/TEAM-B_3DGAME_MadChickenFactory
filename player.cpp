@@ -385,6 +385,82 @@ void DrawPlayer(void)
 	D3DXMATERIAL* pMat;								// マテリアルデータへのポインタ
 	Player* pPlayer = GetPlayer();
 
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	
+	DWORD dwLastLightState;
+	pDevice->GetRenderState(D3DRS_LIGHTING, &dwLastLightState);
+	//pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	// ハイライト描画（試験的）
+	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++, pPlayer++)
+	{
+		pDevice->GetMaterial(&matDef);
+
+		if (pPlayer->bUse == true)
+		{// 使用している場合
+
+			// プレイヤーのマトリックスを設定
+			MatrixRotationPosition(&pPlayer->mtxWorld, pPlayer->rot, pPlayer->pos);
+
+			D3DXMATERIAL matHighlight;
+			ZeroMemory(&matHighlight, sizeof(D3DXMATERIAL));
+			matHighlight.MatD3D.Diffuse = D3DXCOLOR_GRAY(1.0f);
+			matHighlight.MatD3D.Ambient = D3DXCOLOR_GRAY(1.0f);
+			matHighlight.MatD3D.Emissive = D3DXCOLOR_GRAY(1.0f);
+
+			for (int nCntPart = 0; nCntPart < pPlayer->PlayerMotion.nNumPart; nCntPart++)
+			{
+				D3DXMATRIX mtxRotModel, mtxTransModel;		// 計算用マトリックス
+				D3DXMATRIX mtxParent;						// 親のマトリックス
+				
+
+				// パーツへのポインタを取得
+				PART* pPart = &pPlayer->PlayerMotion.aPart[nCntPart];
+
+				// パーツのワールドマトリックスの初期化
+				MatrixRotationPosition(&pPart->mtxWorld, pPart->rot, pPart->pos);
+
+				// パーツの「親マトリックス」を設定
+				if (pPart->nIdxModelParent != -1)
+				{// 親モデルがある場合
+					// 親のインデックスを使用して、同じプレイヤーのパーツ配列から取得
+					int parentIdx = pPart->nIdxModelParent;
+					mtxParent = pPlayer->PlayerMotion.aPart[parentIdx].mtxWorld;
+				}
+				else
+				{// 親モデルが無い場合
+					mtxParent = pPlayer->mtxWorld;
+				}
+
+				// 算出した「パーツのワールドマトリックス」と「親のマトリックス」をかけ合わせる
+				D3DXMatrixMultiply(&pPart->mtxWorld, &pPart->mtxWorld, &mtxParent);
+
+				// パーツのワールドマトリックスの設定
+				pDevice->SetTransform(D3DTS_WORLD, &pPart->mtxWorld);
+
+				for (int nCntMat = 0; nCntMat < (int)pPart->dwNumMat; nCntMat++)
+				{
+					// マテリアルの設定
+					pDevice->SetMaterial(&matHighlight.MatD3D);
+
+					// テクスチャ設定
+					pDevice->SetTexture(0, NULL);
+
+					// パーツの描画
+					pPart->pMesh->DrawSubset(nCntMat);
+				}
+			}
+		}
+	}
+
+	// Zテストを有効にする
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, dwLastLightState);
+
+	pPlayer = GetPlayer();
 	for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++, pPlayer++)
 	{
 		pDevice->GetMaterial(&matDef);
@@ -694,7 +770,9 @@ void PlayerMoveControl(Player* pPlayer, int nCntControl)
 void PlayerFollow(Player *pTargetPlayer, Player *EligiblePlayer)
 {
 	if (EligiblePlayer->bDisableFollow) return;
-	if (Magnitude(EligiblePlayer->pos, pTargetPlayer->pos) < 100) return;	// 一定距離近かったら止まる
+
+	D3DXVECTOR3 vecPlayerToTarget = pTargetPlayer->pos - EligiblePlayer->pos;
+	if (Magnitude(D3DXVECTOR3(vecPlayerToTarget.x, 0, vecPlayerToTarget.z)) < 100) return;	// 一定距離近かったら止まる
 
 	float fRot = 0.0f;		// 角度代入用
 
