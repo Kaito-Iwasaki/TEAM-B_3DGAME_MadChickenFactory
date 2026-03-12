@@ -29,7 +29,7 @@
 #define ENEMY_INIT_SIGHT_DISTANCE_Y			(150)							// 敵の視界距離（縦）
 #define ENEMY_INIT_SIGHT_ANGLE				(90)							// 敵の視野角
 #define ENEMY_SIGHT_NUM_SEGMENT				(16)							// 敵の視野角表示の詳細度（頂点の分割数）
-#define ENEMY_SPEED_CHASE					(6.0f)
+#define ENEMY_SPEED_CHASE					(10.0f)
 
 //*********************************************************************
 // 
