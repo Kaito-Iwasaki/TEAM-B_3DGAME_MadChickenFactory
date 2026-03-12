@@ -57,8 +57,8 @@
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define GAME_FOG_START		(2500.0f)
-#define GAME_FOG_END		(4000.0f)
+#define GAME_FOG_START		(1000.0f)
+#define GAME_FOG_END		(GAME_FOG_START + 1500.0f)
 
 //*********************************************************************
 // 
@@ -227,6 +227,8 @@ void UninitGame(void)
 //=====================================================================
 void UpdateGame(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
 	// 各オブジェクトの更新処理
 	if (GetPause() == false)
 	{//ポーズでない
@@ -262,6 +264,18 @@ void UpdateGame(void)
 		UpdateGuide();			// 操作ガイド表示
 		UpdateGuide_Limit();	// 距離制限ガイド表示
 		UpdateObjective();		// 目標表示
+
+		if (GetTitle() == 1)
+		{
+			// 2Pモード時限定
+			// カメラの視点と注視点の距離に応じてフォグ範囲を変える
+			CAMERA* pCamera = GetCamera(0);
+			float FogStart = max(Magnitude(pCamera->posR - pCamera->posV), GAME_FOG_START);
+			float FogEnd = FogStart + (GAME_FOG_END - GAME_FOG_START);
+
+			pDevice->SetRenderState(D3DRS_FOGSTART, *((DWORD*)(&FogStart)));	// フォグ開始点
+			pDevice->SetRenderState(D3DRS_FOGEND, *((DWORD*)(&FogEnd)));		// フォグ終了点
+		}
 
 		// デバッグ表示
 		_DebugDisplay();
