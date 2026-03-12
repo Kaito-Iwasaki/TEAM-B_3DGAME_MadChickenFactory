@@ -100,6 +100,16 @@ void UpdateCamera(void)
 	CAMERA* pCamera = &g_camera[0];
 	Player* pPlayer = GetPlayer();
 
+	bool bIsPlayerDead = false;
+	for (int nPlr = 0; nPlr < MAX_PLAYER; nPlr++)
+	{// プレイヤーが死んでいる（ゲームオーバー）か確認する
+		if (pPlayer[nPlr].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_ACTION)
+		{
+			bIsPlayerDead = true;
+			break;
+		}
+	}
+
 	switch (pCamera->mode)
 	{
 	case CAMERAMODE_NONE:		// プログラム制御
@@ -108,7 +118,10 @@ void UpdateCamera(void)
 	case CAMERAMODE_SIDEVIEWFOCUS1:	// サイドビュー
 	{
 		// カメラの注視点をプレイヤーに設定
-		pCamera->move = Lerp(pCamera->move, pPlayer[0].pos, 0.05f);
+		if (bIsPlayerDead == false)
+		{
+			pCamera->move = Lerp(pCamera->move, pPlayer[0].pos, 0.05f);
+		}
 		SetCameraPosR(0, pCamera->move);
 
 		// カメラの視点を設定
@@ -131,7 +144,10 @@ void UpdateCamera(void)
 	case CAMERAMODE_SIDEVIEWFOCUS2:	// サイドビュー
 	{
 		// カメラの注視点をプレイヤーに設定
-		pCamera->move = Lerp(pCamera->move, pPlayer[1].pos, 0.05f);
+		if (bIsPlayerDead == false)
+		{
+			pCamera->move = Lerp(pCamera->move, pPlayer[1].pos, 0.05f);
+		}
 		SetCameraPosR(0, pCamera->move);
 
 		// カメラの視点を設定
@@ -159,7 +175,8 @@ void UpdateCamera(void)
 		SetCameraPosR(0, pCamera->move);
 
 		// プレイヤーの距離に応じてカメラを離す
-		pCamera->fDistance = max(Magnitude(vecP1ToP2), INIT_CAMERA_DISTANCE);
+		pCamera->fDistanceMove = max(Magnitude(vecP1ToP2), INIT_CAMERA_DISTANCE);
+		pCamera->fDistance = (Lerpf(pCamera->fDistance, pCamera->fDistanceMove, 0.1f));
 
 		// カメラの視点を設定
 		SetCameraPosVFromAngle(0);

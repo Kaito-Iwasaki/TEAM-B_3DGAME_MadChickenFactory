@@ -64,6 +64,7 @@ typedef struct CAMERA
 	D3DXVECTOR3 move;
 	CAMERAMODE mode;
 	float fDistance;
+	float fDistanceMove;
 	D3DXMATRIX mtxProjection;	// プロジェクションマトリックス（投影行列）
 	D3DXMATRIX mtxView;			// ビューマトリックス
 	D3DVIEWPORT9 viewport;
