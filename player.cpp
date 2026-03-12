@@ -76,8 +76,8 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].pos = INIT_PLAYER_POS;		// 現在の位置初期化
 		g_Player[nCntPlayer].posOld = INIT_PLAYER_POS;		// 前回の位置代入
 		g_Player[nCntPlayer].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			// 移動量初期化
-		g_Player[nCntPlayer].rot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);		// 向き初期化
-		g_Player[nCntPlayer].rotmove = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);	// 向きの移動量初期化
+		g_Player[nCntPlayer].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き初期化
+		g_Player[nCntPlayer].rotmove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	// 向きの移動量初期化
 		g_Player[nCntPlayer].fAngle = 0.0f;									// キャラの進む方向初期化
 		g_Player[nCntPlayer].fStandPos = 0.0f;								// 現在の立つ位置初期化
 		g_Player[nCntPlayer].nIdxShadow = -1;								// 対象の影のインデックス(番号)初期化
