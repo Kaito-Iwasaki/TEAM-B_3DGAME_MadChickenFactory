@@ -9,7 +9,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # テクスチャ数
 #------------------------------------------------------------------------------
-NUM_TEXTURE = 9
+NUM_TEXTURE = 10
 
 #------------------------------------------------------------------------------
 # テクスチャファイル名
@@ -23,6 +23,7 @@ TEXTURE_FILENAME = data/TEXTURE/grass000.png		# [5]草テクスチャ
 TEXTURE_FILENAME = data/TEXTURE/metal_floor.jpg		# [6]鉄地面テクスチャ
 TEXTURE_FILENAME = data/TEXTURE/wiremesh.png		# [7]ワイヤーテクスチャ
 TEXTURE_FILENAME = data/TEXTURE/wall.png			# [8]ワイヤーテクスチャ
+TEXTURE_FILENAME = data/TEXTURE/exit.jpg			# [9]ゴールテクスチャ
 
 #------------------------------------------------------------------------------
 # モデル数
@@ -1182,6 +1183,14 @@ FIELDSET
 	SIZE = 1000 1000
 END_FIELDSET
 
+WALLSET
+	TEXTYPE = 9
+	POS = 22900 100 450
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 300 250
+END_WALLSET
+
 #------------------------------------------------------------------------------
 # ギミック情報
 #------------------------------------------------------------------------------
@@ -1189,7 +1198,7 @@ END_FIELDSET
 # ゴール
 #----------------------------------------
 GOALSET
-	POS = 23200 0 450
+	POS = 23350 0 450
 END_GOALSET
 
 #----------------------------------------
@@ -2776,8 +2785,8 @@ END_MODELSET
 
 MODELSET
 	TYPE = 7
-	POS = 20535 0 250
-	ROT = 0 90 0
+	POS = 20535 0 225
+	ROT = 0 270 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
@@ -2792,16 +2801,16 @@ END_MODELSET
 
 MODELSET
 	TYPE = 7
-	POS = 20450 0 500
-	ROT = 0 0 0
+	POS = 20535 0 100
+	ROT = 0 270 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
 
 MODELSET
 	TYPE = 7
-	POS = 20550 0 500
-	ROT = 0 0 0
+	POS = 20535 0 0
+	ROT = 0 270 0
 	COLLISION = 1
 	SHADOW = 0
 END_MODELSET
