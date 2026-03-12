@@ -172,7 +172,7 @@ void InitGame(void)
 	Player* pPlayer = GetPlayer();
 	for (int nPlayer = 0; nPlayer < MAX_PLAYER; nPlayer++, pPlayer++)
 	{// プレイヤー位置を現在のチェックポイントの位置に設定
-		pPlayer->pos = GetCurrentCheckpointPos();
+		pPlayer->pos = GetCurrentCheckpointPos() + nPlayer * D3DXVECTOR3(-100, 0, 0);
 		pPlayer->posOld = pPlayer->pos;
 	}
 
