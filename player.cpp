@@ -281,6 +281,18 @@ void UpdatePlayer(void)
 			g_Player[nCntPlayer].pos.y += g_Player[nCntPlayer].move.y;
 			g_Player[nCntPlayer].pos.z += g_Player[nCntPlayer].move.z;
 
+			// 目標の移動方向までの差分算出
+			fRotDiff = g_Player[nCntPlayer].rotmove.y - g_Player[nCntPlayer].rot.y;
+
+			// 角度の値補正
+			fRotDiff = GetFixedRotation(fRotDiff);
+
+			// 移動方向(角度)の補正
+			g_Player[nCntPlayer].rot.y += fRotDiff * ANGLE_DAMPINGFUNCTION;
+
+			// 角度の値補正
+			g_Player[nCntPlayer].rot.y = GetFixedRotation(g_Player[nCntPlayer].rot.y);
+
 			// 当たり判定処理
 			CollisionPlayer(&g_Player[nCntPlayer], nCntPlayer);
 
@@ -636,6 +648,9 @@ void SetMove(Player *pPlayer)
 void KillPlayer(Player *pPlayer)
 {
 	pPlayer->bDisableControl = true;		// 操作不能にする
+	pPlayer->move.x = 0;
+	pPlayer->move.z = 0;
+	pPlayer->rotmove = pPlayer->rot;
 
 	// モーションの設定
 	SetMotion(&pPlayer->PlayerMotion, MOTIONTYPE_ACTION, 30);

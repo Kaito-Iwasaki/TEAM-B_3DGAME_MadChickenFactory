@@ -451,8 +451,9 @@ void _OnEnemyStateChanged(int nIdx)
 		// モーション設定（移動）
 		SetMotion(&pEnemy->motion, ENEMY_MOTIONTYPE_MOVE, 10);
 
-		D3DXVECTOR3 vecMove = pEnemy->destination - pEnemy->pos;
+		D3DXVECTOR3 vToPlr = pTarget->pos - pEnemy->pos;
 		pTarget->move = D3DXVECTOR3_ZERO;
+		pTarget->rotmove.y = atan2f(vToPlr.x, vToPlr.z);
 		pTarget->bDisableControl = true;
 		SetMotion(&pTarget->PlayerMotion, MOTIONTYPE_NEUTRAL, 10);
 		break;
