@@ -83,7 +83,7 @@ void UpdateSaw(void)
 	{
 		if (g_aSaw[nCntSaw].bUse == true)
 		{
-			if (GetPromptTrigger(g_aSaw[nCntSaw].nPromptID))
+			if (GetPromptTrigger(g_aSaw[nCntSaw].nPromptID) && g_aSaw[nCntSaw].bMove == false)
 			{
 				SwitchSaw(nCntSaw);
 			}

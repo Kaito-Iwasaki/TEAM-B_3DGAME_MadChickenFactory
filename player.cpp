@@ -226,8 +226,7 @@ void UpdatePlayer(void)
 			if (
 				Magnitude(D3DXVECTOR3(g_Player[nCntPlayer].move.x, 0, g_Player[nCntPlayer].move.z)) >= 0.3f &&
 				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE &&
-				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP &&
-				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_PREPARATIONFOREXTRUSION
+				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
 				)
 			{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中モーション以外の時)
 
@@ -236,7 +235,12 @@ void UpdatePlayer(void)
 
 			if (g_Player[nCntPlayer].move.x < 0.3f && g_Player[nCntPlayer].move.x > -0.3f
 				&& g_Player[nCntPlayer].move.z < 0.3f && g_Player[nCntPlayer].move.z > -0.3f
-				&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_NEUTRAL && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP)
+				&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_NEUTRAL
+				&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+				&& (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_PREPARATIONFOREXTRUSION ||
+					g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_PREPARATIONFOREXTRUSION &&
+					g_Player[nCntPlayer].PlayerMotion.bFinishMotion)
+				)
 			{// 待機モーションに変更(移動していない&ジャンプモーション以外の時)
 
 				if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_LANDING
