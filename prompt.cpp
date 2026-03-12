@@ -74,10 +74,10 @@ void InitPrompt(void)
 		g_aPrompt[nCountPrompt].bDisp = false;
 
 		// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-		pVtx[0].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[1].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[2].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-		pVtx[3].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+		pVtx[0].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, 0);
+		pVtx[1].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, + g_aPrompt[nCountPrompt].size.y, 0);
+		pVtx[2].pos = D3DXVECTOR3(- g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, 0);
+		pVtx[3].pos = D3DXVECTOR3(+ g_aPrompt[nCountPrompt].size.x, - g_aPrompt[nCountPrompt].size.y, 0);
 
 		// 法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -237,9 +237,11 @@ void DrawPrompt(void)
 			pDevice->SetTexture(0, g_pTexturePrompt);
 
 			// ポリゴンの描画
-			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-				0,
-				2);
+			pDevice->DrawPrimitive(
+				D3DPT_TRIANGLESTRIP,
+				nCountPrompt * 4,
+				2
+			);
 			// ライティングを有効にする
 			pDevice->SetRenderState(D3DRS_LIGHTING, dwLastLightState);
 
@@ -247,10 +249,10 @@ void DrawPrompt(void)
 			pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 			pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
-			// アルファテストを有効にする
-//			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-//			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
-//			pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+			// アルファテストを無効にする
+			pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+			pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_ALWAYS);
+			pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
 		}
 
@@ -284,10 +286,10 @@ void SetPrompt(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nIdx)
 			g_aPrompt[nCountPrompt].bDisp = false;
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[1].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[2].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
-			pVtx[3].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, g_aPrompt[nCountPrompt].pos.z);
+			pVtx[0].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, 0);
+			pVtx[1].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  + g_aPrompt[nCountPrompt].size.y, 0);
+			pVtx[2].pos = D3DXVECTOR3( - g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, 0);
+			pVtx[3].pos = D3DXVECTOR3( + g_aPrompt[nCountPrompt].size.x,  - g_aPrompt[nCountPrompt].size.y, 0);
 
 			// テクスチャ座標の設定
 			pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
