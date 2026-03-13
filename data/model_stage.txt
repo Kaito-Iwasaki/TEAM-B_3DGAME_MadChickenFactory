@@ -2547,12 +2547,28 @@ END_PROMPTSET
 # 血の付いたナイフ
 #----------------------------------------
 
+#-------------------------------------
+# ステージ１
+#-------------------------------------
+
 MODELSET
 	TYPE = 0
 	POS = -2330 0 -280
 	ROT = 0 90 0
 	COLLISION = 0
 	SHADOW = 0
+END_MODELSET
+
+#-------------------------------------
+# ステージ2
+#-------------------------------------
+
+MODELSET
+    TYPE = 0
+    POS = 7500 200 390
+    ROT = 0 45 0
+    COLLISION = 0
+    SHADOW = 0
 END_MODELSET
 
 #----------------------------------------
@@ -3471,6 +3487,38 @@ MODELSET
 END_MODELSET
 
 #----------------------------------------
+# ステージ5
+#----------------------------------------
+MODELSET
+    TYPE = 13
+    POS = 20700 400 100
+    ROT = 0 0 0
+    COLLISION = 0
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 13
+    POS = 20900 400 100
+    ROT = 0 0 0
+    COLLISION = 0
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 13
+    POS = 21700 400 100
+    ROT = 0 0 0
+    COLLISION = 0
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 13
+    POS = 21900 400 100
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
 #  プレス機
 #----------------------------------------
 
@@ -3498,6 +3546,24 @@ END_MODELSET
 # 木箱
 #----------------------------------------
 
+#-------------------------------------
+#  ステージ2
+#-------------------------------------
+MODELSET
+    TYPE = 20
+    POS = 7500 0 400
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 20
+    POS = 8200 0 400
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
 #----------------------------------------
 # 培養ポッド
 #----------------------------------------
@@ -3508,6 +3574,38 @@ MODELSET
 	ROT = 0 0 0
 	COLLISION = 1
 	SHADOW = 0
+END_MODELSET
+
+#-------------------------------------
+#  ステージ5
+#-------------------------------------
+MODELSET
+    TYPE = 22
+    POS = 18900 0 350
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 22
+    POS = 19250 0 350
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 22
+    POS = 19600 0 350
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 22
+    POS = 19950 0 350
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
 END_MODELSET
 
 #----------------------------------------
