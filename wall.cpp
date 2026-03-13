@@ -215,102 +215,183 @@ void SetWall(int nTexType, D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot)
 // ***** 壁の当たり判定 *****
 // 
 //=====================================================================
-bool CollisionWall(D3DXVECTOR3 *pos, D3DXVECTOR3 posold,D3DXVECTOR3 *move,D3DXVECTOR3 size)
+bool CollisionWall(D3DXVECTOR3* pos, D3DXVECTOR3 posold, D3DXVECTOR3* move, D3DXVECTOR3 size)
 {
-	bool check = false, checkold = false;
-	bool bChek = false, bcheckold = false;
+	Wall* pWall = &g_aWall[0];
 
-	D3DXVECTOR3 VecLine, VecToPos, VecMove, VecToPosOld;
-	D3DXVECTOR3 v0, v1;		//壁の端to端ベクトル
-	D3DXVECTOR3 WallMove, Reflection;	//壁ずりベクトル,反射ベクトル
-	D3DXVECTOR3 VecLineNor, VecToPosNor, VecToPosOldNor;
+	D3DXVECTOR3 v0, v1, v0To1;
+	D3DXVECTOR3 vecNor;					// 法線ベクトル
+	D3DXVECTOR3 vToPos;					// v0→現在地
+	D3DXVECTOR3 vToPosOld;				// v0→過去位置
+	D3DXVECTOR3 vMove = *pos - posold;	// 過去位置→現在位置
+	vMove.y = 0;
+	D3DXVECTOR3 vFixedMove;	// 壁ずりベクトル
 
-	float fNormal;	//正規化法線ベクトル
-	float fRate, fAll, fIntersect;
+	if (Magnitude(*move) == 0) return false;
+	if (Magnitude(vMove) == 0) return false;
 
-	VecMove = *pos - posold;
-
-	if (VecMove.x == 0 && VecMove.z == 0)
-	{// 移動していなかったら判定しない
-		return false;
-	}
-
-	for (int nCnt = 0; nCnt < MAX_WALL; nCnt++)
+	for (int nWall = 0; nWall < MAX_WALL; nWall++, pWall++)
 	{
-		if (g_aWall[nCnt].bUse == true)
+		if (pWall->bUse == false) continue;
+		if (posold.y < pWall->pos.y || posold.y > pWall->pos.y + pWall->size.y - MARGINE_HEIGHT) continue;
+
+		// 境界線ベクトルを求める
+		v0.x = (pWall->pos.x - (pWall->size.x * 0.5f) * cosf(-pWall->rot.y));
+		v0.y = 0.0f;
+		v0.z = (pWall->pos.z - (pWall->size.x * 0.5f) * sinf(-pWall->rot.y));
+		
+		v1.x = (pWall->pos.x + (pWall->size.x * 0.5f) * cosf(-pWall->rot.y));
+		v1.y = 0.0f;
+		v1.z = (pWall->pos.z + (pWall->size.x * 0.5f) * sinf(-pWall->rot.y));
+
+		v0To1 = v1 - v0;
+		vecNor = Normalize(D3DXVECTOR3(v0To1.z, 0, -v0To1.x));
+
+		vToPos = *pos - v0;
+		vToPos.y = 0;
+		vToPosOld = posold - v0;
+		vToPosOld.y = 0;
+
+		float fCrossToPos = CrossProduct(v0To1, vToPos).y;
+		float fCrossToPosOld = CrossProduct(v0To1, vToPosOld).y;
+
+		if (fCrossToPos <= 0 && fCrossToPosOld >= 0)
 		{
-			v0.x = (g_aWall[nCnt].pos.x - (g_aWall[nCnt].size.x / 2.0f) * cosf(-g_aWall[nCnt].rot.y));
-			v0.y = 0.0f;
-			v0.z = (g_aWall[nCnt].pos.z - (g_aWall[nCnt].size.x / 2.0f) * sinf(-g_aWall[nCnt].rot.y));
+			PrintDebugProc("[%d]Yes\n", nWall);
 
-			v1.x = (g_aWall[nCnt].pos.x + (g_aWall[nCnt].size.x / 2.0f) * cosf(-g_aWall[nCnt].rot.y));
-			v1.y = 0.0f;
-			v1.z = (g_aWall[nCnt].pos.z + (g_aWall[nCnt].size.x / 2.0f) * sinf(-g_aWall[nCnt].rot.y));
+			float fSurfaceAll = CrossProduct(v0To1 * 0.1f, vMove * 0.1f).y;
+			float fSurfaceToPos = CrossProduct(vToPos * 0.1f, vMove * 0.1f).y;
 
-			VecLine = v1 - v0;
-			VecToPos = *pos - v0;
-			VecToPosOld = posold - v0;
-			VecLineNor = Normalize(VecLine);
-			VecToPosNor = Normalize(VecToPos);
-			VecToPosOldNor = Normalize(VecToPosOld);
+			if (fSurfaceAll == 0) continue;
 
-			if (CrossProduct(VecLineNor, VecToPosNor).y <= 0)
-			{//posが右にいる
-				check = true;
+			float fRate = fSurfaceToPos / fSurfaceAll;
+			D3DXVECTOR3 vecHit = v0 + v0To1 * fRate;
 
-			}
-			else
-			{//posが左にいる
-				check = false;
+			if (fRate >= 0.0f && fRate <= 1.0f)
+			{
+				pos->x = vecHit.x;
+				pos->z = vecHit.z;
 
-			}
-
-			if (CrossProduct(VecLineNor, VecToPosOldNor).y >= -MARGIN_RANGE)
-			{//posoldが左にいる
-				checkold = true;
-
-			}
-			else
-			{//posoldが右にいる
-				checkold = false;
-
-			}
-
-			if (check == true && checkold == true)
-			{//範囲検証
-				//正規化
-				//Normalize(VecLine);
-				//Normalize(VecToPos);
-				//Normalize(VecMove);
-
-				fIntersect = (VecToPos.z * VecMove.x) - (VecToPos.x * VecMove.z);
-				fAll = (VecLine.z * VecMove.x) - (VecLine.x * VecMove.z);
-
-				fRate = fIntersect / fAll;
-
-				
-				if (0.0f <= fRate && fRate <= 1.0f && posold.y >= g_aWall[nCnt].pos.y && posold.y < g_aWall[nCnt].pos.y + g_aWall[nCnt].size.y - MARGINE_HEIGHT)
-				{
-					PrintDebugProc("[%d]%f\n", nCnt, fRate);
-
-					bChek = true;
-					fNormal = -DotProduct(*move, g_aWall[nCnt].nor);
-					WallMove = *move + fNormal * g_aWall[nCnt].nor * 1.5f;
-					pos->x = v0.x + VecLine.x * fRate;
-					pos->x += WallMove.x;
-
-					pos->z = v0.z + VecLine.z * fRate;
-					pos->z += WallMove.z;
-				}
-				else
-				{
-					bChek = false;
-
-				}
+				// なんと法線方向に少し押し戻すだけで良い感じになる
+				// それっぽきゃええねん
+				*pos += vecNor * 4.0f;
 			}
 		}
-
 	}
 
-	return bChek;
+	return false;
 }
+//{
+//	bool check = false, checkold = false;
+//	bool bChek = false, bcheckold = false;
+//
+//	D3DXVECTOR3 VecLine;		// 境界線ベクトル（壁始点→壁終点ベクトル）
+//	D3DXVECTOR3 VecToPos;		// 壁始点→プレイヤー位置ベクトル
+//	D3DXVECTOR3 VecToPosOld;	// 壁始点→プレイヤー過去位置ベクトル
+//	D3DXVECTOR3 VecMove;		// プレイヤー移動ベクトル
+//	D3DXVECTOR3 v0, v1;			//壁の端to端ベクトル
+//	D3DXVECTOR3 WallMove;	//壁ずりベクトル,反射ベクトル
+//	D3DXVECTOR3 VecLineNor, VecToPosNor, VecToPosOldNor;
+//	D3DXVECTOR3 VecHit;
+//	D3DXVECTOR3 VecReach = *pos + *move;
+//
+//	float fNormal;	//正規化法線ベクトル
+//	float fRate, fAll, fIntersect;
+//
+//	VecMove = *pos - posold;
+//
+//	// 外積のＹ成分を使うわけですが、ここでＹの値入ってると多分正常なＹ成分取れないので
+//	// 0にしておきます
+//	VecMove.y = 0;
+//
+//	if (VecMove.x == 0 && VecMove.z == 0)
+//	{// 移動していなかったら判定しない
+//		return false;
+//	}
+//
+//	for (int nCnt = 0; nCnt < MAX_WALL; nCnt++)
+//	{
+//		if (g_aWall[nCnt].bUse == true)
+//		{
+//			v0.x = (g_aWall[nCnt].pos.x - (g_aWall[nCnt].size.x / 2.0f) * cosf(-g_aWall[nCnt].rot.y));
+//			v0.y = 0.0f;
+//			v0.z = (g_aWall[nCnt].pos.z - (g_aWall[nCnt].size.x / 2.0f) * sinf(-g_aWall[nCnt].rot.y));
+//
+//			v1.x = (g_aWall[nCnt].pos.x + (g_aWall[nCnt].size.x / 2.0f) * cosf(-g_aWall[nCnt].rot.y));
+//			v1.y = 0.0f;
+//			v1.z = (g_aWall[nCnt].pos.z + (g_aWall[nCnt].size.x / 2.0f) * sinf(-g_aWall[nCnt].rot.y));
+//
+//			VecLine = v1 - v0;
+//			VecToPos = *pos - v0;
+//			VecToPosOld = posold - v0;
+//			VecLineNor = Normalize(VecLine);
+//			VecToPosNor = Normalize(D3DXVECTOR3(VecToPos.x, 0, VecToPos.z));
+//			VecToPosOldNor = Normalize((D3DXVECTOR3(VecToPosOld.x, 0, VecToPosOld.z)));
+//
+//			if (CrossProduct(VecLineNor, VecToPosNor).y <= 0.0f)
+//			{//posが右にいる
+//				check = true;
+//
+//			}
+//			else
+//			{//posが左にいる
+//				check = false;
+//
+//			}
+//
+//			if (CrossProduct(VecLineNor, VecToPosOldNor).y > -MARGIN_RANGE)
+//			{//posoldが左にいる
+//				checkold = true;
+//
+//			}
+//			else
+//			{//posoldが右にいる
+//				checkold = false;
+//
+//			}
+//
+//			if (check == true && checkold == true)
+//			{//範囲検証
+//				//正規化
+//				//Normalize(VecLine);
+//				//Normalize(VecToPos);
+//				//Normalize(VecMove);
+//
+//				fIntersect = (VecToPos.z * VecMove.x) - (VecToPos.x * VecMove.z);
+//				fAll = (VecLine.z * VecMove.x) - (VecLine.x * VecMove.z);
+//
+//				fRate = fIntersect / fAll;
+//
+//				VecHit = v0 + VecLine * fRate;
+//				
+//				if (0.0f <= fRate && fRate <= 1.0f && posold.y >= g_aWall[nCnt].pos.y && posold.y < g_aWall[nCnt].pos.y + g_aWall[nCnt].size.y - MARGINE_HEIGHT)
+//				{
+//					if (nCnt == 11)
+//					{
+//						printf("A");
+//					}
+//
+//					PrintDebugProc("[%d]%f\n", nCnt, fRate);
+//
+//					bChek = true;
+//					fNormal = -DotProduct(*move, g_aWall[nCnt].nor);
+//					WallMove = *move + fNormal * g_aWall[nCnt].nor * 1.0f;
+//
+//					pos->x = VecHit.x;
+//					pos->x += WallMove.x;
+//					pos->z = VecHit.z;
+//					pos->z += WallMove.z;
+//					//break;
+//				}
+//				else
+//				{
+//					bChek = false;
+//
+//				}
+//			}
+//		}
+//
+//	}
+//
+//	return bChek;
+//}
