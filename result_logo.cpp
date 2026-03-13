@@ -55,7 +55,7 @@ void InitResult_Logo(void)
 	g_aResult[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	g_aResult[1].nType = RESULTTYPE_CLEAR;
 
-	g_aResult[2].pos = D3DXVECTOR3(450.0f, 500.0f, 0.0f);
+	g_aResult[2].pos = D3DXVECTOR3(450.0f, 560.0f, 0.0f);
 	g_aResult[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	g_aResult[2].nType = RESULTTYPE_CLEARTIME;
 	
@@ -157,14 +157,14 @@ void UpdateResult_Logo(void)
 			
 			break;																									
 		case RESULTTYPE_CLEAR:
-			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
-			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT - 200.0f, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT - 200.0f, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 200.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 200.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 200.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 200.0f, 0.0f);
 			break;
 		case RESULTTYPE_CLEARTIME:
-			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 100.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
-			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 100.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 100.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT - 100.0f, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 100.0f, g_aResult[nResult].pos.y - RESULTLOGO_HEIGHT - 100.0f, 0.0f);
 			pVtx[2].pos = D3DXVECTOR3(g_aResult[nResult].pos.x - RESULTLOGO_WIDTH - 100.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
 			pVtx[3].pos = D3DXVECTOR3(g_aResult[nResult].pos.x + RESULTLOGO_WIDTH + 100.0f, g_aResult[nResult].pos.y + RESULTLOGO_HEIGHT + 100.0f, 0.0f);
 			break;

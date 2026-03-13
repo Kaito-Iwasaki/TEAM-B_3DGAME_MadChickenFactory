@@ -49,7 +49,7 @@ void InitResult(void)
 	InitMeshCylinder();				//メッシュシリンダー
 	InitLight();					//ライト
 	InitTimer();
-	SetTimer(D3DXVECTOR3(510.0f, -350.0f, 0.0f), D3DXVECTOR2(400.0f, 250.0f));
+	SetTimer(D3DXVECTOR3(500.0f, -330.0f, 0.0f), D3DXVECTOR2(400.0f, 250.0f));
 	CAMERA* pCamera = GetCamera(0);
 
 	// スクリプトの読み込み
