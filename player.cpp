@@ -768,7 +768,7 @@ void PlayerMoveControl(Player* pPlayer, int nCntControl)
 		pPlayer->rotmove.y = atan2f(move.x, move.z) + D3DX_PI;
 	}
 
-	if (GetKeyboardTrigger(g_playerControlKey[nCntControl][4]) == true || GetJoypadPress(JOYKEY_A, nCntControl) == true)
+	if (GetKeyboardTrigger(g_playerControlKey[nCntControl][4]) == true || GetJoypadTrigger(JOYKEY_A, nCntControl) == true)
 	{// ƒWƒƒƒ“ƒv‰Ÿ‰º
 
 		if (pPlayer->bJump == false)
