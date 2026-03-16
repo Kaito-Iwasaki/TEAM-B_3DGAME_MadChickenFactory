@@ -139,7 +139,7 @@ void UpdateVignette(void)
 
 	if (g_bGradientVig == true)
 	{// グラデーションで色変更
-		g_VignetteCol += g_GraCol * 0.01f;
+		g_VignetteCol += g_GraCol * 0.025f;
 		if (fabs((double)g_GraColTage.r - g_VignetteCol.r) <= 0.01f &&
 			fabs((double)g_GraColTage.g - g_VignetteCol.g) <= 0.01f &&
 			fabs((double)g_GraColTage.b - g_VignetteCol.b) <= 0.01f &&

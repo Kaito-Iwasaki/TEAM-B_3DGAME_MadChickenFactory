@@ -672,7 +672,7 @@ void KillPlayer(Player *pPlayer)
 		break;
 	}
 	// ヴィネットを赤くする
-	VignetteColChange(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+	VignetteColGradient(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 //=======================================================
