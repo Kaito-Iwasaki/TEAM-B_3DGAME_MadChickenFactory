@@ -26,6 +26,7 @@
 #include"gate.h"
 #include"lift.h"
 #include"team_logo.h"
+#include"vignette.h"
 
 // マクロ定義
 #define MAX_TEXTURE				(16)						// テクスチャ数
@@ -226,9 +227,10 @@ void UpdatePlayer(void)
 			if (
 				Magnitude(D3DXVECTOR3(g_Player[nCntPlayer].move.x, 0, g_Player[nCntPlayer].move.z)) >= 0.3f &&
 				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_MOVE &&
-				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP &&
+				g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_EXTRUSION
 				)
-			{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中モーション以外の時)
+			{// 移動モーションに変更(moveの値が一定以上ある時&ジャンプ中、押し出しモーション以外の時)
 
 				SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 30);
 			}
@@ -237,11 +239,12 @@ void UpdatePlayer(void)
 				&& g_Player[nCntPlayer].move.z < 0.3f && g_Player[nCntPlayer].move.z > -0.3f
 				&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_NEUTRAL
 				&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_JUMP
+				&& g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_EXTRUSION
 				&& (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_PREPARATIONFOREXTRUSION ||
 					g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_PREPARATIONFOREXTRUSION &&
 					g_Player[nCntPlayer].PlayerMotion.bFinishMotion)
 				)
-			{// 待機モーションに変更(移動していない&ジャンプモーション以外の時)
+			{// 待機モーションに変更(移動していない&ジャンプ、押し出し準備、押し出しモーション以外の時)
 
 				if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_LANDING
 					&& g_Player[nCntPlayer].PlayerMotion.bFinishMotion == true)
@@ -668,6 +671,8 @@ void KillPlayer(Player *pPlayer)
 	default:
 		break;
 	}
+	// ヴィネットを赤くする
+	VignetteColChange(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 //=======================================================
@@ -727,7 +732,35 @@ void CollisionPlayer(Player* pPlayer, int nCntPlayer)
 	CollisionLift(pPlayer);
 
 	// 可動箱の当たり判定
-	CollisionMoveBox(nCntPlayer);
+	if (CollisionMoveBox(nCntPlayer) == true)
+	{
+		if (g_Player[nCntPlayer].pos != g_Player[nCntPlayer].posOld && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend != MOTIONTYPE_EXTRUSION)
+		{// 押しだしモーションに変更
+
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_EXTRUSION, 30);
+		}
+
+		if (g_Player[nCntPlayer].pos == g_Player[nCntPlayer].posOld && g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_EXTRUSION)
+		{// 待機モーションに変更
+
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 30);
+			g_Player[nCntPlayer].move.x = 0.0f;
+			g_Player[nCntPlayer].move.z = 0.0f;
+		}
+	}
+	else
+	{
+		if (Magnitude(D3DXVECTOR3(g_Player[nCntPlayer].move.x, 0, g_Player[nCntPlayer].move.z)) >= 0.3f && 
+			g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_EXTRUSION)
+		{// 移動モーションに変更
+
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_MOVE, 30);
+		}
+		else if (g_Player[nCntPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_EXTRUSION)
+		{
+			SetMotion(&g_Player[nCntPlayer].PlayerMotion, MOTIONTYPE_NEUTRAL, 30);
+		}
+	}
 }
 
 //=======================================================

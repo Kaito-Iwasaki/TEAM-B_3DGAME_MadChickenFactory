@@ -248,7 +248,6 @@ bool CollisionMoveBox(int nCntPlayer)
 				if (pPlayer[nCntPlayer].posOld.y >= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMax.y)
 				{//è„Ç©ÇÁ
 					pPlayer[nCntPlayer].pos.y = g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMax.y;
-					bHitCheck = true;
 					pPlayer[nCntPlayer].move.y = 0;
 					pPlayer[nCntPlayer].bJump = false;
 					pPlayer[nCntPlayer].fStandPos = pPlayer[nCntPlayer].pos.y;
@@ -256,7 +255,6 @@ bool CollisionMoveBox(int nCntPlayer)
 				else if (pPlayer[nCntPlayer].posOld.y <= g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y)
 				{//â∫Ç©ÇÁ
 					pPlayer[nCntPlayer].pos.y = g_aMoveBox[nCntMoveBox].pos.y + g_aMoveBoxModelData.vtxMin.y;
-					bHitCheck = true;
 				}
 
 				if (pPlayer[nCntPlayer].posOld.z >= g_aMoveBox[nCntMoveBox].pos.z + g_aMoveBoxModelData.vtxMax.z)
