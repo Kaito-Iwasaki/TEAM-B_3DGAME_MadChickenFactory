@@ -113,6 +113,16 @@ void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, 
 	FADE pFade = GetFade();			// フェード情報取得
 	Player* pPlayer = GetPlayer();
 
+	bool bIsPlayerDead;
+	for (int nPlayer = 0; nPlayer < MAX_PLAYER; nPlayer++)
+	{
+		if (pPlayer[nPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_ACTION)
+		{
+			bIsPlayerDead = true;
+			break;
+		}
+	}
+
 	if (pPos->x + fRadius >= g_Goal.pos.x - g_Goal.fWidMin
 		&& pPos->x - fRadius <= g_Goal.pos.x + g_Goal.fWidMax
 		&& pPos->y + fRadius > g_Goal.pos.y + g_GoalModelData.vtxMin.y
@@ -155,7 +165,7 @@ void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, 
 			pPos->z = g_Goal.pos.z + fRadius + g_Goal.fDepMax;	// ブロックの上側面に立たせる
 		}
 
-		if (Magnitude(pPlayer[1].pos - pPlayer[0].pos) < 500)
+		if (Magnitude(pPlayer[1].pos - pPlayer[0].pos) < 500 && bIsPlayerDead == false)
 		{
 			SetFade(MODE_RESULT);
 		}
