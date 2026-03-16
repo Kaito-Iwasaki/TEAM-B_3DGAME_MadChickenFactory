@@ -7,15 +7,17 @@
 #include "main.h"
 #include "vignette.h"
 #include "input.h"
+#include "Timer.h"
 
 //===========================================================
 // 
 // マクロ定義
 // 
 //===========================================================
-#define VIGNETTE_WIDTH		(640.0f)				//ビネットの幅
-#define VIGNETTE_HEIGHT		(360.0f)				//高さ
-#define VIGNETTE_FILEPATH	"data\\TEXTURE\\Vignette.png"	// テクスチャファイルパス	
+#define VIGNETTE_WIDTH		(640.0f)						//ビネットの幅
+#define VIGNETTE_HEIGHT		(360.0f)						//高さ
+#define VIGNETTE_FILEPATH	"data\\TEXTURE\\Vignette.png"	// テクスチャファイルパス
+#define VIGNETTE_BLINKING	(30)							// 点滅開始時間
 
 //===========================================================
 // 
@@ -115,10 +117,25 @@ void UninitVignette(void)
 //===========================================================
 void UpdateVignette(void)
 {
-	VERTEX_2D* pVtx;	//頂点情報へのポインタ
+	VERTEX_2D* pVtx;				//頂点情報へのポインタ
+	int nTimer = GetTimer();		// タイマー情報取得
 
 	//頂点情報をロックし、頂点情報へのポインタを取得
 	g_pVtxBuffVignette->Lock(0, 0, (void**)&pVtx, 0);
+
+	if (nTimer <= VIGNETTE_BLINKING)
+	{
+		if (g_VignetteCol.r <= 0.0f && g_bGradientVig == false)
+		{// 赤に変更
+
+			VignetteColGradient(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+		else if (g_VignetteCol.r >= 1.0f && g_bGradientVig == false)
+		{// 黒に変更
+
+			VignetteColGradient(D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+		}
+	}
 
 	if (g_bGradientVig == true)
 	{// グラデーションで色変更
