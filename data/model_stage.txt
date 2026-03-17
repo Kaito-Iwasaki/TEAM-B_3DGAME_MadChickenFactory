@@ -4083,4 +4083,27 @@ ENEMYSET
 	
 END_ENEMYSET
 
+#-------------------------------------
+# 5ëÃñ⁄
+#-------------------------------------
+
+ENEMYSET
+	SPEED = 7.0
+	SIGHTRANGE = 500
+	SIGHTANGLE = 50
+		
+	ROUTINESET
+		POS = 23100 0 500
+		ROT = 0 0 0
+		WAIT = 150
+	END_ROUTINESET
+
+	ROUTINESET
+		POS = 23100 0 -500
+		ROT = 0 180 0
+		WAIT = 150
+	END_ROUTINESET
+	
+END_ENEMYSET
+
 END_SCRIPT		# Ç±ÇÃçsÇÕê‚ëŒè¡Ç≥Ç»Ç¢Ç±Ç∆ÅI
