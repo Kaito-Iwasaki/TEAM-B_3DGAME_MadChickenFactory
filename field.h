@@ -7,6 +7,7 @@
 
 #ifndef _FIELD_H_
 #define _FIELD_H_
+
 #include "main.h"
 
 #define MAX_FIELD (256)
@@ -35,5 +36,7 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot,int ntxtype
 	,D3DXVECTOR3 speed = D3DXVECTOR3(0.0f,0.0f,0.0f), D3DXVECTOR3 range = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 bool CollisionField(D3DXVECTOR3* pos, D3DXVECTOR3 posold);
+
+void SetFloor(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype, D3DXVECTOR2 texsize);
 
 #endif // !_FIELD_H_

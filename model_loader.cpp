@@ -59,6 +59,7 @@ void _Read_GATESET(FILE* pFile, GATESETDATA* pBuffer);
 void _Read_ENEMYSET(FILE* pFile, ENEMYSETDATA* pBuffer);
 void _Read_ROUTINESET(FILE* pFile, ENEMY_ROUTINE* pBuffer);
 void _Read_LIFTSET(FILE* pFile, LIFTSETDATA* pBuffer);
+void _Read_FLOORSET(FILE* pFile, FTEXTURESETDATA* pBuffer);
 
 //=====================================================================
 // スクリプト読み込み処理
@@ -157,6 +158,14 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 			FIELDSETDATA* pData = &pBuffer->aInfoFieldSet[pBuffer->nCountFieldSet];
 
 			_Read_FIELDSET(pFile, pData);
+
+			pBuffer->nCountFieldSet++;
+		}
+		else if (strcmp(&aStrLine[0], "FLOATSET") == 0)
+		{// フロートセット情報読み込み
+			FTEXTURESETDATA* pData = &pBuffer->aInfoFloorSet[pBuffer->nCountFloorSet];
+
+			_Read_FLOORSET(pFile, pData);
 
 			pBuffer->nCountFieldSet++;
 		}
@@ -372,6 +381,54 @@ void _Read_FIELDSET(FILE* pFile, FIELDSETDATA* pBuffer)
 		else if (strcmp(&aStrLine[0], "RANGE") == 0)
 		{
 			fscanf(pFile, " = %d %d", &pBuffer->nBlockX, &pBuffer->nBlockZ);
+		}
+	}
+}
+
+//=====================================================================
+// [FLOORSET]読み込み処理
+//=====================================================================
+void _Read_FLOORSET(FILE* pFile, FTEXTURESETDATA* pBuffer)
+{
+	char aStrLine[MAX_READABLE_CHAR] = {};
+
+	while (true)
+	{
+		// 一行読み込む
+		if (ReadWord(pFile, &aStrLine[0]) == EOF)
+		{// ファイルの最後まで読み込んだら終了する
+			break;
+		}
+
+		if (strcmp(&aStrLine[0], "END_FIELDSET") == 0)
+		{
+			break;
+		}
+		else if (strcmp(&aStrLine[0], "TEXTYPE") == 0)
+		{
+			fscanf(pFile, " = %d", &pBuffer->nType);
+		}
+		else if (strcmp(&aStrLine[0], "POS") == 0)
+		{
+			fscanf(pFile, " = %f %f %f", &pBuffer->pos.x, &pBuffer->pos.y, &pBuffer->pos.z);
+		}
+		else if (strcmp(&aStrLine[0], "ROT") == 0)
+		{
+			float fRotX, fRotY, fRotZ;
+
+			fscanf(pFile, " = %f %f %f", &fRotX, &fRotY, &fRotZ);
+
+			pBuffer->rot.x = D3DXToRadian(fRotX);
+			pBuffer->rot.y = D3DXToRadian(fRotY);
+			pBuffer->rot.z = D3DXToRadian(fRotZ);
+		}
+		else if (strcmp(&aStrLine[0], "SIZE") == 0)
+		{
+			fscanf(pFile, " = %f %f", &pBuffer->size.x, &pBuffer->size.z);
+		}
+		else if (strcmp(&aStrLine[0], "BLOCK") == 0)
+		{
+			fscanf(pFile, " = %d %d", &pBuffer->texsize.x, &pBuffer->texsize.y);
 		}
 	}
 }
