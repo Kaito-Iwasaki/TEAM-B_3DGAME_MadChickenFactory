@@ -22,6 +22,7 @@
 #include "Editor.h"
 #include"Logo.h"
 #include"Gameover.h"
+#include "ranking.h"
 //*********************************************************************
 // 
 // ***** ÉOÉçÅ[ÉoÉãïœêî *****
@@ -46,6 +47,7 @@ MODEDATA g_modes[MODE_MAX] = {
 	{ InitGame, UninitGame, UpdateGame, DrawGame },
 	{ InitGameover, UninitGameover, UpdateGameover, DrawGameover },
 	{ InitResult, UninitResult, UpdateResult, DrawResult },
+	{ InitRanking, UninitRanking, UpdateRanking, DrawRanking },
 	{ InitEditor, UninitEditor, UpdateEditor, DrawEditor },
 };
 
