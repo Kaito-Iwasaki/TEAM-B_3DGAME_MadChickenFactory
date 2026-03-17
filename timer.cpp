@@ -14,6 +14,7 @@
 #include "DebugProc.h"
 #include"fade.h"
 #include "util.h"
+#include "sound.h"
 
 //*********************************************************************
 // 
@@ -160,6 +161,11 @@ void UpdateTimer(void)
 	{
 		g_nTimerCount--;
 		g_nCounterStateTimer = 0;
+
+		if (g_nTimerCount < 30)
+		{
+			PlaySound(SOUND_LABEL_SE_TICK);
+		}
 	}
 	g_nCounterStateTimer++;
 

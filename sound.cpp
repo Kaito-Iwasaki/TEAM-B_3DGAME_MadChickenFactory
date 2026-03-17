@@ -175,6 +175,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 	{"data/SOUND/SE/died01.wav",0},						// SE 死亡（P2）
 	{"data/SOUND/SE/cancel000.wav",0},					// SE キャンセル音
 	{"data/SOUND/SE/found.wav",0},					// SE キャンセル音
+	{"data/SOUND/SE/tick.wav",0},					// SE キャンセル音
 };
 
 //=============================================================================
