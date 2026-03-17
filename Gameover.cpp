@@ -76,9 +76,9 @@ void InitGameover(void)
 
 	g_Gameover[4].bUse = true;
 
-	g_Gameover[5].pos = D3DXVECTOR3(600.0f, 350.0f, 0.0f);
+	g_Gameover[5].pos = D3DXVECTOR3(550.0f, 320.0f, 0.0f);
 
-	g_Gameover[5].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	g_Gameover[5].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
 	g_Gameover[5].type = GAMEOVER_TIMER1;
 
@@ -88,9 +88,9 @@ void InitGameover(void)
 
 	g_Gameover[5].Timer = 1;
 
-	g_Gameover[6].pos = D3DXVECTOR3(650.0f, 350.0f, 0.0f);
+	g_Gameover[6].pos = D3DXVECTOR3(650.0f, 320.0f, 0.0f);
 
-	g_Gameover[6].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	g_Gameover[6].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
 	g_Gameover[6].type = GAMEOVER_TIMER2;
 
@@ -327,10 +327,10 @@ void UpdateGameover(void)
 			pVtx[2].tex = D3DXVECTOR2(0.1f, 1.0f);
 			pVtx[3].tex = D3DXVECTOR2(0.2f, 1.0f);
 
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - GAMEOVERLOGO_WIDTH + 150.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 0.0f, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + GAMEOVERLOGO_WIDTH - 150.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 0.0f, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x - GAMEOVERLOGO_WIDTH + 150.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 0.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x + GAMEOVERLOGO_WIDTH - 150.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 0.0f, 0.0f);
 			
 			if (g_Gameover[nCntGameover].Timer >= 1)
 			{
@@ -367,10 +367,10 @@ void UpdateGameover(void)
 				pVtx[2].tex = D3DXVECTOR2(0.9f, 1.0f);
 				pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 			}
-			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);//右回りで！
-			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 25.0f, 0.0f);
-			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH + 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
-			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH - 175.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 25.0f, 0.0f);
+			pVtx[0].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH + 150.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 0.0f, 0.0f);//右回りで！
+			pVtx[1].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH - 150.0f, g_Gameover[nCntGameover].pos.y - GAMEOVERLOGO_HEIGHT + 0.0f, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x -  GAMEOVERLOGO_WIDTH + 150.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 0.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(g_Gameover[nCntGameover].pos.x +  GAMEOVERLOGO_WIDTH - 150.0f, g_Gameover[nCntGameover].pos.y + GAMEOVERLOGO_HEIGHT - 0.0f, 0.0f);
 			if (g_Gameover[nCntGameover].Timer >= 1)
 			{
 				if (g_Gameover[nCntGameover].Fream >= 1)
@@ -386,8 +386,13 @@ void UpdateGameover(void)
 						pVtx[2].tex.x -= 0.1f;
 						pVtx[3].tex.x -= 0.1f;
 
-						g_Gameover[nCntGameover].pos = D3DXVECTOR3(630.0f, 350.0f, 0.0f);
+						g_Gameover[nCntGameover].pos = D3DXVECTOR3(630.0f, 320.0f, 0.0f);
+
+						
+						
+						
 					}
+
 					
 					g_Gameover[nCntGameover].Timer--;
 					g_Gameover[nCntGameover].Fream = GAMEOVER_FREAM;

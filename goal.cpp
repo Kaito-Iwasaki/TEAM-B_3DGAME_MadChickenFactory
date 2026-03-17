@@ -113,7 +113,7 @@ void CollisionGoal(D3DXVECTOR3* pPos, D3DXVECTOR3* pPosOld, D3DXVECTOR3* pMove, 
 	FADE pFade = GetFade();			// フェード情報取得
 	Player* pPlayer = GetPlayer();
 
-	bool bIsPlayerDead;
+	bool bIsPlayerDead = false;
 	for (int nPlayer = 0; nPlayer < MAX_PLAYER; nPlayer++)
 	{
 		if (pPlayer[nPlayer].PlayerMotion.nIdxMotionBlend == MOTIONTYPE_ACTION)

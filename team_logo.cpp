@@ -15,8 +15,8 @@
 // マクロ定義
 // 
 //===========================================================
-#define TITLELOGO_WIDTH		(200.0f)	//チームロゴの幅
-#define TITLEROGO_HEIGHT	(50.0f)	//高さ
+#define TITLELOGO_WIDTH		(300.0f)	//チームロゴの幅
+#define TITLEROGO_HEIGHT	(100.0f)	//高さ
 #define MAX_TEAMLOGO (2)				//ロゴの最大数
 //===========================================================
 // 

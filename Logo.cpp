@@ -155,6 +155,7 @@ void UninitLogo(void)
 		g_pVtxBuffLogo->Release();
 		g_pVtxBuffLogo = NULL;
 	}
+	StopSound();
 }
 
 //=====================================================================
