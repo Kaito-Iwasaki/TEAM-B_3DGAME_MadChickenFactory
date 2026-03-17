@@ -11,13 +11,16 @@
 // 
 //*********************************************************************
 #include "ranking.h"
+#include "util.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-
+#define TEXTURE_FILENAME	"data\\TEXTURE\\number000.png"
+#define MAX_RANKING			(5)
+#define MAX_PLACE			(3)
 
 //*********************************************************************
 // 
@@ -45,14 +48,28 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
-
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffRanking = NULL;
+LPDIRECT3DTEXTURE9 g_pTexBuffRanking = NULL;
 
 //=====================================================================
 // 初期化処理
 //=====================================================================
 void InitRanking(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	// 頂点バッファの生成
+	pDevice->CreateVertexBuffer(
+		sizeof(VERTEX_2D) * 4 * MAX_RANKING * MAX_PLACE,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffRanking,
+		NULL
+	);
+
+	// テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice, TEXTURE_FILENAME, &g_pTexBuffRanking);
 }
 
 //=====================================================================
@@ -60,7 +77,11 @@ void InitRanking(void)
 //=====================================================================
 void UninitRanking(void)
 {
-
+	// 頂点バッファの解放
+	RELEASE(g_pVtxBuffRanking);
+	
+	// テクスチャの解放
+	RELEASE(g_pTexBuffRanking);
 }
 
 //=====================================================================
