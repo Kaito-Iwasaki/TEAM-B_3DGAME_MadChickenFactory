@@ -4446,7 +4446,7 @@ END_ENEMYSET
 # 5‘Ì–Ú
 #-------------------------------------
 
-NEMYSET
+ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
