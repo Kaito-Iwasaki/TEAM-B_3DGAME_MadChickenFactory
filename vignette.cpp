@@ -17,7 +17,7 @@
 #define VIGNETTE_WIDTH		(640.0f)						//ビネットの幅
 #define VIGNETTE_HEIGHT		(360.0f)						//高さ
 #define VIGNETTE_FILEPATH	"data\\TEXTURE\\Vignette.png"	// テクスチャファイルパス
-#define VIGNETTE_BLINKING	(30)							// 点滅開始時間
+#define VIGNETTE_BLINKING	(60)							// 点滅開始時間
 
 //===========================================================
 // 
