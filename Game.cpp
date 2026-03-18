@@ -441,7 +441,8 @@ void _SetMap()
 			D3DXVECTOR3(pFloorData->size.x, 0, pFloorData->size.z),
 			pFloorData->rot,
 			pFloorData->nType,
-			pFloorData->texsize
+			pFloorData->texsizeX,
+			pFloorData->texsizeY
 		);
 	}
 	for (int nCountTIMER = 0; nCountTIMER < g_modelDataGame.nCountTimerSet; nCountTIMER++)

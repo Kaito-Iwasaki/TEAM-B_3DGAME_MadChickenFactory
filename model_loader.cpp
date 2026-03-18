@@ -428,7 +428,7 @@ void _Read_FLOORSET(FILE* pFile, FTEXTURESETDATA* pBuffer)
 		}
 		else if (strcmp(&aStrLine[0], "BLOCK") == 0)
 		{
-			fscanf(pFile, " = %d %d", &pBuffer->texsize.x, &pBuffer->texsize.y);
+			fscanf(pFile, " = %d %d", &pBuffer->texsizeX, &pBuffer->texsizeY);
 		}
 	}
 }

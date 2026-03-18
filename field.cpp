@@ -244,10 +244,10 @@ void SetField(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot,int ntxtype, D3
 			g_aField[nCountField].bUse = true;			// 使用している状態にする
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
-			pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
-			pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
-			pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
+			pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2.0f, 0, +g_aField[nCountField].size.z / 2.0f);
+			pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2.0f, 0, +g_aField[nCountField].size.z / 2.0f);
+			pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2.0f, 0, -g_aField[nCountField].size.z / 2.0f);
+			pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2.0f, 0, -g_aField[nCountField].size.z / 2.0f);
 
 			fTexsizeX = g_aField[nCountField].size.x / FIELD_TEXTURE_SIZE_X;
 			fTexsizeY = g_aField[nCountField].size.z / FIELD_TEXTURE_SIZE_Y;
@@ -308,12 +308,10 @@ bool CollisionField(D3DXVECTOR3 *pos, D3DXVECTOR3 posold)
 // ***** 床にテクスチャを個別設定 *****
 // 
 //*********************************************************************
-void SetFloor(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype,D3DXVECTOR2 texsize)
+void SetFloor(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype,int texsizeX,int texsizeY)
 {
 	VERTEX_3D* pVtx;		// 頂点情報へのポインタ
 
-	float fTexsizeX;
-	float fTexsizeY;
 	// 頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffField->Lock(0, 0, (void**)&pVtx, 0);
 
@@ -328,15 +326,15 @@ void SetFloor(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 rot, int ntxtype,D3
 			g_aField[nCountField].bUse = true;			// 使用している状態にする
 
 			// 頂点座標の設定(x,y,z,の順番になる、zの値は2Dの場合は必ず0にする)
-			pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
-			pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, +g_aField[nCountField].size.z / 2);
-			pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
-			pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2, 0, -g_aField[nCountField].size.z / 2);
+			pVtx[0].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2.0f, 0, +g_aField[nCountField].size.z / 2.0f);
+			pVtx[1].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2.0f, 0, +g_aField[nCountField].size.z / 2.0f);
+			pVtx[2].pos = D3DXVECTOR3(-g_aField[nCountField].size.x / 2.0f, 0, -g_aField[nCountField].size.z / 2.0f);
+			pVtx[3].pos = D3DXVECTOR3(+g_aField[nCountField].size.x / 2.0f, 0, -g_aField[nCountField].size.z / 2.0f);
 
 			pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-			pVtx[1].tex = D3DXVECTOR2(texsize.x, 0.0f);
-			pVtx[2].tex = D3DXVECTOR2(0.0f, texsize.y);
-			pVtx[3].tex = D3DXVECTOR2(texsize.x, texsize.y);
+			pVtx[1].tex = D3DXVECTOR2((float)texsizeX, 0.0f);
+			pVtx[2].tex = D3DXVECTOR2(0.0f, (float)texsizeY);
+			pVtx[3].tex = D3DXVECTOR2((float)texsizeX, (float)texsizeY);
 
 			break;
 		}

@@ -74,7 +74,7 @@ typedef struct
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 rot;
 	D3DXVECTOR3 size;
-	D3DXVECTOR2 texsize;
+	int texsizeX, texsizeY;
 }FTEXTURESETDATA;
 
 //*********************************************************************
