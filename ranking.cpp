@@ -12,15 +12,42 @@
 //*********************************************************************
 #include "ranking.h"
 #include "util.h"
+#include "DebugProc.h"
+#include "Timer.h"
+#include "input.h"
+#include"camera.h"
+#include "sound.h"
+#include "fade.h"
+#include"DebugProc.h"
+#include"Timer.h"
+#include"light.h"
+#include"texture.h"
+#include"field.h"
+#include"wall.h"
+#include"model.h"
+#include"meshcylinder.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define TEXTURE_FILENAME	"data\\TEXTURE\\number000.png"
-#define MAX_RANKING			(5)
-#define MAX_PLACE			(3)
+#define TEXTURE_FILENAME_TIME	"data\\TEXTURE\\number000.png"
+#define TEXTURE_FILENAME_PLACE	"data\\TEXTURE\\number000.png"
+#define EXPORT_FILENAME_1P		"data\\ranking_1pmode.bin"
+#define EXPORT_FILENAME_2P		"data\\ranking_2pmode.bin"
+#define MAX_RANKING				(5)
+#define MAX_PLACE				(3)
+
+#define RANKING_PLACE_SIZE_X	(100)
+#define RANKING_PLACE_SIZE_Y	(100)
+#define RANKING_PLACE_POS_X		(300)
+#define RANKING_PLACE_POS_Y		(150)
+
+#define RANKING_SIZE_X			(200)
+#define RANKING_SIZE_Y			(100)
+#define RANKING_POS_X			(SCREEN_CENTER - (RANKING_SIZE_X / 2))
+#define RANKING_POS_Y			(RANKING_PLACE_POS_Y)
 
 //*********************************************************************
 // 
@@ -48,8 +75,19 @@
 // ***** グローバル変数 *****
 // 
 //*********************************************************************
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffRankingTitle = NULL;
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffRankingBg = NULL;
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffRankingPlace = NULL;
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffRanking = NULL;
+
+LPDIRECT3DTEXTURE9 g_pTexBuffRankingTitle = NULL;
 LPDIRECT3DTEXTURE9 g_pTexBuffRanking = NULL;
+LPDIRECT3DTEXTURE9 g_pTexBuffRankingPlace = NULL;
+
+MODELDATA g_modelDataRanking;
+int g_aRanking = {};
+
+int g_nCounterStateRanking = 0;
 
 //=====================================================================
 // 初期化処理
@@ -58,7 +96,91 @@ void InitRanking(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	// 頂点バッファの生成
+	InitCamera();					//カメラ
+	InitField();					//フィールド
+	InitWall();						//壁
+	InitModel();					//モデル
+	InitMeshCylinder();				//メッシュシリンダー
+	InitLight();					//ライト
+
+	CAMERA* pCamera = GetCamera(0);
+	g_nCounterStateRanking = 0;
+
+	// スクリプトの読み込み
+	LoadScript("data\\model_Land.txt", &g_modelDataRanking);
+	// テクスチャの読み込み
+
+	// モデルの読み込み・配置
+	LoadAndSetModelFromData(&g_modelDataRanking);
+	for (int nCountTex = 0; nCountTex < MAX_LOADABLE_TEXTURE; nCountTex++)
+	{
+		LoadTexture(&g_modelDataRanking.aFilenameTexture[nCountTex][0], nCountTex);
+	}
+
+	// フィールドの設定
+	for (int nCountField = 0; nCountField < g_modelDataRanking.nCountFieldSet; nCountField++)
+	{
+		FIELDSETDATA* pFieldData = &g_modelDataRanking.aInfoFieldSet[nCountField];
+
+		SetField(
+			pFieldData->pos,
+			D3DXVECTOR3(pFieldData->size.x * pFieldData->nBlockX, 0, pFieldData->size.z * pFieldData->nBlockZ),
+			pFieldData->rot,
+			pFieldData->nType
+		);
+	}
+
+	// ウォールの設定
+	for (int nCountWALL = 0; nCountWALL < g_modelDataRanking.nCountWallSet; nCountWALL++)
+	{
+		WALLSETDATA* pWallData = &g_modelDataRanking.aInfoWallSet[nCountWALL];
+
+		SetWall(
+			pWallData->nType,
+			pWallData->pos,
+			D3DXVECTOR3(pWallData->size.x * pWallData->nBlockX, pWallData->size.y * pWallData->nBlockY, 0),
+			pWallData->rot
+		);
+	}
+	SetCameraPosVFromAngle(0);
+	pCamera->mode = CAMERAMODE_NONE;
+
+	pCamera->posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pCamera->posV = D3DXVECTOR3(0.0f, 50.0f, -1450.0f);
+
+	// ----- 頂点バッファの生成 -----
+
+	// ランキングテキストラベル
+	pDevice->CreateVertexBuffer(
+		sizeof(VERTEX_2D) * 4,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffRankingTitle,
+		NULL
+	);
+
+	// 背景
+	pDevice->CreateVertexBuffer(
+		sizeof(VERTEX_2D) * 4,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffRankingBg,
+		NULL
+	);
+
+	// ランキング順位
+	pDevice->CreateVertexBuffer(
+		sizeof(VERTEX_2D) * 4 * MAX_RANKING,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffRankingPlace,
+		NULL
+	);
+
+	// ランキング数字
 	pDevice->CreateVertexBuffer(
 		sizeof(VERTEX_2D) * 4 * MAX_RANKING * MAX_PLACE,
 		D3DUSAGE_WRITEONLY,
@@ -68,8 +190,140 @@ void InitRanking(void)
 		NULL
 	);
 
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice, TEXTURE_FILENAME, &g_pTexBuffRanking);
+	// ----- テクスチャの生成 -----
+	D3DXCreateTextureFromFile(pDevice, TEXTURE_FILENAME_TIME, &g_pTexBuffRanking);
+	D3DXCreateTextureFromFile(pDevice, TEXTURE_FILENAME_PLACE, &g_pTexBuffRankingPlace);
+
+	int nTimer = GetTimer();
+	int aPlace[MAX_RANKING][MAX_PLACE];
+
+	VERTEX_2D* pVtx;
+
+	// ----- 背景の頂点設定 -----
+	g_pVtxBuffRankingBg->Lock(0, 0, (void**)&pVtx, 0);
+	
+	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(SCREEN_WIDTH, 0.0f, 1.0f);
+	pVtx[2].pos = D3DXVECTOR3(0.0f, SCREEN_HEIGHT, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+
+	pVtx[0].rhw = 1.0f;
+	pVtx[1].rhw = 1.0f;
+	pVtx[2].rhw = 1.0f;
+	pVtx[3].rhw = 1.0f;
+
+	pVtx[0].col = D3DXCOLOR_ALPHA(0.5f);
+	pVtx[1].col = D3DXCOLOR_ALPHA(0.5f);
+	pVtx[2].col = D3DXCOLOR_ALPHA(0.5f);
+	pVtx[3].col = D3DXCOLOR_ALPHA(0.5f);
+
+	g_pVtxBuffRankingBg->Unlock();
+
+	// ----- ランキング（順位）の頂点設定 -----
+	g_pVtxBuffRankingPlace->Lock(0, 0, (void**)&pVtx, 0);
+
+	for (int nRanking = 0; nRanking < MAX_RANKING; nRanking++)
+	{
+		pVtx[0].pos = D3DXVECTOR3(
+			RANKING_PLACE_POS_X,
+			RANKING_PLACE_POS_Y + RANKING_PLACE_SIZE_Y * nRanking,
+			0
+		);
+		pVtx[1].pos = D3DXVECTOR3(
+			RANKING_PLACE_POS_X + RANKING_PLACE_SIZE_X,
+			RANKING_PLACE_POS_Y + RANKING_PLACE_SIZE_Y * nRanking,
+			0
+		);
+		pVtx[2].pos = D3DXVECTOR3(
+			RANKING_PLACE_POS_X,
+			RANKING_PLACE_POS_Y + RANKING_PLACE_SIZE_Y * (nRanking + 1),
+			0
+		);
+		pVtx[3].pos = D3DXVECTOR3(
+			RANKING_PLACE_POS_X + RANKING_PLACE_SIZE_X,
+			RANKING_PLACE_POS_Y + RANKING_PLACE_SIZE_Y * (nRanking + 1),
+			0
+		);
+
+		pVtx[0].rhw = 1.0f;
+		pVtx[1].rhw = 1.0f;
+		pVtx[2].rhw = 1.0f;
+		pVtx[3].rhw = 1.0f;
+
+		pVtx[0].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		pVtx[1].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		pVtx[2].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		pVtx[3].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+
+		pVtx[0].tex = D3DXVECTOR2(nRanking * 0.1f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(nRanking * 0.1f + 0.1f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(nRanking * 0.1f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(nRanking * 0.1f + 0.1f, 1.0f);
+
+		pVtx += 4;
+	}
+
+	g_pVtxBuffRankingPlace->Unlock();
+
+	// ----- ランキング（数字）の頂点設定 -----
+	g_pVtxBuffRanking->Lock(0, 0, (void**)&pVtx, 0);
+
+	for (int nRanking = 0; nRanking < MAX_RANKING; nRanking++)
+	{
+		float fYOffset = RANKING_SIZE_Y;
+		float fYPosStart = fYOffset * nRanking;
+		float fYPosEnd = fYOffset * (nRanking + 1);
+
+		for (int nPlace = 0; nPlace < MAX_PLACE; nPlace++)
+		{
+			float fXOffset = ((float)RANKING_SIZE_X / (float)MAX_PLACE);
+			float fXPosStart = fXOffset * nPlace;
+			float fXPosEnd = fXOffset * (nPlace + 1);
+
+			int nPow = (int)powf(10.0f, MAX_PLACE - nPlace);
+			int nNumber = (nTimer % nPow / (nPow / 10));
+			int nTexOffset = nNumber * 0.1f;
+
+			pVtx[0].pos = D3DXVECTOR3(
+				RANKING_POS_X + fXPosStart,
+				RANKING_POS_Y + fYPosStart,
+				0
+			);
+			pVtx[1].pos = D3DXVECTOR3(
+				RANKING_POS_X + fXPosEnd,
+				RANKING_POS_Y + fYPosStart,
+				0
+			);
+			pVtx[2].pos = D3DXVECTOR3(
+				RANKING_POS_X + fXPosStart,
+				RANKING_POS_Y + fYPosEnd,
+				0
+			);
+			pVtx[3].pos = D3DXVECTOR3(
+				RANKING_POS_X + fXPosEnd,
+				RANKING_POS_Y + fYPosEnd,
+				0
+			);
+
+			pVtx[0].rhw = 1.0f;
+			pVtx[1].rhw = 1.0f;
+			pVtx[2].rhw = 1.0f;
+			pVtx[3].rhw = 1.0f;
+
+			pVtx[0].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+			pVtx[1].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+			pVtx[2].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+			pVtx[3].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+
+			pVtx[0].tex = D3DXVECTOR2(nTexOffset, 0.0f);
+			pVtx[1].tex = D3DXVECTOR2(nTexOffset + 0.1f, 0.0f);
+			pVtx[2].tex = D3DXVECTOR2(nTexOffset, 1.0f);
+			pVtx[3].tex = D3DXVECTOR2(nTexOffset + 0.1f, 1.0f);
+
+			pVtx += 4;
+		}
+	}
+	g_pVtxBuffRanking->Unlock();
 }
 
 //=====================================================================
@@ -78,10 +332,23 @@ void InitRanking(void)
 void UninitRanking(void)
 {
 	// 頂点バッファの解放
+	RELEASE(g_pVtxBuffRankingTitle);
+	RELEASE(g_pVtxBuffRankingBg);
 	RELEASE(g_pVtxBuffRanking);
 	
 	// テクスチャの解放
+	RELEASE(g_pTexBuffRankingTitle);
 	RELEASE(g_pTexBuffRanking);
+
+	UninitCamera();					//カメラ
+	UninitField();					//フィールド
+	UninitWall();					//壁
+	UninitModel();					//モデル
+	UninitMeshCylinder();			//メッシュシリンダー
+	UninitLight();					//ライト
+
+	// テクスチャの解放
+	ReleaseLoadedTexture();
 }
 
 //=====================================================================
@@ -89,7 +356,26 @@ void UninitRanking(void)
 //=====================================================================
 void UpdateRanking(void)
 {
+	PrintDebugProc("[ランキング画面]\n");
 
+	UpdateCamera();					//カメラ
+	UpdateField();					//フィールド
+	UpdateModel();					//モデル
+	UpdateMeshCylinder();			//メッシュシリンダー
+	UpdateLight();					//ライト
+
+	int nCountToChangeMode = 60 * 15;
+
+	if (
+		GetKeyboardTrigger(DIK_RETURN) ||
+		GetJoypadTrigger(JOYKEY_A) ||
+		g_nCounterStateRanking > nCountToChangeMode
+		)
+	{
+		SetFade(MODE_LOGO);
+	}
+
+	g_nCounterStateRanking++;
 }
 
 //=====================================================================
@@ -97,5 +383,50 @@ void UpdateRanking(void)
 //=====================================================================
 void DrawRanking(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	// ゲームカメラの設定
+	SetCamera(CAMERATYPE_GAME);
+
+	// ----- 背景の描画 -----
+	DrawField();					//フィールド
+	DrawWall();						//壁
+	DrawModel();					//モデル
+	DrawMeshCylinder();				//メッシュシリンダー
+
+	pDevice->SetFVF(FVF_VERTEX_2D);
+
+	// ----- 背景の描画 -----
+	pDevice->SetStreamSource(0, g_pVtxBuffRankingBg, 0, sizeof(VERTEX_2D));
+	pDevice->SetTexture(0, NULL);
+	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+	// ----- ランキング（順位）の描画 -----
+	pDevice->SetStreamSource(0, g_pVtxBuffRankingPlace, 0, sizeof(VERTEX_2D));
+
+	for (int nRanking = 0; nRanking < MAX_RANKING; nRanking++)
+	{
+		pDevice->SetTexture(0, g_pTexBuffRanking);
+		pDevice->DrawPrimitive(
+			D3DPT_TRIANGLESTRIP,
+			nRanking * 4,
+			2
+		);
+	}
+
+	// ----- ランキング（数字）の描画 -----
+	pDevice->SetStreamSource(0, g_pVtxBuffRanking, 0, sizeof(VERTEX_2D));
+
+	for (int nRanking = 0; nRanking < MAX_RANKING; nRanking++)
+	{
+		for (int nPlace = 0; nPlace < MAX_PLACE; nPlace++)
+		{
+			pDevice->SetTexture(0, g_pTexBuffRanking);
+			pDevice->DrawPrimitive(
+				D3DPT_TRIANGLESTRIP,
+				(nRanking * MAX_PLACE + nPlace) * 4,
+				2
+			);
+		}
+	}
 }
