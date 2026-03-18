@@ -543,7 +543,7 @@ void InitRanking(void)
 			pVtx += 4;
 		}
 	}
-	g_pVtxBuffRanking1p->Unlock();
+	g_pVtxBuffRanking2p->Unlock();
 }
 
 //=====================================================================
