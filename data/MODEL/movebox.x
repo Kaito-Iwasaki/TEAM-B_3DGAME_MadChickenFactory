@@ -375,7 +375,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\KOC\\TEAM-B_3DGAME_MadChickenFactory\\data\\TEXTURE\\metal.jpg";
+    "data\\TEXTURE\\metal.jpg";
    }
   }
  }
