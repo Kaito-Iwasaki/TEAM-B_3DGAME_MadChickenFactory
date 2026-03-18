@@ -602,6 +602,58 @@ void UpdateRanking(void)
 		SetFade(MODE_LOGO);
 	}
 
+	int nClearTime = GetTimer();
+
+	VERTEX_2D* pVtx;
+	int* pRanking;
+	LPDIRECT3DVERTEXBUFFER9 pVtxBuff;
+
+	if (GetTitle() == 0)
+	{
+		pRanking = &g_aRanking_1p[0];
+		pVtxBuff = g_pVtxBuffRanking1p;
+	}
+	else
+	{
+		pRanking = &g_aRanking_2p[0];
+		pVtxBuff = g_pVtxBuffRanking2p;
+	}
+
+	if (nClearTime != pRanking[MAX_RANKING])
+	{
+		pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		for (int nRanking = MAX_RANKING - 1; nRanking >= 0; nRanking--)
+		{
+			if (pRanking[nRanking] == nClearTime)
+			{
+				D3DXCOLOR color = pVtx->col;
+				int VertexOffset = nRanking * MAX_PLACE * 4;
+
+				if (g_nCounterStateRanking % 20 == 0)
+				{
+					color = D3DXCOLOR(1, 0, 0, 1);
+				}
+				else if (g_nCounterStateRanking % 10 == 0)
+				{
+					color = D3DXCOLOR(1, 1, 0, 1);
+				}
+
+				for (int i = 0; i < MAX_PLACE; i++)
+				{
+					pVtx[VertexOffset + 0 + (4 * i)].col = color;
+					pVtx[VertexOffset + 1 + (4 * i)].col = color;
+					pVtx[VertexOffset + 2 + (4 * i)].col = color;
+					pVtx[VertexOffset + 3 + (4 * i)].col = color;
+				}
+
+				break;
+			}
+		}
+
+		pVtxBuff->Unlock();
+	}
+
 	g_nCounterStateRanking++;
 }
 
