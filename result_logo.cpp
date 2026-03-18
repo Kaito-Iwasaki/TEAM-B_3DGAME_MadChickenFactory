@@ -143,7 +143,7 @@ void UpdateResult_Logo(void)
 		{
 			PlaySound(SOUND_LABEL_SE_DECISION);
 		}
-		SetFade(MODE_LOGO);
+		SetFade(MODE_RANKING);
 	}
 	VERTEX_2D* pVtx;
 

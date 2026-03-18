@@ -836,7 +836,7 @@ Mesh {
    0.320000;0.320000;0.320000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\OneDrive - yoshida-g.ac.jp\\デスクトップ\\foamwater.jpg";
+    "data\\TEXTURE\\foamwater.jpg";
    }
   }
   Material {
@@ -845,7 +845,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\OneDrive - yoshida-g.ac.jp\\デスクトップ\\TEAM-B_3D_KOC\\data\\TEXTURE\\metal.jpg";
+    "data\\TEXTURE\\metal.jpg";
    }
   }
   Material {
@@ -854,7 +854,7 @@ Mesh {
    0.310000;0.310000;0.310000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\OneDrive - yoshida-g.ac.jp\\デスクトップ\\TEAM-B_3D_KOC\\data\\TEXTURE\\metal.jpg";
+    "data\\TEXTURE\\metal.jpg";
    }
   }
   Material {
