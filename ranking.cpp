@@ -120,6 +120,7 @@ int g_aRanking_1p[MAX_RANKING + 1] = { 200, 180, 140, 160, 180, 200 };
 int g_aRanking_2p[MAX_RANKING + 1] = { 200, 180, 140, 160, 180, 200 };
 
 int g_nCounterStateRanking = 0;
+D3DXCOLOR g_colorRanking;
 
 //=====================================================================
 // 初期化処理
@@ -158,6 +159,11 @@ void InitRanking(void)
 			qsort(&g_aRanking_2p[0], MAX_RANKING + 1, sizeof(int), _Compare);
 			SaveBin(EXPORT_FILENAME_2P, &g_aRanking_2p[0], sizeof(int), MAX_RANKING);
 		}
+	}
+
+	if (GetPreviousMode() != MODE_RESULT)
+	{
+		PlaySound(SOUND_LABEL_BGM_RESULT);
 	}
 
 	// スクリプトの読み込み
@@ -632,19 +638,19 @@ void UpdateRanking(void)
 
 				if (g_nCounterStateRanking % 20 == 0)
 				{
-					color = D3DXCOLOR(1, 0, 0, 1);
+					g_colorRanking = D3DXCOLOR(1, 0, 0, 1);
 				}
 				else if (g_nCounterStateRanking % 10 == 0)
 				{
-					color = D3DXCOLOR(1, 1, 0, 1);
+					g_colorRanking = D3DXCOLOR(1, 1, 0, 1);
 				}
 
 				for (int i = 0; i < MAX_PLACE; i++)
 				{
-					pVtx[VertexOffset + 0 + (4 * i)].col = color;
-					pVtx[VertexOffset + 1 + (4 * i)].col = color;
-					pVtx[VertexOffset + 2 + (4 * i)].col = color;
-					pVtx[VertexOffset + 3 + (4 * i)].col = color;
+					pVtx[VertexOffset + 0 + (4 * i)].col = g_colorRanking;
+					pVtx[VertexOffset + 1 + (4 * i)].col = g_colorRanking;
+					pVtx[VertexOffset + 2 + (4 * i)].col = g_colorRanking;
+					pVtx[VertexOffset + 3 + (4 * i)].col = g_colorRanking;
 				}
 
 				break;
