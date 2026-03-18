@@ -128,6 +128,10 @@ void DrawWall(void)
 	{
 		if (g_aWall[nCntWall].bUse == true)
 		{
+			// 透明壁の場合は描画しない
+			// ※時間ないのでとりあえずの暫定処理
+			if (g_aWall[nCntWall].nTexType == 8) continue;
+
 			// ワールドマトリックスの初期化
 			D3DXMatrixIdentity(&g_aWall[nCntWall].mtxWorldWall);
 
