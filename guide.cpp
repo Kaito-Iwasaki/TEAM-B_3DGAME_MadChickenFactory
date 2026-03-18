@@ -62,7 +62,7 @@ typedef enum
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffGuide = NULL;
 LPDIRECT3DTEXTURE9 g_apTexBuffGuide[GUIDETYPE_MAX] = {};
 GUIDE g_aGuide[GUIDETYPE_MAX] = {};
-
+bool g_GuideLight;											// ガイドのONOFF
 const char* g_aFilenameGuideTexture[GUIDETYPE_MAX] = {
 	"data\\TEXTURE\\guide000.png",
 	"data\\TEXTURE\\guide001.png",
@@ -105,6 +105,9 @@ void InitGuide(void)
 		pGuide->transform.size = D3DXVECTOR3(GUIDE_SIZE, GUIDE_SIZE, 0);
 		pGuide->color = D3DXCOLOR_WHITE;
 	}
+
+	g_GuideLight = false;									// ガイドをOFFに
+	g_aGuide[GUIDETYPE_FOLLOW].color = COLOR_INACTIVE;		// 光っていない状態に
 }
 
 //=====================================================================
@@ -129,13 +132,20 @@ void UpdateGuide(void)
 {
 	if (GetTitle() != 0) return;
 
-	if (GetKeyboardPress(DIK_LCONTROL) || GetJoypadPress(JOYKEY_Y))
+	if (GetKeyboardTrigger(DIK_LCONTROL) || GetJoypadTrigger(JOYKEY_Y))
 	{
-		g_aGuide[GUIDETYPE_FOLLOW].color = COLOR_ACTIVE;
-	}
-	else
-	{
-		g_aGuide[GUIDETYPE_FOLLOW].color = COLOR_INACTIVE;
+		g_GuideLight = g_GuideLight ? false : true;		// ガイドの光ONOFF切り替え
+
+		if (g_GuideLight == true)
+		{// 光らせる
+
+			g_aGuide[GUIDETYPE_FOLLOW].color = COLOR_ACTIVE;
+		}
+		else if (g_GuideLight == false)
+		{// 光を消す
+
+			g_aGuide[GUIDETYPE_FOLLOW].color = COLOR_INACTIVE;
+		}
 	}
 }
 

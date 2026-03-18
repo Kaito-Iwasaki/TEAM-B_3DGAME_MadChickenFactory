@@ -44,6 +44,7 @@
 // グローバル変数
 Player g_Player[MAX_PLAYER];						// プレイヤー情報
 PLAYEROPERATION g_Operation;						// 操作プレイヤー指定
+bool g_bTracking;										// 追尾ON/OFF
 const char* c_apFilenamePlayer[MAX_PLAYER] =		// プレイヤーのxファイル
 {
 	ONEPLAYER_MODELPAS,
@@ -91,6 +92,8 @@ void InitPlayer(void)
 		g_Player[nCntPlayer].bUse = true;									// 使用状態にする
 		g_Player[nCntPlayer].nIdx = nCntPlayer;
 	}
+
+	g_bTracking = false;			// 追尾OFFに初期化
 
 	// モーションの初期化
 	InitMotion(&g_Player[0].PlayerMotion, ONEPLAYER_MODELPAS);
@@ -385,9 +388,15 @@ void UpdatePlayer(void)
 		}
 	}
 
-	if (GetKeyboardPress(DIK_LCONTROL) == true && g_Operation != PLAYEROPERATION_2PL
-		|| GetJoypadPress(JOYKEY_Y, 0) == true && g_Operation != PLAYEROPERATION_2PL)
-	{// プレイヤー追従処理
+	if (GetKeyboardTrigger(DIK_LCONTROL) == true && g_Operation != PLAYEROPERATION_2PL
+		|| GetJoypadTrigger(JOYKEY_Y, 0) == true && g_Operation != PLAYEROPERATION_2PL)
+	{// プレイヤー追従ONOFF切り替え
+
+		g_bTracking = g_bTracking ? false : true;
+	}
+
+	if (g_bTracking == true)
+	{// プレイヤーの追従
 
 		PlayerFollow(&g_Player[(int)g_Operation], &g_Player[(int)g_Operation ^ 1]);
 	}
