@@ -38,7 +38,7 @@
 LPDIRECT3DTEXTURE9 g_pTextureResult[RESULTTYPE_MAX] = {};		//テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffResult = NULL;			//頂点バッファのポインタ
 Result g_aResult[MAX_RESULT];
-
+int resultbgm;
 //======================
 //リザルトの初期化処理
 //======================
@@ -106,6 +106,8 @@ void InitResult_Logo(void)
 	}
 	//頂点バッファをアンロックする
 	g_pVtxBuffResult->Unlock();
+
+	resultbgm = 0;
 }
 //=======================
 //リザルトの終了処理
@@ -134,10 +136,13 @@ void UninitResult_Logo(void)
 void UpdateResult_Logo(void)
 {
 
-	//エンターキーが押されて最初の時
+	
 	if (GetKeyboardTrigger(DIK_RETURN) == true || GetJoypadTrigger(JOYKEY_A) == true)
-	{//ENTERキーが押された
-		//タイトル画面に移行
+	{
+		if (resultbgm == 0)
+		{
+			PlaySound(SOUND_LABEL_SE_DECISION);
+		}
 		SetFade(MODE_LOGO);
 	}
 	VERTEX_2D* pVtx;

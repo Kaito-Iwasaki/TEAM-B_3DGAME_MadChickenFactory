@@ -221,19 +221,25 @@ void UpdateGameover(void)
 	}
 	if (GetKeyboardTrigger(DIK_RETURN) || GetJoypadTrigger(JOYKEY_A))
 	{
-		if (g_Gameoverbgm == 0)
-		{
-			PlaySound(SOUND_LABEL_SE_DECISION);
-			g_Gameoverbgm++;
-		}
+		
 		if (g_GameoverSelect == GAMEOVER_RETRY)
 		{
 			SetFade(MODE_GAME);
+			if (g_Gameoverbgm == 0)
+			{
+				PlaySound(SOUND_LABEL_SE_DECISION);
+				g_Gameoverbgm++;
+			}
 
 		}
 		else if (g_GameoverSelect == GAMEOVER_QUIT)
 		{
 			SetFade(MODE_LOGO);
+			if (g_Gameoverbgm == 0)
+			{
+				PlaySound(SOUND_LABEL_SE_ENEMY);
+				g_Gameoverbgm++;
+			}
 
 		}
 	}
@@ -401,6 +407,11 @@ void UpdateGameover(void)
 			}
 			else
 			{
+				if (g_Gameoverbgm == 0)
+				{
+					PlaySound(SOUND_LABEL_SE_ENEMY);
+					g_Gameoverbgm++;
+				}
 				g_Gameover[nCntGameover].col.a = 0.0f;
 				SetFade(MODE_LOGO);
 			}
