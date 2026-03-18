@@ -121,7 +121,7 @@ void UninitResult(void)
 	GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 	// ƒTƒEƒ“ƒh‚Ì’âŽ~
-	StopSound();
+	//StopSound();
 	
 }	
 //==================
