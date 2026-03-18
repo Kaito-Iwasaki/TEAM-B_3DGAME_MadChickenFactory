@@ -161,13 +161,13 @@ void _Read_SCRIPT(FILE* pFile, MODELDATA* pBuffer)
 
 			pBuffer->nCountFieldSet++;
 		}
-		else if (strcmp(&aStrLine[0], "FLOATSET") == 0)
+		else if (strcmp(&aStrLine[0], "FLOORSET") == 0)
 		{// フロートセット情報読み込み
 			FTEXTURESETDATA* pData = &pBuffer->aInfoFloorSet[pBuffer->nCountFloorSet];
 
 			_Read_FLOORSET(pFile, pData);
 
-			pBuffer->nCountFieldSet++;
+			pBuffer->nCountFloorSet++;
 		}
 		else if (strcmp(&aStrLine[0], "WALLSET") == 0)
 		{// ウォールセット情報読み込み
@@ -400,7 +400,7 @@ void _Read_FLOORSET(FILE* pFile, FTEXTURESETDATA* pBuffer)
 			break;
 		}
 
-		if (strcmp(&aStrLine[0], "END_FIELDSET") == 0)
+		if (strcmp(&aStrLine[0], "END_FLOORSET") == 0)
 		{
 			break;
 		}

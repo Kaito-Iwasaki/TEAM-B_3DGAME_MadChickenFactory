@@ -431,6 +431,19 @@ void _SetMap()
 			pFieldData->nType
 		);
 	}
+	// ƒtƒƒA‚Ìİ’è
+	for (int nCountFloor = 0; nCountFloor < g_modelDataGame.nCountFloorSet; nCountFloor++)
+	{
+		FTEXTURESETDATA* pFloorData = &g_modelDataGame.aInfoFloorSet[nCountFloor];
+
+		SetFloor(
+			pFloorData->pos,
+			D3DXVECTOR3(pFloorData->size.x, 0, pFloorData->size.z),
+			pFloorData->rot,
+			pFloorData->nType,
+			pFloorData->texsize
+		);
+	}
 	for (int nCountTIMER = 0; nCountTIMER < g_modelDataGame.nCountTimerSet; nCountTIMER++)
 	{
 		TIMERSETDATA* pTimerData = &g_modelDataGame.aInfoTimerSet[nCountTIMER];

@@ -9,7 +9,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # テクスチャ数
 #------------------------------------------------------------------------------
-NUM_TEXTURE = 11
+NUM_TEXTURE = 12
 
 #------------------------------------------------------------------------------
 # テクスチャファイル名
@@ -25,6 +25,7 @@ TEXTURE_FILENAME = data/TEXTURE/wiremesh.png		# [7]ワイヤーテクスチャ
 TEXTURE_FILENAME = data/TEXTURE/wall.png			# [8]透明テクスチャ
 TEXTURE_FILENAME = data/TEXTURE/exit.jpg			# [9]ゴールテクスチャ
 TEXTURE_FILENAME = data/TEXTURE/escape_route.png	# [10]ゴールテクスチャ
+TEXTURE_FILENAME = data/TEXTURE/DrippingBlood.png			# [11]ゴールテクスチャ
 
 #------------------------------------------------------------------------------
 # モデル数
@@ -421,6 +422,14 @@ WALLSET
 	BLOCK = 1 1
 	SIZE = 400 1000
 END_WALLSET
+
+FLOORSET
+	TEXTYPE = 0
+	POS = 4350 1 1000
+	ROT = 0 0 0
+	SIZE = 600 1000
+	BLOCK = 1 1 
+END_FLOORSET
 
 #------------------------------------------------------------------------------
 # ゴール地点	床
@@ -1106,6 +1115,15 @@ FIELDSET
 	BLOCK = 1 1
 	SIZE = 1280 350
 END_FIELDSET
+
+FLOORSET
+	TEXTYPE = 0
+	POS = 17150 501 675
+	ROT = 0 0 0
+	SIZE = 350 350
+	BLOCK = 2 2 
+END_FLOORSET
+
 
 #------------------------------------------------------------------------------
 # 廊下 壁	
@@ -2746,6 +2764,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 3
 	POS = 950 100 350
@@ -2753,6 +2772,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 3
 	POS = 950 -300 350
@@ -2760,6 +2780,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 3
 	POS = 650 -400 350
@@ -2770,9 +2791,71 @@ END_MODELSET
 
 MODELSET
     TYPE = 3
+    POS = 2910 50 400
+    ROT = -20 90 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 3
+    POS = 2910 250 400
+    ROT = -20 90 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 3
+    POS = 3510 50 400
+    ROT = -20 270 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 3
+    POS = 3510 250 400
+    ROT = -20 270 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 3
     POS = 4760 250 1050
     ROT = 20 270 0
     COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+#-------------------------------------
+# ステージ3
+#-------------------------------------
+MODELSET
+    TYPE = 3
+    POS = 12300 200 390
+    ROT = 30 90 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 3
+    POS = 12700 300 710
+    ROT = 0 60 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+# ステージ4
+#----------------------------------------
+MODELSET
+    TYPE = 3
+    POS = 15260 0 400
+    ROT = 0 0 0
+    COLLISION = 0
     SHADOW = 0
 END_MODELSET
 
@@ -3699,8 +3782,61 @@ MODELSET
 END_MODELSET
 
 #----------------------------------------
+# ステージ3
+#----------------------------------------
+MODELSET
+    TYPE = 18
+    POS = 14260 350 1500
+    ROT = 0 0 0
+    COLLISION = 0
+    SHADOW = 0
+END_MODELSET
+MODELSET
+    TYPE = 19
+    POS = 14260 350 1500
+    ROT = 0 0 0
+    COLLISION = 0
+    SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
 # 木箱
 #----------------------------------------
+
+#-------------------------------------
+#  ステージ1
+#-------------------------------------
+MODELSET
+    TYPE = 20
+    POS = 2700 0 400
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 20
+    POS = 2700 150 400
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 20
+    POS = 3700 0 400
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 20
+    POS = 3700 150 400
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
 
 #-------------------------------------
 #  ステージ2
@@ -3720,6 +3856,16 @@ MODELSET
     SHADOW = 0
 END_MODELSET
 
+#----------------------------------------
+# ステージ4
+#----------------------------------------
+MODELSET
+    TYPE = 20
+    POS = 15260 130 500
+    ROT = 0 90 290
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
 #----------------------------------------
 # 培養ポッド
 #----------------------------------------
