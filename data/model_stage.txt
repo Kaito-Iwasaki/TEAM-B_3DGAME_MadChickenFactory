@@ -24,13 +24,13 @@ TEXTURE_FILENAME = data/TEXTURE/metal_floor.jpg		# [6]ìSínñ ÉeÉNÉXÉ`ÉÉ
 TEXTURE_FILENAME = data/TEXTURE/wiremesh.png		# [7]ÉèÉCÉÑÅ[ÉeÉNÉXÉ`ÉÉ
 TEXTURE_FILENAME = data/TEXTURE/wall.png			# [8]ìßñæÉeÉNÉXÉ`ÉÉ
 TEXTURE_FILENAME = data/TEXTURE/exit.jpg			# [9]ÉSÅ[ÉãÉeÉNÉXÉ`ÉÉ
-TEXTURE_FILENAME = data/TEXTURE/escape_route.png	# [10]ÉSÅ[ÉãÉeÉNÉXÉ`ÉÉ
-TEXTURE_FILENAME = data/TEXTURE/DrippingBlood.png			# [11]ÉSÅ[ÉãÉeÉNÉXÉ`ÉÉ
+TEXTURE_FILENAME = data/TEXTURE/escape_route.png	# [10]îìÔí òHÉeÉNÉXÉ`ÉÉ
+TEXTURE_FILENAME = data/TEXTURE/Blood.png			# [11]ååÉeÉNÉXÉ`ÉÉ
 
 #------------------------------------------------------------------------------
 # ÉÇÉfÉãêî
 #------------------------------------------------------------------------------
-NUM_MODEL = 24
+NUM_MODEL = 25
 
 #------------------------------------------------------------------------------
 # ÉÇÉfÉãÉtÉ@ÉCÉãñº
@@ -58,7 +58,8 @@ MODEL_FILENAME = data/MODEL/Factory/ventilationfanpuropera.x	# [19]ä∑ãCêÓÇÃÉvÉçÉ
 MODEL_FILENAME = data/MODEL/Factory/woodbox.x					# [20]ñÿî†				ÉÇÉfÉãÇ∆ÇµÇƒégóp
 MODEL_FILENAME = data/MODEL/Factory/gate.x						# [21]ÉQÅ[Ég			ÅZ
 MODEL_FILENAME = data/MODEL/Factory/humannurture.x				# [22]î|ó{É|ÉbÉh		ÉÇÉfÉãÇ∆ÇµÇƒégóp
-MODEL_FILENAME = data/MODEL/Factory/switch000.x					# [23]ÉåÉoÅ[			ÉÇÉfÉãÇ∆ÇµÇƒégóp
+MODEL_FILENAME = data/MODEL/Factory/escape_dnald.x				# [23]äÑÇÍÇΩî|ó{É|ÉbÉh	ÉÇÉfÉãÇ∆ÇµÇƒégóp
+MODEL_FILENAME = data/MODEL/Factory/switch000.x					# [24]ÉåÉoÅ[			ÉÇÉfÉãÇ∆ÇµÇƒégóp
 
 #------------------------------------------------------------------------------
 # ÉXÉeÅ[ÉW1
@@ -424,7 +425,7 @@ WALLSET
 END_WALLSET
 
 FLOORSET
-	TEXTYPE = 0
+	TEXTYPE = 11
 	POS = 4350 1 1000
 	ROT = 0 0 0
 	SIZE = 600 1000
@@ -540,6 +541,37 @@ WALLSET
 	SIZE = 500 500
 END_WALLSET
 
+WALLSET
+	TEXTYPE = 7
+	POS = 6600 0 -160
+	ROT = 0 0 0
+	BLOCK = 1 1
+	SIZE = 800 300
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 7
+	POS = 6600 0 -160
+	ROT = 0 180 0
+	BLOCK = 1 1
+	SIZE = 800 300
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 7
+	POS = 7000 0 -325
+	ROT = 0 90 0
+	BLOCK = 1 1
+	SIZE = 350 300
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 7
+	POS = 7000 0 -325
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 350 300
+END_WALLSET
 
 #------------------------------------------------------------------------------
 # ÉXÉ^Å[Égínì_	è∞
@@ -1042,10 +1074,18 @@ END_WALLSET
 
 WALLSET
 	TEXTYPE = 3
-	POS = 17910 -500 675
+	POS = 17910 -1000 675
 	ROT = 0 -90 0
 	BLOCK = 1 1
-	SIZE = 350 500
+	SIZE = 350 1000
+END_WALLSET
+
+WALLSET
+	TEXTYPE = 3
+	POS = 17910 -1000 -320
+	ROT = 0 -90 0
+	BLOCK = 1 1
+	SIZE = 350 1000
 END_WALLSET
 
 WALLSET
@@ -1117,11 +1157,11 @@ FIELDSET
 END_FIELDSET
 
 FLOORSET
-	TEXTYPE = 0
+	TEXTYPE = 11
 	POS = 17150 501 675
 	ROT = 0 0 0
 	SIZE = 350 350
-	BLOCK = 2 2 
+	BLOCK = 1 1 
 END_FLOORSET
 
 
@@ -1502,7 +1542,7 @@ END_TIMERSET
 CONVEYERSET
 	POS = 9747 0 1375
 	ROT = 0 90 0 
-	ONMOVE = 5 0 0
+	ONMOVE = 2.5 0 0
 	OFFMOVE = 0 0 0
 	SIZE = 250 1700 
 	ID = 0
@@ -1769,7 +1809,7 @@ END_PRESSSET
 
 FIRESET
 	ID = 301
-	POS = 9500 -60 1465
+	POS = 9700 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 60
@@ -1780,7 +1820,7 @@ END_FIRESET
 
 FIRESET
 	ID = 301
-	POS = 9500 -60 1380
+	POS = 9700 -60 1380
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 60
@@ -1791,7 +1831,7 @@ END_FIRESET
 
 FIRESET
 	ID = 301
-	POS = 9500 -60 1300
+	POS = 9700 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 60
@@ -1806,7 +1846,7 @@ END_FIRESET
 
 FIRESET
 	ID = 301
-	POS = 9600 -60 1465
+	POS = 9800 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 60
@@ -1817,7 +1857,7 @@ END_FIRESET
 
 FIRESET
 	ID = 301
-	POS = 9600 -60 1380
+	POS = 9800 -60 1380
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 60
@@ -1828,7 +1868,7 @@ END_FIRESET
 
 FIRESET
 	ID = 301
-	POS = 9600 -60 1300
+	POS = 9800 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 60
@@ -1843,7 +1883,7 @@ END_FIRESET
 
 FIRESET
 	ID = 302
-	POS = 9700 -60 1465
+	POS = 9900 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 120
@@ -1854,7 +1894,7 @@ END_FIRESET
 
 FIRESET
 	ID = 302
-	POS = 9700 -60 1380
+	POS = 9900 -60 1380
 	STATE = 2
 	FIRESTATE =2
 	SWITCHON = 120
@@ -1865,7 +1905,7 @@ END_FIRESET
 
 FIRESET
 	ID = 302
-	POS = 9700 -60 1300
+	POS = 9900 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 120
@@ -1880,7 +1920,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 9800 -60 1465
+	POS = 10000 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 120
@@ -1891,7 +1931,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 9800 -60 1380
+	POS = 10000 -60 1380
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 120
@@ -1902,7 +1942,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 9800 -60 1300
+	POS = 10000 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 120
@@ -1917,7 +1957,7 @@ FIRESET
 
 FIRESET
 	ID = 303
-	POS = 9900 -60 1465
+	POS = 10100 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 180
@@ -1928,7 +1968,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 9900 -60 1380
+	POS = 10100 -60 1380
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 180
@@ -1939,7 +1979,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 9900 -60 1300
+	POS = 10100 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 180
@@ -1954,7 +1994,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10000 -60 1465
+	POS = 10200 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 180
@@ -1965,7 +2005,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10000 -60 1380
+	POS = 10200 -60 1380
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 180
@@ -1976,7 +2016,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10000 -60 1300
+	POS = 10200 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 180
@@ -1991,7 +2031,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10100 -60 1465
+	POS = 10300 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 240
@@ -2002,7 +2042,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10100 -60 1380
+	POS = 10300 -60 1380
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 240
@@ -2013,7 +2053,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10100 -60 1300
+	POS = 10300 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 240
@@ -2028,7 +2068,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10200 -60 1465
+	POS = 10400 -60 1465
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 240
@@ -2039,7 +2079,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10200 -60 1380
+	POS = 10400 -60 1380
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 240
@@ -2050,7 +2090,7 @@ END_FIRESET
 
 FIRESET
 	ID = 303
-	POS = 10200 -60 1300
+	POS = 10400 -60 1300
 	STATE = 2
 	FIRESTATE = 2
 	SWITCHON = 240
@@ -2874,6 +2914,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 930 130 350
@@ -2881,6 +2922,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 930 -270 350
@@ -2896,6 +2938,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 930 -600 220
@@ -2903,6 +2946,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 930 -600 420
@@ -2910,6 +2954,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 930 -600 620
@@ -2917,6 +2962,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1130 -600 20
@@ -2924,6 +2970,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1130 -600 220
@@ -2931,6 +2978,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1130 -600 420
@@ -2938,6 +2986,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1130 -600 620
@@ -2945,6 +2994,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1330 -600 20
@@ -2952,6 +3002,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1330 -600 220
@@ -2959,6 +3010,7 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1330 -600 420
@@ -2966,9 +3018,22 @@ MODELSET
 	COLLISION = 0
 	SHADOW = 0
 END_MODELSET
+
 MODELSET
 	TYPE = 4
 	POS = 1330 -600 620
+	ROT = 90 90 0
+	COLLISION = 0
+	SHADOW = 0
+END_MODELSET
+
+#-------------------------------------
+#  ÉXÉeÅ[ÉW2
+#-------------------------------------
+
+MODELSET
+	TYPE = 4
+	POS = 6450 90 -355
 	ROT = 90 90 0
 	COLLISION = 0
 	SHADOW = 0
@@ -3515,12 +3580,28 @@ END_MODELSET
 #  É~ÉìÉ`ã@
 #----------------------------------------
 
+#-------------------------------------
+#  ÉXÉeÅ[ÉW1
+#-------------------------------------
+
 MODELSET
 	TYPE = 10
 	POS = -2300 0 1400
 	ROT = 0 180 0
 	COLLISION = 1
 	SHADOW = 0
+END_MODELSET
+
+#-------------------------------------
+#  ÉXÉeÅ[ÉW2
+#-------------------------------------
+
+MODELSET
+    TYPE = 10
+    POS = 6500 0 -360
+    ROT = 0 180 0
+    COLLISION = 1
+    SHADOW = 0
 END_MODELSET
 
 #----------------------------------------
@@ -3640,14 +3721,14 @@ MODELSET
 END_MODELSET
 
 #----------------------------------------
-#  ì˜
+#  ì˜(êlå^)
 #----------------------------------------
 #----------------------------------------
 # ÉXÉeÅ[ÉWÇP
 #----------------------------------------
 MODELSET
     TYPE = 13
-    POS = 4200 300 650
+    POS = 4200 150 650
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3655,7 +3736,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4200 300 850
+    POS = 4200 150 850
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0 
@@ -3663,7 +3744,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4200 300 1050
+    POS = 4200 150 1050
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3671,7 +3752,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4200 300 1250
+    POS = 4200 150 1250
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3679,7 +3760,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4200 300 1450
+    POS = 4200 150 1450
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3687,7 +3768,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4500 300 650
+    POS = 4500 150 650
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3695,7 +3776,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4500 300 850
+    POS = 4500 150 850
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0  
@@ -3711,7 +3792,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4500 300 1250
+    POS = 4500 150 1250
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3719,8 +3800,43 @@ END_MODELSET
 
 MODELSET
     TYPE = 13
-    POS = 4500 300 1450
+    POS = 4500 150 1450
     ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+#----------------------------------------
+# ÉXÉeÅ[ÉW2
+#----------------------------------------
+MODELSET
+    TYPE = 13
+    POS = 6400 150 -360
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 6900 50 -260
+    ROT = 90 90 180
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 6900 50 -360
+    ROT = 90 90 180
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 6900 50 -460
+    ROT = 90 90 180
     COLLISION = 1
     SHADOW = 0
 END_MODELSET
@@ -3728,30 +3844,50 @@ END_MODELSET
 #----------------------------------------
 # ÉXÉeÅ[ÉW5
 #----------------------------------------
+
 MODELSET
     TYPE = 13
-    POS = 20700 400 100
+    POS = 20700 100 100
     ROT = 0 0 0
     COLLISION = 0
     SHADOW = 0
 END_MODELSET
+
 MODELSET
     TYPE = 13
-    POS = 20900 400 100
+    POS = 20900 100 100
     ROT = 0 0 0
     COLLISION = 0
     SHADOW = 0
 END_MODELSET
+
 MODELSET
     TYPE = 13
-    POS = 21700 400 100
+    POS = 21100 100 100
     ROT = 0 0 0
     COLLISION = 0
     SHADOW = 0
 END_MODELSET
+
 MODELSET
     TYPE = 13
-    POS = 21900 400 100
+    POS = 21700 100 100
+    ROT = 0 0 0
+    COLLISION = 0
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 21900 100 100
+    ROT = 0 0 0
+    COLLISION = 1
+    SHADOW = 0
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 22100 100 100
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3816,7 +3952,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 20
-    POS = 2700 150 400
+    POS = 2700 185 400
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3832,7 +3968,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 20
-    POS = 3700 150 400
+    POS = 3700 185 400
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3882,29 +4018,29 @@ END_MODELSET
 #  ÉXÉeÅ[ÉW5
 #-------------------------------------
 MODELSET
-    TYPE = 22
-    POS = 18750 0 350
+    TYPE = 23
+    POS = 18750 0 325
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
 END_MODELSET
 MODELSET
-    TYPE = 22
-    POS = 19075 0 350
+    TYPE = 23
+    POS = 19075 0 325
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
 END_MODELSET
 MODELSET
-    TYPE = 22
-    POS = 19725 0 350
+    TYPE = 23
+    POS = 19725 0 325
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
 END_MODELSET
 MODELSET
-    TYPE = 22
-    POS = 20050 0 350
+    TYPE = 23
+    POS = 20050 0 325
     ROT = 0 0 0
     COLLISION = 1
     SHADOW = 0
@@ -3919,7 +4055,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 23
+	TYPE = 24
 	POS = 50 0 250
 	ROT = 0 0 0
 	COLLISION = 1
@@ -3927,7 +4063,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 23
+	TYPE = 24
 	POS = 2130 0 250
 	ROT = 0 0 0
 	COLLISION = 1
@@ -3939,7 +4075,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 23
+	TYPE = 24
 	POS = 11110 0 0
 	ROT = 0 0 0
 	COLLISION = 1
@@ -3951,7 +4087,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 23
+	TYPE = 24
 	POS = 13535 0 -380
 	ROT = 0 0 0
 	COLLISION = 1
@@ -3960,7 +4096,7 @@ END_MODELSET
 
 
 MODELSET
-	TYPE = 23
+	TYPE = 24
 	POS = 13880 0 1400
 	ROT = 0 0 0
 	COLLISION = 1
@@ -3972,7 +4108,7 @@ END_MODELSET
 #----------------------------------------
 
 MODELSET
-	TYPE = 23
+	TYPE = 24
 	POS = 17300 0 -325
 	ROT = 0 0 0
 	COLLISION = 1
@@ -3980,7 +4116,7 @@ MODELSET
 END_MODELSET
 
 MODELSET
-	TYPE = 23
+	TYPE = 24
 	POS = 18095 100 850
 	ROT = 90 180 0
 	COLLISION = 1
@@ -4105,7 +4241,7 @@ ENEMYSET
 	
 	ROUTINESET
 		POS = 20325 0 700
-		ROT = 0 180 0
+		ROT = 0 0 0
 		WAIT = 60
 	END_ROUTINESET
 	
