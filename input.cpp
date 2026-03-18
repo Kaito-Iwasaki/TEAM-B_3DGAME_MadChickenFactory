@@ -552,7 +552,7 @@ void SetVibration(WORD wLeftMotorSpeed, WORD wRightMotorSpeed, int nIdx, int nCo
 	g_nCountVibration[nIdx] = nCountVibration;
 	g_vibration[nIdx].wLeftMotorSpeed = wLeftMotorSpeed; // use any value between 0-65535 here
 	g_vibration[nIdx].wRightMotorSpeed = wRightMotorSpeed; // use any value between 0-65535 here
-	XInputSetState(0, &g_vibration[nIdx]);
+	XInputSetState(nIdx, &g_vibration[nIdx]);
 }
 
 //=====================================================================

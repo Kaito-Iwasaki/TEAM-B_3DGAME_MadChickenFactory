@@ -19,16 +19,18 @@
 #include "fade.h"
 #include "collision.h"
 #include "SE_controller.h"
+#include "team_logo.h"
 
 //*********************************************************************
 // 
 // ***** マクロ定義 *****
 // 
 //*********************************************************************
-#define PRESS_MODEL_PATH	"data\\MODEL\\Factory\\press01.x"	//プレス機のモデルへのパス
-#define PRESS_UP_SPEED		(7.0f)			//プレス機の上昇速度
-#define PRESS_DOWN_SPEED	(50.0f)			//プレス機の下降速度
-#define PLAYER_HEIGHT_DEMO	(150.0f)		//プレイヤーの高さ
+#define PRESS_MODEL_PATH		"data\\MODEL\\Factory\\press01.x"	//プレス機のモデルへのパス
+#define PRESS_UP_SPEED			(7.0f)			//プレス機の上昇速度
+#define PRESS_DOWN_SPEED		(50.0f)			//プレス機の下降速度
+#define PLAYER_HEIGHT_DEMO		(150.0f)		//プレイヤーの高さ
+#define VIBRATION_RANGE_PRESS	(1000.0f)		// 振動する範囲
 
 //*********************************************************************
 // 
@@ -92,6 +94,9 @@ void UninitPress(void)
 //=====================================================================
 void UpdatePress(void)
 {
+	float fDistance[MAX_PLAYER] = { -1.0f, -1.0f };		// 範囲内のプレイヤーとギミックの距離
+	int pStaet = GetTitle();							// プレイ人数情報取得
+
 	for (int nCntPress = 0; nCntPress < MAX_PRESS; nCntPress++)
 	{
 		if (g_aPress[nCntPress].bUse == true && g_aPress[nCntPress].bStartup == true)
@@ -140,6 +145,7 @@ void UpdatePress(void)
 
 				if (g_aPress[nCntPress].interval >= 0)
 				{//自動操縦
+
 					//インターバルカウンタ進
 					g_aPress[nCntPress].intervalCnt++;
 
@@ -147,7 +153,30 @@ void UpdatePress(void)
 					{
 						if (g_aPress[nCntPress].bprevious == PRESSSTATE_DOWN)
 						{//前回下降していたら、上昇
+
+							Player* pPlayer = GetPlayer();		// プレイヤー情報取得
+
+							// 上昇にする
 							g_aPress[nCntPress].PState = PRESSSTATE_UP;
+
+							// バイブレーション設定
+							for (int nCntPlayer = 0; nCntPlayer <= MAX_PLAYER; nCntPlayer++, pPlayer++)
+							{
+								if (pPlayer->pos.x - g_aPress[nCntPress].pos.x >= -VIBRATION_RANGE_PRESS && pPlayer->pos.x - g_aPress[nCntPress].pos.x <= VIBRATION_RANGE_PRESS)
+								{// 範囲内にいた場合振動させる
+
+									if (fDistance[nCntPlayer] <= (1000 + (1000 - fabsf(pPlayer->pos.x - g_aPress[nCntPress].pos.x))))
+									{// 現在の取得している距離よりも小さい
+
+										fDistance[nCntPlayer] = (1000 + (1000 - fabsf(pPlayer->pos.x - g_aPress[nCntPress].pos.x)));
+									}
+									else if (fDistance[nCntPlayer] == -1.0f)
+									{
+										fDistance[nCntPlayer] = (1000 + (1000 - fabsf(pPlayer->pos.x - g_aPress[nCntPress].pos.x)));
+
+									}
+								}
+							}
 						}
 						else if (g_aPress[nCntPress].bprevious == PRESSSTATE_UP)
 						{//前回上昇していたら、下降
@@ -185,6 +214,29 @@ void UpdatePress(void)
 				{
 					pPlayer->pos = pPlayer->posOld;
 				}
+			}
+		}
+	}
+
+	if (pStaet == 0)
+	{// ソロプレイ
+		PLAYEROPERATION pOperation = GetPlayerOperation();		// 現在の操作キャラ情報取得
+
+		if (fDistance[pOperation] > -1.0f)
+		{// 範囲内にいる場合
+
+			SetVibration(fDistance[pOperation], fDistance[pOperation], 0, 20);
+		}
+	}
+	else if (pStaet == 1)
+	{// 2Pプレイ
+
+		for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+		{
+			if (fDistance[nCntPlayer] > -1.0f)
+			{// 範囲内にいる場合
+
+				SetVibration(fDistance[nCntPlayer], fDistance[nCntPlayer], nCntPlayer, 20);
 			}
 		}
 	}

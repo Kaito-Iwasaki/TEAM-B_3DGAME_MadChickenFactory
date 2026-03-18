@@ -18,6 +18,8 @@
 #include "shadow.h"
 #include "fade.h"
 #include "SE_controller.h"
+#include "team_logo.h"
+#include "input.h"
 
 //*********************************************************************
 // 
@@ -30,6 +32,7 @@
 #define ENEMY_INIT_SIGHT_ANGLE				(90)							// 敵の視野角
 #define ENEMY_SIGHT_NUM_SEGMENT				(16)							// 敵の視野角表示の詳細度（頂点の分割数）
 #define ENEMY_SPEED_CHASE					(10.0f)
+#define VIBRATION_RANGE_ENEMY				(600.0f)						// 振動する範囲
 
 //*********************************************************************
 // 
@@ -108,14 +111,15 @@ void UpdateEnemy(void)
 {
 	SoundSpot* pSoundSpot = GetSoundSpot();
 	ENEMY* pEnemy = &g_aEnemy[0];
+	int pStaet = GetTitle();							// プレイ人数情報取得
 	int Enemy;
+	float fDistance[MAX_PLAYER] = {-1.0f, -1.0f};		// 範囲内のプレイヤーと敵の距離
 
 	for (int nCountEnemy = 0; nCountEnemy < MAX_ENEMY; nCountEnemy++, pEnemy++)
 	{
 		if (pEnemy->bUse == false) continue;
 
-		Player* pPlayer = GetPlayer();
-
+		Player* pPlayer = GetPlayer();						// プレイヤー情報取得
 		pEnemy->previousState = pEnemy->currentState;
 
 		CallPlaySound(pEnemy->nSoundIdx[0]);
@@ -149,6 +153,22 @@ void UpdateEnemy(void)
 				// 発見状態に遷移
 				_SetEnemyState(nCountEnemy, ENEMYSTATE_FOUND);
 			}
+
+			// 振動の設定
+			if (pPlayer->pos.x - g_aEnemy[nCountEnemy].pos.x >= -VIBRATION_RANGE_ENEMY && pPlayer->pos.x - g_aEnemy[nCountEnemy].pos.x <= VIBRATION_RANGE_ENEMY)
+			{// 範囲内にいた
+
+				if (fDistance[nCountPlayer] <= (1000 + (1500 - (fabsf(pPlayer->pos.x - g_aEnemy[nCountEnemy].pos.x) * 4))))
+				{// 現在の取得している距離よりも小さい
+
+					fDistance[nCountPlayer] = (1000 + (1500 - (fabsf(pPlayer->pos.x - g_aEnemy[nCountEnemy].pos.x) * 4)));
+				}
+				else if (fDistance[nCountPlayer] == -1.0f)
+				{
+					fDistance[nCountPlayer] = (1000 + (1500 - (fabsf(pPlayer->pos.x - g_aEnemy[nCountEnemy].pos.x) * 4)));
+
+				}
+			}
 		}
 
 		// 状態別処理
@@ -167,6 +187,29 @@ void UpdateEnemy(void)
 
 		// �T�E���h�X�|�b�g�ʒu�X�V
 		*pSoundSpot[nCountEnemy].pos = *pEnemy->pos;
+	}
+
+	if (pStaet == 0)
+	{// ソロプレイ
+		PLAYEROPERATION pOperation = GetPlayerOperation();		// 現在の操作キャラ情報取得
+
+		if (fDistance[pOperation] > -1.0f)
+		{// 範囲内にいる場合
+
+			SetVibration(fDistance[pOperation], fDistance[pOperation], 0, 1);
+		}
+	}
+	else if(pStaet == 1)
+	{// 2Pプレイ
+
+		for (int nCntPlayer = 0; nCntPlayer < MAX_PLAYER; nCntPlayer++)
+		{
+			if (fDistance[nCntPlayer] > -1.0f)
+			{// 範囲内にいる場合
+
+				SetVibration(fDistance[nCntPlayer], fDistance[nCntPlayer], nCntPlayer, 1);
+			}
+		}
 	}
 }
 

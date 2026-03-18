@@ -671,8 +671,22 @@ void KillPlayer(Player *pPlayer)
 	default:
 		break;
 	}
+
 	// ヴィネットを赤くする
 	VignetteColGradient(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+
+	// バイブレーション設定
+	if (g_Operation == PLAYEROPERATION_2PL)
+	{// 死んだプレイヤーのコントローラーを振動
+
+		SetVibration(5000, 5000, pPlayer->nIdx, 20);
+	}
+	else
+	{// 1つ目のコントローラーを振動
+
+		SetVibration(5000, 5000, 0, 30);
+	}
+	
 }
 
 //=======================================================
