@@ -4208,7 +4208,7 @@ END_MODELSET
 # 1‘Ì–Ú
 #-------------------------------------
 
-1ENEMYSET
+ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4268,7 +4268,7 @@ END_ENEMYSET
 # 2‘Ì–Ú
 #-------------------------------------
 
-1ENEMYSET
+ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4328,7 +4328,7 @@ END_ENEMYSET
 # 3‘Ì–Ú
 #-------------------------------------
 
-1ENEMYSET
+ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4387,7 +4387,7 @@ END_ENEMYSET
 # 4‘Ì–Ú
 #-------------------------------------
 
-1ENEMYSET
+ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4446,7 +4446,7 @@ END_ENEMYSET
 # 5‘Ì–Ú
 #-------------------------------------
 
-1ENEMYSET
+NEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
