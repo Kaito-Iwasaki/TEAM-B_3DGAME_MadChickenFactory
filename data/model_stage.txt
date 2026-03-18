@@ -429,7 +429,7 @@ FLOORSET
 	POS = 4350 1 1000
 	ROT = 0 0 0
 	SIZE = 600 1000
-	BLOCK = 1 1 
+	BLOCK = 2 5 
 END_FLOORSET
 
 #------------------------------------------------------------------------------
@@ -962,6 +962,22 @@ FIELDSET
 	SIZE = 850 150
 END_FIELDSET
 
+FLOORSET
+	TEXTYPE = 11
+	POS = 14675 1 500
+	ROT = 0 0 0
+	SIZE = 200 200
+	BLOCK = 1 1 
+END_FLOORSET
+
+FLOORSET
+	TEXTYPE = 11
+	POS = 14675 1 1000
+	ROT = 0 0 0
+	SIZE = 200 200
+	BLOCK = 1 1 
+END_FLOORSET
+
 #------------------------------------------------------------------------------
 # ゴール	壁
 #------------------------------------------------------------------------------
@@ -1447,7 +1463,7 @@ END_CHECKPOINTSET
 #----------------------------------------
 
 MOVEBOXSET
- 	POS = 5425 -125 560
+ 	POS = 5500 -125 560
  	ROT = 0 0 0
  	RANGE = 0 0 740
  END_MOVEBOXSET
@@ -2597,6 +2613,43 @@ GATESET
 END_GATESET
 
 #----------------------------------------
+# ステージ5
+#----------------------------------------
+
+GATESET
+	POS = 22710 -5 320
+	ROT = 0 0 0
+	COLLISION = 1
+	ID = 402
+	GOUP = 0
+	MOVEWIDTH = 300
+	STATE = 1
+	SHADOW = 0
+END_GATESET
+
+GATESET
+	POS = 22710 -5 0
+	ROT = 0 0 0
+	COLLISION = 1
+	ID = 402
+	GOUP = 0
+	MOVEWIDTH = 300
+	STATE = 1
+	SHADOW = 0
+END_GATESET
+
+GATESET
+	POS = 22710 -5 -319
+	ROT = 0 0 0
+	COLLISION = 1
+	ID = 402
+	GOUP = 0
+	MOVEWIDTH = 300
+	STATE = 1
+	SHADOW = 0
+END_GATESET
+
+#----------------------------------------
 # リフト
 #----------------------------------------
 
@@ -2718,6 +2771,17 @@ PROMPTSET
 END_PROMPTSET
 
 #----------------------------------------------
+# 対応ギミック：ステージ5のゲート
+#----------------------------------------------
+
+PROMPTSET
+	ID = 402
+	POS = 21300 0 850
+	SIZE = 50 50 
+END_PROMPTSET
+
+
+#----------------------------------------------
 # 対応ギミック：ステージ1のリフト
 #----------------------------------------------
 
@@ -2752,6 +2816,7 @@ PROMPTSET
 	POS = 18095 100 850
 	SIZE = 50 50 
 END_PROMPTSET
+
 
 
 #----------------------------------------
@@ -4123,6 +4188,18 @@ MODELSET
 	SHADOW = 0
 END_MODELSET
 
+#-------------------------------------
+# ステージ5
+#-------------------------------------
+
+MODELSET
+	TYPE = 24
+	POS = 21312 0 770
+	ROT = 0 0 0
+	COLLISION = 1
+	SHADOW = 0
+END_MODELSET
+
 #----------------------------------------
 # ドナルド配置
 #----------------------------------------
@@ -4131,7 +4208,7 @@ END_MODELSET
 # 1体目
 #-------------------------------------
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4191,7 +4268,7 @@ END_ENEMYSET
 # 2体目
 #-------------------------------------
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4251,7 +4328,7 @@ END_ENEMYSET
 # 3体目
 #-------------------------------------
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4310,7 +4387,7 @@ END_ENEMYSET
 # 4体目
 #-------------------------------------
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
@@ -4369,7 +4446,7 @@ END_ENEMYSET
 # 5体目
 #-------------------------------------
 
-ENEMYSET
+1ENEMYSET
 	SPEED = 7.0
 	SIGHTRANGE = 500
 	SIGHTANGLE = 50
