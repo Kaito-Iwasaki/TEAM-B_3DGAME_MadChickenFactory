@@ -55,5 +55,6 @@ int SetSoundSpot(D3DXVECTOR3 pos, SOUND_LABEL label);
 void CallPlaySound(int nSoundIdx);
 void CallStopSound(int nSoundIdx);
 SoundSpot *GetSoundSpot(void);
+void SwitchCallStop(void);
 
 #endif

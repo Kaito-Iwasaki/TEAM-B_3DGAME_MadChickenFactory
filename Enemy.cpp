@@ -140,7 +140,8 @@ void UpdateEnemy(void)
 				// サウンド切り替え
 				//CallStopSound(pEnemy->nSoundIdx[0]);
 				//CallPlaySound(pEnemy->nSoundIdx[1]);
-
+				SwitchCallStop();
+				StopSound();
 				PlaySound(SOUND_LABEL_SE_FOUND);
 
 				// ターゲットをプレイヤーに設定

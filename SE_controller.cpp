@@ -45,8 +45,7 @@
 //==================================================
 SoundSpot g_aSoundSpot[MAX_SOUNDSPOT];			// SEの発生位置
 int g_nCntLabel[SOUND_LABEL_MAX] = {1};			// ラベル別再生中カウント
-int bP = 0;
-int g_a = 0;
+bool bCallStop;
 
 //==================================================
 //
@@ -67,6 +66,7 @@ void InitSEController(void)
 		g_aSoundSpot[nCntSEC].bUse = false;
 		g_aSoundSpot[nCntSEC].bPlay = false;
 	}
+	bCallStop = false;
 }
 
 //==================================================
@@ -193,29 +193,25 @@ void SoundDistance(void)
 //==================================================
 void CallPlaySound(int nSoundIdx)
 {
-	
-	if (g_aSoundSpot[nSoundIdx].label == SOUND_LABEL_SE_PRESS)
+	if (bCallStop == false)
 	{
-		PrintDebugProc("PLAY_SOUND : ?");
-		bP++;
-	}
-
-	if (g_aSoundSpot[nSoundIdx].bwithin == true && g_aSoundSpot[nSoundIdx].bPlay == false)
-	{
-		g_aSoundSpot[nSoundIdx].bPlay = true;
-		PlaySound(g_aSoundSpot[nSoundIdx].label,&g_aSoundSpot[nSoundIdx].nSoundIdx);
-		/*SetVolume(g_aSoundSpot[nSoundIdx].label, g_aSoundSpot[nSoundIdx].nSoundIdx, 0.0f);*/
-		// ラベル別カウント増加
-		g_nCntLabel[g_aSoundSpot[nSoundIdx].label]++;
-	}
-	else if (g_aSoundSpot[nSoundIdx].bwithin == true && g_aSoundSpot[nSoundIdx].bPlay == true)
-	{
-		bool bCheck = false;
-		bCheck = GetPlaySound(g_aSoundSpot[nSoundIdx].label, g_aSoundSpot[nSoundIdx].nSoundIdx);
-
-		if (bCheck == false)
+		if (g_aSoundSpot[nSoundIdx].bwithin == true && g_aSoundSpot[nSoundIdx].bPlay == false)
 		{
-			g_aSoundSpot[nSoundIdx].bPlay = false;
+			g_aSoundSpot[nSoundIdx].bPlay = true;
+			PlaySound(g_aSoundSpot[nSoundIdx].label, &g_aSoundSpot[nSoundIdx].nSoundIdx);
+			/*SetVolume(g_aSoundSpot[nSoundIdx].label, g_aSoundSpot[nSoundIdx].nSoundIdx, 0.0f);*/
+			// ラベル別カウント増加
+			g_nCntLabel[g_aSoundSpot[nSoundIdx].label]++;
+		}
+		else if (g_aSoundSpot[nSoundIdx].bwithin == true && g_aSoundSpot[nSoundIdx].bPlay == true)
+		{
+			bool bCheck = false;
+			bCheck = GetPlaySound(g_aSoundSpot[nSoundIdx].label, g_aSoundSpot[nSoundIdx].nSoundIdx);
+
+			if (bCheck == false)
+			{
+				g_aSoundSpot[nSoundIdx].bPlay = false;
+			}
 		}
 	}
 }
@@ -240,4 +236,13 @@ void CallStopSound(int nSoundIdx)
 SoundSpot *GetSoundSpot(void)
 {
 	return &g_aSoundSpot[0];
+}
+//==================================================
+//
+//	CALLSTOP操作
+//
+//==================================================
+void SwitchCallStop(void)
+{
+	bCallStop ^= true;
 }
