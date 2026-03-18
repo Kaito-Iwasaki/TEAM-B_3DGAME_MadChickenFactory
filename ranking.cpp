@@ -34,8 +34,8 @@
 //*********************************************************************
 #define TEXTURE_FILENAME_TIME	"data\\TEXTURE\\number000.png"
 #define TEXTURE_FILENAME_PLACE	"data\\TEXTURE\\number000.png"
-#define EXPORT_FILENAME_1P		"data\\ranking_1pmode.txt"
-#define EXPORT_FILENAME_2P		"data\\ranking_2pmode.txt"
+#define EXPORT_FILENAME_1P		"data\\ranking_1pmode.bin"
+#define EXPORT_FILENAME_2P		"data\\ranking_2pmode.bin"
 #define MAX_RANKING				(5)
 #define MAX_PLACE				(3)
 
@@ -364,7 +364,7 @@ void UpdateRanking(void)
 	UpdateMeshCylinder();			//メッシュシリンダー
 	UpdateLight();					//ライト
 
-	int nCountToChangeMode = 60 * 9;
+	int nCountToChangeMode = 60 * 15;
 
 	if (
 		GetKeyboardTrigger(DIK_RETURN) ||
