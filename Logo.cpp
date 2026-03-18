@@ -60,7 +60,7 @@ int LogoFream;
 //=====================================================================
 void InitLogo(void)
 {
-	
+	StopSound();
 	  
 	g_aLogo[0].pos = D3DXVECTOR3(620.0f, 380.0f, 0.0f);
 	  		
