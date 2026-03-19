@@ -46,6 +46,7 @@ LPDIRECT3D9 g_pD3D = NULL;					// Direct3Dオブジェクトへのポインタ
 LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;		// Direct3Dデバイスへのポインタ
 LPDIRECTINPUT8 g_pInput = NULL;
 HWND g_hWnd;
+bool g_bInit = false;
 
 //=====================================================================
 // 
@@ -108,6 +109,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR lpCmdLine
 	{// 初期化処理が失敗したら終了
 		return -1;
 	}
+	g_bInit = true;
 
 	// 分解能を設定(タイマーの精度を1msにする)
 	timeBeginPeriod(1);
@@ -214,7 +216,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SETFOCUS:
 #if _DEBUG
-		if (GetCurrentMode() == MODE_GAME)
+		if (GetCurrentMode() == MODE_GAME && g_bInit)
 			ReloadGame();
 #endif // _DEBUG
 		break;
