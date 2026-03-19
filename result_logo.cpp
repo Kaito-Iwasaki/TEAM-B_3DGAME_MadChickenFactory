@@ -139,11 +139,11 @@ void UpdateResult_Logo(void)
 	
 	if (GetKeyboardTrigger(DIK_RETURN) == true || GetJoypadTrigger(JOYKEY_A) == true)
 	{
-		if (resultbgm == 0)
+		if (resultbgm == 0 && GetFade().state == FADESTATE_NONE)
 		{
 			PlaySound(SOUND_LABEL_SE_DECISION);
 		}
-		SetFade(MODE_RANKING);
+		SetFade(MODE_RANKING, false);
 	}
 	VERTEX_2D* pVtx;
 
