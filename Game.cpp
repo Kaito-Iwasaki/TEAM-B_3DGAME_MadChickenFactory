@@ -98,6 +98,14 @@ void InitGame(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	if (GetPreviousMode() != MODE_GAME)
+	{// ゲーム画面からのリトライでない＝新規スタート
+		ResetCurrentCheckpoint();
+
+		// ポーズ画面からのリトライについてはリトライボタンを押した時に
+		// チェックポイントをリセットする
+	}
+
 	// 各オブジェクトの初期化処理
 	InitCamera();			// カメラ
 	InitShadow();			// 影
@@ -155,14 +163,6 @@ void InitGame(void)
 
 	// BGM再生
 	PlaySound(SOUND_LABEL_BGM_GAME);
-
-	if (GetPreviousMode() != MODE_GAME)
-	{// ゲーム画面からのリトライでない＝新規スタート
-		ResetCurrentCheckpoint();
-
-		// ポーズ画面からのリトライについてはリトライボタンを押した時に
-		// チェックポイントをリセットする
-	}
 
 	if (GetCurrentCheckpoint() == 0)
 	{
