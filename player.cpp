@@ -143,7 +143,6 @@ void UninitPlayer(void)
 void UpdatePlayer(void)
 {
 	CAMERA* pCamera = GetCamera(0);		// カメラ情報の取得
-	Player* pPlayer = GetPlayer();		// プレイヤー
 	float fRotDiff = 0.0f;				// 角度の差分代入
 	int nValueH, nValueV;				// スティック値代入
 
@@ -170,6 +169,19 @@ void UpdatePlayer(void)
 
 					// プレイヤーの移動処理
 					PlayerMoveControl(&g_Player[nCntPlayer], 0);
+
+					if (GetKeyboardTrigger(g_playerControlKey[0][4]) == true || GetJoypadTrigger(JOYKEY_A, 0) == true)
+					{
+						if (g_bTracking == true && g_Player[nCntPlayer].bJump == true && g_Player[nCntPlayer ^ 1].bJump == false)
+						{// 追従中
+
+							g_Player[(nCntPlayer ^ 1)].bJump = true;			// ジャンプ中にする
+							g_Player[(nCntPlayer ^ 1)].move.y = MAX_JUMP;		// ジャンプ量
+
+							// ジャンプモーションに変更
+							SetMotion(&g_Player[(nCntPlayer ^ 1)].PlayerMotion, MOTIONTYPE_JUMP, 20);
+						}
+					}
 				}
 			}
 		
